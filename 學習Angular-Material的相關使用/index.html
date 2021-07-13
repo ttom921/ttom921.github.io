@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言這是利用Angular Material來做為專案的基礎顯示 建立專案ng new gopClient 選擇有路由和scss 安裝套件 1npm install --save @angular&#x2F;material @angular&#x2F;cdk @angular&#x2F;animations  接著我們在src\app\app.module.ts中加入BrowserAnimationsModule如下 123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習Angular-Material的相關使用">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言這是利用Angular Material來做為專案的基礎顯示 建立專案ng new gopClient 選擇有路由和scss 安裝套件 1npm install --save @angular&#x2F;material @angular&#x2F;cdk @angular&#x2F;animations  接著我們在src\app\app.module.ts中加入BrowserAnimationsModule如下 123">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/01-dashboard-basic.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-05-22_14_01_18_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-05-22_14_02_44_Image.jpg">
+<meta property="article:published_time" content="2019-05-21T12:01:15.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Angular Material">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/01-dashboard-basic.png">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習Angular-Material的相關使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習Angular-Material的相關使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-05-21 12:01:15" itemprop="dateCreated datePublished" datetime="2019-05-21T12:01:15+00:00">2019-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Angular/" itemprop="url" rel="index"><span itemprop="name">Angular</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Angular/Angular-Material/" itemprop="url" rel="index"><span itemprop="name">Angular Material</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>這是利用<strong>Angular Material</strong>來做為專案的基礎顯示</p>
+<h3 id="建立專案"><a href="#建立專案" class="headerlink" title="建立專案"></a>建立專案</h3><p><code>ng new gopClient </code>選擇有路由和<code>scss</code></p>
+<p>安裝套件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @angular/material @angular/cdk @angular/animations</span><br></pre></td></tr></table></figure>
+
+<p>接著我們在<code>src\app\app.module.ts</code>中加入<strong>BrowserAnimationsModule</strong>如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    BrowserAnimationsModule,</span><br><span class="line">    AppRoutingModule</span><br><span class="line">  ],</span><br><span class="line"> <span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="匯人想要顯示的元件模組"><a href="#匯人想要顯示的元件模組" class="headerlink" title="匯人想要顯示的元件模組"></a>匯人想要顯示的元件模組</h3><p>Angular Material將所有的主要元件都會匯入對應的模組之中<strong>MatXXXModule</strong>，讓我們只有需要使用到某一元件時，匯入相關模組就好，避免匯入過多不必要的元件。</p>
+<p>假如我們要使用Angular Material的button特性，可以匯入<strong>MatButtonModule</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    BrowserAnimationsModule,</span><br><span class="line">    MatButtonModule,  </span><br><span class="line">    AppRoutingModule</span><br><span class="line">  ],</span><br><span class="line"> <span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+
+<p>這樣的話太麻煩，在有用到的每一個模組都需要加入，可以利用公用模組來整理所需要的模組</p>
+<p>利用<code>SharedModule</code>先整理出常用的<strong>MatXXXModule</strong></p>
+<p>另外一種方式是建立一個<strong>SharedModule</strong>，將常用的<strong>MatXXXModule</strong>先<code>import</code>，再<code>export</code>出來，𩛹其它Module中就只要import這個<strong>SharedModule</strong>就好，這在較複雜的SPA程式中會非常實用。當然這個ShsredModule只是個概念，實際上我們可用這個概念分類出不同的Modules，例如專門放常用的Angular Material Components的Module我們就取名為<strong>SharedMaterialModule</strong>吧</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g m shared-material</span><br></pre></td></tr></table></figure>
+
+<p>將<strong>SharedMaterialModule</strong>加入<strong>AppModule</strong>裏在<code>src\app\app.module.ts</code>的內容如下</p>
+<p>唯一要注意的是，這個SharedMaterialModule一定要放在BrowserModule之後！</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="keyword">import</span> &#123; AppRoutingModule &#125; <span class="keyword">from</span> <span class="string">'./app-routing.module'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; SharedMaterialModule &#125; <span class="keyword">from</span> <span class="string">'./shared-material/shared-material.module'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line"> <span class="comment">//...</span></span><br><span class="line">  imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    BrowserAnimationsModule,</span><br><span class="line">    AppRoutingModule,</span><br><span class="line">    SharedMaterialModule</span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+
+<p>如果Module裏有其它使用到Angular Material的元件也可以直接export就好在<code>src\app\shared-material\shared-material.module.ts</code>中的內容如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; CommonModule &#125; <span class="keyword">from</span> <span class="string">'@angular/common'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatButtonModule &#125; <span class="keyword">from</span> <span class="string">'@angular/material'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [],</span><br><span class="line">  imports: [</span><br><span class="line">    CommonModule</span><br><span class="line">  ],</span><br><span class="line">  exports: [</span><br><span class="line">    MatButtonModule <span class="comment">//export</span></span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> SharedMaterialModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>加入theme的設定</p>
+<p>目前Angular Material有四基本的CSS樣式，放 在<code>node_modules\@angular\material\prebuilt-themes</code></p>
+<ol>
+<li><p><strong>indigo-pink.css</strong></p>
+</li>
+<li><p><strong>deeppurple-amber.css</strong></p>
+</li>
+<li><p><strong>pink-bluegrey.css</strong></p>
+</li>
+<li><p><strong>purple-green.css</strong></p>
+</li>
+</ol>
+<p>先選擇內建的theme就好我們把這個theme的css加到<code>src\styles.scss</code>這個裏面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@import &quot;~@angular&#x2F;material&#x2F;prebuilt-themes&#x2F;indigo-pink.css&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>手勢支援，目前不用</p>
+<p>加入Material Icons</p>
+<p>最簡單的方式直接在<code>src\index.html</code>中加入</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/icon?family=Material+Icons"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>簡單的MatButtonModule在<code>src\app\app.component.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span>&gt;</span> mat-button -&gt; Hello world!!<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span>Hello world!!<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Material-Icons"><a href="#Material-Icons" class="headerlink" title="Material Icons"></a>Material Icons</h3><p>可以到此網站找到需要的Icon,<a href="https://material.io/icons/">Material Icons</a></p>
+<p>在html的使用方式如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"material-icons"</span>&gt;</span>chat<span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Angular-Material的MatIcon"><a href="#Angular-Material的MatIcon" class="headerlink" title="Angular Material的MatIcon"></a>Angular Material的MatIcon</h3><p>在Angular Material提供了更好用的方式<code>MatIcon</code></p>
+<p>先在<strong>SharedMaterialModule</strong>中加入<strong>MatIconModule</strong> </p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; CommonModule &#125; <span class="keyword">from</span> <span class="string">'@angular/common'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatButtonModule, MatIconModule &#125; <span class="keyword">from</span> <span class="string">'@angular/material'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [],</span><br><span class="line">  imports: [</span><br><span class="line">    CommonModule</span><br><span class="line">  ],</span><br><span class="line">  exports: [</span><br><span class="line">    MatButtonModule, <span class="comment">//export</span></span><br><span class="line">    MatIconModule</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> SharedMaterialModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>MatIcon的基本語法很簡單</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>chat<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="顏色"><a href="#顏色" class="headerlink" title="顏色"></a>顏色</h3><p>在大部分的Angular Material提供的元件中，我們都可以透過<code>color</code>來切換三種顏色以MatIcon為例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  這是一般的ICON顏色</span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>person<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  這是加上primary顏色的ICON</span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  這是加上accent顏色的ICON</span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">color</span>=<span class="string">"accent"</span>&gt;</span>info<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  這是加上warn顏色的ICON</span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">color</span>=<span class="string">"warn"</span>&gt;</span>warning<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="在MatIcon中使用SVG和FontAwesome"><a href="#在MatIcon中使用SVG和FontAwesome" class="headerlink" title="在MatIcon中使用SVG和FontAwesome"></a>在MatIcon中使用SVG和FontAwesome</h3><p>MatIcon除了能夠直接使用Material Icon之外，我們還能夠透過<strong>MatIconRegistry</strong>來擴充，它有兩個功能</p>
+<ul>
+<li><p>直接在MatIcon中加人SVG圖檔</p>
+</li>
+<li><p>支援其他的Icon Font</p>
+</li>
+</ul>
+<h4 id="在MatIcon中使用SVG"><a href="#在MatIcon中使用SVG" class="headerlink" title="在MatIcon中使用SVG"></a>在MatIcon中使用SVG</h4><p>以顏色單絀的SVG圖片作為範𠕥，圖片來源<a href="https://angular.io/presskit">自Angular官方網站的Press Kit</a><br>先將圖片下𢫼到我們專案目錄<code>src\assets\images</code>下</p>
+<p>在<code>src\app\shared-material\shared-material.module.ts</code>中注入<code>MatIonRegistery</code>和<code>DomSanitizer</code>,由於SVG icon是在 程式中透過路徑載入，為了避免XSS的問題，必須透過Angular提供的DomSanitizer Service來信任這個路徑。接著我們就可以透過<code>MatIconRegistry</code>來擴充SVG icon</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; NgModule, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; CommonModule &#125; <span class="keyword">from</span> <span class="string">'@angular/common'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatButtonModule, MatIconModule, MatIconRegistry &#125; <span class="keyword">from</span> <span class="string">'@angular/material'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; DomSanitizer &#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [],</span><br><span class="line">  imports: [</span><br><span class="line">    CommonModule</span><br><span class="line">  ],</span><br><span class="line">  exports: [</span><br><span class="line">    MatButtonModule, <span class="comment">//export</span></span><br><span class="line">    MatIconModule</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> SharedMaterialModule <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> matIconRegistry: MatIconRegistry, <span class="keyword">private</span> domSanitizer: DomSanitizer</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.ngOnInit();</span><br><span class="line">  &#125;</span><br><span class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.matIconRegistry.addSvgIconInNamespace(</span><br><span class="line">      <span class="string">"custom-svg"</span>,</span><br><span class="line">      <span class="string">"angular"</span>,</span><br><span class="line">      <span class="keyword">this</span>.domSanitizer.bypassSecurityTrustResourceUrl(<span class="string">"assets/images/angular_solidBlack.svg"</span>)</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>MatIconRegistry.addSvgIconInNamespace</strong>有三個參數</p>
+<ul>
+<li><p>namespace:icon的namespace, 方便用來分類不同的icons, 也能夠避免名稱衝突</p>
+</li>
+<li><p>IconName:給予這個icon一個名稱</p>
+</li>
+<li><p>url:一個安全的圖片來源</p>
+</li>
+</ul>
+<p>加入這個設定後，我們就可以直接畫面中使用這個icon, 更棒的是只要svg icon裡面沒有特別設定任何顏色的話，我們還能夠透過<code>color</code>屬性來直接調整我們的svg icon的顏色</p>
+<p>加入 svg icon可以透過MatIcon的<code>svgIcon</code> 屬性來設定，必𨜑依照<code>[namespace]:[iconName]</code>的方式來指定</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>自行註冊SVG icon<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">svgIcon</span>=<span class="string">"custom-svg:angular"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">svgIcon</span>=<span class="string">"custom-svg:angular"</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">svgIcon</span>=<span class="string">"custom-svg:angular"</span> <span class="attr">color</span>=<span class="string">"accent"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">svgIcon</span>=<span class="string">"custom-svg:angular"</span> <span class="attr">color</span>=<span class="string">"warn"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>另外為了能夠在程式中下載這張圖片擴充我們的ICON，還需要再加人<strong>HttpClientModule</strong>,在<strong>AppModule</strong>中如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//..</span></span><br><span class="line"><span class="keyword">import</span> &#123; HttpClientModule &#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</span><br><span class="line"><span class="comment">//..</span></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line"> <span class="comment">//..</span></span><br><span class="line"> imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    BrowserAnimationsModule,</span><br><span class="line">    HttpClientModule,</span><br><span class="line">    AppRoutingModule,</span><br><span class="line">    SharedMaterialModule</span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">//..</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="在MatIcon中使用Icon-Font"><a href="#在MatIcon中使用Icon-Font" class="headerlink" title="在MatIcon中使用Icon Font"></a>在MatIcon中使用Icon Font</h4><p>以FontAwesome為例，我們先來安裝庫</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @fortawesome/fontawesome-free</span><br></pre></td></tr></table></figure>
+
+<p>接下來在<code>src\styles.scss</code>中</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span> <span class="string">"~@angular/material/prebuilt-themes/indigo-pink.css"</span>;</span><br><span class="line">@<span class="keyword">import</span> <span class="string">"~@fortawesome/fontawesome-free/css/all.css"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>然後來使用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>在MatIcon中使用FontAwesome<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">fontSet</span>=<span class="string">"fa"</span> <span class="attr">fontIcon</span>=<span class="string">"fa-clipboard-check"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 就是&lt;i class="fa fa-thumbs-up"&gt;的概念 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">fontSet</span>=<span class="string">"fa"</span> <span class="attr">fontIcon</span>=<span class="string">"fa-thumbs-up"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">fontSet</span>=<span class="string">"fa"</span> <span class="attr">fontIcon</span>=<span class="string">"fa-thumbs-up"</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">fontSet</span>=<span class="string">"fa"</span> <span class="attr">fontIcon</span>=<span class="string">"fa-thumbs-up"</span> <span class="attr">color</span>=<span class="string">"accent"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">fontSet</span>=<span class="string">"fa"</span> <span class="attr">fontIcon</span>=<span class="string">"fa-thumbs-up"</span> <span class="attr">color</span>=<span class="string">"warn"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="MatButton-MatButtonToggle和MatRipple"><a href="#MatButton-MatButtonToggle和MatRipple" class="headerlink" title="MatButton,MatButtonToggle和MatRipple"></a>MatButton,MatButtonToggle和MatRipple</h3><p>關於Material Design的按鈕主要分為3種類型</p>
+<ol>
+<li><p>扁平化按鈕(Flat Button)</p>
+</li>
+<li><p>凸起的按鈕(Raised Button)</p>
+</li>
+<li><p>浮動的動作按鈕(floating Action Button)</p>
+</li>
+</ol>
+<p>####　扁平化按鈕(Flat Button)</p>
+<p>可以使用<code>color</code>屬性來改變按鈕的顏色，同時也可以使用<code>disable</code>屬性禁止按鈕被點選</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>扁平化按鈕(Flat Button)<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span>&gt;</span>我是按鈕<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span>primary<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span> <span class="attr">color</span>=<span class="string">"accent"</span>&gt;</span>accent<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span> <span class="attr">color</span>=<span class="string">"warn"</span>&gt;</span>warn<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span> <span class="attr">disabled</span>&gt;</span>disabled<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">mat-button</span>&gt;</span>link<span class="tag">&lt;/<span class="name">a</span>&gt;</span> <span class="comment">&lt;!-- 放在a tag裡面也沒問題 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">mat-button</span> <span class="attr">disabled</span>&gt;</span>disabled link<span class="tag">&lt;/<span class="name">a</span>&gt;</span> <span class="comment">&lt;!-- 放在a tag裡面也沒問題 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="凸起的按鈕-mat-raised-button"><a href="#凸起的按鈕-mat-raised-button" class="headerlink" title="凸起的按鈕(mat-raised-button)"></a>凸起的按鈕(mat-raised-button)</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>凸起的按鈕(mat-raised-button)<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span>&gt;</span>我是raised按鈕<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span>primary<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"accent"</span>&gt;</span>accent<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"warn"</span>&gt;</span>warn<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">disabled</span>&gt;</span>disabled<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">mat-raised-button</span>&gt;</span>link<span class="tag">&lt;/<span class="name">a</span>&gt;</span> <span class="comment">&lt;!-- 放在a tag裡面也沒問題 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">mat-raised-button</span> <span class="attr">disabled</span>&gt;</span>disabled link<span class="tag">&lt;/<span class="name">a</span>&gt;</span> <span class="comment">&lt;!-- 放在a tag裡面也沒問題 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Icon按鈕</p>
+<p>要替按鈕加上icon本身是一件很簡單的事情在標籤內加上<code>&lt;mat-icon&gt;</code>就可以了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span><span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span>我有Icon<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我只想要icon, 不搭配文字</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span><span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我只想顯示icon</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span><span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我只想凸顯這個按鈕</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">mat-icon-button</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span><span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="浮動的動作按鈕-mat-fab-mat-min-fab"><a href="#浮動的動作按鈕-mat-fab-mat-min-fab" class="headerlink" title="浮動的動作按鈕(mat-fab/mat-min-fab)"></a>浮動的動作按鈕(mat-fab/mat-min-fab)</h4><p>預設圖形的floating aciton button, 我們使用到<code>mat-fab</code>這個directive</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-fab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-fab</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-fab</span> <span class="attr">color</span>=<span class="string">"accent"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-fab</span> <span class="attr">color</span>=<span class="string">"warn"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-fab</span> <span class="attr">disabled</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以產生比較小的Icon</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-mini-fab</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-mini-fab</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-mini-fab</span> <span class="attr">color</span>=<span class="string">"accent"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-mini-fab</span> <span class="attr">color</span>=<span class="string">"warn"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-mini-fab</span> <span class="attr">disabled</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>thumb_up<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="按鍵開關-button-toggle"><a href="#按鍵開關-button-toggle" class="headerlink" title="按鍵開關(button toggle)"></a>按鍵開關(button toggle)</h4><p>按鈕開關基本上不是按鈕，反而比較類似checkbox，偏偏它又不像checkbox是表單控制項，可以搭配ngModel使用，因此單一的按鍵開關使用上會比較沒有意義，而是使用一個群式的按鈕開關，應用層面比較廣</p>
+<h5 id="基本的ButtonToggle-mat-button-toggle"><a href="#基本的ButtonToggle-mat-button-toggle" class="headerlink" title="基本的ButtonToggle(mat-button-toggle)"></a>基本的ButtonToggle(mat-button-toggle)</h5><p><code>mat-buttion-toggle</code>放在MatButtonToggleModule中，使用前記得加入這個Module，加入後我們可以直接在畫面上使用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-button-toggle</span>&gt;</span>我是個開關<span class="tag">&lt;/<span class="name">mat-button-toggle</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到每次點下去，就有切換開關的效果。<code>mat-button-toggle</code>這個component本身還有如<code>checked、value、disabled</code>等屬性可以使用，我們將在下一個Buttton Toggle Group中一起混著使用</p>
+<h5 id="搭配Button-Togle-Group-mat-button-toggle-group"><a href="#搭配Button-Togle-Group-mat-button-toggle-group" class="headerlink" title="搭配Button Togle Group(mat-button-toggle-group)"></a>搭配Button Togle Group(mat-button-toggle-group)</h5><p><code>mat-button-toggle-group</code>可以放置多個<code>mat-button-toggle</code>對且依照被選取的mat-button-toggle來決定自已的值是 麼，我們可以設計一個簡單的畫面如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>搭配Button Togle Group(mat-button-toggle-group)<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-button-toggle-group</span> #<span class="attr">formatAlignGroup</span>=<span class="string">"matButtonToggleGroup"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- button toggle所代表的值--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-button-toggle</span> <span class="attr">value</span>=<span class="string">"left"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>format_align_left<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-button-toggle</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 預設被選取--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-button-toggle</span> <span class="attr">value</span>=<span class="string">"center"</span> <span class="attr">checked</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>format_align_center<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-button-toggle</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-button-toggle</span> <span class="attr">value</span>=<span class="string">"right"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>format_align_right<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-button-toggle</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--不允許選擇的button toggle--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-button-toggle</span> <span class="attr">value</span>=<span class="string">"justify"</span> <span class="attr">disabled</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>format_align_justify<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-button-toggle</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-button-toggle-group</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>對齊方式為:&#123;&#123;formatAlignGroup.value&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--加上multiple, 則裡面的mat-button-toggle可以複選--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--加上vertical="true", 改變排𦕁方式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-button-toggle-group</span> <span class="attr">multiple</span> <span class="attr">vertical</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-button-toggle</span> <span class="attr">value</span>=<span class="string">"bold"</span> #<span class="attr">buttonToggleBold</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>format_bold<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-button-toggle</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-button-toggle</span> <span class="attr">value</span>=<span class="string">"italic"</span> <span class="attr">checked</span>=<span class="string">"true"</span> #<span class="attr">buttonToggleItalic</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>format_italic<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-button-toggle</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-button-toggle</span> <span class="attr">value</span>=<span class="string">"underlined"</span> <span class="attr">checked</span>=<span class="string">"true"</span> #<span class="attr">buttonUnderlined</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>format_underlined<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-button-toggle</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-button-toggle-group</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  粗體:&#123;&#123;buttonToggleBold.checked&#125;&#125;、斜體:&#123;&#123;buttonToggleItalic.checked&#125;&#125;、底線:&#123;&#123;buttonUnderlined.checked&#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面的程式車，第一段ButtonToggleGroup中我們使用<code>value</code>為每個<code>mat-button-toggle</code>中設定所屬的值，並且設定<code>checked=&quot;true&quot;</code>來設定預設選取的效果，以及<code>disabled</code>來設定禁止點選，接著透過template reference取刪ButtonToggleGroup的value值，也就是裡面真正被開啟的按鈕值。</p>
+<p>第二段ButtonToggleGroup中我們加入了<code>mutiple</code>讓裡面的ButtonToggle可以複選，另外加上了<code>vertical=&quot;true&quot;</code>改變排列方式，不過在複選時我們焦法直接使用ButtonToggleGroup.value的來取得值，因此只能各自取得裡面的ButtonToggle的選取狀態。</p>
+<p>關於ButtonToggleGroup中的<code>mutiple</code>的說定，值得注意的是沒有加上<code>mutiple</code>時，我們可以直接取用其中的value, 來得到被選取的狀態，同時也支援使畢ngModel，加上<code>mutiple</code>後，由於不會有資料傳入value,𦙲此ngModel也因無法使用。</p>
+<h3 id="漣漪效果-mat-ripple"><a href="#漣漪效果-mat-ripple" class="headerlink" title="漣漪效果(mat-ripple)"></a>漣漪效果(mat-ripple)</h3><p>實際上這個特效有寫成一個directive，讓我們可以在不同地使用，而且能調整許多細節</p>
+<p>首先加入<strong>MatRippleModule</strong>我們先來個簡單的版本，直接用一個div並加上<code>mat-ripple</code>這個directive就好了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>漣漪效果(mat-ripple)<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-ripple-container"</span> <span class="attr">mat-ripple</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>加上css的設定</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.demo-ripple-container</span>&#123;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">transition</span>: all <span class="number">200ms</span> linear;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">1px</span> solid black;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>position</strong>和<strong>transition</strong>是必要的，其它可以依照情況設定，只有有這樣的設定，立刻就可以為我 們的畫面加上漣漪效果</p>
+<p>mat-ripple的其它屬性</p>
+<ul>
+<li><p>matRippleCentered:true 代表不管滑鼠在元件上的哪裡點下去，都會從中心點開始產生漣漪</p>
+</li>
+<li><p>matRippleDisabled:true 代表取消元件上的漣漪效果</p>
+</li>
+<li><p>matRippleUnbounded:true 代表漣漪的效果擴大後會超過元件之外</p>
+</li>
+<li><p>matRippleRadius:漣漪產生的大小，數值越大表示越大</p>
+</li>
+<li><p>matRippleCol:漣漪的顏色</p>
+</li>
+<li><p>matRippleSpeedFactor:漣漪擴散的速度，數值越大速度越大</p>
+</li>
+</ul>
+<p>例如以下程式碼</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-ripple-container"</span> <span class="attr">mat-ripple</span> [<span class="attr">matRippleCentered</span>]=<span class="string">"false"</span> [<span class="attr">matRippleDisabled</span>]=<span class="string">"false"</span></span></span><br><span class="line"><span class="tag">  [<span class="attr">matRippleUnbounded</span>]=<span class="string">"false"</span> [<span class="attr">matRippleRadius</span>]=<span class="string">"10"</span> [<span class="attr">matRippleColor</span>]=<span class="string">"'pink'"</span></span></span><br><span class="line"><span class="tag">  [<span class="attr">matRippleAnimation</span>]=<span class="string">"&#123;enterDuration: 500,exitDuration:1000&#125;"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>從程式觸發漣漪的效果</p>
+<p>在<code>src\app\dashboard\ng-material\ng-material.component.html</code>中加入</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h4</span>&gt;</span>從程式觸發漣漪的效果<span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"demo-ripple-container"</span> <span class="attr">mat-ripple</span> #<span class="attr">ripple</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> (<span class="attr">click</span>)=<span class="string">"triggerRipple()"</span>&gt;</span>觸發漣漪效果<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> (<span class="attr">click</span>)=<span class="string">"clearRipple()"</span>&gt;</span>清除漣漪效果<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\dashboard\ng-material\ng-material.component.ts</code>中加入</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit, ViewChild, ElementRef &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatRipple &#125; <span class="keyword">from</span> <span class="string">'@angular/material'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-ng-material'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./ng-material.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./ng-material.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> NgMaterialComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line">  <span class="comment">// 取得directive</span></span><br><span class="line">  <span class="meta">@ViewChild</span>(<span class="string">'ripple'</span>, &#123; read: MatRipple &#125;) ripple: MatRipple;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  triggerRipple() &#123;</span><br><span class="line">    <span class="keyword">const</span> point1 = <span class="keyword">this</span>.ripple.launch(<span class="number">0</span>, <span class="number">0</span>, &#123; color: <span class="string">'pink'</span>, centered: <span class="literal">true</span>, persistent: <span class="literal">true</span>, radius: <span class="number">50</span> &#125;);</span><br><span class="line">    <span class="keyword">const</span> point2 = <span class="keyword">this</span>.ripple.launch(<span class="number">0</span>, <span class="number">0</span>, &#123; color: <span class="string">'yellow'</span>, centered: <span class="literal">true</span>, persistent: <span class="literal">true</span>, radius: <span class="number">20</span> &#125;);</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      point1.fadeOut();</span><br><span class="line">    &#125;, <span class="number">500</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  clearRipple() &#123;</span><br><span class="line">    <span class="keyword">this</span>.ripple.fadeOutAll();</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>重點</strong>在取得MatRipple這個特定的directive使用<code>@ViewChild(&#39;ripple&#39;, { read: MatRipple }) ripple: MatRipple;</code>可以直接取到此元件</p>
+<h3 id="打造基本後台"><a href="#打造基本後台" class="headerlink" title="打造基本後台"></a>打造基本後台</h3><p>主要我們的基本的後台顯示有三個部分</p>
+<p><img src="/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/01-dashboard-basic.png" alt="01-dashboard-basic"></p>
+<ul>
+<li>Toolbar 通常用來放置基本的品牌logo，簡單的搜尋，常用的功能和切換左右sidenav的按鈕</li>
+<li>SideNav 放置使用者資訊或是主要的功能選單等等，可以選擇常駐在左邊或石邊，也可以選擇平常隱藏起來，需要的時候可以動態的打開來</li>
+<li>Content 當然就是主要的功能畫面</li>
+</ul>
+<h4 id="開始使用Angular-Material的SideNav"><a href="#開始使用Angular-Material的SideNav" class="headerlink" title="開始使用Angular Material的SideNav"></a>開始使用Angular Material的SideNav</h4><p>先要將<code>MatSideNavModule</code>加入，其本上SideNav分為3個區塊</p>
+<ul>
+<li><code>&lt;mat-sidenav-container&gt;</code> 代表整個包含邊欄覽的容器</li>
+<li><code>&lt;mat-sidenav&gt;</code> 實際上邊欄導覽的內容</li>
+<li><code>&lt;mat-sidenv-content&gt;</code>導覽雨外的實際內容</li>
+</ul>
+<p>加入<strong>dashboard</strong>的元件，模組和路由</p>
+<ol>
+<li>先建立元件</li>
+<li>在建立模組和路由</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ng g c dashboard</span><br><span class="line">ng g m dashboard --routing</span><br></pre></td></tr></table></figure>
+
+<p>要將<strong>DashboardModule</strong>的模組加到<strong>AppModule</strong>的模組，這樣它的路由才會加入到主路由</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="keyword">import</span> &#123; DashboardComponent &#125; <span class="keyword">from</span> <span class="string">'./dashboard/dashboard.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; DashboardModule &#125; <span class="keyword">from</span> <span class="string">'./dashboard/dashboard.module'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [</span><br><span class="line">    AppComponent,</span><br><span class="line">    DashboardComponent</span><br><span class="line">  ],</span><br><span class="line">  imports: [</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    DashboardModule</span><br><span class="line">  ],</span><br><span class="line"> <span class="comment">//...</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>主路由表<code>src\app\app-routing.module.ts</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="comment">//import &#123; DashboardComponent &#125; from './dashboard/dashboard.component';</span></span><br><span class="line"><span class="keyword">const</span> routes: Routes = [</span><br><span class="line">  &#123; path: <span class="string">''</span>, redirectTo: <span class="string">'dashboard'</span>, pathMatch: <span class="string">'full'</span> &#125;,</span><br><span class="line">  <span class="comment">//&#123; path: 'dashboard', component: DashboardComponent &#125;</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppRoutingModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>dashboard路由表<code>src\app\dashboard\dashboard-routing.module.ts</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//...</span></span><br><span class="line"><span class="keyword">import</span> &#123; DashboardComponent &#125; <span class="keyword">from</span> <span class="string">'./dashboard.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> routes: Routes = [</span><br><span class="line">  &#123; path: <span class="string">'dashboard'</span>, component: DashboardComponent &#125;</span><br><span class="line">];</span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> DashboardRoutingModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>可以在<code>src\app\dashboard\dashboard.component.html</code>中加入</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">  dashboard works!</span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-sidenav-container</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav</span> #<span class="attr">sideNav</span>&gt;</span></span><br><span class="line">    我是左邊選單</span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span> (<span class="attr">click</span>)=<span class="string">"sideNav.toggle()"</span>&gt;</span>切換左邊選單<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"background-color: red;height: 200px;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-sidenav-container</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>  此時一個包含導覽功能的功能的選單就已經出現，不過這時候我們的畫面上還不會將選單顯示出來，這是因為Angular Material預設的<code>&lt;mat-sidenav&gt;</code>是隱藏的，不過我們可以透過程式把選單叫出來，所以畫面上我們先建立了一個按鈕，透過這個按鈕呼叫sideNav的<code>toggle()</code>𤆧法，來切換左邊導覽列的顯示狀態。</p>
+<p>建立測試Angular Material的頁面</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g c dashboard\ng-material</span><br></pre></td></tr></table></figure>
+
+<p>將之前的測試程式移到此頁面，將<strong>SharedMaterialModule</strong>加到<strong>DashboardModule</strong>裏，這樣在<code>src\app\dashboard\ng-material\ng-material.component.html</code>就不會說找不到此模組</p>
+<h4 id="控制SideNav的顯示狀態"><a href="#控制SideNav的顯示狀態" class="headerlink" title="控制SideNav的顯示狀態"></a>控制SideNav的顯示狀態</h4><p>我們可以透過<code>open()</code>,<code>close</code>()和<code>toggle()</code>來控制SideNav的顯示狀態，這些方法都會回傳一個<code>Promise&lt;MatDrawerToggleResule&gt;</code>來告訴你SideNav的顯示狀態</p>
+<p>在<code>src\app\dashboard\dashboard.component.ts</code>中加入</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatSidenav, MatDrawerToggleResult &#125; <span class="keyword">from</span> <span class="string">'@angular/material'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-dashboard'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./dashboard.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./dashboard.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> DashboardComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  toggleSideNav(sideNav: MatSidenav) &#123;</span><br><span class="line">    sideNav.toggle().then(<span class="function">(<span class="params">result: MatDrawerToggleResult</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(result);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`選單狀態:<span class="subst">$&#123;result&#125;</span>`</span>)</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\dashboard\dashboard.component.html</code>中加人</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-sidenav-container</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav</span> #<span class="attr">sideNav</span>&gt;</span></span><br><span class="line">    我是左邊選單</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"warn"</span> (<span class="attr">click</span>)=<span class="string">"toggleSideNav(sideNav)"</span>&gt;</span>切換選單狀態<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span> (<span class="attr">click</span>)=<span class="string">"toggleSideNav(sideNav)"</span>&gt;</span>切換左邊選單<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-sidenav-container</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>這樣可以來回的按下按鈕來切探左邊選單的出現</p>
+<table>
+<thead>
+<tr>
+<th>圖1</th>
+<th>圖2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-05-22_14_01_18_Image.jpg" alt="2019-05-22_14_01_18"></td>
+<td><img src="/%E5%AD%B8%E7%BF%92Angular-Material%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-05-22_14_02_44_Image.jpg" alt="2019-05-22_14_02_44"></td>
+</tr>
+</tbody></table>
+<p>除此之外SideNav還有<code>opened</code>和<code>closed</code>, 兩個output,當SideNav被打開或關時，就會觸發在<code>src\app\dashboard\dashboard.component.html</code>中的<code>mat-sidenav</code>加入<code>output</code>的功能</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-sidenav</span> #<span class="attr">sideNav</span> (<span class="attr">opened</span>)=<span class="string">"opened()"</span> (<span class="attr">closed</span>)=<span class="string">"closed()"</span>&gt;</span></span><br><span class="line">    我是左邊選單</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"warn"</span> (<span class="attr">click</span>)=<span class="string">"toggleSideNav(sideNav)"</span>&gt;</span>切換選單狀態<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\dashboard\dashboard.component.ts</code>中加入</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">opened() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"芝麻開門"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  closed() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"芝麻關門"</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="SideNav的常用Input屬性"><a href="#SideNav的常用Input屬性" class="headerlink" title="SideNav的常用Input屬性"></a>SideNav的常用Input屬性</h4><p><strong>mode</strong>屬性</p>
+<p><code>mat-side-nav</code>有一個屬緎，可以用來決定SideNav的呈現方式，目前有3個值可以設定</p>
+<ul>
+<li>over:預設值，SideNav會浮動在畫面之上，背後會出現一個灰底的backdrop，點擊SideNav以外的地方(或按下ESC)會隱藏起來。</li>
+<li>push:跟<code>over</code>類似，但顯示的時候會把畫面往另外一個方向推，同時也會有一個灰底的backdrop在螢幕較大的裝置時可以同時瀏覽SideNav和選單，但在行動裝置等小螢幕上則比較沒有感覺</li>
+<li>side:效果類似push, 但不會出現灰底的backdrop，因此可以同時操作主要的content畫面以及SideNav的內容</li>
+</ul>
+<p><strong>opened</strong>屬性</p>
+<p>透過<code>opened</code>屬性，我們可以不需要使用元件的<code>open()</code>或<code>toggle()</code>方法來打開，只需要設定這個屬性即可變更顯示狀態，true代很顯示，false代表隱藏，因此當我們需要一個個定在旁邊的導覽選單時，可以同時將<strong>mode設為side,並將open設定為true</strong>, 即可讓導覽選單常駐在旁邊，只要不在程式中切換這些狀態，就不會被隱藏。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-sidenav</span> <span class="attr">opened</span>=<span class="string">"true"</span> <span class="attr">mode</span>=<span class="string">"side"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>position</strong>屬性</p>
+<p>SideNav支援顯示在畫面的起始(<code>start</code>, 預設值，通常是左邊)或結束(<code>end</code>, 通常是商邊)，我們可以透過設定<code>position</code>決定SideNav要放在哪邊，同時我們也能左右各提供一僤導覽選單。</p>
+<p>不過需要注意的是，左右都只能有1 個SideNav</p>
+<p><strong>disableClose</strong>屬性</p>
+<p>在mode設為<code>over</code>或<code>push</code>時，預設會出現一個backdrop, 當點選backdrop或按下<code>esc</code>時則自動隱藏SideNav，如果希望不要自動隱藏，則可以設定<code>disableClose</code>, 有了這個屬緎就必須另外在可點選的範圍內加上程式設定隱藏SideNav</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-sidenav</span> #<span class="attr">sideNav</span> <span class="attr">mode</span>=<span class="string">"over"</span> <span class="attr">disableClose</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>我是左邊選單<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"warn"</span> (<span class="attr">click</span>)=<span class="string">"toggleSideNav(sideNav)"</span>&gt;</span>切換選單狀態<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>fixedInViewport/fixedTopGap/fixedBottomGap</strong>屬性</p>
+<p>當我們有一個toolbar在上層時，預設SideNav出現時不會擋住toolbar</p>
+<p>這時候我們可以設𡥞<code>fixeInViewport=&quot;true&quot;</code>,讓SideNav能夠顯示在Toolbar之上，另外也能設定<code>fixedTopGap</code>和<code>fixedBottomGap</code>保留一定程度的上下空間</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-toolbar</span>&gt;</span>我是Toolbar<span class="tag">&lt;/<span class="name">mat-toolbar</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-sidenav-container</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav</span> #<span class="attr">sideNav</span> <span class="attr">mode</span>=<span class="string">"over"</span> <span class="attr">fixedInViewport</span>=<span class="string">"true"</span> <span class="attr">fixedTopGap</span>=<span class="string">"20"</span> <span class="attr">fixedBottomGap</span>=<span class="string">"20"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>我是左邊選單<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-raised-button</span> <span class="attr">color</span>=<span class="string">"warn"</span> (<span class="attr">click</span>)=<span class="string">"toggleSideNav(sideNav)"</span>&gt;</span>切換選單狀態<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav</span> <span class="attr">opened</span>=<span class="string">"true"</span> <span class="attr">mode</span>=<span class="string">"side"</span> <span class="attr">position</span>=<span class="string">"end"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>我是右邊選單<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span> (<span class="attr">click</span>)=<span class="string">"toggleSideNav(sideNav)"</span>&gt;</span>切換左邊選單<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-sidenav-container</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="關於MatDrawer"><a href="#關於MatDrawer" class="headerlink" title="關於MatDrawer"></a>關於MatDrawer</h4><p>除了SideNav之外，Angular Material還提供了一個類似的component－<code>&lt;mat-drawer&gt;</code>。比起SideNav是設計給整個畫面使用，Drawer則是提供給放在content裡面小範圍區塊使用。除了不支援<code>fixedInViewport</code>(畢竟沒有需要遮擋的toolbar了)以外，這個drawer component使用上基本和sidenav完全相同，</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-drawer-container</span> <span class="attr">style</span>=<span class="string">"height:100px;border: 1px solid black"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-drawer</span> <span class="attr">mode</span>=<span class="string">"side"</span> <span class="attr">opened</span>=<span class="string">"true"</span>&gt;</span>Drawer Side<span class="tag">&lt;/<span class="name">mat-drawer</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-drawer-content</span>&gt;</span>Content<span class="tag">&lt;/<span class="name">mat-drawer-content</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-drawer-container</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="開始使用Angular-Material中的Toolbar"><a href="#開始使用Angular-Material中的Toolbar" class="headerlink" title="開始使用Angular Material中的Toolbar"></a>開始使用Angular Material中的Toolbar</h4><p>在加入ToolBar有點小小問題，會隨著畫面捲動要讓toolbar個定在最上方設定一下CSS就好了在<code>src\app\dashboard\dashboard.component.scss</code></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mat-sidenav-container&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.demo-app-header</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: fixed;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">z-index</span>: <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="selector-class">.demo-app-container</span>,</span><br><span class="line">  <span class="selector-class">.demo-app-sidenav</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">padding-top</span>: <span class="number">64px</span>;</span><br><span class="line">    <span class="comment">//width: 100%;</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="設定Toolbar的樣式"><a href="#設定Toolbar的樣式" class="headerlink" title="設定Toolbar的樣式"></a>設定Toolbar的樣式</h4><p>跟其他Angular Material元件一樣，我們可以透過<code>color</code>來改變toolbar的顏色：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-toolbar</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span>這是primary的toolbar<span class="tag">&lt;/<span class="name">mat-toolbar</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-toolbar</span> <span class="attr">color</span>=<span class="string">"accent"</span>&gt;</span>這是accent的toolbar<span class="tag">&lt;/<span class="name">mat-toolbar</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-toolbar</span> <span class="attr">color</span>=<span class="string">"warn"</span>&gt;</span>這是warn的toolbar<span class="tag">&lt;/<span class="name">mat-toolbar</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="替Toolbar加上各種按鈕"><a href="#替Toolbar加上各種按鈕" class="headerlink" title="替Toolbar加上各種按鈕"></a>替Toolbar加上各種按鈕</h4><p>接著我們想在toolbar加上一些東西，第一個是在左邊加上一個icon，可以透過這個icon來開關SideNab，這是一種常見的後台做法在<code>src\app\dashboard\dashboard.component.html</code>中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-toolbar</span> <span class="attr">class</span>=<span class="string">"demo-app-header"</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span> (<span class="attr">click</span>)=<span class="string">"sideNav.toggle()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>&#123;&#123;sideNav.opened ? 'close':'menu'&#125;&#125;<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>多頻道demo<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-toolbar</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接著我們想在toolbar的最右邊加上一個登出按鈕，不過要怎麼把按鈕推到最右邊去呢，其實只要透過CSS就可以輕易解決，由於Toolbar內的排版是<strong>flex</strong>，我們可以加入一僤分隔用的空間，把空間後的內容都推到另外一邊去</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.toobar-seprator</span>&#123;</span><br><span class="line">  <span class="attribute">flex</span>:<span class="number">1</span> <span class="number">1</span> auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著在toolbar中加入這個分隔器</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-toolbar</span> <span class="attr">class</span>=<span class="string">"demo-app-header"</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span> (<span class="attr">click</span>)=<span class="string">"sideNav.toggle()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>&#123;&#123;sideNav.opened ? 'close':'menu'&#125;&#125;<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>多頻道demo<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 在這之後的都會被推到右邊去 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"toobar-seprator"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>message<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>exit_to_app<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-toolbar</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="多行的Toolbar"><a href="#多行的Toolbar" class="headerlink" title="多行的Toolbar"></a>多行的Toolbar</h4><p>Toolbar預設是單行的，在<code>mat-toolbar</code>中的內容預設都會在同一行顯示，若在一行toolbar中放入太多資訊則可能會因為寬度有限的關係無法顯示，這時候我們可以用多個<code>&lt;mat-toolbar-row&gt;</code>來設定多行的toolbar。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-toolbar</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-toolbar-row</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>第一行Toolbar<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"toolbar-seprator"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>favorite<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-toolbar-row</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-toolbar-row</span>&gt;</span></span><br><span class="line">    第二行Toolbar</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"toolbar-seprator"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>delete<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-toolbar-row</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-toolbar</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>乍看之下跟用多個<code>&lt;mat-toolbar&gt;</code>很類似，但<code>&lt;mat-toolbar-row&gt;</code>本身是沒有<code>color</code>可以設定的，而是跟隨著<code>mat-toolbar</code>走，另外在語義上也有所不同，在CSS狀況比較複雜時，也可能造成畫面錯亂的問題，因此應該看情境決定使用的時機。</p>
+<h4 id="開始使用Angular-Material的List元件"><a href="#開始使用Angular-Material的List元件" class="headerlink" title="開始使用Angular Material的List元件"></a>開始使用Angular Material的List元件</h4><h5 id="使用mat-list及mat-list-item"><a href="#使用mat-list及mat-list-item" class="headerlink" title="使用mat-list及mat-list-item"></a>使用mat-list及mat-list-item</h5><p>使用List元件前，我們必須加入<code>MatListModule</code>，之後可以使用<code>&lt;mat-list&gt;</code>及<code>&lt;mat-list-item&gt;</code>的組合來完成一個基本的List：在<code>src\app\dashboard\dashboard.component.html</code>中加入</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-sidenav</span> <span class="attr">class</span>=<span class="string">"demo-app-sidenav"</span> #<span class="attr">sideNav</span> <span class="attr">mode</span>=<span class="string">"push"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-list</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span>管理端<span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span>傳送端<span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span>接教端<span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span>AMG元件端<span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mat-list</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>這是一個很單純的清單資料，不過我們在SideNav中，希望是能夠點選的Link，好在<code>&lt;mat-list-item&gt;</code>不僅僅是component，也能夠以directive的方式呈現，因此我們稍微做點調整：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-list</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'survey']"</span> <span class="attr">mat-list-item</span>&gt;</span>問卷調查<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'blog']"</span> <span class="attr">mat-list-item</span>&gt;</span>部落格<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'inbox']"</span> <span class="attr">mat-list-item</span>&gt;</span>收件夾<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>一個可以點選的List就出現啦！這裡可以注意到一件非常有趣的事情，當我們展開選單時，預設會focus在第一個項目，同時我們可以使用<code>tab</code>來切換，更棒的是使用<code>tab</code>切換時，不會切換到List之外的內容，只會在List之內循環，許多清單類型的Angular Material都具有這樣的特性，讓使用鍵盤操作時的情境可以更加靈活。</p>
+<h3 id="使用mat-nav-list"><a href="#使用mat-nav-list" class="headerlink" title="使用mat-nav-list"></a>使用mat-nav-list</h3><p>剛剛的例子我們已經在SideNav導覽列中加入了選單，但是在導覽列的選單連結中有底線有違我們一般的習慣，我們可以用CSS把它調整調，但Angular Material提供了更優質的做法，也就是另一個元件<code>mat-nav-list</code>，這個元件可以使用在導覽用的list中，我們只要把原來的<code>mat-list</code>換掉即可</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-nav-list</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'survey']"</span> <span class="attr">mat-list-item</span>&gt;</span>問卷調查<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'blog']"</span> <span class="attr">mat-list-item</span>&gt;</span>部落格<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'inbox']"</span> <span class="attr">mat-list-item</span>&gt;</span>收件夾<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-nav-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到不僅底線不見了，連focus的樣式也變成灰底而不是系統預設的藍色外框，我們一樣能用tab在這些清單項目中切換，同時點下去還有漣漪的特效，操作爽度百分百！</p>
+<h4 id="使用matSubheader及mat-divider"><a href="#使用matSubheader及mat-divider" class="headerlink" title="使用matSubheader及mat-divider"></a>使用matSubheader及mat-divider</h4><p>當清單料很多時，我們可能會需要將資料分類顯示，這時候我們可以使用<code>matSubheader</code>，替每組資料標上一個分類名稱。</p>
+<p>除此之外，我們也可以使用<code>&lt;mat-divider&gt;</code>這個來分隔不同群組的資料。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-nav-list</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span>示範用頁面<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'survey']"</span> <span class="attr">mat-list-item</span>&gt;</span>問卷調查<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'blog']"</span> <span class="attr">mat-list-item</span>&gt;</span>部落格<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'inbox']"</span> <span class="attr">mat-list-item</span>&gt;</span>收件夾<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-divider</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-divider</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 另外一組選單 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span>其他頁面<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/']"</span> <span class="attr">mat-list-item</span>&gt;</span>首頁<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/']"</span> <span class="attr">mat-list-item</span>&gt;</span>Google<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/']"</span> <span class="attr">mat-list-item</span>&gt;</span>Facebook<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-nav-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="使用matLine讓清單資料以多行方式顯示"><a href="#使用matLine讓清單資料以多行方式顯示" class="headerlink" title="使用matLine讓清單資料以多行方式顯示"></a>使用matLine讓清單資料以多行方式顯示</h4><p><code>&lt;mat-list-item&gt;</code>預設是一行文字，但當有需要的時候，我們也可以使用<code>matLine</code>來建立多行文字。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-nav-list</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span>多行文字示範<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>床前明月光<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>疑是地上霜<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>參加ＩＴ鐵人賽<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>功力增加一甲子<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-nav-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用matListAvatar顯示產生頭像"><a href="#使用matListAvatar顯示產生頭像" class="headerlink" title="使用matListAvatar顯示產生頭像"></a>使用matListAvatar顯示產生頭像</h3><p>在清單中使用頭像是很常見的一種應用，像是許多通訊軟體都會採用這種設計方式，要在清單中使用頭像可以在頭像加上<code>matListAvatar</code>：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span>好友訊息<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">matListAvatar</span> <span class="attr">src</span>=<span class="string">"..."</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>志玲<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>hi，好久不見，最近好嗎？<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">matListAvatar</span> <span class="attr">src</span>=<span class="string">"..."</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>依晨<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>找時間吃個飯吧？<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="在清單右方加上動作icon"><a href="#在清單右方加上動作icon" class="headerlink" title="在清單右方加上動作icon"></a>在清單右方加上動作icon</h3><p>在Material Design中的清單，所有的執行動作按鈕預設都會放在最後方，因此在Angular Material中，只要加入按鈕，都會直接被推到最後面：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">matListAvatar</span> <span class="attr">src</span>=<span class="string">"..."</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>志玲<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>hi，好久不見，最近好嗎？<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- button會自動被推到最後面 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span>&gt;</span><span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>chat<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 即使icon button放在前面，還是會被往後推 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span>&gt;</span><span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>chat<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">matListAvatar</span> <span class="attr">src</span>=<span class="string">"..."</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>依晨<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">matLine</span>&gt;</span>找時間吃個飯吧？<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="可複選的mat-selection-list"><a href="#可複選的mat-selection-list" class="headerlink" title="可複選的mat-selection-list"></a>可複選的mat-selection-list</h3><p>在List中，還有一個比較複雜的component－<code>&lt;mat-selection-list&gt;</code>及<code>&lt;mat-list-option&gt;</code>，可以讓清單變成可複選的列表，並自動在清單列後方加上一個checkbox，在一些功能設定的頁面非常好用。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-divider</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-divider</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>settings<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">        訊息設定</span><br><span class="line">      <span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-selection-list</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mat-list-option</span> [<span class="attr">value</span>]=<span class="string">"1"</span> <span class="attr">selected</span>=<span class="string">"true"</span> #<span class="attr">optNew</span>&gt;</span>有新訊息時通知我<span class="tag">&lt;/<span class="name">mat-list-option</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mat-list-option</span> [<span class="attr">value</span>]=<span class="string">"2"</span> #<span class="attr">optAds</span>&gt;</span>顯示廣告訊息<span class="tag">&lt;/<span class="name">mat-list-option</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">mat-selection-list</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-divider</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-divider</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>chat_bubble<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">        新訊息</span><br><span class="line">      <span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-list-item</span> *<span class="attr">ngIf</span>=<span class="string">"optNew.selected"</span>&gt;</span>這是新消息<span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-list-item</span> *<span class="attr">ngIf</span>=<span class="string">"optAds.selected"</span>&gt;</span>這是廣告消息<span class="tag">&lt;/<span class="name">mat-list-item</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用Iconify"><a href="#使用Iconify" class="headerlink" title="使用Iconify"></a>使用Iconify</h3><p>這是在找D3.js時看到有<a href="https://thomascsd.github.io/svg-and-angular/">SVG與Angular</a>介紹它的ICON，還不錯有很多的ICON可以來使用，在Angualr在使用上是在<code>index.html</code>的檔中，來使用如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>TestD3Charts<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">base</span> <span class="attr">href</span>=<span class="string">"/"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"icon"</span> <span class="attr">type</span>=<span class="string">"image/x-icon"</span> <span class="attr">href</span>=<span class="string">"favicon.ico"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/css?family=Roboto:300,400,500&amp;display=swap"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/icon?family=Material+Icons"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.iconify.design/1/1.0.4/iconify.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">app-root</span>&gt;</span><span class="tag">&lt;/<span class="name">app-root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在使用上是</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">md-list-icon</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"iconify"</span> <span class="attr">data-icon</span>=<span class="string">"mdi-home"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以有顏色和CSS一起用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-icon</span> <span class="attr">md-list-icon</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"iconify icon-bell"</span> <span class="attr">data-icon</span>=<span class="string">"vaadin-bell"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在CSS</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.icon-bell</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f80</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.icon-bell</span>:hover &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f00</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h3><p><a href="https://ithelp.ithome.com.tw/users/20020617/ironman/1263">Angular Material完全攻略 系列</a><br><a href="https://stackoverflow.com/questions/53025162/use-font-awesome-5-on-angular-material-7">Use font awesome 5 on angular material 7</a><br><a href="https://ithelp.ithome.com.tw/articles/10209937">Angular Material 模組列表整理</a><br><a href="https://jonny-huang.github.io/angular/training/09_angular_router2/">Angular 子路由</a><br><a href="https://blog.angular-university.io/angular-viewchild/">Angular @ViewChild: In-Depth Explanation</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Angular-Material/" rel="tag"># Angular Material</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84Python%E4%B8%8BVirtualenv%E7%9A%84VScode%E7%9A%84%E8%AA%BF%E8%A9%A6/" rel="prev" title="記錄Python下Virtualenv的VScode的調試">
+      <i class="fa fa-chevron-left"></i> 記錄Python下Virtualenv的VScode的調試
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E4%B8%80%E5%80%8BJS%E5%AD%B8%E7%BF%92%E8%80%85%E7%9A%84%E6%97%A5%E5%B8%B8/" rel="next" title="一個JS學習者的日常">
+      一個JS學習者的日常 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立專案"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匯人想要顯示的元件模組"><span class="nav-text">匯人想要顯示的元件模組</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Material-Icons"><span class="nav-text">Material Icons</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Angular-Material的MatIcon"><span class="nav-text">Angular Material的MatIcon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#顏色"><span class="nav-text">顏色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在MatIcon中使用SVG和FontAwesome"><span class="nav-text">在MatIcon中使用SVG和FontAwesome</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在MatIcon中使用SVG"><span class="nav-text">在MatIcon中使用SVG</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在MatIcon中使用Icon-Font"><span class="nav-text">在MatIcon中使用Icon Font</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MatButton-MatButtonToggle和MatRipple"><span class="nav-text">MatButton,MatButtonToggle和MatRipple</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#凸起的按鈕-mat-raised-button"><span class="nav-text">凸起的按鈕(mat-raised-button)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浮動的動作按鈕-mat-fab-mat-min-fab"><span class="nav-text">浮動的動作按鈕(mat-fab&#x2F;mat-min-fab)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按鍵開關-button-toggle"><span class="nav-text">按鍵開關(button toggle)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本的ButtonToggle-mat-button-toggle"><span class="nav-text">基本的ButtonToggle(mat-button-toggle)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#搭配Button-Togle-Group-mat-button-toggle-group"><span class="nav-text">搭配Button Togle Group(mat-button-toggle-group)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漣漪效果-mat-ripple"><span class="nav-text">漣漪效果(mat-ripple)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打造基本後台"><span class="nav-text">打造基本後台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#開始使用Angular-Material的SideNav"><span class="nav-text">開始使用Angular Material的SideNav</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#控制SideNav的顯示狀態"><span class="nav-text">控制SideNav的顯示狀態</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SideNav的常用Input屬性"><span class="nav-text">SideNav的常用Input屬性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#關於MatDrawer"><span class="nav-text">關於MatDrawer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#開始使用Angular-Material中的Toolbar"><span class="nav-text">開始使用Angular Material中的Toolbar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定Toolbar的樣式"><span class="nav-text">設定Toolbar的樣式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#替Toolbar加上各種按鈕"><span class="nav-text">替Toolbar加上各種按鈕</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多行的Toolbar"><span class="nav-text">多行的Toolbar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#開始使用Angular-Material的List元件"><span class="nav-text">開始使用Angular Material的List元件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用mat-list及mat-list-item"><span class="nav-text">使用mat-list及mat-list-item</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mat-nav-list"><span class="nav-text">使用mat-nav-list</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用matSubheader及mat-divider"><span class="nav-text">使用matSubheader及mat-divider</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用matLine讓清單資料以多行方式顯示"><span class="nav-text">使用matLine讓清單資料以多行方式顯示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用matListAvatar顯示產生頭像"><span class="nav-text">使用matListAvatar顯示產生頭像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在清單右方加上動作icon"><span class="nav-text">在清單右方加上動作icon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可複選的mat-selection-list"><span class="nav-text">可複選的mat-selection-list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Iconify"><span class="nav-text">使用Iconify</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

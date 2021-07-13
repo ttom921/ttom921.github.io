@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言因為專案上，有使用到ActiveX Control的問題，所以來了解一下ActiveX Control如何建立、安裝和偵錯。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習Net-ActiveX-Control的相關使用">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言因為專案上，有使用到ActiveX Control的問題，所以來了解一下ActiveX Control如何建立、安裝和偵錯。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_10_44_11_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_11_24_50_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_11_33_35_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_12_17_08_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_12_21_26_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_13_43_38_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_14_49_19_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_14_56_58_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_15_29_03_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_15_35_22_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_15_35_32_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_15_35_42_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_16_01_45_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_16_08_48_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_16_38_36_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_09_25_44_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_09_39_06_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_09_33_49_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_09_39_06_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_09_46_34_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_09_50_06_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_09_54_10_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_09_39_06_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_10_01_07_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-26_10_18_16_Image.jpg">
+<meta property="article:published_time" content="2019-09-25T09:56:56.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="ActiveX Control">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-25_10_44_11_Image.jpg">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習Net-ActiveX-Control的相關使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Net-ActiveX-Control%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習Net-ActiveX-Control的相關使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-09-25 09:56:56" itemprop="dateCreated datePublished" datetime="2019-09-25T09:56:56+00:00">2019-09-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/C/" itemprop="url" rel="index"><span itemprop="name">C#</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因為專案上，有使用到ActiveX Control的問題，所以來了解一下ActiveX Control如何建立、安裝和偵錯。</p>
+<a id="more"></a>
+
+<h2 id="準備工作"><a href="#準備工作" class="headerlink" title="準備工作"></a>準備工作</h2><p>在我們開始開發ActiveX控制項前，必須要先做一些準備工作，以便在開發發完成時順利測試控級項，最重要的是Internet Explorer的安全性設定，在開發時期棊本上我們不會進行元件的安全設定（例如簽章），為了要讓測試工作可以順利，我們要對IE的安全性做一些設定。</p>
+<p>目前的環境是win10下的IE，在IE11下要叫出選單，可以按下「Alt」鍵<br><img src="2019-09-25_10_44_11_Image.jpg" style="zoom:50%;" /></p>
+<p>首先，我們要先把網站加入受信任的網站，我們可以由控級項的網際網路選項（或是Internet選項）中，在「安全性」頁籤中，選取「信任的網站」，然後按「網站」按鈕（）將本機的網址（本文為<code>http://localhost</code>），加入信任網站中：</p>
+<img src="2019-09-25_11_24_50_Image.jpg" style="zoom:80%;" />
+
+<p>加入完成後，一樣在「安全性」頁籤的「信任的綱站」，按下「自訂等級」按鈕，會顯示安全等級的細部設定視窗：</p>
+<img src="2019-09-25_11_33_35_Image.jpg" style="zoom:80%;" />
+
+<p>請依下表設定安全層級：</p>
+<table>
+<thead>
+<tr>
+<th align="center">選項</th>
+<th align="center">值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">下載未簽署的ActiveX控制項</td>
+<td align="center">提示（Prompt）</td>
+</tr>
+<tr>
+<td align="center">允許程式碼片段</td>
+<td align="center">提示（Prompt）</td>
+</tr>
+<tr>
+<td align="center">將未標示成安全的ActiveX控制項初始化並執行指令碼</td>
+<td align="center">提示（Prompt）</td>
+</tr>
+</tbody></table>
+<p>設定好以後，我們就可以來開始開發我們的控制項了。</p>
+<h2 id="使用C-開發ActiveX控制項-基本功能"><a href="#使用C-開發ActiveX控制項-基本功能" class="headerlink" title="使用C#開發ActiveX控制項-基本功能"></a>使用C#開發ActiveX控制項-基本功能</h2><p>本文將使用C#以及Visual Studio 2017作為開發環境。同時，我不會在這裡說明細部的操作操序，因此我假定你對Visual Studio的操作已經有基本的瞭解。</p>
+<h3 id="建立一個空白的方案：（NetActiveXControlSln）"><a href="#建立一個空白的方案：（NetActiveXControlSln）" class="headerlink" title="建立一個空白的方案：（NetActiveXControlSln）"></a>建立一個空白的方案：（NetActiveXControlSln）</h3><p><img src="2019-09-25_12_17_08_Image.jpg"></p>
+<h3 id="建立類別庫專案"><a href="#建立類別庫專案" class="headerlink" title="建立類別庫專案"></a>建立類別庫專案</h3><p>然後，在方案中新增一個C#的類別庫專案（我的專案命名是MyControl），這個專案會產生DLL檔案，也是作為控制項的專案之一。你也可以用Windows Forms控制項專案來做，但因為我們不一定會需要使用者介面，因此由類別庫專案來開發會比較簡單。</p>
+<img src="2019-09-25_12_21_26_Image.jpg" style="zoom:50%;" />
+
+<h3 id="設定專案資訊"><a href="#設定專案資訊" class="headerlink" title="設定專案資訊"></a>設定專案資訊</h3><p>當專案產生後，請將專案內容打開並選擇「應用程式」的頁籤，接下來點選「組件資訊」，將「讓組件成為COM可見（M）」勾選起來</p>
+<img src="2019-09-25_13_43_38_Image.jpg" style="zoom:67%;" />
+
+<p>請將專案內容打開，然後把預設的Class1.cs檔案更名為MyDateControl.cs（若ViauslStudio提示更變類名稱，請接受它）</p>
+<h3 id="建立簽署"><a href="#建立簽署" class="headerlink" title="建立簽署"></a>建立簽署</h3><p>請將專案內容打開並選擇「簽署」，將「簽署組件」打勾，第一次在，選擇強式名稱金錀中選「新增」，會跳出金錀檔名稱，和密碼，輸入後確定。</p>
+<img src="2019-09-25_14_49_19_Image.jpg" style="zoom: 80%;" />
+
+<h3 id="產生GUID"><a href="#產生GUID" class="headerlink" title="產生GUID"></a>產生GUID</h3><p>在選擇「工具」-&gt;「建立GUID」來建立新的GUID，選擇5在下面可以看到產生的GUID，按下「複製」可襖製GUID，等下在程式碼裏會用到。</p>
+<img src="2019-09-25_14_56_58_Image.jpg" style="zoom:80%;" />
+
+<h3 id="修改程式碼"><a href="#修改程式碼" class="headerlink" title="修改程式碼"></a>修改程式碼</h3><p>在程式碼中加入<code>ProgId</code>、<code>Guid</code>、<code>ComVisible</code>到程式碼中和取得今天的日期</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Runtime.InteropServices;</span><br><span class="line"></span><br><span class="line">namespace MyControl</span><br><span class="line">&#123;</span><br><span class="line">    [ProgId(&quot;MyControl.MyDateControl&quot;)]</span><br><span class="line"></span><br><span class="line">    [ClassInterface(ClassInterfaceType.AutoDual)]</span><br><span class="line">    [Guid(&quot;415D09B9-3C9F-43F4-BB5C-C056263EF270&quot;)]</span><br><span class="line">    [ComVisible(true)]</span><br><span class="line">    public class MyDateControl</span><br><span class="line">    &#123;</span><br><span class="line">        public DateTime Today &#123; get &#123; return DateTime.Today; &#125; &#125;</span><br><span class="line">        public string GetTodayDateString()</span><br><span class="line">        &#123;</span><br><span class="line">            return DateTime.Today.ToString(&quot;yyyy&#x2F;MM&#x2F;dd HH:mm:ss&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="建置專案和註冊"><a href="#建置專案和註冊" class="headerlink" title="建置專案和註冊"></a>建置專案和註冊</h3><p>先用VS來建置專案來產生dll檔，接下來以VS提供的工具來註冊剛才產生dll檔，在VS的工具找到<code>適用於VS2017的開發人命令提示字元</code>的工具，來註冊<code>regasm /codebase &lt;full path of dll file&gt;</code>，移除註冊<code>regasm /u &lt;full path of dll file&gt;</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regasm /codebase <span class="string">"D:\Project\github\TestActiveXControl\NetActiveXControlSln\MyControl\bin\Debug\MyControl.dll"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="建立網頁來測試"><a href="#建立網頁來測試" class="headerlink" title="建立網頁來測試"></a>建立網頁來測試</h3><p>在建立index.html來測試，先好的專案內容否下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>DemoCSharpActiveX webpage<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">OBJECT</span> <span class="attr">id</span>=<span class="string">"DemoActiveX"</span> <span class="attr">classid</span>=<span class="string">"clsid:415D09B9-3C9F-43F4-BB5C-C056263EF270"</span> <span class="attr">codebase</span>=<span class="string">"DemoCSharpActiveX.cab"</span>&gt;</span><span class="tag">&lt;/<span class="name">OBJECT</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">try</span> &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">var</span> obj = <span class="built_in">document</span>.DemoActiveX;</span></span><br><span class="line">                if (obj) &#123;</span><br><span class="line">                    alert(obj.GetTodayDateString());</span><br><span class="line"><span class="actionscript">                &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="actionscript">                    alert(<span class="string">"Object is not created!"</span>);</span></span><br><span class="line">                &#125;</span><br><span class="line"><span class="actionscript">            &#125; <span class="keyword">catch</span> (ex) &#123;</span></span><br><span class="line"><span class="actionscript">                alert(<span class="string">"Some error happens, error message is: "</span> + ex.Description);</span></span><br><span class="line">            &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="在VisualStudio下偵錯"><a href="#在VisualStudio下偵錯" class="headerlink" title="在VisualStudio下偵錯"></a>在VisualStudio下偵錯</h3><p>在要偵錯點，先加入斷點，在選擇「偵錯」下的「附加至處理序」，在找到真正的iexplore.exe，在選擇「附加」</p>
+<img src="2019-09-25_15_29_03_Image.jpg" style="zoom:80%;" />
+
+<p>將上面的網頁以IE來打開，會先出現</p>
+<img src="2019-09-25_15_35_22_Image.jpg" style="zoom:80%;" />
+
+
+
+<p>按下是後會跳到debug畫面</p>
+<img src="2019-09-25_15_35_32_Image.jpg" style="zoom:80%;" />
+
+<p>接下來在VS按下繼續會跳到此畫面</p>
+<img src="2019-09-25_15_35_42_Image.jpg" style="zoom:80%;" />
+
+<h2 id="使用C-開發ActiveX控制項-產生使用者介面"><a href="#使用C-開發ActiveX控制項-產生使用者介面" class="headerlink" title="使用C#開發ActiveX控制項-產生使用者介面"></a>使用C#開發ActiveX控制項-產生使用者介面</h2><p>在完成了上面的控制項後，你應該會用C#開發ActiveX控制項有一點感覺，我們再來寫一個具有使用者介恷的控制項，基本上作法差不多，但這次要新增的是Windows Forms使用者控制項（我的控制項命名為MyDateControlUI）</p>
+<img src="2019-09-25_16_01_45_Image.jpg" style="zoom:80%;" />
+
+<p>新增完成時，Visual Studio會開啟Designer視窗，請在上面放兩個按鈕，如同前一個範例一樣，其中一個是顯示今日的日期（cmdDisplayToday），但另一個會讀取本机上的登錄資料庫（cmdGetOSVer），以取得目前的作業系統資訊：</p>
+<img src="2019-09-25_16_08_48_Image.jpg" style="zoom:80%;" />
+
+<p>畫面設定完成後，請開啟控制項的程式碼，加入以下的程式碼</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.Win32;</span><br><span class="line">using System;</span><br><span class="line">using System.Runtime.InteropServices;</span><br><span class="line">using System.Windows.Forms;</span><br><span class="line"></span><br><span class="line">namespace MyDateControl</span><br><span class="line">&#123;</span><br><span class="line">    [ProgId(&quot;MyDateControl.MyDateControlUI&quot;)]</span><br><span class="line">    [ClassInterface(ClassInterfaceType.AutoDual)]</span><br><span class="line">    [Guid(&quot;</span><br><span class="line">         )]</span><br><span class="line">    [ComVisible(true)]</span><br><span class="line">    public partial class MyDateControlUI: UserControl</span><br><span class="line">    &#123;</span><br><span class="line">        public MyDateControlUI()</span><br><span class="line">        &#123;</span><br><span class="line">            InitializeComponent();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private void cmdDisplayToday_Click(object sender, System.EventArgs e)</span><br><span class="line">        &#123;</span><br><span class="line">            MessageBox.Show(DateTime.Today.ToString(&quot;yyyy&#x2F;MM&#x2F;dd&quot;), &quot;Today&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private void cmdGetOSVer_Click(object sender, System.EventArgs e)</span><br><span class="line">        &#123;</span><br><span class="line">            RegistryKey key &#x3D; Registry.LocalMachine.OpenSubKey(@&quot;SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot;);</span><br><span class="line">            MessageBox.Show(key.GetValue(&quot;BuildLabEx&quot;).ToString(), &quot;OS Build Ver&quot;);</span><br><span class="line">            key &#x3D; null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建置後來註冊</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regasm /codebase <span class="string">"D:\Project\github\TestActiveXControl\NetActiveXControlSln\MyDateControl\bin\Debug\MyDateControl.dll"</span></span><br></pre></td></tr></table></figure>
+
+<p>修改一下之前的index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>DemoCSharpActiveX webpage<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">OBJECT</span> <span class="attr">id</span>=<span class="string">"DemoActiveX"</span> <span class="attr">classid</span>=<span class="string">"clsid:BB40E1F5-0E6C-47B3-A665-0D3FBDE1D01C"</span> <span class="attr">codebase</span>=<span class="string">"DemoCSharpActiveX.cab"</span> <span class="attr">width</span>=<span class="string">"640px"</span> <span class="attr">height</span>=<span class="string">"480px"</span>&gt;</span><span class="tag">&lt;/<span class="name">OBJECT</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>現在，我們再以瀏覽器來瀏覽此網頁，你看到應該會是這樣</p>
+<img src="2019-09-25_16_38_36_Image.jpg" style="zoom:80%;" />
+
+<p>同時，按下cmdDiaplayToday會得到今天的日期，而按下cmdGetOSVer，會出現作業系統的Build版本資料，此版本資訊是來自於登錄資料庫，因此可證明ActiveX控制項具有與作業系統互動的能力。</p>
+<h3 id="宣告控制項是安全的"><a href="#宣告控制項是安全的" class="headerlink" title="宣告控制項是安全的"></a>宣告控制項是安全的</h3><p>我們一開始設計的MyControl控制項在執行時都會出現潛在安全性問題的提示訊息，這是因為Internet Explorer內建的安全性機制使然，就算把提示的設定改為啟用（Enabled），仍然會出現這個訊息，要努此訊息關閉，你必須要在你的控制項實作一個特別的介面，向IE宣告你的控制項與JavaScript互動時是安全的。</p>
+<blockquote>
+<p>只要你的控制項會和JavaScript互動，就必須實作這個介面。</p>
+</blockquote>
+<p>這個介面是IObjectSafety，它是COM原生函式庫內的一個介面，當IE在載入你的控制項時，會在控制項內搜尋是否有這個介面的存在（即控制項是否有實作此介面），如果沒有找到的話，就會顯示潛在安全性問題的訊息，因此我們需要實作這個介面，請在專案內加入一固類別檔案，命名為IObjectSafety.cs，並將下列程式加入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Runtime.InteropServices;</span><br><span class="line"></span><br><span class="line">namespace MyDateControl</span><br><span class="line">&#123;</span><br><span class="line">    [ComImport, Guid(&quot;CB5BDC81-93C1-11CF-8F20-00805F2CD064&quot;)]</span><br><span class="line">    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]</span><br><span class="line">    public interface IObjectSafety</span><br><span class="line">    &#123;</span><br><span class="line">        [PreserveSig]</span><br><span class="line">        int GetInterfaceSafetyOptions(ref Guid riid, [MarshalAs(UnmanagedType.U4)] ref int pdwSupportedOptions, [MarshalAs(UnmanagedType.U4)] ref int pdwEnabledOptions);</span><br><span class="line"></span><br><span class="line">        [PreserveSig()]</span><br><span class="line">        int SetInterfaceSafetyOptions(ref Guid riid, [MarshalAs(UnmanagedType.U4)] int dwOptionSetMask, [MarshalAs(UnmanagedType.U4)] int dwEnabledOptions);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在MyDateControlUI程式中指示要實作IObjectSafety，並且加上面的實作，完成的程式碼如下，記得修改一下GUID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.Win32;</span><br><span class="line">using System;</span><br><span class="line">using System.Runtime.InteropServices;</span><br><span class="line">using System.Windows.Forms;</span><br><span class="line"></span><br><span class="line">namespace MyDateControl</span><br><span class="line">&#123;</span><br><span class="line">    [Guid(&quot;390FBD8F-FA8D-476F-B81F-B2D5CB859A03&quot;), ProgId(&quot;MyDateControlUI.MyDateControlUI&quot;), ComVisible(true)]</span><br><span class="line">    public partial class MyDateControlUI : UserControl, IObjectSafety</span><br><span class="line">    &#123;</span><br><span class="line">        #region IObjectSafety 成員 格式固定</span><br><span class="line"></span><br><span class="line">        private const string _IID_IDispatch &#x3D; &quot;&#123;00020400-0000-0000-C000-000000000046&#125;&quot;;</span><br><span class="line">        private const string _IID_IDispatchEx &#x3D; &quot;&#123;a6ef9860-c720-11d0-9337-00a0c90dcaa9&#125;&quot;;</span><br><span class="line">        private const string _IID_IPersistStorage &#x3D; &quot;&#123;0000010A-0000-0000-C000-000000000046&#125;&quot;;</span><br><span class="line">        private const string _IID_IPersistStream &#x3D; &quot;&#123;00000109-0000-0000-C000-000000000046&#125;&quot;;</span><br><span class="line">        private const string _IID_IPersistPropertyBag &#x3D; &quot;&#123;37D84F60-42CB-11CE-8135-00AA004BB851&#125;&quot;;</span><br><span class="line"></span><br><span class="line">        private const int INTERFACESAFE_FOR_UNTRUSTED_CALLER &#x3D; 0x00000001;</span><br><span class="line">        private const int INTERFACESAFE_FOR_UNTRUSTED_DATA &#x3D; 0x00000002;</span><br><span class="line">        private const int S_OK &#x3D; 0;</span><br><span class="line">        private const int E_FAIL &#x3D; unchecked((int)0x80004005);</span><br><span class="line">        private const int E_NOINTERFACE &#x3D; unchecked((int)0x80004002);</span><br><span class="line"></span><br><span class="line">        private bool _fSafeForScripting &#x3D; true;</span><br><span class="line">        private bool _fSafeForInitializing &#x3D; true;</span><br><span class="line"></span><br><span class="line">        public int GetInterfaceSafetyOptions(ref Guid riid, ref int pdwSupportedOptions, ref int pdwEnabledOptions)</span><br><span class="line">        &#123;</span><br><span class="line">            int Rslt &#x3D; E_FAIL;</span><br><span class="line"></span><br><span class="line">            string strGUID &#x3D; riid.ToString(&quot;B&quot;);</span><br><span class="line">            pdwSupportedOptions &#x3D; INTERFACESAFE_FOR_UNTRUSTED_CALLER | INTERFACESAFE_FOR_UNTRUSTED_DATA;</span><br><span class="line">            switch (strGUID)</span><br><span class="line">            &#123;</span><br><span class="line">                case _IID_IDispatch:</span><br><span class="line">                case _IID_IDispatchEx:</span><br><span class="line">                    Rslt &#x3D; S_OK;</span><br><span class="line">                    pdwEnabledOptions &#x3D; 0;</span><br><span class="line">                    if (_fSafeForScripting &#x3D;&#x3D; true)</span><br><span class="line">                        pdwEnabledOptions &#x3D; INTERFACESAFE_FOR_UNTRUSTED_CALLER;</span><br><span class="line">                    break;</span><br><span class="line">                case _IID_IPersistStorage:</span><br><span class="line">                case _IID_IPersistStream:</span><br><span class="line">                case _IID_IPersistPropertyBag:</span><br><span class="line">                    Rslt &#x3D; S_OK;</span><br><span class="line">                    pdwEnabledOptions &#x3D; 0;</span><br><span class="line">                    if (_fSafeForInitializing &#x3D;&#x3D; true)</span><br><span class="line">                        pdwEnabledOptions &#x3D; INTERFACESAFE_FOR_UNTRUSTED_DATA;</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    Rslt &#x3D; E_NOINTERFACE;</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return Rslt;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public int SetInterfaceSafetyOptions(ref Guid riid, int dwOptionSetMask, int dwEnabledOptions)</span><br><span class="line">        &#123;</span><br><span class="line">            int Rslt &#x3D; E_FAIL;</span><br><span class="line">            string strGUID &#x3D; riid.ToString(&quot;B&quot;);</span><br><span class="line">            switch (strGUID)</span><br><span class="line">            &#123;</span><br><span class="line">                case _IID_IDispatch:</span><br><span class="line">                case _IID_IDispatchEx:</span><br><span class="line">                    if (((dwEnabledOptions &amp; dwOptionSetMask) &#x3D;&#x3D; INTERFACESAFE_FOR_UNTRUSTED_CALLER) &amp;&amp; (_fSafeForScripting &#x3D;&#x3D; true))</span><br><span class="line">                        Rslt &#x3D; S_OK;</span><br><span class="line">                    break;</span><br><span class="line">                case _IID_IPersistStorage:</span><br><span class="line">                case _IID_IPersistStream:</span><br><span class="line">                case _IID_IPersistPropertyBag:</span><br><span class="line">                    if (((dwEnabledOptions &amp; dwOptionSetMask) &#x3D;&#x3D; INTERFACESAFE_FOR_UNTRUSTED_DATA) &amp;&amp; (_fSafeForInitializing &#x3D;&#x3D; true))</span><br><span class="line">                        Rslt &#x3D; S_OK;</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    Rslt &#x3D; E_NOINTERFACE;</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return Rslt;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #endregion</span><br><span class="line">        public MyDateControlUI()</span><br><span class="line">        &#123;</span><br><span class="line">            InitializeComponent();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private void cmdDisplayToday_Click(object sender, EventArgs e)</span><br><span class="line">        &#123;</span><br><span class="line">            MessageBox.Show(DateTime.Today.ToString(&quot;yyyy&#x2F;MM&#x2F;dd&quot;), &quot;Today&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private void cmdGetOSVer_Click(object sender, EventArgs e)</span><br><span class="line">        &#123;</span><br><span class="line">            RegistryKey key &#x3D; Registry.LocalMachine.OpenSubKey(@&quot;SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot;);</span><br><span class="line">            MessageBox.Show(key.GetValue(&quot;BuildLabEx&quot;).ToString(), &quot;OS Build Ver&quot;);</span><br><span class="line">            key &#x3D; null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>請將專案內容打開並選擇「應用程式」的頁籤，接下來點選「組件資訊」，將「讓組件成為COM可見（M）」勾選起來</p>
+<p>請將專案內容打開並選擇「建置」的頁籤，接下來點選「註冊COM Interop(C)」</p>
+<h2 id="建立自動註冊的ActiveXControl"><a href="#建立自動註冊的ActiveXControl" class="headerlink" title="建立自動註冊的ActiveXControl"></a>建立自動註冊的ActiveXControl</h2><h3 id="先來安裝Microsoft-Visual-Studio-Installer-Projects"><a href="#先來安裝Microsoft-Visual-Studio-Installer-Projects" class="headerlink" title="先來安裝Microsoft Visual Studio Installer Projects"></a>先來安裝Microsoft Visual Studio Installer Projects</h3><p>可參考<a href="https://stackoverflow.com/questions/43308270/vs2017-setup-project-where">VS2017 Setup Project - Where?</a></p>
+<h3 id="安裝項目-MyDateControl-Setup"><a href="#安裝項目-MyDateControl-Setup" class="headerlink" title="安裝項目  MyDateControl.Setup"></a>安裝項目  MyDateControl.Setup</h3><p>在「檔案」-&gt;「新增」-&gt;「專案」，接下來會跳出畫面， 選擇如下在名稱輸入<code>MyDateControl.Setup</code></p>
+<img src="2019-09-26_09_25_44_Image.jpg" style="zoom:80%;" />
+
+<p>在右鍵點擊“MyDateControl.Setup”的專案修改工程屬性，將“RemovePreviousVers”的值設置爲True</p>
+<p>接下來右鍵點擊“MyDateControl.Setup”的專案，依次選擇「Add」-&gt;「專案輸出」如下的畫面之後會跳出「加入專案輸出群組」在選擇「MyDateControl」</p>
+<p><img src="2019-09-26_09_39_06_Image.jpg"></p>
+<h3 id="制作cab包"><a href="#制作cab包" class="headerlink" title="制作cab包"></a>制作cab包</h3><p>在打包的專案下建立一個目錄「CAB」在裏面有幾個檔案<code>cab.ddf、installer.inf、makecab.bat</code>其中cab.dd和installer.inf文件需簡單說明如下。</p>
+<p><code>cab.ddf</code>文件定義了CAB文件的打包行為，內容包括打包參數，打包內容項以及輸出文件等。需要指出的是，使用C#開發的ActiveX控件CAB包需要包含<code>MSI文件</code>和<code>installer.inf</code>兩部分。<code>cab.ddf</code>文件內容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.OPTION   EXPLICIT</span><br><span class="line">.Set Cabinet&#x3D;on</span><br><span class="line">.Set Compress&#x3D;on</span><br><span class="line">.Set MaxDiskSize&#x3D;CDROM</span><br><span class="line">.Set ReservePerCabinetSize&#x3D;6144</span><br><span class="line">.Set DiskDirectoryTemplate&#x3D;&quot;.&quot;</span><br><span class="line">.Set CompressionType&#x3D;MSZIP</span><br><span class="line">.Set CompressionLevel&#x3D;7</span><br><span class="line">.Set CompressionMemory&#x3D;21</span><br><span class="line">.Set CabinetNameTemplate&#x3D;&quot;MyDateControl.CAB&quot;</span><br><span class="line">&quot;installer.inf&quot;</span><br><span class="line">&quot;MyDateControl.Setup.msi&quot;</span><br></pre></td></tr></table></figure>
+
+<p><code>installer.inf</code>文件定義了CAB文件的安裝行為，作為控件的一部分打入CAB包中，其內容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Setup Hooks]</span><br><span class="line">hook1&#x3D;hook1</span><br><span class="line"></span><br><span class="line">[hook1]</span><br><span class="line">run&#x3D;msiexec &#x2F;i %EXTRACT_DIR%\MyDateControl.Setup.msi &#x2F;qn</span><br><span class="line"></span><br><span class="line">[Version]</span><br><span class="line">Signature&#x3D; &quot;$CHICAGO$&quot;</span><br><span class="line">AdvancedInf&#x3D;2.0</span><br></pre></td></tr></table></figure>
+
+<p><code>makecab.bat</code>文件是調用makecab.exe進行打包的批次處理文件，內容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">makecab.exe   &#x2F;f   &quot;cab.ddf&quot;</span><br></pre></td></tr></table></figure>
+
+<p>當建置安裝項目後，將”MyDateControl.Setup.msi”文件複制到CAB目錄下，就可以雙擊<code>makecab.bat</code>來進行打包，執行完成後會輸出<code>MyDateControl.CAB</code>檔，這就是所謂的ActiveX控件了。</p>
+<h3 id="簽名"><a href="#簽名" class="headerlink" title="簽名"></a>簽名</h3><p>IE采用了AuthenticCode代碼簽名技術，對瀏覽器端安裝ActiveX控件行為進行了控制。上面生成的ActiveX控件如果想在瀏覽器端成功安裝，需要對瀏覽器進行設置。</p>
+<p>讓所有用戶都對IE進行設置，顯得不太友好，為此，我們可以考慮使用AuthentiCode技術對ActiveX控件進行簽名。Visual Studio 2010附帶的signtool.exe代碼簽名工具可以完該工作（注意，並非一定要用微軟提側的工具進行簽名，只要按照AuthentiCode技術標準，使用PKCS#7標准定義的數據結構生成待簽名文件的數字簽名，並加入到待簽名文件的PE結構即可）。但需要先准備一個PKCS#12（証書及私錀）文件（.pfx），注意，該証書的增強型密錀用法須包含代碼簽名這項。</p>
+<p>可以自已來制作一個可以參考<a href="%5Bhttps://ttom921.github.io%5D(https://ttom921.github.io/)/%E8%A8%98%E9%8C%84pfx%E8%AD%89%E6%9B%B8%E7%9A%84%E7%94%A2%E7%94%9F/">記錄pfx證書的產生</a>有產生了一個測試文件PKCS#12<code>socialnetwork.pfx</code>，PIN碼為<code>12345678</code>，到CAB的目錄下執行下列的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\&quot;signtool sign -f socialnetwork.pfx -p 12345678 ActiveXDemoSetup.CAB</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>makecabsigned.bat</code>來進行一次建立</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">makecab.exe   &#x2F;f   &quot;cab.ddf&quot;</span><br><span class="line">&quot;C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\&quot;signtool sign -f socialnetwork.pfx -p 12345678 MyDateControl.CAB</span><br></pre></td></tr></table></figure>
+
+<h3 id="應用"><a href="#應用" class="headerlink" title="應用"></a>應用</h3><p>修改靜態index.html的頁面</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>DemoCSharpActiveX webpage<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">OBJECT</span> <span class="attr">id</span>=<span class="string">"DemoActiveX"</span> <span class="attr">classid</span>=<span class="string">"clsid:390FBD8F-FA8D-476F-B81F-B2D5CB859A03"</span> <span class="attr">codebase</span>=<span class="string">"MyDateControl.CAB#version=1,0,0"</span> <span class="attr">width</span>=<span class="string">"640px"</span> <span class="attr">height</span>=<span class="string">"480px"</span>&gt;</span><span class="tag">&lt;/<span class="name">OBJECT</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="以下是會安裝的"><a href="#以下是會安裝的" class="headerlink" title="以下是會安裝的"></a>以下是會安裝的</h2><p>在右鍵點擊“MyDateControl.Setup”的專案，依次選擇「Add」-&gt;「專案輸出」如下的畫面之後會跳出「加入專案輸出群組」</p>
+<p><img src="2019-09-26_09_33_49_Image.jpg"></p>
+<p>因為我們的測試專案有兩個，選擇MyDateControl，做為主要輸出</p>
+<p><img src="2019-09-26_09_39_06_Image.jpg"></p>
+<p>接下來在右鍵點擊“MyDateControl.Setup”的專案，依次選擇「View」-&gt;「啟動條𢪧」，會跳出另一個設定畫面</p>
+<p><img src="2019-09-26_09_46_34_Image.jpg"></p>
+<p>接下來在右鍵點擊“Requirements on Target Machine”的專案，接下來選擇「加入.NET Framework啟動條件」</p>
+<p><img src="2019-09-26_09_50_06_Image.jpg"></p>
+<p>會出現「.Net Framework」，因為測試的程式是4.0，所以在畫面右邊選擇「.NET Framework 4」</p>
+<p><img src="2019-09-26_09_54_10_Image.jpg"></p>
+<p>接下來右鍵點擊“MyDateControl.Setup”的專案，依次選擇「Add」-&gt;「專案輸出」如下的畫面之後會跳出「加入專案輸出群組」在選擇「MyDateControl」</p>
+<p><img src="2019-09-26_09_39_06_Image.jpg"></p>
+<p>在畫面右邊會出現如下的畫面，有“主要輸出 frim MyDateControl”</p>
+<p><img src="2019-09-26_10_01_07_Image.jpg"></p>
+<p>設置「主要輸出 form…」的「Register」為「vsdrpCOM」</p>
+<p><img src="2019-09-26_10_18_16_Image.jpg"></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="https://www.twblogs.net/a/5c0e519dbd9eee5e40bac59b">歷史最全的C#開發ActiveX</a></p>
+<p><a href="https://www.cnblogs.com/yilin/p/csharp-activex.html">使用C#开发ActiveX控件（新）</a></p>
+<p><a href="https://www.cnblogs.com/li-peng/p/3455247.html">visual studio 2012 的制作ActiveX、打包和发布</a></p>
+<p><a href="https://blogs.msdn.microsoft.com/asiatech/2011/12/05/how-to-develop-and-deploy-activex-control-in-c/">How to develop and deploy ActiveX control in C#</a></p>
+<p><a href="https://dotblogs.com.tw/regionbbs/2010/11/15/developing_active_x_control_with_cs">使用 .NET Framework 開發 ActiveX Control (1)</a><br><a href="https://dotblogs.com.tw/regionbbs/2010/11/15/developing_active_x_control_with_cs_part2">使用 .NET Framework 開發 ActiveX Control (2)</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
+              <a href="/tags/ActiveX-Control/" rel="tag"># ActiveX Control</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Angular%E5%9F%BA%E7%A4%8E/" rel="prev" title="學習Angular基礎">
+      <i class="fa fa-chevron-left"></i> 學習Angular基礎
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84pfx%E8%AD%89%E6%9B%B8%E7%9A%84%E7%94%A2%E7%94%9F/" rel="next" title="記錄pfx證書的產生">
+      記錄pfx證書的產生 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#準備工作"><span class="nav-text">準備工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用C-開發ActiveX控制項-基本功能"><span class="nav-text">使用C#開發ActiveX控制項-基本功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立一個空白的方案：（NetActiveXControlSln）"><span class="nav-text">建立一個空白的方案：（NetActiveXControlSln）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立類別庫專案"><span class="nav-text">建立類別庫專案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定專案資訊"><span class="nav-text">設定專案資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立簽署"><span class="nav-text">建立簽署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#產生GUID"><span class="nav-text">產生GUID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改程式碼"><span class="nav-text">修改程式碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建置專案和註冊"><span class="nav-text">建置專案和註冊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立網頁來測試"><span class="nav-text">建立網頁來測試</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在VisualStudio下偵錯"><span class="nav-text">在VisualStudio下偵錯</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用C-開發ActiveX控制項-產生使用者介面"><span class="nav-text">使用C#開發ActiveX控制項-產生使用者介面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#宣告控制項是安全的"><span class="nav-text">宣告控制項是安全的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立自動註冊的ActiveXControl"><span class="nav-text">建立自動註冊的ActiveXControl</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先來安裝Microsoft-Visual-Studio-Installer-Projects"><span class="nav-text">先來安裝Microsoft Visual Studio Installer Projects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝項目-MyDateControl-Setup"><span class="nav-text">安裝項目  MyDateControl.Setup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#制作cab包"><span class="nav-text">制作cab包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#簽名"><span class="nav-text">簽名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#應用"><span class="nav-text">應用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以下是會安裝的"><span class="nav-text">以下是會安裝的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="CI serverCI Server是Continuout Integration Server (持續整合伺服器)的縮寫，目前是使用jenkins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="記錄CI Server的使用">
+<meta property="og:url" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="CI serverCI Server是Continuout Integration Server (持續整合伺服器)的縮寫，目前是使用jenkins">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/Snipaste_2021-05-17_11-32-48.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/Snipaste_2021-05-14_14-09-56.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/Snipaste_2021-05-14_14-16-56.png">
+<meta property="og:image" content="https://ttom921.github.io/Snipaste_2021-05-14_14-19-33.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/Snipaste_2021-05-14_14-21-52.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-06-27_11_24_2Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-06-27_11_46_3Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/1526783711_70069.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/1526783768_55825.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/1526783756_9299.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-10-12_17_03_1Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-10-12_17_07_2Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_27_1Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_33_3Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_37_4Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_38_5Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_45_8Image.png">
+<meta property="article:published_time" content="2018-04-26T15:23:51.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Jenkins">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/Snipaste_2021-05-17_11-32-48.png">
+
+<link rel="canonical" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>記錄CI Server的使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          記錄CI Server的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2018-04-26 15:23:51" itemprop="dateCreated datePublished" datetime="2018-04-26T15:23:51+00:00">2018-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/" itemprop="url" rel="index"><span itemprop="name">記錄</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/Jenkins/" itemprop="url" rel="index"><span itemprop="name">Jenkins</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="CI-server"><a href="#CI-server" class="headerlink" title="CI server"></a>CI server</h1><p>CI Server是Continuout Integration Server (持續整合伺服器)的縮寫，目前是使用jenkins</p>
+<a id="more"></a> 
+
+
+
+
+<h2 id="Docker版的安裝"><a href="#Docker版的安裝" class="headerlink" title="Docker版的安裝"></a>Docker版的安裝</h2><p>前提是linux的機器上安裝好了Dock</p>
+<h3 id="建立放資料的資料夾"><a href="#建立放資料的資料夾" class="headerlink" title="建立放資料的資料夾"></a>建立放資料的資料夾</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;data&#x2F;docker&#x2F;jenkins</span><br></pre></td></tr></table></figure>
+
+<h3 id="建立docker相關的資料夾"><a href="#建立docker相關的資料夾" class="headerlink" title="建立docker相關的資料夾"></a>建立docker相關的資料夾</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir -p docker&#x2F;jenkins</span><br></pre></td></tr></table></figure>
+
+<h2 id="起動和建立jenkine"><a href="#起動和建立jenkine" class="headerlink" title="起動和建立jenkine"></a>起動和建立jenkine</h2><p>因為有太多的參數和設定所以使用docker-compose.xml來控制</p>
+<p>在剛才建立的jenkins的目錄下建立docker-compose.yml，它會自已來下載鏡像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+<p>內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">jenkins:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">jenkins/jenkins:lts</span></span><br><span class="line">    <span class="attr">privileged:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">user:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8088</span><span class="string">:8080</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">50000</span><span class="string">:50000</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">hs-jenkins</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/data/docker/jenkins:/var/jenkins_home</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/var/run/jenkins.sock:/var/run/docker.sock</span></span><br></pre></td></tr></table></figure>
+
+<p>以瀏覽器<code>http://192.168.40.155:8088</code>來瀏覽</p>
+<p>手動安裝nodejs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_12.x | sudo -E bash -</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>管理Jenkins-&gt;管理外掛程式</code> </p>
+<p>加入NodeJS和設定</p>
+<img src="Snipaste_2021-05-17_11-32-48.png" style="zoom:67%;" />
+
+
+
+<p>加入SSH plugin</p>
+<img src="Snipaste_2021-05-14_14-09-56.png" style="zoom:67%;" />
+
+<p><code>管理Jenkins-&gt;</code>Manage Credentials</p>
+<p><img src="Snipaste_2021-05-14_14-16-56.png" style="zoom:33%;" /> <img src="/Snipaste_2021-05-14_14-19-33.png" style="zoom:33%;" /></p>
+<img src="Snipaste_2021-05-14_14-21-52.png" style="zoom:67%;" />
+
+<p>如上圖選擇SSH  Usernname with private key 和將private key貼上加入遠端機器的認證</p>
+<p>測試</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">def remote &#x3D; [:]</span><br><span class="line">remote.name &#x3D; &quot;nginx&quot;</span><br><span class="line">remote.user &#x3D; &quot;ubuntu&quot;</span><br><span class="line">remote.host &#x3D; &quot;111.112.113.114&quot;</span><br><span class="line">remote.allowAnyHosts &#x3D; true</span><br><span class="line">node &#123;</span><br><span class="line">	withCredentials([sshUserPrivateKey(credentialsId: &#39;nvt-ngix-1&#39;, keyFileVariable: &#39;identity&#39;, passphraseVariable: &#39;&#39;, usernameVariable: &#39;ubuntu&#39;)]) &#123;</span><br><span class="line">		remote.user &#x3D; &#39;ubuntu&#39;</span><br><span class="line">		remote.identityFile &#x3D; identity</span><br><span class="line">		stage(&quot;SSH Steps Rocks!&quot;) &#123;</span><br><span class="line">		writeFile file: &#39;abc.sh&#39;, text: &#39;ls&#39;</span><br><span class="line">			sshCommand remote: remote, command: &#39;for i in &#123;1..5&#125;; do echo -n \&quot;Loop \$i \&quot;; date ; sleep 1; done&#39;</span><br><span class="line">			sshPut remote: remote, from: &#39;abc.sh&#39;, into: &#39;.&#39;</span><br><span class="line">			sshGet remote: remote, from: &#39;abc.sh&#39;, into: &#39;bac.sh&#39;, override: true</span><br><span class="line">			sshScript remote: remote, script: &#39;abc.sh&#39;</span><br><span class="line">			sshRemove remote: remote, path: &#39;abc.sh&#39;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果要以上的command有sudo可以執行的話要到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;sudoers</span><br></pre></td></tr></table></figure>
+
+<p>加入下面的行數</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sername ALL&#x3D;(ALL) NOPASSWD: ALL</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://stackoverflow.com/questions/19133727/how-to-run-remote-ssh-session-from-jenkins-with-sudo-rights">參考</a></p>
+<h2 id="建立專案以pipeline的類型來建立"><a href="#建立專案以pipeline的類型來建立" class="headerlink" title="建立專案以pipeline的類型來建立"></a>建立專案以pipeline的類型來建立</h2><h2 id="選擇那一個branch來建置"><a href="#選擇那一個branch來建置" class="headerlink" title="選擇那一個branch來建置"></a>選擇那一個branch來建置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">  agent any</span><br><span class="line">  parameters &#123;</span><br><span class="line">    gitParameter (</span><br><span class="line">        branchFilter: &#39;origin&#x2F;(.*)&#39;, </span><br><span class="line">        defaultValue: &#39;master&#39;, </span><br><span class="line">        name: &#39;BRANCH&#39;, </span><br><span class="line">        type: &#39;PT_BRANCH&#39;,</span><br><span class="line">        description: &#39;Select your branch or tag.&#39;</span><br><span class="line">      )</span><br><span class="line">  &#125;</span><br><span class="line">  stages &#123;</span><br><span class="line">    stage(&#39;取得專案資訊&#39;) &#123;</span><br><span class="line">      steps &#123;</span><br><span class="line">        git credentialsId: &#39;hisharp&#39; ,branch: &quot;$&#123;params.BRANCH&#125;&quot;, url: &#39;http:&#x2F;&#x2F;192.168.46.204&#x2F;ttom&#x2F;WebFMS.git&#39;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    stage(&#39;CheckOut專案&#39;)&#123;</span><br><span class="line">        steps&#123;</span><br><span class="line">          &#x2F;&#x2F;echo &quot;CheckOut專案&quot;</span><br><span class="line">        checkout([$class: &#39;GitSCM&#39;, branches: [[name: &quot;$&#123;params.BRANCH&#125;&quot;]], extensions: [], userRemoteConfigs: [[credentialsId: &#39;hisharp&#39;, url: &#39;http:&#x2F;&#x2F;192.168.46.204&#x2F;ttom&#x2F;WebFMS.git&#39;]]])      </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="WebFMS專案"><a href="#WebFMS專案" class="headerlink" title="WebFMS專案"></a>WebFMS專案</h2><p>專案名稱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dev_fmsclient</span><br><span class="line">pro_fmsclinet</span><br><span class="line"></span><br><span class="line">dev_fmsserver</span><br><span class="line">pro_fmsserver</span><br><span class="line"></span><br><span class="line">dev_fmsapi</span><br><span class="line">pro_fmsapi</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Web版的-jenkins"><a href="#Web版的-jenkins" class="headerlink" title="Web版的 jenkins"></a>Web版的 jenkins</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;</span><br><span class="line">echo &quot;$&#123;params.BRANCH&#125;&quot;</span><br><span class="line">def BRANCH_NAME&#x3D;&quot;$&#123;params.BRANCH&#125;&quot;</span><br><span class="line">def tarfile&#x3D;&quot;webfmsui_27.tar.gz&quot;</span><br><span class="line">&#x2F;&#x2F;以下依專案修改</span><br><span class="line">def prjname &#x3D; &quot;webfmsui&quot;&#x2F;&#x2F;看下載的git的資料夾</span><br><span class="line">def nginxhtml &#x3D; &quot;htfmsclient&quot;&#x2F;&#x2F;看nginx的html資料夾</span><br><span class="line">	</span><br><span class="line">&#x2F;&#x2F;遠端的伺服器</span><br><span class="line">def remote &#x3D; [:]</span><br><span class="line">remote.name &#x3D; &quot;dev_209&quot;</span><br><span class="line">remote.user &#x3D; &quot;hisharp&quot;</span><br><span class="line">remote.host &#x3D; &quot;192.168.40.209&quot;</span><br><span class="line">remote.allowAnyHosts &#x3D; true</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">remotecrId&#x3D;&quot;aa89b4df-54b3-4062-b7d1-5915b0371366&quot; &#x2F;&#x2F;預設209</span><br><span class="line"></span><br><span class="line">node &#123;</span><br><span class="line"></span><br><span class="line">	def buildNumber &#x3D; env.BUILD_NUMBER</span><br><span class="line">    def workspace &#x3D; env.WORKSPACE</span><br><span class="line">    def buildUrl &#x3D; env.BUILD_URL</span><br><span class="line">    def prjdir &#x3D; env.WORKSPACE+&quot;&#x2F;&quot;+prjname</span><br><span class="line">    stage(&quot;初始化參數&quot;)&#123;</span><br><span class="line">    </span><br><span class="line">    echo &quot;-----------------初始化參數-------------------&quot;</span><br><span class="line">	    echo &quot;$&#123;BRANCH_NAME&#125;&quot;</span><br><span class="line">		&#x2F;&#x2F;if( BRANCH &#x3D;&#x3D; &quot;master&quot;) &#123;</span><br><span class="line">		&#x2F;&#x2F;	echo &quot;master branch&quot;</span><br><span class="line">		&#x2F;&#x2F;&#125; else &#123;</span><br><span class="line">		&#x2F;&#x2F;   echo &quot;I execute elsewhere&quot;</span><br><span class="line">		&#x2F;&#x2F;&#125;</span><br><span class="line">		switch (BRANCH_NAME) &#123;</span><br><span class="line">            case &quot;master&quot;:</span><br><span class="line">			      echo &quot;master branch&quot;</span><br><span class="line">				  remote.name &#x3D; &quot;nvt-nginx-1&quot;</span><br><span class="line">				  remote.host &#x3D; &quot;xx.113.200.169&quot;</span><br><span class="line">				  remote.user &#x3D; &quot;ubuntu&quot;</span><br><span class="line">				  remotecrId&#x3D;&quot;1d06682e-f267-4337-97d4-53db4f185aa4&quot;</span><br><span class="line">				  &#x2F;&#x2F;echo &quot;remotecrId&#x3D;$&#123;remotecrId&#125;&quot;</span><br><span class="line">            break</span><br><span class="line">            case &quot;dev&quot;:</span><br><span class="line">			      echo &quot;dev branch&quot;</span><br><span class="line">            break</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    stage(&#39;取出專案-git&#39;)&#123;</span><br><span class="line">		&#x2F;&#x2F; echo &quot;buildNumber  $&#123;buildNumber&#125;&quot;</span><br><span class="line">		&#x2F;&#x2F; echo &quot;workspace  $&#123;workspace&#125;&quot;</span><br><span class="line">		&#x2F;&#x2F; echo &quot;buildUrl  $&#123;buildUrl&#125;&quot;</span><br><span class="line">		&#x2F;&#x2F; echo &quot;prjdir  $&#123;prjdir&#125;&quot;</span><br><span class="line">		echo &quot;$&#123;prjname&#125; 版本 $&#123;params.BRANCH&#125;&quot;</span><br><span class="line">		&#x2F;&#x2F; echo &quot;-----------------------------------&quot;</span><br><span class="line">        checkout([$class: &#39;GitSCM&#39;, branches: [[name: &quot;$&#123;params.BRANCH&#125;&quot;]], extensions: [], userRemoteConfigs: [[credentialsId: &#39;bfcbd0d2-462f-4daf-bfac-5c5033c98b71&#39;, url: &#39;http:&#x2F;&#x2F;192.168.46.204&#x2F;ttom&#x2F;WebFMS.git&#39;]]])</span><br><span class="line">		dir(&quot;$&#123;prjdir&#125;&quot;) &#123;</span><br><span class="line">			nodejs(&#39;nodejs&#39;) &#123;</span><br><span class="line">				sh &quot;npm install&quot;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;&#x2F;&#x2F;dir(&quot;$&#123;prjdir&#125;&quot;)</span><br><span class="line">	&#125;&#x2F;&#x2F;stage(&#39;開發版-取出專案&#39;)  </span><br><span class="line">    stage(&#39;建置&#39;) &#123;</span><br><span class="line">	  echo &quot;--------------建置--------------&quot;</span><br><span class="line">	  dir(&quot;$&#123;prjdir&#125;&quot;)&#123;</span><br><span class="line">		nodejs(&#39;nodejs&#39;) &#123;</span><br><span class="line">			if( BRANCH &#x3D;&#x3D; &quot;master&quot;) &#123;</span><br><span class="line">				&#x2F;&#x2F;echo &quot;master branch&quot;</span><br><span class="line">				sh &quot;npm run build:prod&quot;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">		  		&#x2F;&#x2F;echo &quot;I execute elsewhere&quot;</span><br><span class="line">				sh &quot;npm run build&quot;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	stage(&quot;壓縮&quot;)&#123;</span><br><span class="line">		echo &quot;--------------壓縮--------------&quot;</span><br><span class="line">	    tarfile&#x3D;&quot;$&#123;prjname&#125;_$&#123;buildNumber&#125;.tar.gz&quot;</span><br><span class="line">		echo &quot;壓縮檔名 $&#123;tarfile&#125;&quot;</span><br><span class="line">		def curprj&#x3D;&quot;$&#123;prjdir&#125;&#x2F;dist&quot;</span><br><span class="line">		echo &quot;$&#123;curprj&#125;&quot;</span><br><span class="line">		dir(&quot;$&#123;curprj&#125;&quot;)&#123;</span><br><span class="line">			&#x2F;&#x2F; sh &quot;pwd&quot;</span><br><span class="line">			sh &quot;tar -zcvf $&#123;tarfile&#125; $&#123;prjname&#125;&#x2F;&quot;</span><br><span class="line">		 &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	withCredentials([sshUserPrivateKey(credentialsId: &quot;$&#123;remotecrId&#125;&quot;, keyFileVariable: &#39;identity&#39;, passphraseVariable: &#39;&#39;, usernameVariable: &#39;userName&#39;)]) &#123;</span><br><span class="line">		remote.user &#x3D; userName</span><br><span class="line">		remote.identityFile &#x3D; identity</span><br><span class="line">		stage(&quot;上傳&quot;)&#123;</span><br><span class="line">			echo &quot;--------------上傳--------------&quot;</span><br><span class="line">			def curprj&#x3D;&quot;$&#123;prjdir&#125;&#x2F;dist&quot;</span><br><span class="line">			dir(&quot;$&#123;curprj&#125;&quot;)&#123;</span><br><span class="line">				sh &quot;pwd&quot;</span><br><span class="line">				sshPut remote: remote, from: &quot;$&#123;curprj&#125;&#x2F;$&#123;tarfile&#125;&quot;, into: &quot;&#x2F;home&#x2F;$&#123;userName&#125;&#x2F;jkweb&quot;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	stage(&quot;刪除本地壓縮檔&quot;)&#123;</span><br><span class="line">		echo &quot;--------------刪除本地壓縮檔 $&#123;prjdir&#125;&#x2F;dist&#x2F;$&#123;tarfile&#125;--------------&quot;</span><br><span class="line">		sh &quot;&quot;&quot;</span><br><span class="line">		    #!&#x2F;bin&#x2F;bash</span><br><span class="line">			rm -rf $&#123;prjdir&#125;&#x2F;dist&#x2F;$&#123;tarfile&#125;</span><br><span class="line">		&quot;&quot;&quot;</span><br><span class="line">	&#125;</span><br><span class="line">	stage(&#39;執行遠端 jkhtml.sh&#39;)&#123;</span><br><span class="line">	   sshagent (credentials: [&quot;$&#123;remotecrId&#125;&quot;]) &#123;</span><br><span class="line">			def rhost&#x3D;remote.host</span><br><span class="line">			def ruser&#x3D;remote.user</span><br><span class="line">			sh &quot;ssh -o StrictHostKeyChecking&#x3D;no -l $&#123;ruser&#125;  $&#123;rhost&#125;  &#x2F;home&#x2F;$&#123;ruser&#125;&#x2F;jkweb&#x2F;jkhtml.sh $&#123;prjname&#125; $&#123;tarfile&#125;&quot;</span><br><span class="line">			&#x2F;&#x2F;sh &#39;pwd&#39;</span><br><span class="line">	   &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>參考程式碼：</p>
+<p><a href="https://gist.github.com/tonespy/dd1afbb9d62d879d0ae6d8136ea4e4f6">https://gist.github.com/tonespy/dd1afbb9d62d879d0ae6d8136ea4e4f6</a></p>
+<h4 id="開發版的web服務器"><a href="#開發版的web服務器" class="headerlink" title="開發版的web服務器"></a>開發版的web服務器</h4><p>在開發用的shell script jkhtml.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># 將上傳的web檔案更新到指定的位置</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 2020-05-17</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/sbin:~/bin</span><br><span class="line"><span class="built_in">export</span> PATH</span><br><span class="line"></span><br><span class="line">prjname=<span class="variable">$1</span></span><br><span class="line">tarfile=<span class="variable">$2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 看nginx的html的資料夾</span></span><br><span class="line">nginxhtml=<span class="string">"htfmsclient05"</span></span><br><span class="line">username=<span class="string">"hisharp"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#echo "prjname=$&#123;prjname&#125;"</span></span><br><span class="line"><span class="comment">#echo "tarfile=$&#123;tarfile&#125;"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">delhtmldata</span></span>()&#123;</span><br><span class="line">   <span class="comment">#echo "/usr/share/nginx/*.js"</span></span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.js.map</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.js</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.css</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.ttf</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.html</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.eot</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.woff</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.woff2</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.svg</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.ico</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.png</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"目前路徑"</span></span><br><span class="line">currdir=<span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkweb"</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;currdir&#125;</span></span><br><span class="line"><span class="comment">#cd /home/hisharp/jkweb</span></span><br><span class="line"><span class="comment">#pwd</span></span><br><span class="line"><span class="comment">#ls</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"解壓----<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line">tar zxvf <span class="variable">$&#123;tarfile&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 nginx下的html"</span></span><br><span class="line">delhtmldata</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 /usr/share/ng/usr/share/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"複制html到nginx"</span></span><br><span class="line">sudo cp -Rf /home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;prjname&#125;</span>/* /usr/share/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;prjname&#125;</span>/* /usr/share/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除上傳資料"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除資料夾 /home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;prjname&#125;</span>/"</span></span><br><span class="line">rm -rf <span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;prjname&#125;</span>/"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 /home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line">rm -rf <span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="AWS-Web服務器"><a href="#AWS-Web服務器" class="headerlink" title="AWS Web服務器"></a>AWS Web服務器</h4><p>在aws上使用有跳板所有兩個bash shell jkhtml.sh和 jkwebhtml.sh</p>
+<p> jkhtml.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash                                                                                                          # 將上傳的web檔案更新到指定的位置</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 2020-05-17</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/sbin:~/bin</span><br><span class="line"><span class="built_in">export</span> PATH</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">prjname=<span class="variable">$1</span></span><br><span class="line">tarfile=<span class="variable">$2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 看nginx的html的資料夾</span></span><br><span class="line">nginxhtml=<span class="string">"htfmsclient05"</span></span><br><span class="line">username=<span class="string">"ubuntu"</span></span><br><span class="line">remotehost=<span class="string">"172.30.10.5"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#echo "prjname=$&#123;prjname&#125;"</span></span><br><span class="line"><span class="comment">#echo "tarfile=$&#123;tarfile&#125;"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"目前路徑"</span></span><br><span class="line">currdir=<span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkweb"</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;currdir&#125;</span></span><br><span class="line"><span class="comment">#pwd</span></span><br><span class="line"><span class="comment">#ls</span></span><br><span class="line"><span class="comment"># 從本地端複製到遠端</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"從本地端複製到遠端"</span> </span><br><span class="line">scp <span class="variable">$&#123;currdir&#125;</span>/<span class="variable">$&#123;tarfile&#125;</span> ubuntu@<span class="variable">$&#123;remotehost&#125;</span>:<span class="variable">$&#123;currdir&#125;</span>/<span class="variable">$&#123;tarfile&#125;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"從本地端複製到遠端"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除上傳資料-nginx"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除/home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line">rm -rf <span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"遠端主機<span class="variable">$&#123;remotehost&#125;</span>"</span></span><br><span class="line">/usr/bin/ssh -tt ubuntu@<span class="variable">$&#123;remotehost&#125;</span> &lt;&lt; HERE </span><br><span class="line"><span class="built_in">cd</span> /home/ubuntu/jkweb</span><br><span class="line">./jkwebhtml.sh <span class="variable">$&#123;prjname&#125;</span> <span class="variable">$&#123;tarfile&#125;</span></span><br><span class="line"><span class="built_in">exit</span> 0</span><br><span class="line">HERE</span><br><span class="line"></span><br><span class="line"><span class="comment">#/usr/bin/ssh -tt -o StrictHostKeyChecking=No  ubuntu@172.30.10.5 </span></span><br><span class="line"><span class="comment">#sh /home/ubuntu/jkweb/jkwebhtml.sh</span></span><br></pre></td></tr></table></figure>
+
+<p>jkwebhtml.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash                                                                                                          # 將上傳的web檔案更新到指定的位置</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 2020-05-17</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/sbin:~/bin</span><br><span class="line"><span class="built_in">export</span> PATH</span><br><span class="line"></span><br><span class="line">prjname=<span class="variable">$1</span></span><br><span class="line">tarfile=<span class="variable">$2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 看nginx的html的資料夾</span></span><br><span class="line">nginxhtml=<span class="string">"htfmsclient05"</span></span><br><span class="line">username=<span class="string">"ubuntu"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"prjname=<span class="variable">$&#123;prjname&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"tarfile=<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">delhtmldata</span></span>()&#123;</span><br><span class="line">   <span class="comment">#echo "/usr/share/nginx/*.js"</span></span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.js.map</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.js</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.css</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.ttf</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.html</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.eot</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.woff</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.woff2</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.svg</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.ico</span><br><span class="line">   sudo rm -rf /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.png</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"目前路徑"</span></span><br><span class="line">currdir=<span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkweb"</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;currdir&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"解壓----<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line">tar zxvf <span class="variable">$&#123;tarfile&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 nginx下的html"</span></span><br><span class="line">delhtmldata</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 /usr/shsre/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/*.*"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"複制html到nginx"</span></span><br><span class="line">sudo cp -Rf /home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;prjname&#125;</span>/* /usr/share/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"複制 /home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;prjname&#125;</span>/* /usr/share/nginx/<span class="variable">$&#123;nginxhtml&#125;</span>/ "</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除上傳資料"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除資料夾 /home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;prjname&#125;</span>/"</span></span><br><span class="line">rm -rf <span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;prjname&#125;</span>/"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 /home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line">rm -rf <span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkweb/<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="開發版api的jenkins"><a href="#開發版api的jenkins" class="headerlink" title="開發版api的jenkins"></a>開發版api的jenkins</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;</span><br><span class="line">echo &quot;公司- $&#123;params.COMPANY&#125;&quot;</span><br><span class="line">echo &quot;git - 分支$&#123;params.BRANCH&#125;&quot;</span><br><span class="line">def BRANCH_NAME&#x3D;&quot;$&#123;params.BRANCH&#125;&quot;</span><br><span class="line">def COMPANY_NAME &#x3D; &quot;$&#123;params.COMPANY&#125;&quot;</span><br><span class="line"></span><br><span class="line">def tarfile&#x3D;&quot;fmsapi_27.tar.gz&quot;</span><br><span class="line">&#x2F;&#x2F;以下依專案修改</span><br><span class="line">def prjname &#x3D; &quot;fmsapi&quot;&#x2F;&#x2F;看下載的git的資料夾</span><br><span class="line">def nginxhtml &#x3D; &quot;htfmsclient&quot;&#x2F;&#x2F;看nginx的html資料夾</span><br><span class="line">	</span><br><span class="line">&#x2F;&#x2F;遠端的伺服器</span><br><span class="line">def remote &#x3D; [:]</span><br><span class="line">remote.name &#x3D; &quot;dev_209&quot;</span><br><span class="line">remote.user &#x3D; &quot;hisharp&quot;</span><br><span class="line">remote.host &#x3D; &quot;192.168.40.209&quot;</span><br><span class="line">remote.allowAnyHosts &#x3D; true</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">remotecrId&#x3D;&quot;aa89b4df-54b3-4062-b7d1-5915b0371366&quot; &#x2F;&#x2F;預設209</span><br><span class="line"></span><br><span class="line">node &#123;</span><br><span class="line"></span><br><span class="line">	def buildNumber &#x3D; env.BUILD_NUMBER</span><br><span class="line">    def workspace &#x3D; env.WORKSPACE</span><br><span class="line">    def buildUrl &#x3D; env.BUILD_URL</span><br><span class="line">    def prjdir &#x3D; env.WORKSPACE</span><br><span class="line">    stage(&quot;初始化參數 $&#123;COMPANY_NAME&#125;&quot;)&#123;</span><br><span class="line">    </span><br><span class="line">        echo &quot;-----------------初始化參數-------------------&quot;</span><br><span class="line">	    &#x2F;&#x2F;echo &quot;$&#123;COMPANY_NAME&#125;&quot;</span><br><span class="line">		&#x2F;&#x2F;if( BRANCH &#x3D;&#x3D; &quot;master&quot;) &#123;</span><br><span class="line">		&#x2F;&#x2F;	echo &quot;master branch&quot;</span><br><span class="line">		&#x2F;&#x2F;&#125; else &#123;</span><br><span class="line">		&#x2F;&#x2F;   echo &quot;I execute elsewhere&quot;</span><br><span class="line">		&#x2F;&#x2F;&#125;</span><br><span class="line">		switch (COMPANY_NAME) &#123;</span><br><span class="line">            case &quot;VIEWTEC&quot;:</span><br><span class="line">			      echo &quot;$&#123;COMPANY_NAME&#125;&quot;</span><br><span class="line">				  remote.name &#x3D; &quot;nvt-nginx-1&quot;</span><br><span class="line">				  remote.host &#x3D; &quot;3.113.200.169&quot;</span><br><span class="line">				  remote.user &#x3D; &quot;ubuntu&quot;</span><br><span class="line">				  remotecrId&#x3D;&quot;1d06682e-f267-4337-97d4-53db4f185aa4&quot;</span><br><span class="line">				  &#x2F;&#x2F;echo &quot;remotecrId&#x3D;$&#123;remotecrId&#125;&quot;</span><br><span class="line">            break</span><br><span class="line">            case &quot;HISHARP&quot;:</span><br><span class="line">			      echo &quot;HISHARP&quot;</span><br><span class="line">            break</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    stage(&quot;刪除上次的程式碼-$&#123;BRANCH_NAME&#125;&quot;)&#123;</span><br><span class="line">        dir(&quot;$&#123;prjdir&#125;&quot;) &#123;</span><br><span class="line">            echo &quot;刪除上一次的code資料夾--$&#123;prjdir&#125;&#x2F;code&quot;</span><br><span class="line">            sh &quot;&quot;&quot;</span><br><span class="line">             rm -rf &quot;$&#123;prjdir&#125;&#x2F;code&quot;</span><br><span class="line">            &quot;&quot;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    stage(&quot;取出專案-$&#123;BRANCH_NAME&#125;&quot;)&#123;</span><br><span class="line">        echo &quot;----------取出專案-$&#123;BRANCH_NAME&#125;----------------&quot;</span><br><span class="line">		&#x2F;&#x2F;echo &quot;buildNumber  $&#123;buildNumber&#125;&quot;</span><br><span class="line">		&#x2F;&#x2F;echo &quot;workspace  $&#123;workspace&#125;&quot;</span><br><span class="line">		&#x2F;&#x2F;echo &quot;buildUrl  $&#123;buildUrl&#125;&quot;</span><br><span class="line">		&#x2F;&#x2F;echo &quot;prjdir  $&#123;prjdir&#125;&quot;</span><br><span class="line">		echo &quot;$&#123;prjname&#125; 版本 $&#123;params.BRANCH&#125;&quot;</span><br><span class="line">		</span><br><span class="line">        checkout([$class: &#39;GitSCM&#39;, branches: [[name: &quot;$&#123;params.BRANCH&#125;&quot;]], extensions: [], userRemoteConfigs: [[credentialsId: &#39;bfcbd0d2-462f-4daf-bfac-5c5033c98b71&#39;, url: &#39;http:&#x2F;&#x2F;192.168.46.204&#x2F;SW&#x2F;server.viewtec.git&#39;]]])</span><br><span class="line">		dir(&quot;$&#123;prjdir&#125;&quot;) &#123;</span><br><span class="line">			echo &quot;刪除資料夾路徑和不用的檔案 $&#123;prjdir&#125;&quot;</span><br><span class="line">            sh &quot;&quot;&quot;</span><br><span class="line">			    rm -rf &quot;$&#123;prjdir&#125;&#x2F;README.md&quot;</span><br><span class="line">     			rm -rf &quot;$&#123;prjdir&#125;&#x2F;.gitignore&quot;</span><br><span class="line">				rm -rf &quot;$&#123;prjdir&#125;&#x2F;.Jenkinsfile&quot; </span><br><span class="line">			    rm -rf &quot;$&#123;prjdir&#125;&#x2F;.git&quot;</span><br><span class="line">				rm -rf &quot;$&#123;prjdir&#125;&#x2F;api_doc&quot;</span><br><span class="line">                rm -rf &quot;$&#123;prjdir&#125;&#x2F;api_maker&quot;</span><br><span class="line">                rm -rf &quot;$&#123;prjdir&#125;&#x2F;html&quot;</span><br><span class="line">                rm -rf &quot;$&#123;prjdir&#125;&#x2F;project_doc&quot;</span><br><span class="line">            &quot;&quot;&quot;</span><br><span class="line">           </span><br><span class="line">		&#125;&#x2F;&#x2F;dir(&quot;$&#123;prjdir&#125;&quot;)</span><br><span class="line">        dir(&quot;$&#123;prjdir&#125;&quot;) &#123;</span><br><span class="line">            echo &quot;更新設定檔 autoconfig.py&quot;</span><br><span class="line">            sh &quot;rm -rf $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;autoconfig.py&quot;</span><br><span class="line">            echo &quot;刪除 $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;autoconfig.py&quot;</span><br><span class="line">            if( COMPANY_NAME &#x3D;&#x3D; &quot;VIEWTEC&quot;) &#123;</span><br><span class="line">				sh &quot;mv $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;_aws.py $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;autoconfig.py&quot;</span><br><span class="line">                echo &quot;更新設定檔 $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;_aws.py $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;autoconfig.py&quot;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">		  		sh &quot;mv $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;_hisharp.py $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;autoconfig.py&quot;</span><br><span class="line">                echo &quot;更新設定檔 $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;_hisharp.py $&#123;prjdir&#125;&#x2F;code&#x2F;instance&#x2F;autoconfig.py&quot;</span><br><span class="line">			&#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">	&#125;&#x2F;&#x2F;stage(&#39;開發版-取出專案&#39;)  </span><br><span class="line">    &#x2F;&#x2F; stage(&quot;建置 $&#123;BRANCH_NAME&#125;&quot;) &#123;</span><br><span class="line">	&#x2F;&#x2F; &#x2F;&#x2F;   echo &quot;--------------建置--------------&quot;</span><br><span class="line">	&#x2F;&#x2F; &#x2F;&#x2F;   dir(&quot;$&#123;prjdir&#125;&quot;)&#123;</span><br><span class="line">	&#x2F;&#x2F; &#x2F;&#x2F; 	nodejs(&#39;nodejs&#39;) &#123;</span><br><span class="line">	&#x2F;&#x2F; &#x2F;&#x2F; 		sh &quot;npm run build&quot;</span><br><span class="line">	&#x2F;&#x2F; &#x2F;&#x2F; 	&#125;</span><br><span class="line">    &#x2F;&#x2F; &#x2F;&#x2F;   &#125;</span><br><span class="line">    &#x2F;&#x2F; &#125;</span><br><span class="line">	stage(&quot;壓縮 $&#123;BRANCH_NAME&#125;&quot;)&#123;</span><br><span class="line">		 echo &quot;--------------壓縮--------------&quot;</span><br><span class="line">	    tarfile&#x3D;&quot;$&#123;prjname&#125;_$&#123;buildNumber&#125;.tar.gz&quot;</span><br><span class="line">		echo &quot;壓縮檔名 $&#123;tarfile&#125;&quot;</span><br><span class="line">		def curprj&#x3D;&quot;code&quot;</span><br><span class="line">		echo &quot;curprj $&#123;curprj&#125;&quot;</span><br><span class="line">        dir(&quot;$&#123;prjdir&#125;&quot;)&#123;</span><br><span class="line">            &#x2F;&#x2F;sh &quot;pwd&quot;</span><br><span class="line">            sh &quot;tar -zcvf $&#123;tarfile&#125; $&#123;curprj&#125;&#x2F;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	withCredentials([sshUserPrivateKey(credentialsId: &quot;$&#123;remotecrId&#125;&quot;, keyFileVariable: &#39;identity&#39;, passphraseVariable: &#39;&#39;, usernameVariable: &#39;userName&#39;)]) &#123;</span><br><span class="line">		remote.user &#x3D; userName</span><br><span class="line">		remote.identityFile &#x3D; identity</span><br><span class="line">		stage(&quot;上傳&quot;)&#123;</span><br><span class="line">			echo &quot;--------------上傳--------------&quot;</span><br><span class="line">			&#x2F;&#x2F;def curprj&#x3D;&quot;$&#123;prjdir&#125;&#x2F;dist&quot;</span><br><span class="line">			dir(&quot;$&#123;prjdir&#125;&quot;)&#123;</span><br><span class="line">				&#x2F;&#x2F;sh &quot;pwd&quot;</span><br><span class="line">				sshPut remote: remote, from: &quot;$&#123;prjdir&#125;&#x2F;$&#123;tarfile&#125;&quot;, into: &quot;&#x2F;home&#x2F;$&#123;userName&#125;&#x2F;jkapi&quot;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	stage(&quot;刪除本地壓縮檔 $&#123;BRANCH_NAME&#125;&quot;)&#123;</span><br><span class="line">		echo &quot;--------------刪除本地壓縮檔 $&#123;prjdir&#125;&#x2F;$&#123;tarfile&#125;--------------&quot;</span><br><span class="line">		sh &quot;&quot;&quot;</span><br><span class="line">		    #!&#x2F;bin&#x2F;bash</span><br><span class="line">			rm -rf $&#123;prjdir&#125;&#x2F;$&#123;tarfile&#125;</span><br><span class="line">		&quot;&quot;&quot;</span><br><span class="line">	&#125;</span><br><span class="line">	stage(&quot;執行遠端  jkapidep.sh $&#123;BRANCH_NAME&#125;&quot;)&#123;</span><br><span class="line">	   sshagent (credentials: [&quot;$&#123;remotecrId&#125;&quot;]) &#123;</span><br><span class="line">			def rhost&#x3D;remote.host</span><br><span class="line">			def ruser&#x3D;remote.user</span><br><span class="line">			sh &quot;ssh -o StrictHostKeyChecking&#x3D;no -l $&#123;ruser&#125;  $&#123;rhost&#125;  &#x2F;home&#x2F;$&#123;ruser&#125;&#x2F;jkapi&#x2F;jkapidep.sh $&#123;tarfile&#125;&quot;</span><br><span class="line">			&#x2F;&#x2F;sh &#39;pwd&#39;</span><br><span class="line">	   &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="開發版的api"><a href="#開發版的api" class="headerlink" title="開發版的api"></a>開發版的api</h4><p>在開發用的shell script jkapidep.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># 將上傳的python檔案更新到指定的位置</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 2020-05-18</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/sbin:~/bin</span><br><span class="line"><span class="built_in">export</span> PATH</span><br><span class="line"></span><br><span class="line">tarfile=<span class="variable">$1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 相關變數</span></span><br><span class="line">uwsgisrv=<span class="string">"uwsgi05.service"</span></span><br><span class="line">username=<span class="string">"hisharp"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"tarfile=<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"目前路徑"</span></span><br><span class="line">currdir=<span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkapi"</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;currdir&#125;</span></span><br><span class="line"><span class="built_in">pwd</span></span><br><span class="line">ls</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"解壓----<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line">tar -zxvf <span class="variable">$&#123;tarfile&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"停止uwsgi服務"</span></span><br><span class="line">sudo systemctl stop <span class="string">"<span class="variable">$&#123;uwsgisrv&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 python code"</span></span><br><span class="line">sudo rm -rf /home/hisharp/server.viewtec/code/*</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 /home/hisharp/server.viewtec/code/*"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"複制 python code"</span></span><br><span class="line">cp -Rf <span class="variable">$&#123;currdir&#125;</span>/code/* /home/hisharp/server.viewtec/code/</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"複制 <span class="variable">$&#123;currdir&#125;</span>/code/* /home/hisharp/server.viewtec/code/"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"開始uwsgi"</span></span><br><span class="line">sudo systemctl restart <span class="string">"<span class="variable">$&#123;uwsgisrv&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除上傳資料"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除資料夾 <span class="variable">$&#123;currdir&#125;</span>/code"</span></span><br><span class="line">rm -rf <span class="string">"<span class="variable">$&#123;currdir&#125;</span>/code"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除"</span></span><br><span class="line">rm -rf <span class="string">"<span class="variable">$&#123;currdir&#125;</span>/<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="AWS-api服務器"><a href="#AWS-api服務器" class="headerlink" title="AWS api服務器"></a>AWS api服務器</h4><p>在aws上使用有跳板所有兩個bash shell jkapidep.sh和 jkwebapi.sh</p>
+<p>jkapidep.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash                                                                                                                                                                                                                                                                     </span></span><br><span class="line"><span class="comment"># 將上傳的python檔案更新到指定的位置</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 2020-05-20</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/sbin:~/bin</span><br><span class="line"><span class="built_in">export</span> PATH</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tarfile=<span class="variable">$1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 相關變數</span></span><br><span class="line">username=<span class="string">"ubuntu"</span></span><br><span class="line">remotehost=<span class="string">"172.30.10.5"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#echo "tarfile=$&#123;tarfile&#125;"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"目前路徑"</span></span><br><span class="line">currdir=<span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkapi"</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;currdir&#125;</span></span><br><span class="line"><span class="comment">#pwd</span></span><br><span class="line"><span class="comment">#ls</span></span><br><span class="line"><span class="comment"># 從本地端複製到遠端</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"從本地端複製到遠端"</span> </span><br><span class="line">scp <span class="variable">$&#123;currdir&#125;</span>/<span class="variable">$&#123;tarfile&#125;</span> ubuntu@<span class="variable">$&#123;remotehost&#125;</span>:<span class="variable">$&#123;currdir&#125;</span>/<span class="variable">$&#123;tarfile&#125;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"從本地端複製到遠端"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除上傳資料-nvt-nginx-1 fmsapi"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 /home/<span class="variable">$&#123;username&#125;</span>/jkapi/<span class="variable">$&#123;tarfile&#125;</span> "</span></span><br><span class="line">rm -rf <span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkapi/<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"遠端主機 <span class="variable">$&#123;remotehost&#125;</span>"</span></span><br><span class="line">ssh -tt <span class="variable">$&#123;username&#125;</span>@<span class="variable">$&#123;remotehost&#125;</span> &lt;&lt; HERE</span><br><span class="line"><span class="built_in">cd</span> /home/ubuntu/jkapi</span><br><span class="line">./jkwebapi.sh <span class="variable">$&#123;tarfile&#125;</span></span><br><span class="line"><span class="built_in">exit</span> 0</span><br><span class="line">HERE</span><br></pre></td></tr></table></figure>
+
+<p>jkwebapi.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash                                                                                                                                                                                                                                                                                                                 </span></span><br><span class="line"><span class="comment"># 將上傳的python檔案更新到指定的位置</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 2020-05-20</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/<span class="built_in">local</span>/bin:/usr/<span class="built_in">local</span>/sbin:~/bin</span><br><span class="line"><span class="built_in">export</span> PATH</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tarfile=<span class="variable">$1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 相關變數</span></span><br><span class="line">uwsgisrv=<span class="string">"uwsgi05.service"</span></span><br><span class="line">username=<span class="string">"ubuntu"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"tarfile=<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"目前路徑"</span></span><br><span class="line">currdir=<span class="string">"/home/<span class="variable">$&#123;username&#125;</span>/jkapi"</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;currdir&#125;</span></span><br><span class="line"><span class="comment">#pwd</span></span><br><span class="line"><span class="comment">#ls</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"解壓----<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br><span class="line">tar -zxvf <span class="variable">$&#123;tarfile&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"停止uwsgi服務"</span></span><br><span class="line">sudo systemctl stop <span class="string">"<span class="variable">$&#123;uwsgisrv&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 python code"</span></span><br><span class="line">sudo rm -rf /home/<span class="variable">$&#123;username&#125;</span>/server.viewtec/code/*</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除 /home/<span class="variable">$&#123;username&#125;</span>/server.viewtec/code/*"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"複制 python code"</span></span><br><span class="line">cp -Rf <span class="variable">$&#123;currdir&#125;</span>/code/* /home/<span class="variable">$&#123;username&#125;</span>/server.viewtec/code/</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"複制 <span class="variable">$&#123;currdir&#125;</span>/code/* /home/<span class="variable">$&#123;username&#125;</span>/server.viewtec/code/"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"開始uwsgi"</span></span><br><span class="line">sudo systemctl restart <span class="string">"<span class="variable">$&#123;uwsgisrv&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除上傳資料"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除資料夾 <span class="variable">$&#123;currdir&#125;</span>/code"</span></span><br><span class="line">rm -rf <span class="string">"<span class="variable">$&#123;currdir&#125;</span>/code"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"刪除"</span></span><br><span class="line">rm -rf <span class="string">"<span class="variable">$&#123;currdir&#125;</span>/<span class="variable">$&#123;tarfile&#125;</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="WebServer版"><a href="#WebServer版" class="headerlink" title="WebServer版"></a>WebServer版</h3><h2 id="Windos版的安裝"><a href="#Windos版的安裝" class="headerlink" title="Windos版的安裝"></a>Windos版的安裝</h2><ul>
+<li><p>安裝Jenkins <a href="http://localhost:8080/">http://localhost:8080/</a><br>目前是以windows為主，目前版本為jenkins-2.107.2，會有密碼在安裝的目錄下有，<br>接下會問要麼plugin,主要選擇git和msbuilder<br>建立使用者可參考<a href="https://dotblogs.com.tw/kinanson/2017/08/17/135639">在windows安裝jenkins和入門</a><br>建立專案可參考<a href="https://blog.yowko.com/2017/02/jenkins-2-build-dotnet-project.html">如何使用 Jenkins 2 建置 .NET 專案</a></p>
+</li>
+<li><p>Centos要使用<br>注意要安裝java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum remove java</span><br><span class="line">yum install java-1.8.0-openjdk</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://wiki.jenkins.io/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions#InstallingJenkinsonRedHatdistributions-ImportantNoteonCentOSJava">參考資料</a></p>
+</li>
+<li><p>設定相關<br>目地是為了使用那一個服務器來幫忙建立專案，因為服務器有可能是linux或window所以有命名,<br>在設定node時要將名稱代入ex node(‘master’)，才可執行該服務器</p>
+<p>在vs2017的msbuil放在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:&#x2F;Program Files (x86)&#x2F;Microsoft Visual Studio&#x2F;2017&#x2F;Professional&#x2F;MSBuild&#x2F;15.0&#x2F;Bin&#x2F;amd64</span><br></pre></td></tr></table></figure>
+<p>要下載nuget<br>msbuild 的參數</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;p:Configuration&#x3D;En-Release </span><br><span class="line">&#x2F;p:DeployOnBuild&#x3D;true</span><br><span class="line">&#x2F;p:PublishProfile&#x3D;&quot;英文版.pubxml&quot;</span><br><span class="line">&#x2F;p:UserName&#x3D;username</span><br><span class="line">&#x2F;p:Password&#x3D;userpassword</span><br><span class="line">&#x2F;p:AllowUntrustedCertificate&#x3D;True</span><br><span class="line">&#x2F;p:EnableMSDeployAppOffline&#x3D;true</span><br></pre></td></tr></table></figure></li>
+<li><p>刪除工作的資料<br>有時會卡住，在windows下可以到服務的管理列表，找到Jenkins來重新起動。<br>刪除此專案的資料，可以到安裝的目錄下的jobs的資料夾，找到專案的名稱，保留<strong>config.xml</strong>，剩下的可以刪除</p>
+</li>
+<li><p>要設定有中文文字<br>可在設定Piplelne下的Advance Project Options下設定DisplayName如下圖的顯示<br><img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-06-27_11_24_2Image.jpg" alt="image"></p>
+</li>
+</ul>
+<h2 id="設定節點-node"><a href="#設定節點-node" class="headerlink" title="設定節點(node)"></a>設定節點(node)</h2><p>   在設定節點上，主要是要有名稱和使用者的帳密，這樣才可以登入到linux來使用bash<br>   <img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-06-27_11_46_3Image.jpg" alt="image"></p>
+<h2 id="設定email"><a href="#設定email" class="headerlink" title="設定email"></a>設定email</h2><p>   在設定email,在設定完後會Jenkins無法寄信問題，從Jenkins位置區塊，確認<strong><em>系統管理員郵件地址的帳號</em></strong>是否與<strong><em>電子郵件通知區塊中的使用者名稱</em></strong>相符<br>   管理Jenkins &gt; 設定系統<br>   <img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/1526783711_70069.png" alt="image"><br>   Jenkins位置<br>   <img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/1526783768_55825.png" alt="image"><br>   電子郵件通知<br>    <img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/1526783756_9299.png" alt="image"></p>
+<p>   參考<a href="https://dotblogs.com.tw/stanley14/2018/05/20/jenkins-does-not-have-permissions-to-send-as-this-sender">Jenkins無法寄信問題</a><br>   <a href="https://stackoverflow.com/questions/15404856/jenkins-throws-client-does-not-have-permissions-to-send-as-this-sender">stackoverflow</a></p>
+<h2 id="使用Pipleline"><a href="#使用Pipleline" class="headerlink" title="使用Pipleline"></a>使用Pipleline</h2><p>  <strong>注意專案名稱不能使用中文，不然在console下不能執行,發行檔也不能使用中文</strong> </p>
+<ul>
+<li><p>使用msbuild<br>1.1 先從git將程式碼取下<br>1.2 要nuget來restore</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\tools\NuGet restore</span><br></pre></td></tr></table></figure>
+<p>1.3 以msbuild    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;D:&#x2F;Program Files (x86)&#x2F;Microsoft Visual Studio&#x2F;2017&#x2F;Professional&#x2F;MSBuild&#x2F;15.0&#x2F;Bin&#x2F;amd64&#x2F;&quot;msbuild &#x2F;p:Configuration&#x3D;Dev-Release</span><br></pre></td></tr></table></figure>
+<p>1.4 發佈</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;D:&#x2F;Program Files (x86)&#x2F;Microsoft Visual Studio&#x2F;2017&#x2F;Professional&#x2F;MSBuild&#x2F;15.0&#x2F;Bin&#x2F;amd64&#x2F;&quot;msbuild &#x2F;p:Configuration&#x3D;Dev-Release &#x2F;p:DeployOnBuild&#x3D;true &#x2F;p:PublishProfile&#x3D;開發版.pubxml &#x2F;p:UserName&#x3D;xxxxx &#x2F;p:Password&#x3D;xxxx &#x2F;p:AllowUntrustedCertificate&#x3D;True &#x2F;p:EnableMSDeployAppOffline&#x3D;true</span><br></pre></td></tr></table></figure></li>
+<li><p>使用Pipleline的定時處理<br>在pipleline的定期建置輸入如下，每一天的上午04:00來執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 04 * * *</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用dotnet來處理</p>
+<ul>
+<li>1.1 先從git將程式碼取下<br>可以使用它的語法產生器來生成git取得程式碼</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stage(&#39;取出專案&#39;)&#123;</span><br><span class="line">    checkout changelog: false, poll: false, scm: [$class: &#39;GitSCM&#39;, branches: [[name: &#39;*&#x2F;dev&#39;]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: &#39;XXXXXXX-XXX-XXX_XXXX&#39;, url: &#39;http:&#x2F;&#x2F;127.0.0.1:88&#x2F;Bonobo.Git.Server&#x2F;Gomo.CC_git.git&#39;]]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1.2 建置專案<br>使用如下:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stage(&#39;建置&#39;)&#123;</span><br><span class="line">      bat &#39;dotnet build --configuration Release&#39;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+<li>1.3 發佈專案到IIS<br>目前是使用webdeploy和IIS來發行網店<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stage(&#39;發佈&#39;)&#123;</span><br><span class="line">    bat &#39;dotnet publish --configuration Release &#x2F;p:PublishProfile&#x3D;develop.pubxml &#x2F;p:UserName&#x3D;username &#x2F;p:Password&#x3D;userpassword &#x2F;p:AllowUntrustedCertificate&#x3D;True&#39;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>發佈到linux</p>
+<ul>
+<li>1.1 取出專案</li>
+<li>1.2 建置專案</li>
+<li>1.3 壓縮專案</li>
+<li>1.4 上傳壓縮專案檔</li>
+<li>使用不同的node</li>
+<li>1.5 停止服務</li>
+<li>1.6 解壓壓縮檔</li>
+<li>1.7 開始服務</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">   #會用到的程式庫</span><br><span class="line">   import java.text.SimpleDateFormat</span><br><span class="line">   def dateFormat &#x3D; new SimpleDateFormat(&quot;yyyyMMddHHmm&quot;)</span><br><span class="line">   def date &#x3D; new Date()</span><br><span class="line">   def usedate&#x3D;dateFormat.format(date)</span><br><span class="line">   &#x2F;&#x2F;def zipfile&#x3D;usedate +&#39;.zip&#39;</span><br><span class="line">   def zipfile&#x3D;&#39;201805181725.zip&#39;</span><br><span class="line">   def winrar &#x3D; &quot;\&quot;C:&#x2F;Program Files&#x2F;WinRAR&#x2F;WinRAR.exe\&quot;&quot;</span><br><span class="line">   def winparam &#x3D; &quot;a -afzip -ep1&quot;</span><br><span class="line">   def pscp &#x3D;&quot;D:&#x2F;tools&#x2F;Putty&#x2F;pscp.exe&quot;</span><br><span class="line">   &#x2F;&#x2F;def zipdest&#x3D;&quot;&#x2F;home&#x2F;wwwdata&#x2F;test&quot;</span><br><span class="line">   def zipdest&#x3D;&quot;&#x2F;home&#x2F;wwwdata&#x2F;wwwshop&quot;</span><br><span class="line">&#x2F;&#x2F;目標機器的設定</span><br><span class="line">def host&#x3D;&quot;192.168.2.222&quot;</span><br><span class="line">def hostaccount&#x3D;&quot;root&quot;</span><br><span class="line">def hostpw&#x3D;&quot;12345678&quot;</span><br><span class="line">def hostpath&#x3D;&quot;&#x2F;home&#x2F;wwwdata&#x2F;wwwshop&quot;</span><br><span class="line"></span><br><span class="line">node(&#39;master&#39;) &#123; &#x2F;&#x2F;使用master的節點,是windows系統</span><br><span class="line">    def buildNumber &#x3D; env.BUILD_NUMBER</span><br><span class="line">       def workspace &#x3D; env.WORKSPACE</span><br><span class="line">       def buildUrl &#x3D; env.BUILD_URL</span><br><span class="line">       def dirprjrelease&#x3D; env.WORKSPACE+&#39;&#x2F;Gomo.CC.UI.Portal&#x2F;bin&#x2F;Release&#x2F;PublishOutput&#39;</span><br><span class="line">	stage(&#39;linux-取出專案&#39;)&#123;</span><br><span class="line">           checkout changelog: false, poll: false, scm: [$class: &#39;GitSCM&#39;, branches: [[name: &#39;*&#x2F;dev&#39;]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: &#39;xxx-xxx_xxx_xx_xx_xx&#39;, url: &#39;http:&#x2F;&#x2F;10.0.0.10:88&#x2F;Bonobo.Git.Server&#x2F;Gomo.CC_git.git&#39;]]]</span><br><span class="line">       &#125;</span><br><span class="line">	stage(&#39;linux-建置&#39;)&#123;</span><br><span class="line">           bat &#39;dotnet build -c Release &#x2F;p:DeployOnBuild&#x3D;true &#x2F;p:PublishProfile&#x3D;dev_linux.pubxml&#39;</span><br><span class="line">       &#125;</span><br><span class="line">	stage(&#39;壓縮專案&#39;)&#123;</span><br><span class="line">           bat &quot;$&#123;winrar&#125; $&#123;winparam&#125; $&#123;zipfile&#125; \&quot;$&#123;dirprjrelease&#125;&#x2F;*.*\&quot; -r &quot;</span><br><span class="line">       &#125; </span><br><span class="line">	stage(&#39;上傳檔案&#39;)&#123;</span><br><span class="line">          #bat&quot;echo y | \&quot;$&#123;pscp&#125;\&quot; -pw 12345678 \&quot;$&#123;workspace&#125;&#x2F;$&#123;zipfile&#125;\&quot; root@192.168.2.222:&#x2F;home&#x2F;ttom &quot;</span><br><span class="line">	   bat &quot;echo y | \&quot;$&#123;pscp&#125;\&quot; -pw $&#123;hostpw&#125; \&quot;$&#123;workspace&#125;&#x2F;$&#123;zipfile&#125;\&quot; $&#123;hostaccount&#125;@$&#123;host&#125;:$&#123;hostpath&#125; &quot;</span><br><span class="line">	   bat &quot;del \&quot;$&#123;workspace&#125;\\$&#123;zipfile&#125;\&quot;&quot;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br><span class="line">node(&#39;ct7os222&#39;)&#123;</span><br><span class="line">    stage(&#39;停止服務&#39;)&#123;</span><br><span class="line">           sh &quot;systemctl stop gomoshop.service&quot;</span><br><span class="line">       &#125;</span><br><span class="line">	stage(&#39;unzip檔案&#39;)&#123;</span><br><span class="line">           sh &quot;unzip -o $&#123;zipdest&#125;&#x2F;$&#123;zipfile&#125; -d $&#123;zipdest&#125;&quot;</span><br><span class="line">       &#125;</span><br><span class="line">	stage(&#39;開始服務&#39;)&#123;</span><br><span class="line">           sh &quot;systemctl restart gomoshop.service&quot;</span><br><span class="line">       &#125;</span><br><span class="line">	stage(&#39;刪除zip&#39;)&#123;</span><br><span class="line">           sh &quot;rm -rf $&#123;zipdest&#125;&#x2F;$&#123;zipfile&#125;&quot;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="工作清單分類"><a href="#工作清單分類" class="headerlink" title="工作清單分類"></a>工作清單分類</h2><p>因為建置的工作愈來愈多因此需要來建立分類,在按下+號如下圖<br><img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-10-12_17_03_1Image.png" alt="image"><br>之後會請你輸入分類的文字，輸入完後可以選擇要加入那一個專案</p>
+<p>如何在編輯，選擇好你的分類在右邊有編輯版面，可以來編輯如下圖<br><img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-10-12_17_07_2Image.png" alt="image"></p>
+<h2 id="限制舊的建制的保留"><a href="#限制舊的建制的保留" class="headerlink" title="限制舊的建制的保留"></a>限制舊的建制的保留</h2><p>因為不需要保留太多的舊的建制，時間久了資料會佔空間愈來愈大，所以要限制一下保留的筆數<br>選擇你的專案-&gt;組態如下圖<br><img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_27_1Image.png" alt="image"><br>在組態的頁面中找到忽略舊builds<br><img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_33_3Image.png" alt="image"><br>點選 忽略舊builds<br><img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_37_4Image.png" alt="image"><br>在點選 進階<br><img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_38_5Image.png" alt="image"><br>目前的設定 2018-11-22_09_45_8Image.png<br><img src="../%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/2018-11-22_09_45_8Image.png" alt="image"><br>建置保留次數可以看情況調整一下</p>
+<h2 id="Jenkins搬家"><a href="#Jenkins搬家" class="headerlink" title="Jenkins搬家"></a>Jenkins搬家</h2><p>將目前的Jenkins服務器A將現有的job移到另外一個jenkins服務器B<br>首先先確定Jenkins的job存放的目錄<br>將原來的job的目錄打包<br>在移到新的服務器解壓到並覆蓋原來的job的目錄<br>檢查一下有無錯誤<br>有安裝插件也要安裝</p>
+<h2 id="網頁自動測試相關"><a href="#網頁自動測試相關" class="headerlink" title="網頁自動測試相關"></a>網頁自動測試相關</h2><ul>
+<li>參考網站<ul>
+<li><a href="https://blog.toright.com/posts/4268/%E6%8C%81%E7%BA%8C%E6%95%B4%E5%90%88-%E9%80%8F%E9%81%8E-selenium-%E5%AF%A6%E7%8F%BE%E8%87%AA%E5%8B%95%E5%8C%96%E6%B8%AC%E8%A9%A6.html">持續整合 - 透過 Selenium 實現自動化測試</a></li>
+<li><a href="https://ithelp.ithome.com.tw/articles/10108684">CI Server 23 - 使用Selenium進行瀏覽器自動化測試</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="https://jenkins.io/">Jenkins官方</a></li>
+<li><a href="https://blog.csdn.net/qq_33285112/article/details/78719969">Jenkins获取git tag代码</a></li>
+<li><a href="https://www.cnblogs.com/topplay/p/3899330.html">Jenkins迁移job</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Jenkins/" rel="tag"># Jenkins</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84Html5%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="記錄Html5的使用">
+      <i class="fa fa-chevron-left"></i> 記錄Html5的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84%E6%B8%AC%E8%A9%A6%E6%99%82%E6%89%8B%E6%A9%9F%E5%8F%AF%E4%BB%A5core/" rel="next" title="記錄測試時手機可以core">
+      記錄測試時手機可以core <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CI-server"><span class="nav-text">CI server</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker版的安裝"><span class="nav-text">Docker版的安裝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立放資料的資料夾"><span class="nav-text">建立放資料的資料夾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立docker相關的資料夾"><span class="nav-text">建立docker相關的資料夾</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#起動和建立jenkine"><span class="nav-text">起動和建立jenkine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立專案以pipeline的類型來建立"><span class="nav-text">建立專案以pipeline的類型來建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#選擇那一個branch來建置"><span class="nav-text">選擇那一個branch來建置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebFMS專案"><span class="nav-text">WebFMS專案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Web版的-jenkins"><span class="nav-text">Web版的 jenkins</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#開發版的web服務器"><span class="nav-text">開發版的web服務器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AWS-Web服務器"><span class="nav-text">AWS Web服務器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#開發版api的jenkins"><span class="nav-text">開發版api的jenkins</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#開發版的api"><span class="nav-text">開發版的api</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AWS-api服務器"><span class="nav-text">AWS api服務器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebServer版"><span class="nav-text">WebServer版</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windos版的安裝"><span class="nav-text">Windos版的安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定節點-node"><span class="nav-text">設定節點(node)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定email"><span class="nav-text">設定email</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Pipleline"><span class="nav-text">使用Pipleline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工作清單分類"><span class="nav-text">工作清單分類</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制舊的建制的保留"><span class="nav-text">限制舊的建制的保留</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jenkins搬家"><span class="nav-text">Jenkins搬家</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#網頁自動測試相關"><span class="nav-text">網頁自動測試相關</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

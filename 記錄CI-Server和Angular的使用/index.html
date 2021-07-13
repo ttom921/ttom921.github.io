@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言目前因為有是使用Angular來開發，因為要上傳建制好的web資料到web服務器上，所以來使用Jenkins，目前主要的建置機器是我的win10，而測試的機器是Ubuntu的機器，所以要在我的win10上建置好之後上傳到測試的linux下，來進行測試。基本流程如下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="記錄CI Server和Angular的使用">
+<meta property="og:url" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E5%92%8CAngular%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言目前因為有是使用Angular來開發，因為要上傳建制好的web資料到web服務器上，所以來使用Jenkins，目前主要的建置機器是我的win10，而測試的機器是Ubuntu的機器，所以要在我的win10上建置好之後上傳到測試的linux下，來進行測試。基本流程如下">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E5%92%8CAngular%E7%9A%84%E4%BD%BF%E7%94%A8/2019-11-14_15_51_09_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E5%92%8CAngular%E7%9A%84%E4%BD%BF%E7%94%A8/2019-11-14_15_51_25_Image.jpg">
+<meta property="article:published_time" content="2019-10-25T17:17:21.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Jenkins">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E5%92%8CAngular%E7%9A%84%E4%BD%BF%E7%94%A8/2019-11-14_15_51_09_Image.jpg">
+
+<link rel="canonical" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E5%92%8CAngular%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>記錄CI Server和Angular的使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E5%92%8CAngular%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          記錄CI Server和Angular的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-10-25 17:17:21" itemprop="dateCreated datePublished" datetime="2019-10-25T17:17:21+00:00">2019-10-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/" itemprop="url" rel="index"><span itemprop="name">記錄</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/Jenkins/" itemprop="url" rel="index"><span itemprop="name">Jenkins</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>目前因為有是使用Angular來開發，因為要上傳建制好的web資料到web服務器上，所以來使用Jenkins，目前主要的建置機器是我的win10，而測試的機器是Ubuntu的機器，所以要在我的win10上建置好之後上傳到測試的linux下，來進行測試。基本流程如下</p>
+<a id="more"></a>
+
+
+
+<pre class="mermaid">graph TD;
+    win10端 --> 取出專案;
+    取出專案 --> 建置;
+    建置-->刪除;
+    刪除-->複制;
+    複制-->壓縮;
+    壓縮-->上傳;
+
+
+    linux端 --> 解壓zip;
+    解壓zip --> 刪除nginx;
+    刪除nginx --> 複制到nginx; 
+    複制到nginx --> 刪除zip;</pre>
+
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><p>直接到官網來下載windows版，之前有文章 <a href="https://ttom921.github.io/%E8%A8%98%E9%8C%84CI-Server%E7%9A%84%E4%BD%BF%E7%94%A8/">記錄CI-Server的使用</a> 可以參考一下</p>
+<h3 id="安裝plugin"><a href="#安裝plugin" class="headerlink" title="安裝plugin"></a>安裝plugin</h3><p> NodeJS </p>
+<h3 id="安裝-Slave-Node"><a href="#安裝-Slave-Node" class="headerlink" title="安裝 Slave Node"></a>安裝 Slave Node</h3><p>因為要來控制linux所以要來安裝相關的套件</p>
+<p>安裝Java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install software-properties-common apt-transport-https -y</span><br><span class="line">sudo add-apt-repository ppa:openjdk-r&#x2F;ppa -y</span><br></pre></td></tr></table></figure>
+
+<p>安裝 java OpenJDK</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openjdk-8-jdk -y</span><br></pre></td></tr></table></figure>
+
+<h3 id="建立使用者"><a href="#建立使用者" class="headerlink" title="建立使用者"></a>建立使用者</h3><p>因為我的設定比較單純，加入一個使用者到這台linux，並可以使用sudo的指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo adduser jenkins</span><br></pre></td></tr></table></figure>
+
+<p>加到admin的群組</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG sudo jenkins</span><br></pre></td></tr></table></figure>
+
+<h3 id="設定jenkins"><a href="#設定jenkins" class="headerlink" title="設定jenkins"></a>設定jenkins</h3><p>因為在使用上，需要將jenkins設定在使用sudo時不輸入密碼，所以需要來設定一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo visudo</span><br></pre></td></tr></table></figure>
+
+<p>會打開<code>/etc/sudoers</code></p>
+<p>在最下面加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jenkins ALL&#x3D;(ALL) NOPASSWD: ALL</span><br></pre></td></tr></table></figure>
+
+<p>按下<code>Ctrol+O</code>, 離開按下<code>Ctrl+X</code></p>
+<h3 id="設定節點-node"><a href="#設定節點-node" class="headerlink" title="設定節點(node)"></a>設定節點(node)</h3><p> 在設定節點上，主要是要有名稱和使用者的帳密，這樣才可以登入到linux來使用bash </p>
+<p>在節點上可以來增加一個使用者，來登入linux</p>
+<p><img src="2019-11-14_15_51_09_Image.jpg"></p>
+<p>選擇<code>Add-&gt;Jenkins</code>會跳出下面的畫面</p>
+<p><img src="2019-11-14_15_51_25_Image.jpg"></p>
+<p>輸入需要的帳號和密碼</p>
+<h3 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h3><p>在Jenkins的管理介面，要使用外掛的程式<code>Locale plugin</code>, 然後在Jenkins的管理的Local的標加入<code>zh_TW</code>, 並將下面的<code>Ignore browser preference and force this language to all users</code>就會是中文的顯示</p>
+<h2 id="Pipleline"><a href="#Pipleline" class="headerlink" title="Pipleline"></a>Pipleline</h2><p>切換目錄</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#會用到的程式庫</span></span><br><span class="line">    <span class="keyword">import</span> java.text.SimpleDateFormat</span><br><span class="line">    <span class="keyword">def</span> dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMddHHmm"</span>)</span><br><span class="line">    <span class="keyword">def</span> date = <span class="keyword">new</span> Date()</span><br><span class="line">    <span class="keyword">def</span> usedate=dateFormat.format(date)</span><br><span class="line">    <span class="keyword">def</span> zipfile=<span class="string">'201911151521.zip'</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//目標機器的設定</span></span><br><span class="line">    <span class="keyword">def</span> host=<span class="string">"172.18.2.160"</span></span><br><span class="line">    <span class="keyword">def</span> hostaccount=<span class="string">"jenkins"</span></span><br><span class="line">    <span class="keyword">def</span> hostpw=<span class="string">"jenkins"</span></span><br><span class="line">    <span class="keyword">def</span> hostpath=<span class="string">"/home/jenkins/"</span></span><br><span class="line">    </span><br><span class="line">node(<span class="string">'master'</span>) &#123; <span class="comment">//使用master的節點,是windows系統</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> winrar = <span class="string">"\"C:/Program Files/WinRAR/WinRAR.exe\""</span></span><br><span class="line">    <span class="keyword">def</span> winparam = <span class="string">"a -afzip -ep1"</span></span><br><span class="line">    <span class="keyword">def</span> pscp =<span class="string">"D:/tools/Putty/pscp.exe"</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> buildNumber = env.BUILD_NUMBER</span><br><span class="line">    <span class="keyword">def</span> workspace = env.WORKSPACE</span><br><span class="line">    <span class="keyword">def</span> buildUrl = env.BUILD_URL</span><br><span class="line">	<span class="keyword">def</span> prjdir = env.WORKSPACE+<span class="string">"/asaweb/"</span></span><br><span class="line">	<span class="keyword">def</span> desdir = <span class="string">"D:/Project/hisharp/server.hs"</span></span><br><span class="line">	stage(<span class="string">'win10正式版-取出專案'</span>)&#123;</span><br><span class="line">	  <span class="string">'echo 取出 dev'</span>;</span><br><span class="line">	  checkout([<span class="string">$class:</span> <span class="string">'GitSCM'</span>, <span class="string">branches:</span> [[<span class="string">name:</span> <span class="string">'*/master'</span>]], <span class="string">doGenerateSubmoduleConfigurations:</span> <span class="literal">false</span>, <span class="string">extensions:</span> [], <span class="string">submoduleCfg:</span> [], <span class="string">userRemoteConfigs:</span> [[<span class="string">credentialsId:</span> <span class="string">'ee264d46-xxxx-xxxx-xxxx-af57c243c6ae'</span>, <span class="string">url:</span> <span class="string">'http://172.18.18.18/ttom/ASAWebUI.git'</span>]]]);</span><br><span class="line">	  dir(<span class="string">"$&#123;prjdir&#125;"</span>)&#123;</span><br><span class="line">	      bat <span class="string">'npm install'</span></span><br><span class="line">	  &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	stage(<span class="string">'建置'</span>)&#123;</span><br><span class="line">	  <span class="comment">//bat "echo $&#123;buildNumber&#125;"</span></span><br><span class="line">	  <span class="comment">//bat "echo $&#123;buildUrl&#125;";</span></span><br><span class="line">	  <span class="comment">//bat "echo $&#123;workspace&#125;"</span></span><br><span class="line">	  <span class="comment">//bat "echo $&#123;prjdir&#125;"</span></span><br><span class="line">	  <span class="comment">//bat "npm --version"</span></span><br><span class="line">	   <span class="comment">//bat "cd $&#123;prjdir&#125;"</span></span><br><span class="line">	   </span><br><span class="line">	   dir(<span class="string">"$&#123;prjdir&#125;"</span>)&#123;</span><br><span class="line">	       bat <span class="string">"npm run build:qa "</span>;</span><br><span class="line">      &#125;</span><br><span class="line">	  stage(<span class="string">'刪除'</span>)&#123;</span><br><span class="line">	      <span class="comment">//bat "echo $&#123;desdir&#125;"</span></span><br><span class="line">	      dir(<span class="string">"$&#123;desdir&#125;"</span>)&#123;</span><br><span class="line">	          bat <span class="string">"rd /s /q \"html\" "</span></span><br><span class="line">	          bat <span class="string">"md \"html\" "</span></span><br><span class="line">	      &#125;</span><br><span class="line">	     </span><br><span class="line">	  &#125;</span><br><span class="line">	  stage(<span class="string">'複制'</span>)&#123;</span><br><span class="line">	       dir(<span class="string">"$&#123;prjdir&#125;dist"</span>)&#123;</span><br><span class="line">	          bat <span class="string">"xcopy \"$&#123;prjdir&#125;dist/asaweb\" \"$&#123;desdir&#125;/html\" /S "</span></span><br><span class="line">	      &#125;</span><br><span class="line">	  &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//--------------</span></span><br><span class="line">    stage(<span class="string">"壓縮"</span>)&#123;</span><br><span class="line">          zipfile=usedate +<span class="string">'.zip'</span></span><br><span class="line">          bat <span class="string">"echo $&#123;zipfile&#125;"</span></span><br><span class="line">          bat <span class="string">"$&#123;winrar&#125; $&#123;winparam&#125; $&#123;zipfile&#125; \"$&#123;desdir&#125;/html/*.*\" -r "</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//--------------</span></span><br><span class="line">    stage(<span class="string">"上傳"</span>)&#123;</span><br><span class="line">        bat <span class="string">"echo y | \"$&#123;pscp&#125;\" -pw $&#123;hostpw&#125; \"$&#123;workspace&#125;/$&#123;zipfile&#125;\" $&#123;hostaccount&#125;@$&#123;host&#125;:$&#123;hostpath&#125; "</span></span><br><span class="line">	    bat <span class="string">"del \"$&#123;workspace&#125;\\$&#123;zipfile&#125;\""</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//------------------</span></span><br><span class="line">node(<span class="string">'160'</span>) &#123;<span class="comment">//這是linux的指令</span></span><br><span class="line">    <span class="keyword">def</span> zipdest=<span class="string">"/html"</span></span><br><span class="line">    stage(<span class="string">'解壓zip'</span>)&#123;</span><br><span class="line">        sh <span class="string">'pwd'</span></span><br><span class="line">        sh <span class="string">"""</span></span><br><span class="line"><span class="string">        #!/bin/bash</span></span><br><span class="line"><span class="string">        unzip -o $&#123;hostpath&#125;/$&#123;zipfile&#125; -d $&#123;env.WORKSPACE&#125;$&#123;zipdest&#125;</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">    &#125;</span><br><span class="line">    stage(<span class="string">'刪除nginx'</span>)&#123;</span><br><span class="line">        sh <span class="string">"""</span></span><br><span class="line"><span class="string">        #!/bin/bash</span></span><br><span class="line"><span class="string">        sudo rm -rf /usr/share/nginx/html/*.js</span></span><br><span class="line"><span class="string">        sudo rm -rf /usr/share/nginx/html/*.css</span></span><br><span class="line"><span class="string">        sudo rm -rf /usr/share/nginx/html/*.ttf</span></span><br><span class="line"><span class="string">        sudo rm -rf /usr/share/nginx/html/*.html</span></span><br><span class="line"><span class="string">        sudo rm -rf /usr/share/nginx/html/*.eot</span></span><br><span class="line"><span class="string">        sudo rm -rf /usr/share/nginx/html/*.woff</span></span><br><span class="line"><span class="string">        sudo rm -rf /usr/share/nginx/html/*.woff2</span></span><br><span class="line"><span class="string">        sudo rm -rf /usr/share/nginx/html/*.svg</span></span><br><span class="line"><span class="string">        sudo rm -rf /usr/share/nginx/html/*.ico</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">    &#125;</span><br><span class="line">    stage(<span class="string">'複制到nginx'</span>)&#123;</span><br><span class="line">        sh <span class="string">"""</span></span><br><span class="line"><span class="string">        sudo cp -Rf $&#123;env.WORKSPACE&#125;$&#123;zipdest&#125;/* /usr/share/nginx/html/</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">    &#125;</span><br><span class="line">    stage(<span class="string">'刪除zip'</span>)&#123;</span><br><span class="line">        sh <span class="string">"""</span></span><br><span class="line"><span class="string">        sudo rm -rf $&#123;env.WORKSPACE&#125;$&#123;zipdest&#125;/</span></span><br><span class="line"><span class="string">        sudo rm -rf $&#123;hostpath&#125;/$&#123;zipfile&#125;</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="https://stackoverflow.com/questions/55148622/ng-build-command-not-working-in-jenkins-pipeline">ng build command not working in jenkins pipeline</a> </p>
+<p><a href="https://ithelp.ithome.com.tw/users/20103346/ironman/1473">30 天入門 Ansible 及 Jenkins 2018 </a></p>
+<p><a href="https://www.howtoforge.com/tutorial/ubuntu-jenkins-master-slave/">How to Setup Jenkins Master and Slave on Ubuntu 18.04 LTS</a></p>
+<p><a href="https://linuxconfig.org/how-to-create-sudo-user-on-ubuntu-18-04-bionic-beaver-linux">How to create sudo user on Ubuntu 18.04 Bionic Beaver Linux</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Jenkins/" rel="tag"># Jenkins</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92ReactiveForms%E7%9A%84%E5%8B%95%E6%85%8Bcheckboxlist%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/" rel="prev" title="學習ReactiveForms的動態checkboxlist的相關使用">
+      <i class="fa fa-chevron-left"></i> 學習ReactiveForms的動態checkboxlist的相關使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92AngularGuard%E8%B7%AF%E7%94%B1%E5%AE%88%E8%A1%9B/" rel="next" title="學習AngularGuard路由守衛">
+      學習AngularGuard路由守衛 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝plugin"><span class="nav-text">安裝plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-Slave-Node"><span class="nav-text">安裝 Slave Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立使用者"><span class="nav-text">建立使用者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定jenkins"><span class="nav-text">設定jenkins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定節點-node"><span class="nav-text">設定節點(node)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地化"><span class="nav-text">本地化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pipleline"><span class="nav-text">Pipleline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

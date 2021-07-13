@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="設計模式梗概 每個模式都描述了一個不斷發生在我們周遭的問題，然後描述該問題的核心解法，於是你便可以一再使用該解法，而無須對同樣的事情做兩次工。—— Christopher Alexander. A Pattern Language.  Null Object 模式回到電源插座的例子。如果我們將電腦的電源線從插座上拔起，它們就只是彼此不再連接而已，電腦和插座並不會因此而著火或爆炸。但是在軟體程式的世">
+<meta property="og:type" content="article">
+<meta property="og:title" content="記錄DesignPattern的使用">
+<meta property="og:url" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="設計模式梗概 每個模式都描述了一個不斷發生在我們周遭的問題，然後描述該問題的核心解法，於是你便可以一再使用該解法，而無須對同樣的事情做兩次工。—— Christopher Alexander. A Pattern Language.  Null Object 模式回到電源插座的例子。如果我們將電腦的電源線從插座上拔起，它們就只是彼此不再連接而已，電腦和插座並不會因此而著火或爆炸。但是在軟體程式的世">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/ILogger.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/dinet-fig2-3.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/dinet-fig2-4.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/dinet-fig2-6.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/dinet-fig2-7.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/dinet-fig2-8.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/dinet-fig2-9.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/dinet-fig2-10.png">
+<meta property="article:published_time" content="2018-03-15T11:10:47.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="DesignPattern,C#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/ILogger.png">
+
+<link rel="canonical" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>記錄DesignPattern的使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84DesignPattern%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          記錄DesignPattern的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2018-03-15 11:10:47" itemprop="dateCreated datePublished" datetime="2018-03-15T11:10:47+00:00">2018-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/DesignPattern/" itemprop="url" rel="index"><span itemprop="name">DesignPattern</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="設計模式梗概"><a href="#設計模式梗概" class="headerlink" title="設計模式梗概"></a>設計模式梗概</h1><blockquote>
+<p>每個模式都描述了一個不斷發生在我們周遭的問題，然後描述該問題的核心解法，於是你便可以一再使用該解法，而無須對同樣的事情做兩次工。<br>—— Christopher Alexander. A Pattern Language.</p>
+</blockquote>
+<h2 id="Null-Object-模式"><a href="#Null-Object-模式" class="headerlink" title="Null Object 模式"></a>Null Object 模式</h2><p>回到電源插座的例子。如果我們將電腦的電源線從插座上拔起，它們就只是彼此不再連接而已，電腦和插座<br>並不會因此而著火或爆炸。但是在軟體程式的世界裡，若物件 A 會呼叫物件 B（物件 A 依賴物件 B），而<br>當你將物件 B 移除，亦即物件 B 不存在時，程式就會發生 NullReferenceException 類型的錯誤。於是，<br>我們常常會在程式裡面加入檢查物件參考是否為 null 的邏輯，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(anObject !&#x3D; null)</span><br><span class="line">  anObject.DoSomething();</span><br><span class="line">else</span><br><span class="line">  DoSomethingElse();</span><br></pre></td></tr></table></figure>
+<p>Null Object 類別通常要實作某個介面（或繼承自抽象類別），但實作程式碼完全沒做任何事，即所有方法<br>都只是個空殼子，或僅提供無害的預設行為。以程式中常用的 logging（日誌）機制為例，我們可以將寫入<br>日誌的操作定義成一個 ILogger 介面，然後依實際需要實作不同的 logging 類別，例如用來將日誌訊息輸<br>出至 Console 的 ConsoleLogger。此外，考慮到應用程式有時候可能不需要紀錄任何訊息，我們可以實作<br>一個 NullLogger 類別，當作 Null Object 使用。結構圖如下。<br><img src="../記錄DesignPattern的使用/ILogger.png" width = "45%" /></p>
+<p>底下分別是 ILoger 介面以及 NullLogger 和 ConsoleLogger 類別的程式碼：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public interface ILogger</span><br><span class="line">&#123;</span><br><span class="line">    Log(string msg);</span><br><span class="line">&#125;</span><br><span class="line">public class NullLogger : ILogger</span><br><span class="line">&#123;</span><br><span class="line">    public void Log(string msg)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; 不做任何事</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class ConsoleLogger : ILogger</span><br><span class="line">&#123;</span><br><span class="line">    public void Log(string msg)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>像底下這個函式，呼叫端只要傳入 ConsoleLogger 物件，日誌訊息就會輸出至 Console；而當呼叫端想要<br>停止記錄日誌，便可傳入 NullLogger 物件。如此一來，就不用在每次寫入日誌訊息時都重複寫一遍檢查<br>logger 物件是否為 null 的防錯邏輯。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void DoSomething(ILogger logger)</span><br><span class="line">&#123;</span><br><span class="line">    logger.Log(&quot;開始執行 DoSomething 函式。&quot;);</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Decorator（裝飾）"><a href="#Decorator（裝飾）" class="headerlink" title="Decorator（裝飾）"></a>Decorator（裝飾）</h2><p>一般情況下，如果在使用電腦時突然停電了，尚未儲存的資料就會消失不見。為了解決此問題，我們可以在<br>牆壁的電源插座與電腦電源線之間加入一個不斷電系統（UPS）。此時，UPS 的電源線會接在牆壁的電源插座<br>上，而電腦的電源則改接在 UPS 上。此三者在串接的時候，都是透過單一的標準介面：插座。類似這種透過<br>同一介面來串接多個不同物件的作法，叫做Decorator Pattern（裝飾模式）。此模式可以讓我們為物件層層<br>疊加新的功能上去，而無須修改既有的類別。下圖為 Decorator 模式 的結構圖。<br><img src="../記錄DesignPattern的使用/dinet-fig2-3.png" width = "45%" /><br>延續前面的 logging 範例，假設想要在每次輸出 log 訊息時額外加上當時的日期時間，而且前提是不可修改<br>既有的 ILogger 和 ConsoleLogger 類別，該怎麼做？<br>我們可以使用 Decorator 模式。作法為：設計一個新的類別，此類別不僅要實作 ILogger 介面，而且還需要<br>使用既有的 ConsoleLogger 物件來輸出 log 訊息。簡單起見，我就把這個類別命名為 DecoratedLogger。<br>程式碼如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class DecoratedLogger : ILogger</span><br><span class="line">&#123;</span><br><span class="line">    private ILogger logger;</span><br><span class="line">    public DecoratedLogger(ILogger aLogger)</span><br><span class="line">    &#123;</span><br><span class="line">        logger &#x3D; aLogger;</span><br><span class="line">    &#125;</span><br><span class="line">    public void Log(string msg)</span><br><span class="line">    &#123;</span><br><span class="line">        logger.Log(DateTime.Now.ToString() + &quot; - &quot; + msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下圖描繪了這個簡略版本的 Decorator 模式範例的類別結構：<br><img src="../記錄DesignPattern的使用/dinet-fig2-4.png" width = "45%" /><br>於是，在用戶端程式中使用這個新的 DecoratedLogger 來輸出 log 訊息時，可以這麼寫：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void DoSomething()</span><br><span class="line">&#123;</span><br><span class="line">    ILogger logger &#x3D; new DecoratedLogger(new ConsoleLogger());</span><br><span class="line">    logger.Log(&quot;Hello, 裝飾模式!&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Composite-模式"><a href="#Composite-模式" class="headerlink" title="Composite 模式"></a>Composite 模式</h2><p>延續先前的電器比喻。現在，如果希望 UPS 不只接電腦，還要接電風扇、除濕機，可是 UPS<br>卻只有兩個電源輸出孔，怎麼辦？</p>
+<p>我們可以買一條電源延長線，接在 UPS 上面。如此一來，電風扇、除濕機、和電腦便都可以<br>同時插上延長線的插座了。這裡的電源延長線，即類似Composite Pattern（組合模式），因<br>為電源延長線本身又可以再連接其他不同廠牌的延長線（這又是因為插座皆採用相同介面），<br>如此不斷連接下去。<br>呃….延長線的比喻有個小問題：它在外觀上看起來也像是層層串接，容易和 Decorator 模式<br>混淆。事實上，這兩種設計模式在結構上的確有相似之處。下圖所示為<br>Composite 模式的結構圖。<br><img src="../記錄DesignPattern的使用/dinet-fig2-6.png" width = "45%" /></p>
+<h1 id="Adapter（轉換器）"><a href="#Adapter（轉換器）" class="headerlink" title="Adapter（轉換器）"></a>Adapter（轉換器）</h1><p>當你的手機沒電，需要充電時，就算有電源延長線也沒用，因為手機充電時所需的電壓並不是<br>一般家庭用電的 110 伏特交流電壓。此時我們通常會使用手機隨附的變壓器（adapter），將<br>變壓器的電源插頭插在牆壁的電源插座，然後將變壓器的另一端連接至手機。像這樣把一種規<br>格（介面）轉換成另一種規格的設計，就叫做Adapter Pattern（轉換器模式）。<br>下圖所示為 Adapter 模式的結構。<br><img src="../記錄DesignPattern的使用/dinet-fig2-7.png" width = "45%" /><br>仍使用先前 logging 範例來說明。假設我們沒有實作自己的 logging API，而是直接使用第三<br>方元件。然而，考慮到將來很可能會改用另一套 logging 元件，於是決定使用 Adapter 模式來<br>保護自己的程式碼。首先，必須先訂出 logging API 的介面，讓應用程式只針對此介面來寫入<br>log。此介面只定義了一個寫入日誌的方法，叫做 Log，參考以下程式片段。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface ILogger</span><br><span class="line">&#123;</span><br><span class="line">    void Log(string msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接著設計 Adapter 類別。此類別須實作 ILogger 介面，並且在 Log 方法中轉而呼叫第三方元<br>件的方法。程式碼如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class CommonLogger : ILogger</span><br><span class="line">&#123;</span><br><span class="line">    private ThirdPartyLogger logger &#x3D; new ThirdPartyLogger();</span><br><span class="line"></span><br><span class="line">    public void Log(string msg)</span><br><span class="line">    &#123;</span><br><span class="line">        logger.WriteEntry(msg);  &#x2F;&#x2F; 轉呼叫第三方元件的方法。</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此一來，以後如果真的需要改用另一套 logging 元件，程式修改的範圍就只限定在<br>CommonLogger 類別而已。</p>
+<h1 id="Factory-Method（工廠方法）"><a href="#Factory-Method（工廠方法）" class="headerlink" title="Factory Method（工廠方法）"></a>Factory Method（工廠方法）</h1><p>每當我們在程式中使用 new 運算子來建立類別的執行個體，我們的程式碼就在編譯時期跟那個<br>類別固定綁（繫結）在一起了。其實用 new 來建立物件還有個缺點：C# 的建構函式名稱就是類<br>別名稱，不可任意命名；於是當類別有數個多載的（overloaded）建構函式時，光是閱讀傳入建<br>構函式的參數列，有時不見得那麼容易明白程式的意圖。舉例來說：<br>var user1 = new User(“Mike”, 101, true);<br>var user2 = new User(“Jane”, 102, flase);<br>不如下列程式碼清楚：<br>var user1 = UserFactory.CreateAdministrator(“Mike”, 101);<br>var user2 = UserFactory.CreateDomainUser(“Jane”, 102);<br>其中的 UserFactory 就是擔任物件工廠的角色，它是個 static 類別，且唯一的任務就是生產特<br>定類型的物件。程式碼如下所示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static class UserFactory</span><br><span class="line">&#123;</span><br><span class="line">    public User CreateAdministrator(string name, int id)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; 略</span><br><span class="line">    &#125;</span><br><span class="line">    public User CreateDomainUser(string name, int id)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; 略</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一般而言，Factory 模式泛指各種能夠生產物件的工廠，通常有三種模式：</p>
+<ul>
+<li>Factory Method（工廠方法）</li>
+<li>Simple Factory（簡單工廠） </li>
+<li>Abstract Factory（抽象工廠）<br>剛才的 UserFactory 就是一個 Simple Factory。<blockquote>
+<p>Note: 假設我們完全不知道 DI，或者覺得沒必要使用 DI，可是又希望程式碼不要和特定實作類<br>別綁太緊（不想要直接 new 一個物件），此時 Factory 模式通常是個值得考慮的方案。</p>
+</blockquote>
+</li>
+</ul>
+<p>實作 Factory Method 模式時，通常會在一個基礎類別中定義建立物件的抽象方法<br>（難怪叫做「工廠方法」），然後由各個子類別來實作該方法。若將先前的 UserFactory 改成以<br> Factory Method 來實作，其類別結構如下圖所示。<br><img src="../記錄DesignPattern的使用/dinet-fig2-8.png" width = "45%" /></p>
+<p>Abstract Factory 比前面兩種工廠模式要稍微複雜一些，它是用來建立多族系的相關或相依物件，<br>且無須指名物件的具象類別。實作此模式時，會將一組建立物件的方法定義成一個介面，代表抽象<br>工廠。然後，你可以撰寫多個類別來實作該介面，而這些類別的角色就像真實世界中的工廠，類別<br>中的每一個工廠方法則有點像是真實工廠裡的一條生產線。當用戶端需要建立該族系的物件時，就<br>是利用其中一種具象工廠（concrete factory）來生成物件。此外，由於具象工廠都實作了同一組<br>介面，所以用戶端甚至可以在執行時期動態切換成不同的工廠，以建立一組相關的物件。<br><img src="../記錄DesignPattern的使用/dinet-fig2-9.png" width = "45%" /></p>
+<p>如果你跟我一樣，常常搞混這三種 Factory 模式，我發現《Refactoring to Patterns》這本書<br>的 6.2 節裡面有一張簡略的結構圖挺有用。我依樣畫了一張，如下圖所示，其中的粗黑線代表建立<br>物件的函式。下次忘記時，不妨回來瞄一眼底下這張圖，也許能幫你回想起來它們之間的差異。<br><img src="../記錄DesignPattern的使用/dinet-fig2-10.png" width = "45%" /></p>
+<ul>
+<li>Singleton在c#的使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class ConvertHelp</span><br><span class="line">&#123;</span><br><span class="line">    #region Singleton</span><br><span class="line">    private static readonly Lazy&lt;ConvertHelp&gt; lazy &#x3D;</span><br><span class="line">    new Lazy&lt;ConvertHelp&gt;(() &#x3D;&gt; new ConvertHelp());</span><br><span class="line">    public static ConvertHelp Instance &#123; get &#123; return lazy.Value; &#125; &#125;</span><br><span class="line">    public ConvertHelp()</span><br><span class="line">    &#123;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    #endregion Singleton</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6></li>
+<li><a href="https://www.huanlintalk.com/post/2011-10-26-dependency-injection-3/">Dependency Injection 筆記 (3)</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DesignPattern-C/" rel="tag"># DesignPattern,C#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84WPF%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="記錄WPF的使用">
+      <i class="fa fa-chevron-left"></i> 記錄WPF的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84Angular%E7%9A%84%E7%9B%B8%E9%97%9C/" rel="next" title="記錄Angular的相關">
+      記錄Angular的相關 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#設計模式梗概"><span class="nav-text">設計模式梗概</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Null-Object-模式"><span class="nav-text">Null Object 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Decorator（裝飾）"><span class="nav-text">Decorator（裝飾）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Composite-模式"><span class="nav-text">Composite 模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Adapter（轉換器）"><span class="nav-text">Adapter（轉換器）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Factory-Method（工廠方法）"><span class="nav-text">Factory Method（工廠方法）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

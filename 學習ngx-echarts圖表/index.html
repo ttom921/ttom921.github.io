@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言因為之後專案會使用到圖表的功能，先來測試在動態切換時可以顯示不同的圖表，目前是使用ngx-echarts和echarts來顯示 先來安裝執行下面的指令 123npm install echarts -Snpm install ngx-echarts -Snpm install @types&#x2F;echarts -D  使用在src\app\app.module.ts下來import所需要的模組Ng">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習ngx-echarts圖表">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92ngx-echarts%E5%9C%96%E8%A1%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言因為之後專案會使用到圖表的功能，先來測試在動態切換時可以顯示不同的圖表，目前是使用ngx-echarts和echarts來顯示 先來安裝執行下面的指令 123npm install echarts -Snpm install ngx-echarts -Snpm install @types&#x2F;echarts -D  使用在src\app\app.module.ts下來import所需要的模組Ng">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-08-12T14:21:20.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="圖表">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92ngx-echarts%E5%9C%96%E8%A1%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習ngx-echarts圖表 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92ngx-echarts%E5%9C%96%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習ngx-echarts圖表
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-08-12 14:21:20" itemprop="dateCreated datePublished" datetime="2019-08-12T14:21:20+00:00">2019-08-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/Angular/" itemprop="url" rel="index"><span itemprop="name">Angular</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>因為之後專案會使用到圖表的功能，先來測試在動態切換時可以顯示不同的圖表，目前是使用ngx-echarts和echarts來顯示</p>
+<h3 id="先來安裝"><a href="#先來安裝" class="headerlink" title="先來安裝"></a>先來安裝</h3><p>執行下面的指令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install echarts -S</span><br><span class="line">npm install ngx-echarts -S</span><br><span class="line">npm install @types/echarts -D</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>在<code>src\app\app.module.ts</code>下來import所需要的模組<strong>NgxEchartsModule</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="keyword">import</span> &#123; NgxEchartsModule &#125; <span class="keyword">from</span> <span class="string">'ngx-echarts'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">    NgxEchartsModule,</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>echarts</code>directive在div上</p>
+<p>在<code>src\app\app.component.html</code>中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">echarts</span> [<span class="attr">options</span>]=<span class="string">"chartOption"</span> <span class="attr">class</span>=<span class="string">"demo-chart"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\app.component.scss</code>中</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.demo-chart</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\app.component.ts</code>中</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; EChartOption &#125; <span class="keyword">from</span> <span class="string">'echarts'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-root'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./app.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</span><br><span class="line">  chartOption: EChartOption = &#123;</span><br><span class="line">    xAxis: &#123;</span><br><span class="line">      <span class="keyword">type</span>: <span class="string">'category'</span>,</span><br><span class="line">      data: [<span class="string">'Mon'</span>, <span class="string">'Tue'</span>, <span class="string">'Wed'</span>, <span class="string">'Thu'</span>, <span class="string">'Fri'</span>, <span class="string">'Sat'</span>, <span class="string">'Sun'</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    yAxis: &#123;</span><br><span class="line">      <span class="keyword">type</span>: <span class="string">'value'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    series: [&#123;</span><br><span class="line">      data: [<span class="number">820</span>, <span class="number">932</span>, <span class="number">901</span>, <span class="number">934</span>, <span class="number">1290</span>, <span class="number">1330</span>, <span class="number">1320</span>],</span><br><span class="line">      <span class="keyword">type</span>: <span class="string">'line'</span></span><br><span class="line">    &#125;]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  title = <span class="string">'TestEcharts'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="可以來切換顯示測試過的圖表"><a href="#可以來切換顯示測試過的圖表" class="headerlink" title="可以來切換顯示測試過的圖表"></a>可以來切換顯示測試過的圖表</h3><h4 id="建立基本的Layout"><a href="#建立基本的Layout" class="headerlink" title="建立基本的Layout"></a>建立基本的Layout</h4><p>加人dashboard的模組</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g m dashboard --routing</span><br></pre></td></tr></table></figure>
+
+<p>加人dashboard的元件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g c dashboard</span><br></pre></td></tr></table></figure>
+
+<p>安裝@angular/material和@angular/cdk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @angular&#x2F;material @angular&#x2F;cdk</span><br></pre></td></tr></table></figure>
+
+<p>安裝@angular/animations</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @angular&#x2F;animations</span><br></pre></td></tr></table></figure>
+
+<p>加入SharedAngularMaterial &lt;<a href="https://ithelp.ithome.com.tw/articles/10209937">https://ithelp.ithome.com.tw/articles/10209937</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g m share\SharedAngularMaterial</span><br></pre></td></tr></table></figure>
+
+<p>加入theme設定</p>
+<p>在’styles.scss’中,有四種選一種</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span> <span class="string">"~@angular/material/prebuilt-themes/deeppurple-amber.css"</span>;</span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/indigo-pink.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/purple-green.css";</span></span><br></pre></td></tr></table></figure>
+
+<p>加入Material Icons</p>
+<p>可以到此網站找到需要的Icon,<a href="https://material.io/icons/">Material Icons</a></p>
+<p>在’index.html’</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/icon?family=Material+Icons"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在MatIcon中使用SVG</p>
+<p>必須透過Angular提供的DomSanitizer Service來信任這個路徑。接著我們就可以透過<code>MatIconRegistry</code>來擴充SVG icon</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> SharedAngularMaterialModule <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> matIconRegistry: MatIconRegistry, <span class="keyword">private</span> domSanitizer: DomSanitizer</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.ngOnInit();</span><br><span class="line">  &#125;</span><br><span class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="comment">// this.matIconRegistry.addSvgIconInNamespace(</span></span><br><span class="line">    <span class="comment">//   "custom-svg",</span></span><br><span class="line">    <span class="comment">//   "angular",</span></span><br><span class="line">    <span class="comment">//   this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/angular_solidBlack.svg")</span></span><br><span class="line">    <span class="comment">// );</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在MatIcon中使用Icon Font</p>
+<p>以FontAwesome為例，我們先來安裝庫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @fortawesome&#x2F;fontawesome-free</span><br></pre></td></tr></table></figure>
+
+<p>接下來在<code>src\styles.scss</code>中</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span> <span class="string">"~@angular/material/prebuilt-themes/deeppurple-amber.css"</span>;</span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/indigo-pink.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/purple-green.css";</span></span><br><span class="line">@<span class="keyword">import</span> <span class="string">"~@fortawesome/fontawesome-free/css/all.css"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>打造基本後台</p>
+<p>在<code>src\app\dashboard\dashboard.component.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-toolbar</span> <span class="attr">class</span>=<span class="string">"demo-app-header"</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span> (<span class="attr">click</span>)=<span class="string">"sideNav.toggle()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>&#123;&#123;sideNav.opened ? 'close':'menu'&#125;&#125;<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>動態元件 demo<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 在這之後的都會被推到右邊去 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"toolbar-seprator"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>message<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>exit_to_app<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-toolbar</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-sidenav-container</span> <span class="attr">class</span>=<span class="string">"demo-app-container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav</span> <span class="attr">class</span>=<span class="string">"demo-app-sidenav"</span> #<span class="attr">sideNav</span> <span class="attr">mode</span>=<span class="string">"push"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-nav-list</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span>示範用頁面<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'survey']"</span> <span class="attr">mat-list-item</span>&gt;</span>問卷調查<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'blog']"</span> <span class="attr">mat-list-item</span>&gt;</span>部落格<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'inbox']"</span> <span class="attr">mat-list-item</span>&gt;</span>收件夾<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-divider</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-divider</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 另外一組選單 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span>其他頁面<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/']"</span> <span class="attr">mat-list-item</span>&gt;</span>首頁<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/']"</span> <span class="attr">mat-list-item</span>&gt;</span>Google<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/']"</span> <span class="attr">mat-list-item</span>&gt;</span>Facebook<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mat-nav-list</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100%;height: 20em;background-color: blueviolet"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-sidenav-container</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\dashboard\dashboard.component.ts</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-dashboard'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./dashboard.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./dashboard.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> DashboardComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span>) &#123; &#125; ngOnInit() &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在加入ToolBar有點小小問題，會隨著畫面捲動要讓toolbar個定在最上方設定一下CSS就好了在<code>src\app\dashboard\dashboard.component.scss</code></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mat-sidenav-container&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.demo-app-header</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: fixed;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">z-index</span>: <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.demo-app-container</span>,</span><br><span class="line">  <span class="selector-class">.demo-app-sidenav</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">padding-top</span>: <span class="number">64px</span>;</span><br><span class="line">    <span class="comment">//width: 100%;</span></span><br><span class="line"> &#125;</span><br><span class="line"><span class="selector-class">.toolbar-seprator</span>&#123;</span><br><span class="line">  <span class="attribute">flex</span>:<span class="number">1</span> <span class="number">1</span> auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>src\app\app.module.ts</code>加入需要的模組</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    BrowserAnimationsModule,</span><br><span class="line">    FormsModule,</span><br><span class="line">    NgxEchartsModule,</span><br><span class="line">    AppRoutingModule,</span><br><span class="line">    DashboardModule</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
+
+<p>修改路徑</p>
+<p><code>src\app\app-routing.module.ts</code>中</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> routes: Routes = [</span><br><span class="line">  &#123; path: <span class="string">''</span>, redirectTo: <span class="string">'dashboard'</span>, pathMatch: <span class="string">'full'</span> &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>在建立圖表資料夾，在建立<code>SimpleChart</code>元件後將，上面有關圖表的<code>html</code>,<code>css</code>,<code>ts</code>檔裏的程式和資料移到此元件上，托下來修改<code>src\app\dashboard\dashboard-routing.module.ts</code>中</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> routes: Routes = [</span><br><span class="line">  &#123;</span><br><span class="line">    path: <span class="string">'dashboard'</span>, component: DashboardComponent, children: [</span><br><span class="line">      &#123; path: <span class="string">''</span>, redirectTo: <span class="string">'simplechart'</span>, pathMatch: <span class="string">'full'</span> &#125;,</span><br><span class="line">      &#123; path: <span class="string">'simplechart'</span>, component: SimpleChartComponent &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h4 id="建立簡單Bar圖表"><a href="#建立簡單Bar圖表" class="headerlink" title="建立簡單Bar圖表"></a>建立簡單Bar圖表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g component charts&#x2F;SimpleBar</span><br></pre></td></tr></table></figure>
+
+<p>安裝json-server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g json-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="建立db-json"><a href="#建立db-json" class="headerlink" title="建立db.json"></a>建立db.json</h4><p>接者新增<code>db.json</code>檔</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;</span><br><span class="line">  "posts": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">"title"</span>: <span class="string">"json-server"</span>,</span><br><span class="line">      <span class="attr">"author"</span>: <span class="string">"typicode"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "comments": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">"body"</span>: <span class="string">"some comment"</span>,</span><br><span class="line">      <span class="attr">"postId"</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "profile": &#123;</span><br><span class="line">    "name": "typicode"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在終端機輸入<code>json-server db.json</code>運行json-serve,等候呼叫API</p>
+<p>在vscode的<code>package.json</code>中可以修改scripts來執行json-server如下加入<code>&quot;mock-server&quot;: &quot;json-server --watch db.json&quot;</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">    "ng": "ng",</span><br><span class="line">    "start": "ng serve",</span><br><span class="line">    "build": "ng build",</span><br><span class="line">    "test": "ng test",</span><br><span class="line">    "lint": "ng lint",</span><br><span class="line">    "e2e": "ng e2e",</span><br><span class="line">    "mock-server": "json-server --watch db.json"</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>在終端來打入<code>npm run mock-server</code> 即可執行，可以打開瀏覽器來看有無成功<code>http://localhost:3000</code> 會出現整個 JSON Server 主控頁面</p>
+<h5 id="新增route-json檔案"><a href="#新增route-json檔案" class="headerlink" title="新增route.json檔案"></a>新增<code>route.json</code>檔案</h5><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"/api/*"</span>: <span class="string">"/$1"</span>         <span class="comment">//   /api/posts =&gt; /posts</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的意思就就是當調用<code>/api/posts</code>時，重定向到<code>/posts</code></p>
+<h4 id="自訂配置"><a href="#自訂配置" class="headerlink" title="自訂配置"></a>自訂配置</h4><p>為了更方便使用，也可以自行配罝json-server</p>
+<p>新增<code>json-server.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"port"</span>: <span class="number">3000</span>,<span class="comment">//自定 port</span></span><br><span class="line">  <span class="attr">"watch"</span>: <span class="literal">true</span>,<span class="comment">//監聽改動</span></span><br><span class="line">  <span class="attr">"routes"</span>: <span class="string">"route.json"</span><span class="comment">//路由配置路徑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因為只有使用到這些配置，更多配置請參考官方 GitHub 文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g service share&#x2F;RestApi</span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\share\rest-api.service.ts</code>中加入呼叫的功能，可以給前端來呼叫來取得後端的資料來顯示,目前示範的是<code>getBar()</code>的功能呼叫</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Injectable &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpHeaders, HttpClient &#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Observable, throwError &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; retry, catchError &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>(&#123;</span><br><span class="line">  providedIn: <span class="string">'root'</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> RestApiService &#123;</span><br><span class="line">  <span class="comment">// Define API</span></span><br><span class="line">  apiURL = <span class="string">'http://localhost:3000'</span>;</span><br><span class="line">  <span class="comment">// Http Options</span></span><br><span class="line">  httpOptions = &#123;</span><br><span class="line">    headers: <span class="keyword">new</span> HttpHeaders(&#123;</span><br><span class="line">      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> http: HttpClient</span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  getBar(): Observable&lt;<span class="built_in">any</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.http.get&lt;<span class="built_in">any</span>&gt;(<span class="keyword">this</span>.apiURL + <span class="string">"/bardata"</span>).pipe(</span><br><span class="line">      retry(<span class="number">1</span>),</span><br><span class="line">      catchError(<span class="keyword">this</span>.handleError)</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Error handling</span></span><br><span class="line">  handleError(error) &#123;</span><br><span class="line">    <span class="keyword">let</span> errorMessage = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">if</span> (error.error <span class="keyword">instanceof</span> ErrorEvent) &#123;</span><br><span class="line">      <span class="comment">// Get client-side error</span></span><br><span class="line">      errorMessage = error.error.message;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// Get server-side error</span></span><br><span class="line">      errorMessage = <span class="string">`Error Code: <span class="subst">$&#123;error.status&#125;</span>\nMessage: <span class="subst">$&#123;error.message&#125;</span>`</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">window</span>.alert(errorMessage);</span><br><span class="line">    <span class="keyword">return</span> throwError(errorMessage);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>db.json</code>中加入給<code>getBar()</code>的資料</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">"bardata": &#123;</span><br><span class="line">    "rawdata": [</span><br><span class="line">      ["釋出日期","數量" ],</span><br><span class="line">      ["2014-03-25",1   ],</span><br><span class="line">      ["2014-04-04",1   ],</span><br><span class="line">      ["2014-04-09",3   ],</span><br><span class="line">      ["2014-04-10",10  ],</span><br><span class="line">      [<span class="string">"2014-04-11"</span>,<span class="number">2</span>   ]</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\charts\simple-bar\simple-bar.component.ts</code>中收到資料時，要轉換一下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> SimpleBarComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 定義圖表項</span></span><br><span class="line">  chartOption: EChartOption = &#123;</span><br><span class="line"></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> restApi: RestApiService</span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">    <span class="keyword">this</span>.restApi.getBar().subscribe(<span class="function">(<span class="params">data: <span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(data);</span><br><span class="line">      <span class="keyword">let</span> axistitles = data.rawdata[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">let</span> xAxisname = axistitles[<span class="number">0</span>];</span><br><span class="line">      <span class="comment">//console.log(xAxisname);</span></span><br><span class="line">      <span class="keyword">let</span> yAxisname = axistitles[<span class="number">1</span>];</span><br><span class="line">      <span class="keyword">let</span> xAxisData = [];</span><br><span class="line">      <span class="keyword">let</span> serdata = [];</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> index = <span class="number">1</span>; index &lt; data.rawdata.length; index++) &#123;</span><br><span class="line">        <span class="keyword">const</span> element = data.rawdata[index];</span><br><span class="line">        xAxisData.push(element[<span class="number">0</span>]);</span><br><span class="line">        serdata.push(element[<span class="number">1</span>]);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//圖表項賦值</span></span><br><span class="line">      <span class="keyword">this</span>.chartOption = &#123;</span><br><span class="line">        <span class="comment">//調色盤列表。如果系列沒有設置顏色，則會依循環從該列表中取顏色作為系列顏色</span></span><br><span class="line">        color: [<span class="string">'#59a1f8'</span>, <span class="string">'#78c87d'</span>, <span class="string">'#f6d464'</span>, <span class="string">'#445285'</span>, <span class="string">'#8e67de'</span>, <span class="string">'#e36f7e'</span>, <span class="string">'#70c9ca'</span>, <span class="string">'#d396c6'</span>, <span class="string">'#b09e6c'</span>, <span class="string">'#4f58d5'</span>, <span class="string">'#96a36f'</span>],</span><br><span class="line">        title: &#123;</span><br><span class="line">          text: <span class="string">"標題文字"</span>,</span><br><span class="line">          left: <span class="string">'center'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        legend: &#123;&#125;,</span><br><span class="line">        tooltip: &#123;&#125;,</span><br><span class="line">        xAxis: &#123;</span><br><span class="line">          name: xAxisname,<span class="comment">//x軸的標題</span></span><br><span class="line">          nameLocation: <span class="string">'middle'</span>,</span><br><span class="line">          nameGap: <span class="number">25</span>,<span class="comment">//坐標軸名稱與軸線之間的距離</span></span><br><span class="line">          data: xAxisData,</span><br><span class="line">        &#125;,</span><br><span class="line">        yAxis: &#123;</span><br><span class="line">          name: yAxisname,<span class="comment">//y軸的標題</span></span><br><span class="line">          nameGap: <span class="number">25</span>,<span class="comment">//坐標軸名稱與軸線之間的距離</span></span><br><span class="line">          nameLocation: <span class="string">'middle'</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        series: [&#123;</span><br><span class="line">          <span class="keyword">type</span>: <span class="string">'bar'</span>,</span><br><span class="line">          data: serdata</span><br><span class="line">        &#125;]</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 在上面可以看到在註解上有加入一些常用的設定</p>
+<h3 id="使用dataset"><a href="#使用dataset" class="headerlink" title="使用dataset"></a>使用dataset</h3><p>在之後的版本可以來使用dataset的方式來設定資料，這樣比較好管理</p>
+<h4 id="折線圖"><a href="#折線圖" class="headerlink" title="折線圖"></a>折線圖</h4><ul>
+<li><p>Basic Line Chart</p>
+<p>先來建立一個元件<code>ng g component charts/line/BasicLine</code>, 在來設定其它的屬性</p>
+<p>在<code>src\app\charts\line\basic-line\basic-line.component.scss</code>中</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.demo-chart</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>&lt;div echarts [options]=&quot;chartOption&quot; class=&quot;demo-chart&quot;&gt;&lt;/div&gt;</code>中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">echarts</span> [<span class="attr">options</span>]=<span class="string">"chartOption"</span> <span class="attr">class</span>=<span class="string">"demo-chart"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>db.json</code>中加入</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">"linechardata": &#123;</span><br><span class="line">    "source": [</span><br><span class="line">      ["Mon", 820 ],</span><br><span class="line">      ["Tue", 932 ],</span><br><span class="line">      ["Wed", 901 ],</span><br><span class="line">      ["Thu", 934 ],</span><br><span class="line">      ["Fir", 1290],</span><br><span class="line">      ["Sat", 1330],</span><br><span class="line">      [<span class="string">"Sun"</span>, <span class="number">1320</span>]</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>另一種寫法</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"linechardata": &#123;</span><br><span class="line">    "source": &#123;</span><br><span class="line">      "week": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],</span><br><span class="line">      "value": [820, 932,   901,   934, 1290, 1330, 1320]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p>  在<code>src\app\share\rest-api.service.ts</code>中加入</p>
+  <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">getLineChart(): Observable&lt;<span class="built_in">any</span>&gt; &#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">this</span>.http.get&lt;<span class="built_in">any</span>&gt;(<span class="keyword">this</span>.apiURL + <span class="string">"/linechardata"</span>).pipe(</span><br><span class="line">     retry(<span class="number">1</span>),</span><br><span class="line">     catchError(<span class="keyword">this</span>.handleError)</span><br><span class="line">   );</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>  在<code>src\app\charts\line\basic-line\basic-line.component.ts</code>中加入</p>
+  <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> BasicLineComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line">  chartOption: EChartOption = &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> restApi: RestApiService</span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">    <span class="keyword">this</span>.restApi.getLineChart().subscribe(<span class="function">(<span class="params">data: <span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(data.source);</span><br><span class="line">      <span class="comment">//圖表項賦值</span></span><br><span class="line">      <span class="keyword">this</span>.chartOption = &#123;</span><br><span class="line">        legend: &#123;&#125;,</span><br><span class="line">        tooltip: &#123;&#125;,</span><br><span class="line">        <span class="comment">//提供一份數據</span></span><br><span class="line">        dataset: &#123;</span><br><span class="line">          source: data.source</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// 聲明一個X軸，類目軸(category),默認情況下，類目軸對應到dataset第一列</span></span><br><span class="line">        xAxis: &#123; <span class="keyword">type</span>: <span class="string">'category'</span> &#125;,</span><br><span class="line">        <span class="comment">// 聲明一個Y軸，數值軸</span></span><br><span class="line">        yAxis: &#123;&#125;,</span><br><span class="line">        <span class="comment">// 聲明一個line</span></span><br><span class="line">        series: [</span><br><span class="line">          &#123; <span class="keyword">type</span>: <span class="string">'line'</span> &#125;,</span><br><span class="line">        ]</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  可以在折線上修改顯示文字</p>
+  <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 聲明一個line</span></span><br><span class="line">        series: [</span><br><span class="line">          &#123;</span><br><span class="line">            name: <span class="string">"數量"</span>,<span class="comment">//修改顯示文字</span></span><br><span class="line">            <span class="keyword">type</span>: <span class="string">'line'</span>,</span><br><span class="line">            smooth: <span class="literal">true</span></span><br><span class="line">          &#125;,</span><br><span class="line">        ]</span><br></pre></td></tr></table></figure>
+<h4 id="設定的參考"><a href="#設定的參考" class="headerlink" title="設定的參考"></a>設定的參考</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//圖表項賦值</span></span><br><span class="line">     <span class="keyword">this</span>.chartOption = &#123;</span><br><span class="line">       <span class="comment">//這個顯示標題(可又可無)</span></span><br><span class="line">       title: &#123;</span><br><span class="line">         text: <span class="string">'柱狀圖動畫延遲'</span></span><br><span class="line">       &#125;,</span><br><span class="line">       <span class="comment">//圖例(可又可無)</span></span><br><span class="line">       legend: &#123;</span><br><span class="line">       &#125;,</span><br><span class="line">       <span class="comment">//游標指示大小(可又可無)</span></span><br><span class="line">       tooltip: &#123;</span><br><span class="line">       &#125;,</span><br><span class="line">       <span class="comment">//提供一份數據</span></span><br><span class="line">       dataset: &#123;</span><br><span class="line">         source: data.source</span><br><span class="line">       &#125;,</span><br><span class="line">       <span class="comment">// 聲明一個X軸，類目軸(category),默認情況下，類目軸對應到dataset第一列</span></span><br><span class="line">       xAxis: &#123;</span><br><span class="line">         <span class="keyword">type</span>: <span class="string">'category'</span>,</span><br><span class="line">       &#125;,</span><br><span class="line">       <span class="comment">// 聲明一個Y軸</span></span><br><span class="line">       yAxis: &#123;&#125;,</span><br><span class="line">       series: [&#123;</span><br><span class="line">         name: <span class="string">'bar'</span>,</span><br><span class="line">         <span class="keyword">type</span>: <span class="string">'bar'</span>,</span><br><span class="line">         animationDelay: <span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">           <span class="keyword">return</span> idx * <span class="number">10</span>;</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;, &#123;</span><br><span class="line">         name: <span class="string">'bar2'</span>,</span><br><span class="line">         <span class="keyword">type</span>: <span class="string">'bar'</span>,</span><br><span class="line">         animationDelay: <span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">           <span class="keyword">return</span> idx * <span class="number">10</span> + <span class="number">100</span>;</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;]</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><p><a href="https://github.com/xieziyu/ngx-echarts">ngx-echarts</a><br><a href="https://www.echartsjs.com/index.html">echartsjs</a></p>
+<p><a href="https://my.oschina.net/u/3298482/blog/2032375">Echarts 定制化封装之dataset</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9C%96%E8%A1%A8/" rel="tag"># 圖表</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92%E4%BD%A0%E6%87%82JavaScirpt%E5%97%8E/" rel="prev" title="學習你懂JavaScirpt嗎?">
+      <i class="fa fa-chevron-left"></i> 學習你懂JavaScirpt嗎?
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84Flask%E5%A4%9A%E8%B3%87%E6%96%99%E5%BA%AB%E7%9A%84%E7%94%A8%E6%B3%95/" rel="next" title="記錄Flask多資料庫的用法">
+      記錄Flask多資料庫的用法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先來安裝"><span class="nav-text">先來安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-text">使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可以來切換顯示測試過的圖表"><span class="nav-text">可以來切換顯示測試過的圖表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立基本的Layout"><span class="nav-text">建立基本的Layout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立簡單Bar圖表"><span class="nav-text">建立簡單Bar圖表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立db-json"><span class="nav-text">建立db.json</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#新增route-json檔案"><span class="nav-text">新增route.json檔案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自訂配置"><span class="nav-text">自訂配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用dataset"><span class="nav-text">使用dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#折線圖"><span class="nav-text">折線圖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定的參考"><span class="nav-text">設定的參考</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

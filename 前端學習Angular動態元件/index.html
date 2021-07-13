@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言這是為了來測試Angular的動態載入元件的功能來測試一下 基本款先來使用ng new dyncom01來產生專案,接下來在來產生新的元件叫Hello 在src\app\app.component.html中修改如下 123&lt;h3&gt;基本款&lt;&#x2F;h3&gt;&lt;ng-container *ngComponentOutlet&#x3D;&quot;Hello&quot;&gt;&lt;&#x2F;ng-contain">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端學習Angular動態元件">
+<meta property="og:url" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92Angular%E5%8B%95%E6%85%8B%E5%85%83%E4%BB%B6/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言這是為了來測試Angular的動態載入元件的功能來測試一下 基本款先來使用ng new dyncom01來產生專案,接下來在來產生新的元件叫Hello 在src\app\app.component.html中修改如下 123&lt;h3&gt;基本款&lt;&#x2F;h3&gt;&lt;ng-container *ngComponentOutlet&#x3D;&quot;Hello&quot;&gt;&lt;&#x2F;ng-contain">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-08-07T16:17:04.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:34.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Angular">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92Angular%E5%8B%95%E6%85%8B%E5%85%83%E4%BB%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>前端學習Angular動態元件 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92Angular%E5%8B%95%E6%85%8B%E5%85%83%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端學習Angular動態元件
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-08-07 16:17:04" itemprop="dateCreated datePublished" datetime="2019-08-07T16:17:04+00:00">2019-08-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:34" itemprop="dateModified" datetime="2021-07-13T01:17:34+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/Angular/" itemprop="url" rel="index"><span itemprop="name">Angular</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>這是為了來測試Angular的動態載入元件的功能來測試一下</p>
+<h3 id="基本款"><a href="#基本款" class="headerlink" title="基本款"></a>基本款</h3><p>先來使用<code>ng new dyncom01</code>來產生專案,接下來在來產生新的元件叫<code>Hello</code></p>
+<p>在<code>src\app\app.component.html</code>中修改如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>基本款<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ng-container</span> *<span class="attr">ngComponentOutlet</span>=<span class="string">"Hello"</span>&gt;</span><span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\app.component.ts</code>中修改如下, 主要加人了<code>Hello = HelloComponent;</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HelloComponent &#125; <span class="keyword">from</span> <span class="string">'./hello/hello.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-root'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./app.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</span><br><span class="line">  title = <span class="string">'dyncom01'</span>;</span><br><span class="line">  Hello = HelloComponent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下來在<code>src\app\app.module.ts</code>中的主要加入<code>entryComponents: [HelloComponent],</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserModule &#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; AppRoutingModule &#125; <span class="keyword">from</span> <span class="string">'./app-routing.module'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HelloComponent &#125; <span class="keyword">from</span> <span class="string">'./hello/hello.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [</span><br><span class="line">    AppComponent,</span><br><span class="line">    HelloComponent</span><br><span class="line">  ],</span><br><span class="line">  imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    AppRoutingModule</span><br><span class="line">  ],</span><br><span class="line">  providers: [],</span><br><span class="line">  bootstrap: [AppComponent],</span><br><span class="line">  entryComponents: [HelloComponent],</span><br><span class="line">  exports: [HelloComponent]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>基本上就可以看到<code>HelloComponent</code>秀在畫面上</p>
+<h3 id="手動切換顯示元件"><a href="#手動切換顯示元件" class="headerlink" title="手動切換顯示元件"></a>手動切換顯示元件</h3><p>先建立以下的元件<code>FigA1</code>和<code>FigB1</code>接下來在<code>src\app\app.component.html</code>中修改</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>基本款<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ng-container</span> *<span class="attr">ngComponentOutlet</span>=<span class="string">"Hello"</span>&gt;</span><span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>切換款<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> (<span class="attr">click</span>)=<span class="string">"showfig('figa1')"</span>&gt;</span>秀FigA1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> (<span class="attr">click</span>)=<span class="string">"showfig('figb1')"</span>&gt;</span>秀FigB1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\app.component.ts</code>中加入按鈕的事件</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HelloComponent &#125; <span class="keyword">from</span> <span class="string">'./hello/hello.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; FigA1Component &#125; <span class="keyword">from</span> <span class="string">'./feature/fig-a1/fig-a1.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; FigB1Component &#125; <span class="keyword">from</span> <span class="string">'./feature/fig-b1/fig-b1.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-root'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./app.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</span><br><span class="line">  title = <span class="string">'dyncom01'</span>;</span><br><span class="line">  Hello = HelloComponent;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * name</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> showfig(compname: <span class="built_in">string</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"showfig:"</span> + compname);</span><br><span class="line">    <span class="keyword">switch</span> (compname) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"figa1"</span>:</span><br><span class="line">        <span class="keyword">this</span>.Hello = FigA1Component;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"figb1"</span>:</span><br><span class="line">        <span class="keyword">this</span>.Hello = FigB1Component;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\app.module.ts</code>中修改加入<code>entryComponents: [HelloComponent, FigA1Component, FigB1Component],</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserModule &#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; AppRoutingModule &#125; <span class="keyword">from</span> <span class="string">'./app-routing.module'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HelloComponent &#125; <span class="keyword">from</span> <span class="string">'./hello/hello.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; FigA1Component &#125; <span class="keyword">from</span> <span class="string">'./feature/fig-a1/fig-a1.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; FigB1Component &#125; <span class="keyword">from</span> <span class="string">'./feature/fig-b1/fig-b1.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [</span><br><span class="line">    AppComponent,</span><br><span class="line">    HelloComponent,</span><br><span class="line">    FigA1Component,</span><br><span class="line">    FigB1Component,</span><br><span class="line">  ],</span><br><span class="line">  imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    AppRoutingModule</span><br><span class="line">  ],</span><br><span class="line">  providers: [],</span><br><span class="line">  bootstrap: [AppComponent],</span><br><span class="line">  entryComponents: [HelloComponent, FigA1Component, FigB1Component],</span><br><span class="line">  exports: [HelloComponent, FigA1Component, FigB1Component]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下來按下按鈕’秀FigA1’和按鈕<code>秀FigB1</code>即可自由的切換顯示<code>FigA1Component</code>和<code>FigB1Component</code>的元件</p>
+<p><a href="https://github.com/ttom921/StudyAngular8/tree/master/ngTestDynamicCom/dyncom01">github</a></p>
+<h3 id="使用api來取得顯示"><a href="#使用api來取得顯示" class="headerlink" title="使用api來取得顯示"></a>使用api來取得顯示</h3><p>目前想使用以api來取得此顯示的元件</p>
+<h4 id="建立基本的Layout"><a href="#建立基本的Layout" class="headerlink" title="建立基本的Layout"></a>建立基本的Layout</h4><p>加人dashboard的模組</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g m dashboard --routing</span><br></pre></td></tr></table></figure>
+
+<p>加人dashboard的元件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g c dashboard</span><br></pre></td></tr></table></figure>
+
+<p>安裝@angular/material和@angular/cdk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @angular&#x2F;material @angular&#x2F;cdk</span><br></pre></td></tr></table></figure>
+
+<p>安裝@angular/animations</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @angular&#x2F;animations</span><br></pre></td></tr></table></figure>
+
+<p>加入SharedAngularMaterial &lt;<a href="https://ithelp.ithome.com.tw/articles/10209937">https://ithelp.ithome.com.tw/articles/10209937</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g m share\SharedAngularMaterial</span><br></pre></td></tr></table></figure>
+
+<p>加入theme設定</p>
+<p>在’styles.scss’中,有四種選一種</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span> <span class="string">"~@angular/material/prebuilt-themes/deeppurple-amber.css"</span>;</span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/indigo-pink.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/purple-green.css";</span></span><br></pre></td></tr></table></figure>
+
+<p>加入Material Icons</p>
+<p>可以到此網站找到需要的Icon,<a href="https://material.io/icons/">Material Icons</a></p>
+<p>在’index.html’</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://fonts.googleapis.com/icon?family=Material+Icons"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在MatIcon中使用SVG</p>
+<p>必須透過Angular提供的DomSanitizer Service來信任這個路徑。接著我們就可以透過<code>MatIconRegistry</code>來擴充SVG icon</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> SharedAngularMaterialModule <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> matIconRegistry: MatIconRegistry, <span class="keyword">private</span> domSanitizer: DomSanitizer</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.ngOnInit();</span><br><span class="line">  &#125;</span><br><span class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="comment">// this.matIconRegistry.addSvgIconInNamespace(</span></span><br><span class="line">    <span class="comment">//   "custom-svg",</span></span><br><span class="line">    <span class="comment">//   "angular",</span></span><br><span class="line">    <span class="comment">//   this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/angular_solidBlack.svg")</span></span><br><span class="line">    <span class="comment">// );</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在MatIcon中使用Icon Font</p>
+<p>以FontAwesome為例，我們先來安裝庫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @fortawesome&#x2F;fontawesome-free</span><br></pre></td></tr></table></figure>
+
+<p>接下來在<code>src\styles.scss</code>中</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span> <span class="string">"~@angular/material/prebuilt-themes/deeppurple-amber.css"</span>;</span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/indigo-pink.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/purple-green.css";</span></span><br><span class="line">@<span class="keyword">import</span> <span class="string">"~@fortawesome/fontawesome-free/css/all.css"</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>打造基本後台</p>
+<p>在<code>src\app\dashboard\dashboard.component.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-toolbar</span> <span class="attr">class</span>=<span class="string">"demo-app-header"</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span> (<span class="attr">click</span>)=<span class="string">"sideNav.toggle()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>&#123;&#123;sideNav.opened ? 'close':'menu'&#125;&#125;<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>動態元件 demo<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 在這之後的都會被推到右邊去 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"toolbar-seprator"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>message<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-icon-button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-icon</span>&gt;</span>exit_to_app<span class="tag">&lt;/<span class="name">mat-icon</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-toolbar</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-sidenav-container</span> <span class="attr">class</span>=<span class="string">"demo-app-container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav</span> <span class="attr">class</span>=<span class="string">"demo-app-sidenav"</span> #<span class="attr">sideNav</span> <span class="attr">mode</span>=<span class="string">"push"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-nav-list</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span>示範用頁面<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'survey']"</span> <span class="attr">mat-list-item</span>&gt;</span>問卷調查<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'blog']"</span> <span class="attr">mat-list-item</span>&gt;</span>部落格<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/', 'dashboard', 'inbox']"</span> <span class="attr">mat-list-item</span>&gt;</span>收件夾<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mat-divider</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-divider</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 另外一組選單 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h3</span> <span class="attr">matSubheader</span>&gt;</span>其他頁面<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/']"</span> <span class="attr">mat-list-item</span>&gt;</span>首頁<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/']"</span> <span class="attr">mat-list-item</span>&gt;</span>Google<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> [<span class="attr">routerLink</span>]=<span class="string">"['/']"</span> <span class="attr">mat-list-item</span>&gt;</span>Facebook<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mat-nav-list</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100%;height: 20em;background-color: blueviolet"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mat-sidenav-content</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-sidenav-container</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\dashboard\dashboard.component.ts</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-dashboard'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./dashboard.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./dashboard.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> DashboardComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在加入ToolBar有點小小問題，會隨著畫面捲動要讓toolbar個定在最上方設定一下CSS就好了在<code>src\app\dashboard\dashboard.component.scss</code></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mat-sidenav-container&#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.demo-app-header</span> &#123;</span><br><span class="line">      <span class="attribute">position</span>: fixed;</span><br><span class="line">      <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">      <span class="attribute">z-index</span>: <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="selector-class">.demo-app-container</span>,</span><br><span class="line">    <span class="selector-class">.demo-app-sidenav</span> &#123;</span><br><span class="line">      <span class="attribute">position</span>: absolute;</span><br><span class="line">      <span class="attribute">padding-top</span>: <span class="number">64px</span>;</span><br><span class="line">      <span class="comment">//width: 100%;</span></span><br><span class="line">   &#125;</span><br><span class="line">  <span class="selector-class">.toolbar-seprator</span>&#123;</span><br><span class="line">    <span class="attribute">flex</span>:<span class="number">1</span> <span class="number">1</span> auto;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>修改<code>src\app\app.module.ts</code>加入需要的模組</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    BrowserAnimationsModule,</span><br><span class="line">    FormsModule,</span><br><span class="line">    AppRoutingModule,</span><br><span class="line">    DashboardModule</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
+
+<h3 id="加人RouteA-RouteB"><a href="#加人RouteA-RouteB" class="headerlink" title="加人RouteA,RouteB"></a>加人RouteA,RouteB</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ng g c RouteA </span><br><span class="line">ng g c RouteB</span><br><span class="line">ng g c RouteC</span><br></pre></td></tr></table></figure>
+
+<p>加入各別要顯示的元件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ng g c feature\FigA1</span><br><span class="line">ng g c feature\FigA2</span><br><span class="line">ng g c feature\FigB1</span><br><span class="line">ng g c feature\FigB2</span><br><span class="line">ng g c feature\FigC1</span><br><span class="line">ng g c feature\FigC2</span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\dashboard\dashboard.module.ts</code>中將entryComponents加入不然找不到</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [DashboardComponent],</span><br><span class="line">  imports: [</span><br><span class="line">    CommonModule,</span><br><span class="line">    SharedAngularMaterialModule,</span><br><span class="line">    DashboardRoutingModule</span><br><span class="line">  ],</span><br><span class="line">  entryComponents: [FigA1Component, FigA2Component, FigB1Component, FigB2Component, FigC1Component, FigC2Component],</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="安裝-json-server"><a href="#安裝-json-server" class="headerlink" title="安裝 json-server"></a>安裝 json-server</h3><p>因前有裝個全域的，所以來安裝local</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install json-server -D</span><br></pre></td></tr></table></figure>
+
+<h4 id="建立db-json"><a href="#建立db-json" class="headerlink" title="建立db.json"></a>建立db.json</h4><p>接者新增<code>db.json</code>檔，內容可先複製官網範例進行參考：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"posts"</span>: [</span><br><span class="line">    &#123; <span class="attr">"id"</span>: <span class="number">1</span>, <span class="attr">"title"</span>: <span class="string">"json-server"</span>, <span class="attr">"author"</span>: <span class="string">"typicode"</span> &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"comments"</span>: [</span><br><span class="line">    &#123; <span class="attr">"id"</span>: <span class="number">1</span>, <span class="attr">"body"</span>: <span class="string">"some comment"</span>, <span class="attr">"postId"</span>: <span class="number">1</span> &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"profile"</span>: &#123; <span class="attr">"name"</span>: <span class="string">"typicode"</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著再 package.json 的 script 內加入指令，方便使用：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">    "ng": "ng",</span><br><span class="line">    "start": "ng serve",</span><br><span class="line">    "build": "ng build",</span><br><span class="line">    "test": "ng test",</span><br><span class="line">    "lint": "ng lint",</span><br><span class="line">    "e2e": "ng e2e",</span><br><span class="line">    "mock-server": "json-server db.json --port 3010"</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p><strong>先運行看看吧～</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run mock-server</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><p><a href="https://blog.kevinyang.net/2017/07/02/angular-component-outlet/">另外一種簡單的方式載入 Component</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Angular/" rel="tag"># Angular</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92redis%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/" rel="prev" title="學習redis相關使用">
+      <i class="fa fa-chevron-left"></i> 學習redis相關使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%A8%AD%E5%AE%9Awin10%E6%A1%8C%E9%9D%A2ICON%E9%96%93%E8%B7%9D/" rel="next" title="設定win10桌面ICON間距">
+      設定win10桌面ICON間距 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本款"><span class="nav-text">基本款</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手動切換顯示元件"><span class="nav-text">手動切換顯示元件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用api來取得顯示"><span class="nav-text">使用api來取得顯示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立基本的Layout"><span class="nav-text">建立基本的Layout</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加人RouteA-RouteB"><span class="nav-text">加人RouteA,RouteB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-json-server"><span class="nav-text">安裝 json-server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立db-json"><span class="nav-text">建立db.json</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

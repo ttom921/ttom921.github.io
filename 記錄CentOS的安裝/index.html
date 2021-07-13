@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="記錄CentOS的安裝,主機板有使用UEFI和沒有使用UEFI 有使用UEFI  在設置biso的UEFI的設罝，將QuickBoot&#x2F;FastBoot和Secure Boot已被禁用 在使用ISO燒錄的注意事項  目前使用Rufus,選擇GPT 加入強制使用 GPT 分割表的安裝參數使用方向鍵，將游標移動到『 Install CentOS 7 』的項目中按下鍵盤的 [Tab] 按鈕，讓游標跑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="記錄CentOS的安裝">
+<meta property="og:url" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CentOS%E7%9A%84%E5%AE%89%E8%A3%9D/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="記錄CentOS的安裝,主機板有使用UEFI和沒有使用UEFI 有使用UEFI  在設置biso的UEFI的設罝，將QuickBoot&#x2F;FastBoot和Secure Boot已被禁用 在使用ISO燒錄的注意事項  目前使用Rufus,選擇GPT 加入強制使用 GPT 分割表的安裝參數使用方向鍵，將游標移動到『 Install CentOS 7 』的項目中按下鍵盤的 [Tab] 按鈕，讓游標跑">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CentOS%E7%9A%84%E5%AE%89%E8%A3%9D/centos7_02.jpg">
+<meta property="article:published_time" content="2018-03-01T10:28:43.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="CentOS">
+<meta property="article:tag" content="MariaDB">
+<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="FTP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84CentOS%E7%9A%84%E5%AE%89%E8%A3%9D/centos7_02.jpg">
+
+<link rel="canonical" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84CentOS%E7%9A%84%E5%AE%89%E8%A3%9D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>記錄CentOS的安裝 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84CentOS%E7%9A%84%E5%AE%89%E8%A3%9D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          記錄CentOS的安裝
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2018-03-01 10:28:43" itemprop="dateCreated datePublished" datetime="2018-03-01T10:28:43+00:00">2018-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/" itemprop="url" rel="index"><span itemprop="name">記錄</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>  記錄CentOS的安裝,主機板有使用UEFI和沒有使用UEFI</p>
+<h3 id="有使用UEFI"><a href="#有使用UEFI" class="headerlink" title="有使用UEFI"></a>有使用UEFI</h3><p>  在設置biso的UEFI的設罝，將QuickBoot/FastBoot和Secure Boot已被禁用</p>
+<h3 id="在使用ISO燒錄的注意事項"><a href="#在使用ISO燒錄的注意事項" class="headerlink" title="在使用ISO燒錄的注意事項"></a>在使用ISO燒錄的注意事項</h3><p>  目前使用Rufus,選擇GPT</p>
+<h3 id="加入強制使用-GPT-分割表的安裝參數"><a href="#加入強制使用-GPT-分割表的安裝參數" class="headerlink" title="加入強制使用 GPT 分割表的安裝參數"></a>加入強制使用 GPT 分割表的安裝參數</h3><p>使用方向鍵，將游標移動到『 Install CentOS 7 』的項目中<br>按下鍵盤的 [Tab] 按鈕，讓游標跑到畫面最下方等待輸入額外的核心參數<br>在出現的畫面中，輸入如下畫面的資料 (注意，各個項目要有空格，最後一個是游標本身而非底線)<br>其實重點就是輸入『 inst.gpt 』這個關鍵字<br><img src="../%E8%A8%98%E9%8C%84CentOS%E7%9A%84%E5%AE%89%E8%A3%9D/centos7_02.jpg" alt="image"></p>
+<h3 id="文字模式安裝"><a href="#文字模式安裝" class="headerlink" title="文字模式安裝"></a>文字模式安裝</h3><p>inst.text  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vmlinuz initrd&#x3D;initrd.img linux dd quiet</span><br><span class="line">vmlinuz initrd&#x3D;initrd.img inst.stage2&#x3D;hd:&#x2F;dev&#x2F;sdc4 quiet</span><br></pre></td></tr></table></figure>
+
+<h3 id="防火牆設定"><a href="#防火牆設定" class="headerlink" title="防火牆設定"></a>防火牆設定</h3><p>顯示目前的設定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
+<p>需要打開的防火牆</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --permanent --add-port&#x3D;3306&#x2F;tcp</span><br><span class="line">firewall-cmd --permanent --add-port&#x3D;8080&#x2F;tcp</span><br><span class="line">firewall-cmd --permanent --zone&#x3D;public --add-port&#x3D;22&#x2F;tcp</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<h3 id="關閉-SELinux"><a href="#關閉-SELinux" class="headerlink" title="關閉 SELinux"></a>關閉 SELinux</h3><p>開啟檔案 /etc/selinux/config:<br> vi /etc/selinux/config<br>找到以下一行:<br>SELINUX=enforce<br>改成:<br>SELINUX=disabled</p>
+<h2 id="安裝MariaDB-10-2-的版本"><a href="#安裝MariaDB-10-2-的版本" class="headerlink" title="安裝MariaDB 10.2 的版本"></a>安裝MariaDB 10.2 的版本</h2><p>  透過 MariaDB 官方提供的 Repositories快速的在 Linux 上佈署 MariaDB 是蠻簡單的事情<br>像是 Ubuntn 或 Debian 也都只需要跟著步驟操作即可首先連結到 <a href="https://downloads.mariadb.org/mariadb/repositories/#mirror=ossplanet">Setting up MariaDB Repositories</a> 頁面<br>選擇 系統、版本 和 MariaDB 版本，稍等一下就會顯示安裝步驟<br>以 CentOS 7 為例<br>先在 /etc/yum.repos.d/MariaDB.repo 檔案，內容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># MariaDB 10.2 CentOS repository list - created 2017-11-28 09:28 UTC</span><br><span class="line"># http:&#x2F;&#x2F;downloads.mariadb.org&#x2F;mariadb&#x2F;repositories&#x2F;</span><br><span class="line">[mariadb]</span><br><span class="line">name &#x3D; MariaDB</span><br><span class="line">baseurl &#x3D; http:&#x2F;&#x2F;yum.mariadb.org&#x2F;10.2&#x2F;centos7-amd64</span><br><span class="line">gpgkey&#x3D;https:&#x2F;&#x2F;yum.mariadb.org&#x2F;RPM-GPG-KEY-MariaDB</span><br><span class="line">gpgcheck&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝MariaDB-10-3-的版本"><a href="#安裝MariaDB-10-3-的版本" class="headerlink" title="安裝MariaDB 10.3 的版本"></a>安裝MariaDB 10.3 的版本</h2><p>透過 MariaDB 官方提供的 Repositories快速的在 Linux 上佈署 MariaDB 是蠻簡單的事情<br>像是 Ubuntn 或 Debian 也都只需要跟著步驟操作即可首先連結到 <a href="https://downloads.mariadb.org/mariadb/repositories/#mirror=ossplanet">Setting up MariaDB Repositories</a> 頁面<br>選擇 系統、版本 和 MariaDB 版本，稍等一下就會顯示安裝步驟<br>以 CentOS 7 為例<br>先在 /etc/yum.repos.d/MariaDB.repo 檔案，內容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># MariaDB 10.3 CentOS repository list - created 2018-06-11 06:16 UTC</span><br><span class="line"># http:&#x2F;&#x2F;downloads.mariadb.org&#x2F;mariadb&#x2F;repositories&#x2F;</span><br><span class="line">[mariadb]</span><br><span class="line">name &#x3D; MariaDB</span><br><span class="line">baseurl &#x3D; http:&#x2F;&#x2F;yum.mariadb.org&#x2F;10.3&#x2F;centos7-amd64</span><br><span class="line">gpgkey&#x3D;https:&#x2F;&#x2F;yum.mariadb.org&#x2F;RPM-GPG-KEY-MariaDB</span><br><span class="line">gpgcheck&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>接著時間下 yum 指令來進行安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install MariaDB-server MariaDB-client</span><br><span class="line">或</span><br><span class="line">sudo MariaDB-server MariaDB-client</span><br></pre></td></tr></table></figure>
+
+<p>若詢問是否 Importing GPG key 就同意吧,等跑完就安裝起好了<br>啟動 並設定開啟 自動啟動</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 馬上啟動 MariaDB</span><br><span class="line">systemctl start mariadb</span><br><span class="line"># 設定開機自動啟動</span><br><span class="line">systemctl enable mariadb</span><br></pre></td></tr></table></figure>
+
+<p>若是全新安裝，就是跟著做安全性的初始化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># 設定 root 的密碼</span><br><span class="line"># 將 new-password 取代成要使用的新密碼</span><br><span class="line">[root@git ~]# &#x2F;usr&#x2F;bin&#x2F;mysqladmin -u root password &#39;new-password&#39;</span><br><span class="line"> </span><br><span class="line">[root@git ~]# &#x2F;usr&#x2F;bin&#x2F;mysql_secure_installation</span><br><span class="line"> </span><br><span class="line"># 輸入目前的 root 密碼，直接輸入剛剛設定的密碼</span><br><span class="line">Enter current password for root (enter for none):</span><br><span class="line"> </span><br><span class="line"># 是否變更 root 密碼，因為是剛設定 應該不用變更了</span><br><span class="line">Change the root password? [Y&#x2F;n]</span><br><span class="line"> </span><br><span class="line"># 是否移除匿名帳號，按下 y 選擇移除</span><br><span class="line">Remove anonymous users? [Y&#x2F;n]</span><br><span class="line"> </span><br><span class="line"># 是否拒絕遠端使用 root 權限登入</span><br><span class="line"># 依照個別需求，沒特別需要遠端管理就按 y 吧</span><br><span class="line">Disallow root login remotely? [Y&#x2F;n]</span><br><span class="line"> </span><br><span class="line"># 是否移除 test 這個測試資料庫，和相關權限</span><br><span class="line"># 沒有需求就移除吧</span><br><span class="line">Remove test database and access to it? [Y&#x2F;n]</span><br><span class="line"> </span><br><span class="line"># 是否重新載入權限資料表，按 y</span><br><span class="line">Reload privilege tables now? [Y&#x2F;n]</span><br></pre></td></tr></table></figure>
+<h3 id="如果是ubuntu-mariadb-安裝"><a href="#如果是ubuntu-mariadb-安裝" class="headerlink" title="如果是ubuntu mariadb 安裝"></a>如果是ubuntu mariadb 安裝</h3><p><strong>注意設定檔</strong><br>Ubuntu 開啟 MySQL 遠端連線的設定方法<br>設定 MySql的bind-address:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">將bind-address取消</span><br><span class="line">[mysqld]</span><br><span class="line">……</span><br><span class="line">#bind-address &#x3D; 127.0.0.1 (在前面加#註解掉此行)</span><br></pre></td></tr></table></figure>
+<p>要將創建功能打開 <a href="https://www.cnblogs.com/fzng/p/7267002.html">參考</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &#39;%func%&#39;; </span><br><span class="line">mysql&gt; set global log_bin_trust_function_creators&#x3D;1;</span><br></pre></td></tr></table></figure>
+<p>在移動資料庫時，如果有升級時要升級的指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_upgrade -u root -p</span><br></pre></td></tr></table></figure>
+
+<h3 id="MariaDB設定utf8"><a href="#MariaDB設定utf8" class="headerlink" title="MariaDB設定utf8"></a>MariaDB設定utf8</h3><p>在  /etc/my.cnf.d/server.cnf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">init-connect&#x3D;&#39;SET NAMES utf8mb4&#39;</span><br><span class="line">collation_server&#x3D;utf8mb4_unicode_ci</span><br><span class="line">character_set_server&#x3D;utf8mb4</span><br></pre></td></tr></table></figure>
+
+<p>在 /etc/my.cnf.d/mysql-clients.cnf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[mysql]</span><br><span class="line">default-character-set&#x3D;utf8mb4</span><br></pre></td></tr></table></figure>
+
+<h4 id="mysql命令"><a href="#mysql命令" class="headerlink" title="mysql命令"></a>mysql命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart mariadb</span><br><span class="line">sudo systemctl status mariadb</span><br></pre></td></tr></table></figure>
+
+<p>若啟動失敗，可至 /var/log/mariadb/error.log 查看錯誤記錄</p>
+<h2 id="新增使用者帳號"><a href="#新增使用者帳號" class="headerlink" title="新增使用者帳號"></a>新增使用者帳號</h2><p>在 host_db 主機登入資料庫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u root -p</span><br></pre></td></tr></table></figure>
+<p>新增一個可從 % 主機登入的使用者 username ，密碼為 password</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#39;username&#39;@&#39;%&#39; IDENTIFIED BY &#39;password&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>加上所有權限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to root@&#39;%&#39; identified by &#39;12345678&#39; with grant option;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<h2 id="Core安裝2-1"><a href="#Core安裝2-1" class="headerlink" title="Core安裝2.1"></a>Core安裝2.1</h2><p>安裝完後，它的路徑有改，放在/usr/share/dotnet<br>Find the package installed</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list installed | grep &quot;aspnet&quot;</span><br></pre></td></tr></table></figure>
+<p>Remove the package</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove aspnetcore-store-2.0.0.x86_64</span><br></pre></td></tr></table></figure>
+<p>安裝sdk2.1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm -Uvh https:&#x2F;&#x2F;packages.microsoft.com&#x2F;config&#x2F;rhel&#x2F;7&#x2F;packages-microsoft-prod.rpm</span><br><span class="line">sudo yum update</span><br><span class="line">sudo yum install dotnet-sdk-2.1</span><br></pre></td></tr></table></figure>
+<p>加入symbolic link</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s &#x2F;usr&#x2F;share&#x2F;dotnet&#x2F;dotnet &#x2F;usr&#x2F;bin&#x2F;dotnet</span><br></pre></td></tr></table></figure>
+
+<h2 id="Core安裝2-0"><a href="#Core安裝2-0" class="headerlink" title="Core安裝2.0"></a>Core安裝2.0</h2><p>Add the dotnet product feed</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm --import https:&#x2F;&#x2F;packages.microsoft.com&#x2F;keys&#x2F;microsoft.asc</span><br><span class="line">sudo sh -c &#39;echo -e &quot;[packages-microsoft-com-prod]\nname&#x3D;packages-microsoft-com-prod \nbaseurl&#x3D; https:&#x2F;&#x2F;packages.microsoft.com&#x2F;yumrepos&#x2F;microsoft-rhel7.3-prod\nenabled&#x3D;1\ngpgcheck&#x3D;1\ngpgkey&#x3D;https:&#x2F;&#x2F;packages.microsoft.com&#x2F;keys&#x2F;microsoft.asc&quot; &gt; &#x2F;etc&#x2F;yum.repos.d&#x2F;dotnetdev.repo&#39;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Install the .NET SDK<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum update</span><br><span class="line">sudo yum install libunwind libicu</span><br><span class="line">sudo yum install dotnet-sdk-2.1.4</span><br></pre></td></tr></table></figure></li>
+<li>驗證.NET Core安裝<br>來到這裡你已經成功安裝.NET Core，建立一個專案測試一下 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#建立Console專案</span><br><span class="line"> [root@localhost ~]# dotnet new console -o hwapp </span><br><span class="line">#移至目錄</span><br><span class="line"> [root@localhost ~]# cd hwapp </span><br><span class="line">#restore dependencies，例如JSON.NET，EntityFramework，Bootstrap等Library</span><br><span class="line"> [root@localhost ~]# dotnet restore </span><br><span class="line">#執行 </span><br><span class="line">[root@localhost ~]# dotnet run </span><br><span class="line">#***Output***: #&gt; Hello World!</span><br></pre></td></tr></table></figure>
+<h4 id="安裝Nginx"><a href="#安裝Nginx" class="headerlink" title="安裝Nginx"></a>安裝Nginx</h4>在 RHEL, CentOS 或 Fedora 安裝 Nginx, 最簡單的方法是先加入 Nginx 的 CentOS 7 yum repository, 然後用 Yum 安裝</li>
+</ol>
+<ul>
+<li>編寫最新的 Nginx 套件位置<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#vim &#x2F;etc&#x2F;yum.repos.d&#x2F;nginx.repo</span><br><span class="line">[nginx]</span><br><span class="line">name&#x3D;nginx repo</span><br><span class="line">baseurl&#x3D;http:&#x2F;&#x2F;nginx.org&#x2F;packages&#x2F;centos&#x2F;$releasever&#x2F;$basearch&#x2F;</span><br><span class="line">gpgcheck&#x3D;0</span><br><span class="line">enabled&#x3D;1</span><br></pre></td></tr></table></figure></li>
+<li>更新一下所有套件庫的快取資料。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y update</span><br></pre></td></tr></table></figure></li>
+<li>利用 yum 安裝<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install nginx</span><br></pre></td></tr></table></figure></li>
+<li>啟動防火牆<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --permanent --zone&#x3D;public --add-service&#x3D;http</span><br><span class="line">firewall-cmd --permanent --zone&#x3D;public --add-service&#x3D;https</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure></li>
+<li>設定ngix<br>安裝好 Nginx 網頁伺服器後, 便可以用 systemctl 啟動/停止/重新啟動 Nginx, 現在啟動 Nginx 及設定開機自動啟動:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx.service</span><br><span class="line">systemctl enable nginx.service</span><br></pre></td></tr></table></figure>
+<h4 id="設定nginx"><a href="#設定nginx" class="headerlink" title="設定nginx"></a>設定nginx</h4>以下是default的設定範例 /etc/nginx/conf.d/default.conf</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;localhost:5000;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection keep-alive;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_cache_bypass $http_upgrade;</span><br><span class="line">		proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Cookie $http_cookie;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>建立好設定檔後透過以下命令重新啟動 nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart nginx.service</span><br><span class="line">sudo service nginx restart</span><br><span class="line">sudo nginx -t 以驗證組態檔的語法</span><br></pre></td></tr></table></figure>
+
+<h4 id="建立服務檔"><a href="#建立服務檔" class="headerlink" title="建立服務檔"></a>建立服務檔</h4><p>指令如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;gomoshop.service</span><br></pre></td></tr></table></figure>
+<p>內容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;GomoShop  running on Centos7</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">WorkingDirectory&#x3D;&#x2F;home&#x2F;wwwdata&#x2F;wwwshop</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;dotnet &#x2F;home&#x2F;wwwdata&#x2F;wwwshop&#x2F;Gomo.CC.UI.Portal.dll</span><br><span class="line">Restart&#x3D;always</span><br><span class="line">RestartSec&#x3D;10  # Restart service after 10 seconds if dotnet service crashes</span><br><span class="line">SyslogIdentifier&#x3D;dotnet-gomoshop</span><br><span class="line">User&#x3D;root</span><br><span class="line">Environment&#x3D;ASPNETCORE_ENVIRONMENT&#x3D;Production</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+<p>指令參考</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable gomoshop.service</span><br><span class="line">systemctl status gomoshop.service</span><br><span class="line">systemctl restart gomoshop.service</span><br><span class="line">journalctl -fu gomoshop.service</span><br></pre></td></tr></table></figure>
+<h6 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h6><ol>
+<li><a href="https://rufus.akeo.ie/?locale=zh_TW">Rufus的官方網站</a></li>
+<li><a href="http://blog.xuite.net/yh96301/blog/450717778-Rufus%E8%A3%BD%E4%BD%9CUbuntu+16.04+USB%E5%AE%89%E8%A3%9D%E9%9A%A8%E8%BA%AB%E7%A2%9F">Rufus製作Ubuntu 16.04 USB安裝隨身碟</a></li>
+<li><a href="https://www.microsoft.com/net/learn/get-started/linux/centos">Core安裝</a></li>
+<li><a href="http://linux.vbird.org/linux_basic/0157installcentos7.php">鳥哥</a><h4 id="安裝vsftp"><a href="#安裝vsftp" class="headerlink" title="安裝vsftp"></a>安裝vsftp</h4>我們從 CentOS 官方套件庫直接安裝就可以了。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install vsftpd</span><br></pre></td></tr></table></figure>
+啟動服務<br>不必修改任何設定值，就可以正常的啟動 vsFTPd 服務<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart vsftpd</span><br></pre></td></tr></table></figure>
+預設的 FTP 根目錄在 /var/ftp。<br>我們可以視需求，決定是否讓服務在開機時就自動啟動。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable vsftpd</span><br></pre></td></tr></table></figure>
+主設定檔及相關設定檔的預設儲存目錄在 /etc/vsftpd。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi &#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf</span><br></pre></td></tr></table></figure>
+其他相關設定<br>防火牆<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo firewall-cmd --permanent --zone&#x3D;public --add-service&#x3D;ftp</span><br><span class="line">sudo firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+如果有啟用被動模式的話，再加上指派給它的通訊埠範圍。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo firewall-cmd --zone&#x3D;public --add-port&#x3D;60101-61200&#x2F;tcp</span><br><span class="line">sudo firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+相關設定檔<br>/etc/vsftpd/ftpusers<br>這個檔案用來列出絕對禁止登入 FTP Server 的本機使用者，預設的名單有 root 跟一些常見的本機服務帳號，像是 mail、sync、shutdown … 之類的。</li>
+</ol>
+<h3 id="安裝ftpclient"><a href="#安裝ftpclient" class="headerlink" title="安裝ftpclient"></a>安裝ftpclient</h3><p>  下達下面的指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install –y ftp</span><br></pre></td></tr></table></figure>
+
+<h6 id="參考-1"><a href="#參考-1" class="headerlink" title="參考"></a>參考</h6><ul>
+<li><a href="http://blog.itist.tw/2016/08/build-ftp-server-with-vsftpd-on-centos-7.html">CentOS 7 傳輸檔案的好伙伴，老當益壯的 FTP 伺服器 - vsFTPd</a></li>
+<li><a href="https://www.openfoundry.org/en/enterprise-application/9349-centos7">輕鬆學習 centos-7 基礎安裝升級與使用</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+              <a href="/tags/MariaDB/" rel="tag"># MariaDB</a>
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+              <a href="/tags/FTP/" rel="tag"># FTP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/VS%E7%9A%84IIS-Express%E5%8F%AF%E4%BB%A5%E4%BB%A5IP%E4%BE%86%E8%A8%AA%E5%95%8F/" rel="prev" title="VS的IIS Express可以以IP來訪問">
+      <i class="fa fa-chevron-left"></i> VS的IIS Express可以以IP來訪問
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%BB%8A%E4%B8%BB%E7%AB%AF%E5%B0%88%E6%A1%88%E7%9B%B8%E9%97%9C/" rel="next" title="車主端專案相關">
+      車主端專案相關 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#有使用UEFI"><span class="nav-text">有使用UEFI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在使用ISO燒錄的注意事項"><span class="nav-text">在使用ISO燒錄的注意事項</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入強制使用-GPT-分割表的安裝參數"><span class="nav-text">加入強制使用 GPT 分割表的安裝參數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文字模式安裝"><span class="nav-text">文字模式安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防火牆設定"><span class="nav-text">防火牆設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#關閉-SELinux"><span class="nav-text">關閉 SELinux</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝MariaDB-10-2-的版本"><span class="nav-text">安裝MariaDB 10.2 的版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝MariaDB-10-3-的版本"><span class="nav-text">安裝MariaDB 10.3 的版本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如果是ubuntu-mariadb-安裝"><span class="nav-text">如果是ubuntu mariadb 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MariaDB設定utf8"><span class="nav-text">MariaDB設定utf8</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql命令"><span class="nav-text">mysql命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新增使用者帳號"><span class="nav-text">新增使用者帳號</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Core安裝2-1"><span class="nav-text">Core安裝2.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Core安裝2-0"><span class="nav-text">Core安裝2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝Nginx"><span class="nav-text">安裝Nginx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定nginx"><span class="nav-text">設定nginx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立服務檔"><span class="nav-text">建立服務檔</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考"><span class="nav-text">參考</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝vsftp"><span class="nav-text">安裝vsftp</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝ftpclient"><span class="nav-text">安裝ftpclient</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考-1"><span class="nav-text">參考</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

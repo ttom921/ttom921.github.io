@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="物件(object)的定義有意義的物件導向的代碼class 最基本的作用:封裝 123456789101112# class的定義和使用class Student():    name &#x3D; &#39;&#39;    age &#x3D; 0    def print_file(self):        print(&#39;name: &#39;+ self.name)        print(&#39;age: &#39;+ str(self.a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習Python的物件導向">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="物件(object)的定義有意義的物件導向的代碼class 最基本的作用:封裝 123456789101112# class的定義和使用class Student():    name &#x3D; &#39;&#39;    age &#x3D; 0    def print_file(self):        print(&#39;name: &#39;+ self.name)        print(&#39;age: &#39;+ str(self.a">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/Img-2019-03-29-15-22-07.jpg">
+<meta property="article:published_time" content="2019-03-28T20:51:25.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/Img-2019-03-29-15-22-07.jpg">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習Python的物件導向 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習Python的物件導向
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-03-28 20:51:25" itemprop="dateCreated datePublished" datetime="2019-03-28T20:51:25+00:00">2019-03-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="物件-object-的定義"><a href="#物件-object-的定義" class="headerlink" title="物件(object)的定義"></a>物件(object)的定義</h1><p>有意義的物件導向的代碼<br>class 最基本的作用:封裝</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># class的定義和使用</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    name = <span class="string">''</span></span><br><span class="line">    age = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">print_file</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'name: '</span>+ self.name)</span><br><span class="line">        print(<span class="string">'age: '</span>+ str(self.age))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 實例化</span></span><br><span class="line">student = Student()</span><br><span class="line">student.print_file()</span><br></pre></td></tr></table></figure>
+
+<h2 id="淺談函數與方法的區別"><a href="#淺談函數與方法的區別" class="headerlink" title="淺談函數與方法的區別"></a>淺談函數與方法的區別</h2><p><img src="/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/Img-2019-03-29-15-22-07.jpg" alt="Img-2019-03-29-15-22-07"></p>
+<ul>
+<li>方法:設計層面</li>
+<li>函數:程序運行，過程式的一種稱謂</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> c1 <span class="keyword">import</span> Student</span><br><span class="line">student = Student()</span><br><span class="line">student.print_file()</span><br></pre></td></tr></table></figure>
+
+<h2 id="類-class類與對象-object"><a href="#類-class類與對象-object" class="headerlink" title="類(class類與對象(object)"></a>類(class類與對象(object)</h2><p>類是現實世界或思維世界中的實體在計算機中的反映它將數據以及這些數據上的操作封裝在一起</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    name = <span class="string">''</span></span><br><span class="line">    age = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 行為與特徵</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'homework'</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="構造函數"><a href="#構造函數" class="headerlink" title="構造函數"></a>構造函數</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c1.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    name = <span class="string">''</span></span><br><span class="line">    age = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        <span class="comment"># 構造函數</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name+<span class="string">' homework'</span>)</span><br><span class="line"><span class="comment">#-----------c3.py</span></span><br><span class="line"><span class="keyword">from</span> c1 <span class="keyword">import</span> Student</span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)</span><br><span class="line">student1.do_homework()</span><br></pre></td></tr></table></figure>
+
+<h2 id="模塊變量"><a href="#模塊變量" class="headerlink" title="模塊變量"></a>模塊變量</h2><p>有自已的範圍</p>
+<h2 id="類中的變量"><a href="#類中的變量" class="headerlink" title="類中的變量"></a>類中的變量</h2><ul>
+<li>類變量:和類有關的變量</li>
+<li>實例變量:和物件有關的變量</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c1.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    name = <span class="string">'xio'</span> <span class="comment"># 類變量</span></span><br><span class="line">    age = <span class="number">0</span>   <span class="comment"># 類變量</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        <span class="comment"># 構造函數</span></span><br><span class="line">        self.name = name <span class="comment"># 實例變量</span></span><br><span class="line">        self.age = age   <span class="comment"># 實例變量</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name+<span class="string">' homework'</span>)</span><br><span class="line"> <span class="comment"># c3.py</span></span><br><span class="line"><span class="keyword">from</span> c1 <span class="keyword">import</span> Student</span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)</span><br><span class="line">student2 = Student(<span class="string">'喜小樂'</span>,<span class="number">18</span>)</span><br><span class="line">print(student1.name)</span><br><span class="line">print(student2.name)</span><br><span class="line">print(Student.name)</span><br><span class="line"><span class="comment"># 石敢當</span></span><br><span class="line"><span class="comment"># 喜小樂</span></span><br><span class="line"><span class="comment"># xio</span></span><br><span class="line"><span class="comment">#----------c1.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 一個班級里所有學生的總數</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        <span class="comment"># 構造函數</span></span><br><span class="line">        Student.sum = Student.sum +<span class="number">1</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name+<span class="string">' homework'</span>)</span><br><span class="line"><span class="comment">#----------c3.py        </span></span><br><span class="line"><span class="keyword">from</span> c1 <span class="keyword">import</span> Student</span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)</span><br><span class="line">student2 = Student(<span class="string">'喜小樂'</span>,<span class="number">18</span>)</span><br><span class="line">print(student1.name)</span><br><span class="line">print(student2.name)</span><br><span class="line"></span><br><span class="line">print(Student.sum)</span><br><span class="line"><span class="comment"># 石敢當</span></span><br><span class="line"><span class="comment"># 喜小樂</span></span><br><span class="line"><span class="comment"># 2</span></span><br></pre></td></tr></table></figure>
+
+<p>打印實例變量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c1.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    name = <span class="string">'nine'</span></span><br><span class="line">    age = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        <span class="comment"># 構造函數</span></span><br><span class="line">        name = name</span><br><span class="line">        age = age</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name+<span class="string">' homework'</span>)</span><br><span class="line"><span class="comment">#----------c3.py  </span></span><br><span class="line"><span class="keyword">from</span> c1 <span class="keyword">import</span> Student</span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)</span><br><span class="line">print(student1.name)</span><br><span class="line">print(student1.__dict__)</span><br><span class="line">print(Student.__dict__)</span><br><span class="line"><span class="comment"># nine</span></span><br><span class="line"><span class="comment"># &#123;&#125;</span></span><br><span class="line"><span class="comment"># &#123;'__module__': 'c1', 'name': 'nine', 'age': 0, '__init__': &lt;function Student.__init__ at # # #    0x000001FA4F7C9B70&gt;, 'do_homework': &lt;function Student.do_homework at 0x000001FA4F7C9BF8&gt;, '__dict__': &lt;attribute '__dict__' of 'Student' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'Student' objects&gt;, '__doc__': None&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="self與實例方法"><a href="#self與實例方法" class="headerlink" title="self與實例方法"></a>self與實例方法</h2><p>self代表是實例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c5.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        <span class="comment"># 構造函數</span></span><br><span class="line">        Student.sum += <span class="number">1</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        print(self.__dict__)</span><br><span class="line">        print(Student.sum)        <span class="comment"># 方法一</span></span><br><span class="line">        print(self.__class__.sum) <span class="comment"># 方法二</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name+<span class="string">' homework'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)    </span><br><span class="line">print(<span class="string">'---------------'</span>)</span><br><span class="line">print(student1.name)</span><br><span class="line">print(student1.age)</span><br></pre></td></tr></table></figure>
+
+<h2 id="類方法"><a href="#類方法" class="headerlink" title="類方法"></a>類方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c6.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        self.__class__.sum+=<span class="number">1</span>;</span><br><span class="line">        print(<span class="string">'當前學生總人數為:'</span>+str(self.__class__.sum))</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name+<span class="string">' homework'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)    </span><br><span class="line">print(student1.name)</span><br><span class="line">print(student1.age)</span><br><span class="line"><span class="comment">#---------------</span></span><br><span class="line"><span class="comment"># c6.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name+<span class="string">' homework'</span>)</span><br><span class="line">        </span><br><span class="line">   <span class="comment"># 類方法</span></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">plus_sum</span><span class="params">(cls)</span>:</span></span><br><span class="line">        cls.sum += <span class="number">1</span></span><br><span class="line">        print(<span class="string">'當前學生總人數為:'</span>+str(cls.sum))</span><br><span class="line"></span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)  </span><br><span class="line">Student.plus_sum();</span><br><span class="line">student2 = Student(<span class="string">'陳小小'</span>,<span class="number">16</span>)      </span><br><span class="line">Student.plus_sum();</span><br></pre></td></tr></table></figure>
+
+<h2 id="靜態方法"><a href="#靜態方法" class="headerlink" title="靜態方法"></a>靜態方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c6.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name+<span class="string">' homework'</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 類方法</span></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">plus_sum</span><span class="params">(cls)</span>:</span></span><br><span class="line">        cls.sum += <span class="number">1</span></span><br><span class="line">        print(<span class="string">'當前學生總人數為:'</span>+str(cls.sum))</span><br><span class="line">    <span class="comment"># 靜態方法</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x,y)</span>:</span></span><br><span class="line">        print(<span class="string">'this is a static method'</span>)</span><br><span class="line"></span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)  </span><br><span class="line">Student.plus_sum()</span><br><span class="line">student1.add(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">Student.add(<span class="number">1</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="成員可見性-公開和私有"><a href="#成員可見性-公開和私有" class="headerlink" title="成員可見性:公開和私有"></a>成員可見性:公開和私有</h2><p>加雙下劃線，變成私有</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c7.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">()</span>:</span></span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">        self.__score = <span class="number">0</span></span><br><span class="line">        Student.plus_sum()</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">marking</span><span class="params">(self,score)</span>:</span></span><br><span class="line">        self.__score = score</span><br><span class="line">        print(self.name + <span class="string">'同學本次考試分數為:'</span> + str(self.score))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.do_english_homework()</span><br><span class="line">        print(self.name+<span class="string">' homework'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_english_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'do english home work'</span>)    </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 類方法</span></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">plus_sum</span><span class="params">(cls)</span>:</span></span><br><span class="line">        cls.sum += <span class="number">1</span></span><br><span class="line">        print(<span class="string">'當前學生總人數為:'</span>+str(cls.sum))</span><br><span class="line">    <span class="comment"># 靜態方法</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x,y)</span>:</span></span><br><span class="line">        print(Student.sum)</span><br><span class="line">        print(<span class="string">'this is a static method'</span>)</span><br><span class="line"></span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)  </span><br><span class="line">student1.marking(<span class="number">59</span>)</span><br><span class="line">student2 = Student(<span class="string">'陳小小'</span>,<span class="number">16</span>)</span><br><span class="line">student2.marking(<span class="number">99</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="繼承"><a href="#繼承" class="headerlink" title="繼承"></a>繼承</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pp.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Human</span><span class="params">()</span>:</span></span><br><span class="line">    sum  = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_name</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name)</span><br><span class="line"><span class="comment"># c8.py</span></span><br><span class="line"><span class="keyword">from</span> pp <span class="keyword">import</span> Human</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(Human)</span>:</span></span><br><span class="line">    <span class="comment"># sum = 0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># def __init__(self,name,age):</span></span><br><span class="line">    <span class="comment">#     self.name = name</span></span><br><span class="line">    <span class="comment">#     self.age = age</span></span><br><span class="line">    <span class="comment">#     self.__score = 0</span></span><br><span class="line">    <span class="comment">#     self.__class__.sum+=1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'english homework'</span>)</span><br><span class="line">student1 = Student(<span class="string">'石敢當'</span>,<span class="number">18</span>)</span><br><span class="line">print(student1.sum)</span><br><span class="line">print(Student.sum)</span><br><span class="line">print(student1.name)</span><br><span class="line">print(student1.age)</span><br><span class="line">student1.get_name()</span><br><span class="line"><span class="comment">#-----------------------</span></span><br><span class="line"><span class="comment"># c8.py</span></span><br><span class="line"><span class="keyword">from</span> pp <span class="keyword">import</span> Human</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(Human)</span>:</span></span><br><span class="line">    <span class="comment"># sum = 0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,school,name,age)</span>:</span></span><br><span class="line">        self.school = school</span><br><span class="line">        Human.__init__(self,name,age)</span><br><span class="line">    <span class="comment">#     self.__score = 0</span></span><br><span class="line">    <span class="comment">#     self.__class__.sum+=1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'english homework'</span>)</span><br><span class="line">        </span><br><span class="line">student1 = Student(<span class="string">'三峽大學'</span>,<span class="string">'石敢當'</span>,<span class="number">18</span>)</span><br><span class="line">print(student1.school)</span><br><span class="line">print(student1.name)</span><br><span class="line">print(student1.age)</span><br></pre></td></tr></table></figure>
+
+<h2 id="子類方法調用父類方法-super關鍵字"><a href="#子類方法調用父類方法-super關鍵字" class="headerlink" title="子類方法調用父類方法:super關鍵字"></a>子類方法調用父類方法:super關鍵字</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c8.py</span></span><br><span class="line"><span class="keyword">from</span> pp <span class="keyword">import</span> Human</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(Human)</span>:</span></span><br><span class="line">    <span class="comment"># sum = 0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,school,name,age)</span>:</span></span><br><span class="line">        self.school = school</span><br><span class="line">        <span class="comment">#Human.__init__(self,name,age)</span></span><br><span class="line">        super(Student,self).__init__(name,age)</span><br><span class="line">    <span class="comment">#     self.__score = 0</span></span><br><span class="line">    <span class="comment">#     self.__class__.sum+=1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'english homework'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">student1 = Student(<span class="string">'三峽大學'</span>,<span class="string">'石敢當'</span>,<span class="number">18</span>)</span><br><span class="line"></span><br><span class="line">print(student1.school)</span><br><span class="line">print(student1.name)</span><br><span class="line">print(student1.age)</span><br><span class="line"><span class="comment">#------------------------------</span></span><br><span class="line"><span class="comment"># pp.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Human</span><span class="params">()</span>:</span></span><br><span class="line">    sum  = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_name</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.name)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'this is parent method'</span>)  </span><br><span class="line"><span class="comment">#  c8.py      </span></span><br><span class="line"><span class="keyword">from</span> pp <span class="keyword">import</span> Human</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(Human)</span>:</span></span><br><span class="line">    <span class="comment"># sum = 0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,school,name,age)</span>:</span></span><br><span class="line">        self.school = school</span><br><span class="line">        <span class="comment">#Human.__init__(self,name,age)</span></span><br><span class="line">        super(Student,self).__init__(name,age)</span><br><span class="line">    <span class="comment">#     self.__score = 0</span></span><br><span class="line">    <span class="comment">#     self.__class__.sum+=1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_homework</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Student,self).do_homework()</span><br><span class="line">        print(<span class="string">'english homework'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">student1 = Student(<span class="string">'三峽大學'</span>,<span class="string">'石敢當'</span>,<span class="number">18</span>)</span><br><span class="line">student1.do_homework();</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E5%87%BD%E6%95%B8/" rel="prev" title="學習Python的函數">
+      <i class="fa fa-chevron-left"></i> 學習Python的函數
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E6%AD%A3%E5%89%87%E8%A1%A8%E9%81%94%E5%BC%8F%E8%88%87JSON/" rel="next" title="學習Python的正則表達式與JSON">
+      學習Python的正則表達式與JSON <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#物件-object-的定義"><span class="nav-text">物件(object)的定義</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#淺談函數與方法的區別"><span class="nav-text">淺談函數與方法的區別</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#類-class類與對象-object"><span class="nav-text">類(class類與對象(object)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#構造函數"><span class="nav-text">構造函數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模塊變量"><span class="nav-text">模塊變量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#類中的變量"><span class="nav-text">類中的變量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#self與實例方法"><span class="nav-text">self與實例方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#類方法"><span class="nav-text">類方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#靜態方法"><span class="nav-text">靜態方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#成員可見性-公開和私有"><span class="nav-text">成員可見性:公開和私有</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#繼承"><span class="nav-text">繼承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子類方法調用父類方法-super關鍵字"><span class="nav-text">子類方法調用父類方法:super關鍵字</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言記錄一下有遇到安裝Ubutnu的相關的問題">
+<meta property="og:type" content="article">
+<meta property="og:title" content="記錄Ubuntu的相關問題">
+<meta property="og:url" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84Ubuntu%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言記錄一下有遇到安裝Ubutnu的相關的問題">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84Ubuntu%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/ubuntuadvance.png">
+<meta property="article:published_time" content="2019-06-27T11:16:22.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84Ubuntu%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/ubuntuadvance.png">
+
+<link rel="canonical" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84Ubuntu%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>記錄Ubuntu的相關問題 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84Ubuntu%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          記錄Ubuntu的相關問題
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-06-27 11:16:22" itemprop="dateCreated datePublished" datetime="2019-06-27T11:16:22+00:00">2019-06-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/" itemprop="url" rel="index"><span itemprop="name">記錄</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>記錄一下有遇到安裝Ubutnu的相關的問題</p>
+<a id="more"></a> 
+
+
+
+
+
+
+
+
+
+<h2 id="logrotate-設定"><a href="#logrotate-設定" class="headerlink" title="logrotate 設定"></a>logrotate 設定</h2><p>log 沒做rotate就會一直長大, 一個log file 12 GB有沒有看過?<br>打都打不開, 光用vim都會開很久.</p>
+<p>這個時候我們需要做設定, 這邊說明一下.</p>
+<p>Log rotate 設定檔在  <code>/etc/logrotate.d/</code></p>
+<p>分割設定： 在/etc/logrotate.d/目錄下生成該tool檔案例如fmsserver</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/tmp/cron*.log &#123;     <span class="comment">#注意：請以自己的tool為準</span></span><br><span class="line">    daily                   <span class="comment">#每天切割</span></span><br><span class="line">    dateext                 <span class="comment">#%Y%m%d作為字尾</span></span><br><span class="line">    dateformat -%Y-%m-%d    <span class="comment">#dateformat 設定日期字串格式</span></span><br><span class="line">    missingok               <span class="comment">#日誌不存在，分析下一個</span></span><br><span class="line">    rotate <span class="number">10</span>               <span class="comment">#保留最近的10個備份</span></span><br><span class="line">    compress                <span class="comment">#切換之後壓縮.tar.gz</span></span><br><span class="line">    notifempty              <span class="comment">#空檔案不轉儲</span></span><br><span class="line">    copytruncate            <span class="comment">#採用複製一份再清空原本的 Log File，滿足某些服務無法直接更名 Log File 來實現 Rotate 功能</span></span><br><span class="line">    delaycompress           <span class="comment">#前一次的檔案才進行壓縮，這個功能很好用，主要常常會看前一天的 Log，延後一次進行壓縮比較方便</span></span><br><span class="line">    su root root</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>logrotate命令格式</p>
+<p>logrotate [OPTION…] <configfile></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-d , --debug:debug模式，測試配置文件是否有錯誤</span><br><span class="line">-f , --force:強制轉儲文件</span><br><span class="line">-m , --mail&#x3D;command：壓縮的日志後，發w奠日志到指定郵箱。</span><br><span class="line">-s , --state&#x3D;statefile：使用指定的狀態文件。</span><br><span class="line">-v , --verbose：顯示轉儲過程</span><br></pre></td></tr></table></figure>
+
+
+<p>要測試寫好的設定檔可以用以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo &#x2F;usr&#x2F;sbin&#x2F;logrotate -d &#x2F;etc&#x2F;logrotate.d&#x2F;fmsserver</span><br></pre></td></tr></table></figure>
+
+<p>要執行寫好的設定檔</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo &#x2F;usr&#x2F;sbin&#x2F;logrotate -vf &#x2F;etc&#x2F;logrotate.d&#x2F;fmsserver</span><br></pre></td></tr></table></figure>
+
+<p> log的寫法有兩種一種是清除檔案重新一個新檔</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root python3.6 /usr/share/nginx/0_0/schedule/event_gop_to_mp4.py &gt;&gt; /tmp/cron_event_gop_to_mp4.log 2&gt; /tmp/cron_event_gop_to_mp4.log</span><br></pre></td></tr></table></figure>
+
+<p> log的寫法有兩種一種是append檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root python3.6 &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;0_0&#x2F;schedule&#x2F;event_gop_to_mp4.py &gt;&gt; &#x2F;tmp&#x2F;cron_event_gop_to_mp4.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>如果要保留log在其它的目錄，可以在home的目錄下建立一個tmp的資料夾將log的資料指到那個目錄</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/tmp/uwsgi_*.log &#123;</span><br><span class="line">    daily</span><br><span class="line">    dateext</span><br><span class="line">    <span class="attribute">dateformat</span> .%Y-%m-%d</span><br><span class="line">    missingok</span><br><span class="line">    rotate <span class="number">10</span></span><br><span class="line">    compress</span><br><span class="line">    notifempty</span><br><span class="line">    copytruncate</span><br><span class="line">    delaycompress</span><br><span class="line">    olddir /home/ubuntu/tmp</span><br><span class="line">    su root root</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h3><p><a href="https://blog.51cto.com/meiling/2044768">logrotate日志自动分割</a></p>
+<h2 id="安裝redis"><a href="#安裝redis" class="headerlink" title="安裝redis"></a>安裝redis</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install redis-server</span><br></pre></td></tr></table></figure>
+
+<p>redis的狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status redis</span><br><span class="line">sudo &#x2F;etc&#x2F;init.d&#x2F;redis-server restart</span><br><span class="line">sudo &#x2F;etc&#x2F;init.d&#x2F;redis-server stop</span><br><span class="line">sudo &#x2F;etc&#x2F;init.d&#x2F;redis-server start</span><br></pre></td></tr></table></figure>
+
+<p>redis的設定<code> sudo vim /etc/redis/redis.conf</code>不然會連線不到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 0.0.0.0</span><br></pre></td></tr></table></figure>
+
+<p>在停止的時候會有報錯<code>redis-server.service: Can&#39;t open PID file /var/run/redis/redis-server.pid (yet?) after start: No such file</code></p>
+<p>解決方法如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi /usr/lib/systemd/system/redis.service <span class="comment">#centos 7</span></span><br><span class="line">nano /etc/systemd/system/redis.service  <span class="comment">#debian/ubuntu</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>[Service]</code>下新增一行<code>ExecStartPost=/bin/sh -c &quot;echo $MAINPID &gt; /var/run/redis/redis.pid&quot;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Type&#x3D;forking</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;redis-server &#x2F;etc&#x2F;redis&#x2F;redis.conf</span><br><span class="line">ExecStop&#x3D;&#x2F;bin&#x2F;kill -s TERM $MAINPID</span><br><span class="line">ExecStartPost&#x3D;&#x2F;bin&#x2F;sh -c &quot;echo $MAINPID &gt; &#x2F;var&#x2F;run&#x2F;redis&#x2F;redis.pid&quot;</span><br></pre></td></tr></table></figure>
+
+<p>隨後動啟服務：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl enable redis-server</span><br><span class="line">sudo systemctl restart redis.service</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h2 id="安裝nginx"><a href="#安裝nginx" class="headerlink" title="安裝nginx"></a>安裝nginx</h2><p>參考<a href="https://blog.techbridge.cc/2018/08/11/nginx-static-dynamic-page-server-intro/">Nginx + Flask 動態與靜態頁面分離入門教學</a></p>
+<p>這是為了測試nginx的前後台分離，會改寫上一個範例，使用nginx來當web的網站和web service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nginx</span><br></pre></td></tr></table></figure>
+
+<p>檢查nginx的狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status nginx</span><br></pre></td></tr></table></figure>
+
+<p>nginx的相關命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop nginx</span><br><span class="line">sudo systemctl start nginx</span><br><span class="line">sudo systemctl restart nginx</span><br><span class="line">sudo systemctl reload nginx</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="安裝MariaDB"><a href="#安裝MariaDB" class="headerlink" title="安裝MariaDB"></a>安裝MariaDB</h2><p> 版本 10.5.6-MariaDB</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install software-properties-common dirmngr apt-transport-https</span><br><span class="line">sudo apt-key adv --fetch-keys &#39;https:&#x2F;&#x2F;mariadb.org&#x2F;mariadb_release_signing_key.asc&#39;</span><br><span class="line">sudo add-apt-repository &#39;deb [arch&#x3D;amd64,arm64,ppc64el] https:&#x2F;&#x2F;ftp.ubuntu-tw.org&#x2F;mirror&#x2F;mariadb&#x2F;repo&#x2F;10.5&#x2F;ubuntu bionic main&#39;</span><br></pre></td></tr></table></figure>
+
+<p>接下來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install mariadb-server</span><br></pre></td></tr></table></figure>
+
+<p>檢查版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -V</span><br></pre></td></tr></table></figure>
+
+<p>設定root</p>
+<p>安裝MariaDB過程中沒有問root密碼要設什麼，也沒有預設密碼，那之後用什麼密碼連呢？紀錄一下，免得忘記：<br>用sudo使用無密碼進入mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mysql -u root</span><br></pre></td></tr></table></figure>
+
+<p>建立使用者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;</span><br><span class="line">CREATE USER &#39;imooc&#39; IDENTIFIED BY &#39;12345678&#39;;</span><br><span class="line">GRANT USAGE ON *.* TO &#39;imooc&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;12345678&#39;;</span><br><span class="line">GRANT USAGE ON *.* TO &#39;imooc&#39;@&#39;%&#39; IDENTIFIED BY &#39;12345678&#39;;</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">&#x2F;&#x2F;檢查</span><br><span class="line">SHOW GRANTS FOR &#39;imooc&#39;@&#39;localhost&#39;;  </span><br><span class="line"></span><br><span class="line">grant all privileges on *.* to &#39;imooc&#39;@&#39;localhost&#39; identified by &#39;12345678&#39; with grant option;</span><br><span class="line">grant all privileges on *.* to &#39;imooc&#39;@&#39;%&#39; identified by &#39;12345678&#39; with grant option;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<p>不能遠端連線</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;mysql&#x2F;mariadb.conf.d&#x2F;50-server.cnf</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://websiteforstudents.com/allow-remote-access-to-mariadb-database-server-on-ubuntu-18-04/">https://websiteforstudents.com/allow-remote-access-to-mariadb-database-server-on-ubuntu-18-04/</a></p>
+<p>主要是將bind-address = 127.0.0.1 修改成 bind-address = 0.0.0.0</p>
+<p>命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop mariadb.service</span><br><span class="line">sudo systemctl start mariadb.service</span><br><span class="line">sudo systemctl enable mariadb.service</span><br></pre></td></tr></table></figure>
+
+<h2 id="NFS-Server安裝"><a href="#NFS-Server安裝" class="headerlink" title="NFS Server安裝"></a>NFS Server安裝</h2><p>(參考)[<a href="https://www.opencli.com/linux/debian-ubuntu-install-nfs-server]">https://www.opencli.com/linux/debian-ubuntu-install-nfs-server]</a></p>
+<p>在<strong>StorageServer(172.31.1.242)</strong>設定分享的目錄, 以下是<code>media/vdisk</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;media</span><br><span class="line">sudo mkdri vdisk</span><br><span class="line">sudo chown -R www-data.www-data vdisk&#x2F;</span><br><span class="line">sudo chmod -R 777 vdisk&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>開啟 /etc/exports 檔案, 加入以下內容: IP 是對方的IP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;media&#x2F;vdisk    172.31.37.81(rw,sync,no_root_squash,no_all_squash)</span><br></pre></td></tr></table></figure>
+
+<p>啟動 NFS Server:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;init.d&#x2F;nfs-kernel-server restart</span><br></pre></td></tr></table></figure>
+
+<p>NFS Client 安裝: <strong>在AppServer(172.31.37.81))</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nfs-common</span><br></pre></td></tr></table></figure>
+
+<p>建立 NFS 目錄掛載點:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;media&#x2F;</span><br><span class="line">sudo mkdir vdisk</span><br><span class="line">chown -R www-data.www-data vdisk&#x2F;</span><br><span class="line">sudo chown -R www-data.www-data vdisk&#x2F;</span><br><span class="line">sudo chmod 777 vdisk&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>現在可以用 mount 指令掛載 StorageServer(172.31.1.242)分享出來的目錄:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -t nfs  172.31.1.242:&#x2F;media&#x2F;vdisk  &#x2F;media&#x2F;vdisk</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="多實例MariaDB"><a href="#多實例MariaDB" class="headerlink" title="多實例MariaDB"></a>多實例MariaDB</h2><p>來安裝多個的DB</p>
+<h3 id="方案1-mysqld-multi"><a href="#方案1-mysqld-multi" class="headerlink" title="方案1-mysqld_multi"></a>方案1-mysqld_multi</h3><h4 id="創建目錄并修改"><a href="#創建目錄并修改" class="headerlink" title="創建目錄并修改"></a>創建目錄并修改</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -pv &#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;&#123;3307,3308&#125;&#x2F;data         # 創建目錄</span><br><span class="line">chown mysql.mysql &#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;330&#123;7,8&#125; -R      # 修改權限</span><br><span class="line">sudo mkdir -pv &#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;3307&#x2F;data</span><br><span class="line">sudo chown -R mysql.mysql &#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;3307</span><br></pre></td></tr></table></figure>
+
+<h4 id="安裝數據庫"><a href="#安裝數據庫" class="headerlink" title="安裝數據庫"></a>安裝數據庫</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql_install_db  --datadir&#x3D;&#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;3308&#x2F;data --basedir&#x3D;&#x2F;usr --user&#x3D;mysql  # 安裝到數據目錄</span><br><span class="line">sudo mysql_install_db  --datadir&#x3D;&#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;3307&#x2F;data --basedir&#x3D;&#x2F;usr --user&#x3D;mysql</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;my.cnf</span><br></pre></td></tr></table></figure>
+
+<p>內容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[mysqld_multi]</span><br><span class="line">mysqld     &#x3D; &#x2F;usr&#x2F;bin&#x2F;mysqld_safe</span><br><span class="line">mysqladmin &#x3D; &#x2F;usr&#x2F;bin&#x2F;mysqladmin</span><br><span class="line"></span><br><span class="line">[mysqld3307]</span><br><span class="line">port       &#x3D; 3307</span><br><span class="line">socket     &#x3D; &#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;3307&#x2F;mariadb.sock</span><br><span class="line">pid-file   &#x3D; &#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;3307&#x2F;mariadb.pid</span><br><span class="line">log-error  &#x3D; &#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;3307&#x2F;mariadb.log</span><br><span class="line">datadir    &#x3D; &#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;3307&#x2F;data</span><br><span class="line">user       &#x3D; mysql</span><br></pre></td></tr></table></figure>
+
+<h4 id="建立啟動服務"><a href="#建立啟動服務" class="headerlink" title="建立啟動服務"></a>建立啟動服務</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;mysqld@.service</span><br></pre></td></tr></table></figure>
+
+<p>內容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;MySQL Multi Server for instance %i</span><br><span class="line">After&#x3D;syslog.target</span><br><span class="line">After&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">User&#x3D;mysql</span><br><span class="line">Group&#x3D;mysql</span><br><span class="line">Type&#x3D;forking</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;mysqld_multi start %i</span><br><span class="line">ExecStop&#x3D;&#x2F;usr&#x2F;bin&#x2F;mysqld_multi stop %i</span><br><span class="line">Restart&#x3D;always</span><br><span class="line">PrivateTmp&#x3D;true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="啟動實例"><a href="#啟動實例" class="headerlink" title="啟動實例"></a>啟動實例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld@3307                       # 啟動指定的實例，這個是配罝在mysqld3307片段，實例名字就是3307</span><br><span class="line">netstat -tunlp |grep 330*                         # 查看是否有啟動</span><br></pre></td></tr></table></figure>
+
+<h4 id="連接實例"><a href="#連接實例" class="headerlink" title="連接實例"></a>連接實例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mysql -u root -S &#x2F;data&#x2F;scheme1&#x2F;mysql&#x2F;3307&#x2F;mariadb.sock</span><br></pre></td></tr></table></figure>
+
+<h4 id="開機啟動"><a href="#開機啟動" class="headerlink" title="開機啟動"></a>開機啟動</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable mysqld@3307</span><br></pre></td></tr></table></figure>
+
+
+
+<p>參考資料<br><a href="http://www.anntoin.com/Blog/Tutorials/MultipleDBInstances.html">Setup Multiple MariaDB (or MySQL) Instances</a><br><a href="https://www.linuxpanda.tech/en/latest/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/02-mysql%E5%A4%9A%E5%AE%9E%E4%BE%8B.html">mariadb多实例安装</a><br><a href="https://www.itread01.com/content/1544204791.html">基於mysqld_multi實現MySQL 5.7.24多實例多進程配置</a></p>
+<h2 id="防火牆相關"><a href="#防火牆相關" class="headerlink" title="防火牆相關"></a>防火牆相關</h2><p>調整Firewall</p>
+<p>啟動Firewall</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw enable</span><br><span class="line">sudo ufw disable</span><br></pre></td></tr></table></figure>
+
+<p>列出和Firewall有關的應用程式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw app list</span><br></pre></td></tr></table></figure>
+
+<p>會看到下面的列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">Available applications:</span><br><span class="line">  Nginx Full</span><br><span class="line">  Nginx HTTP</span><br><span class="line">  Nginx HTTPS</span><br><span class="line">  OpenSSH</span><br></pre></td></tr></table></figure>
+
+<p>目前只使用到80，可以只打開80 port</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow &#39;Nginx HTTP&#39;</span><br><span class="line">sudo ufw allow &#39;OpenSSH&#39;</span><br></pre></td></tr></table></figure>
+
+<p>可以檢查Firewall狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw status</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Output</span><br><span class="line">Status: active</span><br><span class="line"></span><br><span class="line">To                         Action      From</span><br><span class="line">--                         ------      ----</span><br><span class="line">OpenSSH                    ALLOW       Anywhere                  </span><br><span class="line">Nginx HTTP                 ALLOW       Anywhere                  </span><br><span class="line">OpenSSH (v6)               ALLOW       Anywhere (v6)             </span><br><span class="line">Nginx HTTP (v6)            ALLOW       Anywhere (v6)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<h2 id="Server版"><a href="#Server版" class="headerlink" title="Server版"></a>Server版</h2><h3 id="安裝Xrdp-Server"><a href="#安裝Xrdp-Server" class="headerlink" title="安裝Xrdp Server"></a>安裝Xrdp Server</h3><p>安裝這個套件是為了可以遠端桌面來連線</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils</span><br></pre></td></tr></table></figure>
+<p>主要是參考<a href="https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-18-04/">https://linuxize.com/post/how-to-install-xrdp-on-ubuntu-18-04/</a><br>Installing Xrdp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install xrdp</span><br><span class="line">sudo systemctl status xrdp</span><br></pre></td></tr></table></figure>
+<p>Configuring Xrdp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano &#x2F;etc&#x2F;xrdp&#x2F;xrdp.ini</span><br></pre></td></tr></table></figure>
+<p>在最後一行加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec startxfce4</span><br></pre></td></tr></table></figure>
+<p>在重新啟動xrdp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart xrdp</span><br></pre></td></tr></table></figure>
+
+<p>安裝中文字型</p>
+<p>中文字型可以安裝 文泉譯 字型，使用下列指令安裝：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install fonts-wqy-*</span><br></pre></td></tr></table></figure>
+
+<p>並且可以解除安裝楷體自行，不然有些軟體會使用楷體顯示中文，</p>
+<p>那麼看起來就怪怪的，可以使用下列指令解除安裝。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt remove fonts-arphic-ukai</span><br><span class="line">sudo apt remove fonts-arphic-uming</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="桌面版"><a href="#桌面版" class="headerlink" title="桌面版"></a>桌面版</h2><h3 id="安裝VMWare的Ubutnu的相關問題"><a href="#安裝VMWare的Ubutnu的相關問題" class="headerlink" title="安裝VMWare的Ubutnu的相關問題"></a>安裝VMWare的Ubutnu的相關問題</h3><h3 id="安裝VMware-Tools-for-Linux"><a href="#安裝VMware-Tools-for-Linux" class="headerlink" title="安裝VMware Tools for Linux"></a>安裝VMware Tools for Linux</h3><p>可以參考一下<a href="https://blog.xuite.net/yh96301/blog/222635410-VMware+Player+6.0%E5%AE%89%E8%A3%9DVMware+Tools+for+Linux">VMware Player 6.0安裝VMware Tools for Linux</a></p>
+<h3 id="安裝XRDP"><a href="#安裝XRDP" class="headerlink" title="安裝XRDP"></a>安裝XRDP</h3><p>這是套件可以讓我們從win10以遠端桌面的方式，來控制linux，但是因為在Ubuntu的18.04.3的版本，直接安裝完後不能使用，外國有神人有解，以他們的方式來處理<br>使用這篇直以<br><a href="http://c-nergy.be/blog/?p=13933">http://c-nergy.be/blog/?p=13933</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;Std-Xrdp-Install-0.6.1.sh -s yes</span><br></pre></td></tr></table></figure>
+
+<h3 id="安裝git和git-gui"><a href="#安裝git和git-gui" class="headerlink" title="安裝git和git gui"></a>安裝git和git gui</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git-core git-cola</span><br></pre></td></tr></table></figure>
+
+<h3 id="安裝VSCode"><a href="#安裝VSCode" class="headerlink" title="安裝VSCode"></a>安裝VSCode</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install software-properties-common apt-transport-https wget</span><br><span class="line">wget -q https:&#x2F;&#x2F;packages.microsoft.com&#x2F;keys&#x2F;microsoft.asc -O- | sudo apt-key add -</span><br><span class="line">sudo add-apt-repository &quot;deb [arch&#x3D;amd64] https:&#x2F;&#x2F;packages.microsoft.com&#x2F;repos&#x2F;vscode stable main&quot;</span><br><span class="line">sudo apt install code</span><br></pre></td></tr></table></figure>
+
+<h3 id="OpenSSH-Server"><a href="#OpenSSH-Server" class="headerlink" title="OpenSSH Server"></a>OpenSSH Server</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y openssh-server</span><br></pre></td></tr></table></figure>
+<h3 id="samba"><a href="#samba" class="headerlink" title="samba"></a>samba</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install samba samba-common</span><br></pre></td></tr></table></figure>
+<p>檢查是否有執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status smbd</span><br><span class="line">sudo systemctl restart smbd</span><br></pre></td></tr></table></figure>
+
+<p>新增一個 smbuser 使用者:(不用)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo adduser smbuser --shell &#x2F;bin&#x2F;false</span><br></pre></td></tr></table></figure>
+
+<p>接著就是用 smbpasswd 指令的 -a 選項來將這個 smbuser 帳號設定為 Samba 的使用者帳號:(不用)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo smbpasswd -a smbuser</span><br></pre></td></tr></table></figure>
+
+<p>如果要與使用者同名則:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo smbpasswd -a hisharp</span><br></pre></td></tr></table></figure>
+
+<p>設定Samba<br>編輯 /etc/samba/smb.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[share]</span><br><span class="line">comment &#x3D; share folder</span><br><span class="line">browseable &#x3D; yes</span><br><span class="line">path &#x3D; &#x2F;home&#x2F;hisharp&#x2F;project</span><br><span class="line">create mask &#x3D; 664</span><br><span class="line">directory mask &#x3D; 775</span><br><span class="line">valid users &#x3D; hisharp</span><br><span class="line">force user &#x3D; hisharp</span><br><span class="line">force group &#x3D; www-data</span><br><span class="line">public &#x3D; yes</span><br><span class="line">available &#x3D; yes</span><br><span class="line">writable &#x3D; yes</span><br></pre></td></tr></table></figure>
+
+<p>加入另一個</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[smbvdisk]</span><br><span class="line">comment &#x3D; share folder</span><br><span class="line">browseable &#x3D; yes</span><br><span class="line">path &#x3D; &#x2F;media&#x2F;vdisk</span><br><span class="line">create mask &#x3D; 664</span><br><span class="line">directory mask &#x3D; 775</span><br><span class="line">valid users &#x3D; hisharp</span><br><span class="line">force user &#x3D; hisharp</span><br><span class="line">force group &#x3D; www-data</span><br><span class="line">public &#x3D; yes</span><br><span class="line">available &#x3D; yes</span><br><span class="line">writable &#x3D; yes</span><br></pre></td></tr></table></figure>
+
+<p>使用mount的指令</p>
+<p>在另一台上安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install cifs-utils</span><br></pre></td></tr></table></figure>
+
+<p>使用指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -t cifs -o username&#x3D;hisharp &#39;&#x2F;&#x2F;192.168.40.209&#x2F;smbvdisk&#39; &#x2F;media&#x2F;vdisk</span><br></pre></td></tr></table></figure>
+
+<p>開機使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;fstab</span><br></pre></td></tr></table></figure>
+
+<p>加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;192.168.40.209&#x2F;smbvdisk &#x2F;media&#x2F;vdisk cifs username&#x3D;hisharp,password&#x3D;密碼 0 0</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="設定網路"><a href="#設定網路" class="headerlink" title="設定網路"></a>設定網路</h3><p>我們家的設定值有比較特別一點</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Let NetworkManager manage all devices on this system</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">           <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">           <span class="attr">renderer:</span> <span class="string">NetworkManager</span></span><br><span class="line">           <span class="attr">ethernets:</span></span><br><span class="line">                     <span class="attr">ens3:</span></span><br><span class="line">                            <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">                            <span class="attr">addresses:</span> <span class="string">[172.18.2.160/16]</span></span><br><span class="line">                            <span class="attr">gateway4:</span> <span class="number">172.18</span><span class="number">.1</span><span class="number">.254</span></span><br><span class="line">                            <span class="attr">nameservers:</span></span><br><span class="line">                                  <span class="attr">addresses:</span> <span class="string">[8.8.8.8,</span> <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span><span class="string">]</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="複制虛擬Ubuntu的系統的相關問題"><a href="#複制虛擬Ubuntu的系統的相關問題" class="headerlink" title="複制虛擬Ubuntu的系統的相關問題"></a>複制虛擬Ubuntu的系統的相關問題</h2><p>在複制了虛擬Ubuntu的系統後有一些設定要修改記錄一下</p>
+<h4 id="如何複制"><a href="#如何複制" class="headerlink" title="如何複制"></a>如何複制</h4><p>我是用VirtualBox來作為虛擬的環境，在原來已有安裝一分設定好也可以執行的環境，直接拿來用就可以了，在VirtualBox上有提供了一個功能<code>再製</code>在虛擬機器上，按右鍵，選擇<em>再製</em>,就可以了，接下來輸入名字就可以</p>
+<p><strong>重要</strong>在設定新的網路的時候，要重新選新的網卡，不然在設定網路會無效</p>
+<h3 id="Ubuntu-18-04-設定-netplan-靜態-IP"><a href="#Ubuntu-18-04-設定-netplan-靜態-IP" class="headerlink" title="Ubuntu 18.04 設定 netplan 靜態 IP"></a>Ubuntu 18.04 設定 netplan 靜態 IP</h3><p>主要是修改 /etc/netplan/50-cloud-init.yaml 改成下面這樣：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This file is generated from information provided by</span></span><br><span class="line"><span class="comment"># the datasource.  Changes to it will not persist across an instance.</span></span><br><span class="line"><span class="comment"># To disable cloud-init's network configuration capabilities, write a file</span></span><br><span class="line"><span class="comment"># /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:</span></span><br><span class="line"><span class="comment"># network: &#123;config: disabled&#125;</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">    <span class="attr">ethernets:</span></span><br><span class="line">        <span class="attr">ens192:</span></span><br><span class="line">            <span class="attr">addresses:</span> <span class="string">[192.168.32.231/24]</span> <span class="comment"># 自已的IP</span></span><br><span class="line">            <span class="attr">gateway4:</span> <span class="number">192.168</span><span class="number">.32</span><span class="number">.1</span></span><br><span class="line">            <span class="attr">nameservers:</span></span><br><span class="line">              <span class="attr">addresses:</span> <span class="string">[8.8.8.8,8.8.4.4]</span></span><br><span class="line">            <span class="attr">dhcp4:</span> <span class="literal">no</span></span><br><span class="line">        <span class="attr">ens224:</span></span><br><span class="line">            <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>修改後存檔後輸入以下命令：</p>
+<blockquote>
+<p>sudo netplan try</p>
+</blockquote>
+<p>如果測試沒有問題，就可以執行以下命令真正進行設定：</p>
+<blockquote>
+<p>sudo netplan apply</p>
+</blockquote>
+<h3 id="修改主機名稱"><a href="#修改主機名稱" class="headerlink" title="修改主機名稱"></a>修改主機名稱</h3><p>例如，把主機名稱修改成 ubuntu-bionic-x64：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hostnamectl set-hostname ubuntu-bionic-x64</span><br></pre></td></tr></table></figure>
+<p>時候終端機還看不出變化，我們可以用 <code>hostnamectl status</code> 檢查有沒有修改成功</p>
+<p>修改完後沒有作用需要修改下面的檔案的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># vi &#x2F;etc&#x2F;cloud&#x2F;cloud.cfg</span><br></pre></td></tr></table></figure>
+
+<p>在裏面修改<code>preserve_hostname: true</code></p>
+<h3 id="重新取得dhcp的IP"><a href="#重新取得dhcp的IP" class="headerlink" title="重新取得dhcp的IP"></a>重新取得dhcp的IP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dhclient -r</span><br><span class="line">$ sudo dhclient</span><br></pre></td></tr></table></figure>
+
+<h3 id="參考資料-1"><a href="#參考資料-1" class="headerlink" title="參考資料"></a>參考資料</h3><p><a href="https://caloskao.org/ubuntu-use-hostnamectl-to-change-the-host-name/">使用hostnamectl 修改主機名稱</a><br><a href="https://blog.toright.com/posts/6293/ubuntu-18-04-%E9%80%8F%E9%81%8E-netplan-%E8%A8%AD%E5%AE%9A%E7%B6%B2%E8%B7%AF%E5%8D%A1-ip.html">Ubuntu 18.04 設定 netplan 靜態 IP</a><br><a href="http://nelson-note.blogspot.com/2016/05/virtualbox.html">在 VirtualBox 中，複製、再製虛擬機器</a></p>
+<h2 id="安裝Flask-在虛擬環境下"><a href="#安裝Flask-在虛擬環境下" class="headerlink" title="安裝Flask(在虛擬環境下)"></a>安裝Flask(在虛擬環境下)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install flask</span><br></pre></td></tr></table></figure>
+
+<p>測試一下</p>
+<p>建立order的目錄和hello.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route("/")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello_world</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello World"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    app.run(host=<span class="string">"0.0.0.0"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>打開瀏覽器，網址是ubuntu的ip加5000,例如<code>http://192.168.83.128:5000/</code></p>
+<h2 id="Linux-APT-遇到-NO-PUBKEY-的-GPG-error-解法"><a href="#Linux-APT-遇到-NO-PUBKEY-的-GPG-error-解法" class="headerlink" title="Linux APT 遇到 NO_PUBKEY 的 GPG error 解法"></a>Linux APT 遇到 NO_PUBKEY 的 GPG error 解法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-key adv --keyserver keys.gnupg.net --recv-keys EB9B1D8886F44E2A</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安裝Python-未執行"><a href="#安裝Python-未執行" class="headerlink" title="安裝Python(未執行)"></a>安裝Python(未執行)</h2><p>目前是3.6的版本所以不安裝</p>
+<p>使用原始碼來安裝</p>
+<p>編譯python用到的元件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget</span><br></pre></td></tr></table></figure>
+
+<p>下載用到的原始碼</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;tmp</span><br><span class="line">wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;3.6.12&#x2F;Python-3.6.12.tgz</span><br></pre></td></tr></table></figure>
+
+<p>解壓</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -zxvf Python-3.6.12.tgz</span><br></pre></td></tr></table></figure>
+
+<p>安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;移除原來的</span><br><span class="line">sudo apt-get autoremove python3.6</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir &#x2F;usr&#x2F;local&#x2F;python3.6.12</span><br><span class="line">cd Python-3.6.12&#x2F;</span><br><span class="line"></span><br><span class="line">sudo .&#x2F;configure --prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;python3.6.12</span><br><span class="line">sudo make </span><br><span class="line">&#x2F;&#x2F;sudo make install</span><br><span class="line">sudo make altinstall</span><br><span class="line">sudo rm -rf &#x2F;usr&#x2F;bin&#x2F;python3</span><br><span class="line">sudo ln -s &#x2F;usr&#x2F;local&#x2F;python3.6.12&#x2F;bin&#x2F;python3.6 &#x2F;usr&#x2F;bin&#x2F;python3</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="解決Ubuntu-16-04重啟錯誤-未執行"><a href="#解決Ubuntu-16-04重啟錯誤-未執行" class="headerlink" title="解決Ubuntu 16.04重啟錯誤:未執行"></a>解決Ubuntu 16.04重啟錯誤:<strong>未執行</strong></h2><p>Kernel Panic — not syncing: VFS: Unable to mount root fs on unknown-block(0,0) </p>
+<p><a href="https://rommelhong.medium.com/%E8%A7%A3%E6%B1%BAubuntu-16-04%E9%87%8D%E5%95%9F%E9%8C%AF%E8%AA%A4-kernel-panic-not-syncing-vfs-unable-to-mount-root-fs-on-unknown-block-0-0-34181fb3a84c">參考</a></p>
+<p>首先會出現這個錯誤有很高機率是你的/boot空間已經滿載了，因此為了能先進入系統內做清理，我們第一步需要先將VM的電源關閉，稍等一下再重新啟動電源，此時會進入Ubuntu開機選單，大概會長的像下圖，請選擇Advanced options for Ubuntu的選項：</p>
+<img src="ubuntuadvance.png" style="zoom:80%;" />
+
+<p>進去後你會看到許多不同版本的內核清單，大概會如下圖所示，這時候就是很考驗人品的時候了，請選擇一個來開啟吧，記得不要選recovery mode：</p>
+<p>如果你成功啟動並登入，那恭喜你成功一半了！接著用下列指令檢查容量狀況：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -h</span><br></pre></td></tr></table></figure>
+
+<p>果然是boot滿了！既然如此，先用下列指令確定目前運作的內核版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -a</span><br></pre></td></tr></table></figure>
+
+<p>我的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4.15.0-122-generic</span><br></pre></td></tr></table></figure>
+
+
+
+<p>記好後，進入/boot資料夾，裡面會有各個不同版本的內核相依檔案，先手動刪除低於目前運作版本的相依檔案，直到/boot容量非100％為止。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">config-4.15.0-122-generic      initrd.img-4.15.0-135-generic  vmlinuz-4.15.0-122-generic</span><br><span class="line">config-4.15.0-126-generic      lost+found                     vmlinuz-4.15.0-126-generic</span><br><span class="line">config-4.15.0-132-generic      System.map-4.15.0-122-generic  vmlinuz-4.15.0-132-generic</span><br><span class="line">config-4.15.0-134-generic      System.map-4.15.0-126-generic  vmlinuz-4.15.0-134-generic</span><br><span class="line">config-4.15.0-135-generic      System.map-4.15.0-132-generic  vmlinuz-4.15.0-135-generic</span><br><span class="line">grub                           System.map-4.15.0-134-generic</span><br><span class="line">initrd.img-4.15.0-122-generic  System.map-4.15.0-135-generic</span><br></pre></td></tr></table></figure>
+
+<p>接著執行以下指令修復一些損壞的內核：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get -f install</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84Flask-SocketIO%E7%9A%84%E5%9D%91/" rel="prev" title="記錄Flask-SocketIO的坑">
+      <i class="fa fa-chevron-left"></i> 記錄Flask-SocketIO的坑
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="next" title="學習Angular測試的使用">
+      學習Angular測試的使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logrotate-設定"><span class="nav-text">logrotate 設定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝redis"><span class="nav-text">安裝redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝nginx"><span class="nav-text">安裝nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝MariaDB"><span class="nav-text">安裝MariaDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS-Server安裝"><span class="nav-text">NFS Server安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多實例MariaDB"><span class="nav-text">多實例MariaDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方案1-mysqld-multi"><span class="nav-text">方案1-mysqld_multi</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#創建目錄并修改"><span class="nav-text">創建目錄并修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝數據庫"><span class="nav-text">安裝數據庫</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件"><span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立啟動服務"><span class="nav-text">建立啟動服務</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#啟動實例"><span class="nav-text">啟動實例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#連接實例"><span class="nav-text">連接實例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#開機啟動"><span class="nav-text">開機啟動</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防火牆相關"><span class="nav-text">防火牆相關</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Server版"><span class="nav-text">Server版</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝Xrdp-Server"><span class="nav-text">安裝Xrdp Server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#桌面版"><span class="nav-text">桌面版</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝VMWare的Ubutnu的相關問題"><span class="nav-text">安裝VMWare的Ubutnu的相關問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝VMware-Tools-for-Linux"><span class="nav-text">安裝VMware Tools for Linux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝XRDP"><span class="nav-text">安裝XRDP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝git和git-gui"><span class="nav-text">安裝git和git gui</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝VSCode"><span class="nav-text">安裝VSCode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenSSH-Server"><span class="nav-text">OpenSSH Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#samba"><span class="nav-text">samba</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定網路"><span class="nav-text">設定網路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#複制虛擬Ubuntu的系統的相關問題"><span class="nav-text">複制虛擬Ubuntu的系統的相關問題</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何複制"><span class="nav-text">如何複制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-18-04-設定-netplan-靜態-IP"><span class="nav-text">Ubuntu 18.04 設定 netplan 靜態 IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改主機名稱"><span class="nav-text">修改主機名稱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新取得dhcp的IP"><span class="nav-text">重新取得dhcp的IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#參考資料-1"><span class="nav-text">參考資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝Flask-在虛擬環境下"><span class="nav-text">安裝Flask(在虛擬環境下)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-APT-遇到-NO-PUBKEY-的-GPG-error-解法"><span class="nav-text">Linux APT 遇到 NO_PUBKEY 的 GPG error 解法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝Python-未執行"><span class="nav-text">安裝Python(未執行)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決Ubuntu-16-04重啟錯誤-未執行"><span class="nav-text">解決Ubuntu 16.04重啟錯誤:未執行</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

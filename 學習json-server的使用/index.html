@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言因為在開發網頁時，後端的程式不一定已經完成這時可以前端可以來架設一個簡單的json的服務器，來測試前端的顯示資料是否正確，因為現在的資料傳送和接收都是以json為主 在專案中使用 json-server來到 json-server 的 GitHub 查看如何使用。 下載json-server使用步驟如下：  如果是新的專案而且沒有package.json檔 輸入npm init建立packag">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習json-server的使用">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92json-server%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言因為在開發網頁時，後端的程式不一定已經完成這時可以前端可以來架設一個簡單的json的服務器，來測試前端的顯示資料是否正確，因為現在的資料傳送和接收都是以json為主 在專案中使用 json-server來到 json-server 的 GitHub 查看如何使用。 下載json-server使用步驟如下：  如果是新的專案而且沒有package.json檔 輸入npm init建立packag">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92json-server%E7%9A%84%E4%BD%BF%E7%94%A8/2019-08-08_10_49_26_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/2019-08-08_10_59_42_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92json-server%E7%9A%84%E4%BD%BF%E7%94%A8/2019-08-08_11_07_44_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92json-server%E7%9A%84%E4%BD%BF%E7%94%A8/2019-08-08_11_13_32_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92json-server%E7%9A%84%E4%BD%BF%E7%94%A8/2019-08-08_11_24_58_Image.png">
+<meta property="article:published_time" content="2019-08-08T09:40:08.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Angular">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92json-server%E7%9A%84%E4%BD%BF%E7%94%A8/2019-08-08_10_49_26_Image.png">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92json-server%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習json-server的使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92json-server%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習json-server的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-08-08 09:40:08" itemprop="dateCreated datePublished" datetime="2019-08-08T09:40:08+00:00">2019-08-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/Angular/" itemprop="url" rel="index"><span itemprop="name">Angular</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>因為在開發網頁時，後端的程式不一定已經完成這時可以前端可以來架設一個簡單的json的服務器，來測試前端的顯示資料是否正確，因為現在的資料傳送和接收都是以json為主</p>
+<h4 id="在專案中使用-json-server"><a href="#在專案中使用-json-server" class="headerlink" title="在專案中使用 json-server"></a>在專案中使用 json-server</h4><p>來到 <a href="https://github.com/typicode/json-server">json-server 的 GitHub</a> 查看如何使用。</p>
+<h4 id="下載json-server"><a href="#下載json-server" class="headerlink" title="下載json-server"></a>下載json-server</h4><p>使用步驟如下：</p>
+<ul>
+<li>如果是新的專案而且沒有package.json檔<ul>
+<li>輸入<code>npm init</code>建立package.json檔</li>
+</ul>
+</li>
+<li>安裝json-server有全域和local<ul>
+<li>全域<code>npm install -g json-server</code></li>
+<li>local <code>npm install json-server --save-dev</code><strong>注意目前無運行</strong></li>
+</ul>
+</li>
+</ul>
+<p>我是建立一個全新的專案，獨立來測試下次，知道如何安裝和使用就可以使用下之後的Angular專案，先來建立專案資料放在下面的<a href="https://github.com/ttom921/StudyAngular8/tree/master/Test_json_server">Test_Json_server</a></p>
+<h4 id="建立db-json"><a href="#建立db-json" class="headerlink" title="建立db.json"></a>建立db.json</h4><p>接者新增<code>db.json</code>檔，內容可先複製官網範例進行參考：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"posts"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">"title"</span>: <span class="string">"json-server"</span>,</span><br><span class="line">            <span class="attr">"author"</span>: <span class="string">"typicode"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"comments"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"id"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">"body"</span>: <span class="string">"some comment"</span>,</span><br><span class="line">            <span class="attr">"postId"</span>: <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"profile"</span>: &#123;</span><br><span class="line">        <span class="attr">"name"</span>: <span class="string">"typicode"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在終端機輸入<code>json-server db.json</code>運行json-serve,等候呼叫API</p>
+<h3 id="測試JSON-Server"><a href="#測試JSON-Server" class="headerlink" title="測試JSON Server"></a>測試JSON Server</h3><p>在vscode的<code>package.json</code>中可以修改scripts來執行json-server如下加入<code>&quot;mock-server&quot;: &quot;json-server --watch db.json&quot;</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"test_json_server"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">"測試json-server"</span>,</span><br><span class="line">  <span class="attr">"main"</span>: <span class="string">"jsserver.js"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"mock-server"</span>: <span class="string">"json-server --watch db.json"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"author"</span>: <span class="string">"ttom"</span>,</span><br><span class="line">  <span class="attr">"license"</span>: <span class="string">"MIT"</span>,</span><br><span class="line">  <span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"json-server"</span>: <span class="string">"^0.15.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在終端來打入<code>npm run mock-server</code> 即可執行，可以打開瀏覽器來看有無成功<code>http://localhost:3000</code> 會出現整個 JSON Server 主控頁面</p>
+<h4 id="GET-取得資料"><a href="#GET-取得資料" class="headerlink" title="GET(取得資料)"></a>GET(取得資料)</h4><p>開啟Postman選取GET並在網址列輸入<code>http://localhost:3000/posts</code>後Send送出，你會發現成功取得回傳資料。</p>
+<p><img src="2019-08-08_10_49_26_Image.png" alt="2019-08-08_10_49_26_Image"></p>
+<h4 id="POST-新增資料"><a href="#POST-新增資料" class="headerlink" title="POST(新增資料)"></a>POST(新增資料)</h4><p>開啟Postman選取POST並在網列輸入<code>http://localhost:3000/posts</code> 接下來是要放入POST的內容，Body&gt;raw&gt;選擇JSON(applocation/json)，並將所有要新增的資料寫成JSON格式在下面空白處如下圖(id沒輸入沒關系系統會幫你自動遞增產生)，最後再點選Send送出，最下面就會回傳你的新增結果囉！</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"id"</span>:<span class="number">2</span>,</span><br><span class="line">	<span class="attr">"title"</span>:<span class="string">"My test"</span>,</span><br><span class="line">	<span class="attr">"author"</span>:<span class="string">"10codeing"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019-08-08_10_59_42_Image.png"></p>
+<h4 id="PUT-更新完整資料"><a href="#PUT-更新完整資料" class="headerlink" title="PUT(更新完整資料)"></a>PUT(更新完整資料)</h4><p>開啟Postman選取PUT並在網址列輸入<code>http://localhost:3000/posts/2</code> 有沒有發現網址列最後出現了一個數字，沒錯這就是你要俢變的id,接下來是要放人修改的內容(全部欄位必放)，Body&gt;raw&gt;選擇JSON(appliction/json),將所有要新增的資料寫成JSON格式在下面空白俿如下圖，最後再點選Send送出，最下面就會回傳你的修改結果囉！</p>
+<p>使用PUT要注意的是送出修改內容時要將無修改的資料一樣寫上去不然會被洗掉哦！</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"title"</span>:<span class="string">"My test2"</span>,</span><br><span class="line">	<span class="attr">"author"</span>:<span class="string">"10codeing"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="2019-08-08_11_07_44_Image.png"></p>
+<h4 id="PATCH-更新部分資料"><a href="#PATCH-更新部分資料" class="headerlink" title="PATCH(更新部分資料)"></a>PATCH(更新部分資料)</h4><p>步驟跟PUT一模一樣開啟Postman選取PATCH並在網址列輸入<code>http://localhost:3000/posts/2</code>,再來放入修改的內容(可只放修改的欄位),Body&gt;raw&gt;選擇JSON(applocation/json),將所有要新增的資料寫成JSON格式在下面空白處如下圖，最後再點選Send送出，最下面就會回傳你的修改結果囉！</p>
+<p>使用PATCH就能解決PUT的問題可以只修改部分的資料。</p>
+<p><img src="2019-08-08_11_13_32_Image.png"></p>
+<h4 id="DELETE-刪除資料"><a href="#DELETE-刪除資料" class="headerlink" title="DELETE(刪除資料)"></a>DELETE(刪除資料)</h4><p>開啟Postman選取PUT並在網址列輸入 <code>http://localhost:3000/posts/2</code>，網址最後面的id就是你要刪除的那筆資料，最後再點選Send送出，資料就被成功的刪除囉！</p>
+<p><img src="2019-08-08_11_24_58_Image.png"></p>
+<h4 id="自訂路由-注意"><a href="#自訂路由-注意" class="headerlink" title="自訂路由(注意)"></a>自訂路由(注意)</h4><blockquote>
+<p>如果有自訂路由，目前在PUT,PATCH會有問題</p>
+<p><a href="https://github.com/typicode/json-server/issues/802">https://github.com/typicode/json-server/issues/802</a></p>
+</blockquote>
+<p>大多時候json-server的預設範例是滿足了我們的。</p>
+<p>舉例來說，我想要的Mock的API路徑希望是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;api&#x2F;v1&#x2F;issues&#x2F;analysis?gid&#x3D;:gid&amp;sDate&#x3D;:sDate&amp;eDate&#x3D;:eDate</span><br></pre></td></tr></table></figure>
+
+<p>這時候就需要自訂路由了！</p>
+<h5 id="新增route-json檔案"><a href="#新增route-json檔案" class="headerlink" title="新增route.json檔案"></a>新增<code>route.json</code>檔案</h5><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"/api/*"</span>: <span class="string">"/$1"</span>         <span class="comment">//   /api/posts =&gt; /posts</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的意思就就是當調用<code>/api/posts</code>時，重定向到<code>/posts</code></p>
+<p>接著在裡面貼上官網的範例：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"/api/*"</span>: <span class="string">"/$1"</span>,</span><br><span class="line">    <span class="attr">"/:resource/:id/show"</span>: <span class="string">"/:resource/:id"</span>,</span><br><span class="line">    <span class="attr">"/posts/:category"</span>: <span class="string">"/posts?category=:category"</span>,</span><br><span class="line">    <span class="attr">"/articles\\?id=:id"</span>: <span class="string">"/posts/:id"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上設定後，對應結果如下:</p>
+<ul>
+<li>輸入<code>/api/posts</code># –&gt; /posts</li>
+<li>輸入<code>/api/posts/1</code># –&gt; /posts/1</li>
+<li>輸入<code>/posts/1/show</code># –&gt; /posts/1</li>
+<li>輸入<code>/posts/javascript</code># –&gt; /posts?category=javascript</li>
+<li>輸入<code>/articles?id=1</code># /posts/1</li>
+</ul>
+<p>成出規則後，修改<code>route.json</code>變成我們要的結果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;&#x2F;api&#x2F;v1&#x2F;issues&#x2F;analysis\\?gid&#x3D;:gid&amp;sDate&#x3D;:sDate&amp;eDate&#x3D;:eDate&quot;: &quot;&#x2F;api&quot;,</span><br><span class="line">    &quot;&#x2F;api&#x2F;vi&#x2F;issues&#x2F;analysis&quot;: &quot;&#x2F;api&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="自訂配置"><a href="#自訂配置" class="headerlink" title="自訂配置"></a>自訂配置</h4><p>為了更方便使用，也可以自行配罝json-server</p>
+<p>新增<code>json-server.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"port"</span>: <span class="number">5000</span>, <span class="comment">//自定 port</span></span><br><span class="line">    <span class="attr">"watch"</span>: <span class="literal">true</span>, <span class="comment">//監聽改動</span></span><br><span class="line">    <span class="attr">"routes"</span>: <span class="string">"route.json"</span> <span class="comment">//路由配置路徑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因為只有使用到這些配置，更多配置請參考官方 GitHub 文件。</p>
+<p>配置已經完𨮄，最後在<code>package.json</code>修改以下指令</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">    "mock-server": "json-server --watch db.json"</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>之後只需要執行<code>npm run mock-server</code>即可運行以上這些配置囉</p>
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><p><a href="https://pvt5r486.github.io/f2e/20190625/2362558207/">json-server 與 chart.js</a></p>
+<p><a href="https://blog.csdn.net/lhjuejiang/article/details/81475993">JsonServer使用详解</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Angular/" rel="tag"># Angular</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%AD%E5%AE%9Awin10%E6%A1%8C%E9%9D%A2ICON%E9%96%93%E8%B7%9D/" rel="prev" title="設定win10桌面ICON間距">
+      <i class="fa fa-chevron-left"></i> 設定win10桌面ICON間距
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92%E4%BD%A0%E6%87%82JavaScirpt%E5%97%8E/" rel="next" title="學習你懂JavaScirpt嗎?">
+      學習你懂JavaScirpt嗎? <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在專案中使用-json-server"><span class="nav-text">在專案中使用 json-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下載json-server"><span class="nav-text">下載json-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立db-json"><span class="nav-text">建立db.json</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#測試JSON-Server"><span class="nav-text">測試JSON Server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GET-取得資料"><span class="nav-text">GET(取得資料)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#POST-新增資料"><span class="nav-text">POST(新增資料)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PUT-更新完整資料"><span class="nav-text">PUT(更新完整資料)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PATCH-更新部分資料"><span class="nav-text">PATCH(更新部分資料)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DELETE-刪除資料"><span class="nav-text">DELETE(刪除資料)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自訂路由-注意"><span class="nav-text">自訂路由(注意)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#新增route-json檔案"><span class="nav-text">新增route.json檔案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自訂配置"><span class="nav-text">自訂配置</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

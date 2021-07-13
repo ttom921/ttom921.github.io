@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言這是參考2019 iT 邦幫忙鐵人賽的從0開始的網頁生活！30天從網頁新手到網頁入門這篇文章來學習和記錄 day02網頁三兄弟HTML、CSS、JavaScript網頁架構簡單介紹一下構成網頁三大元素HTML,CSS,JavaScript HTML負責的就是把網頁的結構生出來，而CSS就是負責把外貌給顯示出來，讓網頁的外貌看起來美觀一些，最後JavaScript再負責去控制網頁裡面的內容以及使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端學習HTML-CSS-JAVASCRIPT">
+<meta property="og:url" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言這是參考2019 iT 邦幫忙鐵人賽的從0開始的網頁生活！30天從網頁新手到網頁入門這篇文章來學習和記錄 day02網頁三兄弟HTML、CSS、JavaScript網頁架構簡單介紹一下構成網頁三大元素HTML,CSS,JavaScript HTML負責的就是把網頁的結構生出來，而CSS就是負責把外貌給顯示出來，讓網頁的外貌看起來美觀一些，最後JavaScript再負責去控制網頁裡面的內容以及使">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-15_13_36_15_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-15_13_39_02_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-16_11_11_07_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-16_11_22_47_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-16_13_51_45_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/1525241598_89066.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/flex-container.svg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/gLuqRpn.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/esBYRnm.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/ZRq2NE6.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Lsvtpjc.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/PaxVJny.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/GTdcTpj.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/tavxcVC.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/ciT1OEs.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/neTUclU.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/gYmixVS.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/fQ7IudI.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/kr4yfQy.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/TSpX1bt.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Uo9AlW4.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/flex-align-self.gif">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/XIRF6QN.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/meyNZaC.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/sU0m594.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/P0ZMe8S.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/0CNtB0J.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/yGkD4Vs.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/order-illustration.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/jhxvy9M.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/qSTvV8i.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/8hB7Zot.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/fg.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/flex-shrink-example.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/grid-start-end-c.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/world-of-css-grid-13-638.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/grid-area.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/z-index-02.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/css-display-block-vs-inline-block.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Difference-Between-Padding-and-Margin.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/JBpq8np.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/9DORgmF.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Hcin1Gy.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/sk9UA62.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/W3TBl.gif">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/12wRO1c.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/wUWx6e3.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2lRsmNg.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/PnGWDaQ.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Content-is-like-water-1980.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/5u5rDGV.gif">
+<meta property="og:image" content="https://ttom921.github.io/b0aeb7ffd1667b9162e5329154d43777_hd.jpg">
+<meta property="article:published_time" content="2019-07-11T10:14:10.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:34.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-15_13_36_15_Image.png">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>前端學習HTML-CSS-JAVASCRIPT | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端學習HTML-CSS-JAVASCRIPT
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-07-11 10:14:10" itemprop="dateCreated datePublished" datetime="2019-07-11T10:14:10+00:00">2019-07-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:34" itemprop="dateModified" datetime="2021-07-13T01:17:34+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/HTML-CSS-JavaScript/" itemprop="url" rel="index"><span itemprop="name">HTML,CSS,JavaScript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>這是參考2019 iT 邦幫忙鐵人賽的<a href="https://ithelp.ithome.com.tw/users/20111948/ironman/1776">從0開始的網頁生活！30天從網頁新手到網頁入門</a>這篇文章來學習和記錄</p>
+<h3 id="day02網頁三兄弟HTML、CSS、JavaScript"><a href="#day02網頁三兄弟HTML、CSS、JavaScript" class="headerlink" title="day02網頁三兄弟HTML、CSS、JavaScript"></a>day02網頁三兄弟HTML、CSS、JavaScript</h3><h4 id="網頁架構"><a href="#網頁架構" class="headerlink" title="網頁架構"></a>網頁架構</h4><p>簡單介紹一下構成網頁三大元素HTML,CSS,JavaScript</p>
+<p><strong>HTML</strong>負責的就是把網頁的結構生出來，而<strong>CSS</strong>就是負責把外貌給顯示出來，讓網頁的外貌看起來美觀一些，最後<strong>JavaScript</strong>再負責去控制網頁裡面的內容以及使用者的操作行為。</p>
+<h4 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h4><p><strong>HTML</strong>就是管理網頁的架構，一個好的網頁其<strong>HTML</strong>可以說是相當單純且具有易讀性，這種網頁不但方便前端工程師進行後續的維護外，也比較容易讓你的網頁增加曝光率讓技尋引擎能把你的網頁擺在最前面，此種行為稱為SEO，而且目前<strong>HTML</strong>已經發布到第五版同時也是目前廣為使用的版本。</p>
+<h4 id="HTML基本觀念"><a href="#HTML基本觀念" class="headerlink" title="HTML基本觀念"></a>HTML基本觀念</h4><p><strong>HTML</strong>內的element排序屬於巢狀結構，巢狀結構簡單來說就是一層一層的概念，舉例來說</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到<code>&lt;p&gt;</code>這個element被<code>&lt;div&gt;</code>這個element包起來, 代表<code>&lt;div&gt;</code>在<code>&lt;p&gt;</code>的上層，會用兩個專有名詞來稱呼上下層之間的關係，上層稱為<strong>父元素</strong>下層稱為<strong>子元素</strong>。</p>
+<ul>
+<li><p>Attribute</p>
+<p>Attibute簡單來說就是用來敘述element的相關性質，舉例來說</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"txt"</span> <span class="attr">id</span>=<span class="string">"uniqueTxt"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- placeholder 為提示文字 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">placeholder</span>=<span class="string">"請輸入文字"</span> 誤=<span class="string">“input”/</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- href為超連結網址 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"www.google.com.tw"</span> <span class="attr">class</span>=<span class="string">"link"</span>&gt;</span>Google<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到到在element裡面寫了<code>class</code>、 <code>placeholder</code>、<code>href</code>、這些不是element的東西，這重附加在element上的東西就稱之為attribute，更多詳細的attributes可以參考這個<a href="https://www.w3schools.com/TAGS/ref_attributes.asp">網站</a>，這邊就介紹每個element都可以用的global attributes</p>
+<ul>
+<li><p>Global Attributes</p>
+<p>剛剛的例子，我們可以發現<code>class</code>跟<code>id</code>這兩個attribute都出現在好幾個不同的element裡面，這些就是glogal attribute,至於global attribute的相關用途會在底下的CSS基礎觀念加以敘述，這邊有一個動要的觀念要交代，一個element可以有無數個<code>class</code>可是只能有一個<code>id</code>，這邊可以用一個簡單的方式來思考，一個人可以有很多的角色，但是只會有一個身分證字號，而<code>class</code>就是男生，學生，<code>id</code>就是身分證字號。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h4><p>CSS就是管理網頁的外貌，CSS之於網頁如同化妝品之於人類，因此CSS相當考驗工程師的美感，而目前CSS已經發布到第三版同時也是目前最廣為使用的版本，因此大家常聽到的CSS3其實就是指第三版的CSS喔</p>
+<h5 id="CSS其本觀念"><a href="#CSS其本觀念" class="headerlink" title="CSS其本觀念"></a>CSS其本觀念</h5><p>之前提到的global attributes,就是為了讓CSS可以快速的幫這些element加上專屬的樣式，一般可以分成三種方式來替element加樣式</p>
+<ul>
+<li><p>style attribute(inline style)</p>
+<p>這種是最直觀也是簡單的，也就是直接在element裡寫sytle，這有個小小的觀念，其實CSS是有階級之分的在下面的例子三個<code>Hello World</code>分別會變成什麼顏色</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.txt</span> &#123;</span></span><br><span class="line">        color: green;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="css">    <span class="selector-id">#TXT</span> &#123;</span></span><br><span class="line">        color: blue;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"txt"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"txt"</span> <span class="attr">id</span>=<span class="string">"TXT"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"txt"</span> <span class="attr">id</span>=<span class="string">"TXT"</span> <span class="attr">style</span>=<span class="string">"color: red;"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>答案是綠色，藍色，紅色，所以可想而知CSS讀取的優先順為 <strong>inline style</strong> &gt; <strong>id</strong> &gt; <strong>class</strong> 難道沒有其他方法可以強制覆蓋element內的sytle嗎，答案是有的, 只需要加上<code>!important</code>就可以了, 全部會變成綠色</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.txt</span> &#123;</span></span><br><span class="line">        color: green !important;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="css">    <span class="selector-id">#TXT</span> &#123;</span></span><br><span class="line">        color: blue;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"txt"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"txt"</span> <span class="attr">id</span>=<span class="string">"TXT"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"txt"</span> <span class="attr">id</span>=<span class="string">"TXT"</span> <span class="attr">style</span>=<span class="string">"color: red;"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>style tag(<code>&lt;style&gt;</code>)</p>
+<p>這邊就是實作樣式的地方，這邊通常都會用<code>class</code>以及<code>id</code>來描述，在寫法上<code>class</code>會用<code>.className</code>而<code>id</code>會用<code>#idName</code>來區分。</p>
+</li>
+<li><p>link ref import css files</p>
+<p>最後一種方法就是寫CSS檔來描述網頁內的各個樣式並利用<a href="https://www.w3schools.com/css/css_howto.asp">link tag</a> 來連結檔案</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h4><p>JavaScript就是管理網頁的內容以及使用者的操作行無，因此JavaScript可以說是網頁最要同時也是最難學的一個環節。</p>
+<h5 id="JavaScript基本觀念"><a href="#JavaScript基本觀念" class="headerlink" title="JavaScript基本觀念"></a>JavaScript基本觀念</h5><p>上面提到JavaScript的存在就是為了要控制網頁的內容，所以可以猜想到JavaScript最重要的概念就是要控制HTML中的各個element，既然要控制element那勢必得提供相對應的<a href="https://developer.mozilla.org/zh-TW/docs/Web/API">Web API</a>,在剛剛的連結中可能會被裡面一堆的API嚇到，這裏建議先看懂<a href="https://developer.mozilla.org/zh-TW/docs/Web/API/Document">DOM API</a>即可，這邊跟CSS一樣有三種方法，而且三種方法都是一樣的道理喔</p>
+<ul>
+<li><p>Attribute</p>
+<p>熟悉的attribute又來了，可以把JavaScript寫在HTML的element內了，沒錯的確是可以這樣使用不過比較少人用就是了，比較正常的做法是在element內寫上onClick之類的attribure綁上function然後再到等等要𧦦到的script裡面去實作functon。有一個疑問：click就click為啥還要多加一個on變成onClick呢？</p>
+<ul>
+<li><p>click</p>
+<p>click為<strong>事件(event)</strong>, 事件非常單純只負責通風報信，舉例來說當有個element被點擊，那這個element就被觸發了click這個event，他不用去管後續的動作只需要告知說我被點擊了而已。</p>
+</li>
+<li><p>onClick</p>
+<p>onClick為處理事件的<strong>處理器(handler)</strong>所以會是一個function型態，舉例來說當一個element觸發click事件後會呼叫onClick來進行click後的動作</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>所以我們可以推斷先有event才會有handler，這也是為什麼element上面會直接寫onClick而不是click的原因，那如枎不直接寫handler而要用event的方式撰寫要怎麼做呢？這時候就需要<code>addEventListener()</code>了</p>
+<p><code>addEventListener()</code>簡單來說就是個替element監聽事件的監聽器，而<code>addEventListener()</code>一共有三個參數:event,handler,boolean value。</p>
+<ul>
+<li><p>event</p>
+<p>這個就不用多做介牭了，就擺上要監聽的事件名稱更多詳細的事件名稱可以參考這個<a href="https://developer.mozilla.org/zh-TW/docs/Web/Events">網站</a>。</p>
+</li>
+<li><p>handler</p>
+<p>這裡就是要寫上handler，負責去執行event的後續動作。</p>
+</li>
+<li><p>boolean value</p>
+<p>這裡牽扯到兩個很重要的事件流程，分別為<strong>事件冒泡(bubbling)</strong>和<strong>事件捕獲(bapture)</strong></p>
+<ul>
+<li><p>buggling </p>
+<p>從觸發事件的element開始，將事件往上傳遞直到document</p>
+</li>
+<li><p>catpure</p>
+<p>從document開始逐漸往下找尋觸發事件的element</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>可以發現兩者的差別只有在於流程順序而已，在大部分的狀況下通常事件流程都不會有順序上的差別，只有在少部分的情況下就會有順序上的差別，可以參考這個<a href="https://codepen.io/Andy-Chen/pen/VEmPOO">範例</a>。</p>
+<ul>
+<li><h3 id="script-tag-lt-script-gt"><a href="#script-tag-lt-script-gt" class="headerlink" title="script tag(&lt;script&gt;)"></a>script tag(<code>&lt;script&gt;</code>)</h3><p>這邊就是實作 <strong>JavaScript</strong> 的地方啦，概念就跟 <strong>CSS</strong> 一樣。</p>
+</li>
+<li><h3 id="script-src-import-js-files"><a href="#script-src-import-js-files" class="headerlink" title="script src import js files"></a>script src import js files</h3><p>跟 <strong>CSS</strong> 不同的地方是 <a href="https://www.w3schools.com/tags/att_script_src.asp">script tag</a> 本身就可以連結 <strong>js</strong> 檔案，只需要加個 <code>src</code> 這個 <strong>attribute</strong> 就可以了，不像 <strong>CSS</strong> 還需要透過 <code>&lt;link&gt;</code> 來連結檔案。</p>
+</li>
+</ul>
+<h3 id="day03深入理解網頁架構DOM"><a href="#day03深入理解網頁架構DOM" class="headerlink" title="day03深入理解網頁架構DOM"></a>day03深入理解網頁架構DOM</h3><p>DOM全名為Document Object Model中文翻譯為<strong>文件物件模型</strong>，看起來很抽象但其實就是把一分HTM文件內的各個標籤，包括文字，圖片等等都定義成物件，而這些物件最終會形成一個<a href="https://zh.wikipedia.org/wiki/%E6%A8%B9%E7%8B%80%E7%B5%90%E6%A7%8B">樹狀結構</a></p>
+<p>為何需要DOM</p>
+<p>網頁是由瀏覽器負責運行，因此可以知道瀏覽其實就是一種編譯器負責去鍽譯我們寫的網頁程式，有非常多間公司都在設計瀏覽器，假如沒有先定好一個規則讓各個瀏覽器都必須要按照這個規則去編譯我們的網頁程式的話，工程師頭就痛了，也因此 <a href="https://zh.wikipedia.org/wiki/%E4%B8%87%E7%BB%B4%E7%BD%91%E8%81%94%E7%9B%9F">W3C</a> 出現了， <strong>W3C</strong> 定義了非常多的網頁規則好讓各大瀏覽器可以按照這些規則去設計瀏覽器，其中 <strong>DOM</strong> 就是其中的一個定義。</p>
+<p>DOM解析</p>
+<p>既然上面都提到 <strong>DOM</strong> 會形成一個樹狀結構，而樹狀結構最重要的就是各個 <strong>節點(node)</strong>。</p>
+<p>在DOM中每個element，文字(text)等等都是一個節點，而節點通常分成以下四種：</p>
+<ul>
+<li><p>Document</p>
+<p>Document就是指這份文件，也就是這份HTML檔的開端，所有的一切都會從Document開始往下進行</p>
+</li>
+<li><p>Element</p>
+<p>Element就是指文件內的各個標籤，因此像是<code>&lt;div&gt;</code>、<code>&lt;p&gt;</code>等等各種HTML Tag都是被歸類在Element裡面</p>
+</li>
+<li><p>Text</p>
+<p>Text就是指被各個標籤包起包的文字，舉例來說在<code>&lt;h1&gt;Hello World&lt;/h1&gt;</code>中，<code>Hello World</code>被<code>&lt;h1&gt;</code>這個Element包起來，因此<code>Hello World</code>就是此Element的Text</p>
+</li>
+<li><p>Attribute</p>
+<p>Attribute就是指各個標籤內的相關屬性</p>
+</li>
+</ul>
+<h4 id="範例"><a href="#範例" class="headerlink" title="範例"></a>範例</h4><p>這邊以一個簡單的code來總結一下上述所說得事項，並把這份文件(document)內的元素(element)變成一個樹狀結構。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>example<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"txt"</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>首先是最一開始的document，往下開始遇到<code>&lt;html&gt;</code>這個element, 這個<code>&lt;html&gt;</code>包含了<code>&lt;head&gt;</code>以及<code>&lt;body&gt;</code>這兩個element，其中<code>&lt;head&gt;</code>這固element包含了<code>&lt;title&gt;</code>這個element而<code>&lt;title&gt;</code>的text為<code>example</code>，再來是<code>&lt;body&gt;</code>這個element包含了<code>&lt;h1&gt;</code>這個element而<code>&lt;h1&gt;</code>的text為<code>Hello World</code>attribute為<code>class</code>。</p>
+<p>看起來很像在繞口令，但瀏覽器就是這樣一步一步的把 <strong>HTML</strong> <strong>解析(parse)</strong> 成一顆 <strong>DOM tree</strong> </p>
+<p>DOM遍歷</p>
+<p>由於DOM為樹狀結構，樹狀結構最動要的觀念就是Node彼此之間的關系，這邊可以分成以下兩種關系：</p>
+<ul>
+<li><p>父子關系(Parent and Child)</p>
+<p>簡單來說就是上下層節點，上層為Parent Node，下層為Child Node</p>
+</li>
+<li><p>兄弟關系(Siblings)</p>
+<p>簡單來說就是同一層節點，彼此間只有Previous以及Next兩種</p>
+</li>
+</ul>
+<h4 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h4><p>實際操作，常用的DOM API，首先先從抓取Nodes開始。</p>
+<ul>
+<li><p>document.getElementById(‘idName’)  </p>
+<p>找尋DOM中符合此<code>id</code>名稱的元素，並回傳相對應的element</p>
+</li>
+<li><p>document.getElementByTabName(‘tag’)</p>
+<p>找尋DOM中符合此<code>tag</code>名稱的所有元素，並回傳相對應的element集合，集合無HTMLCollection。</p>
+</li>
+<li><p>document.getElementByClassName(‘className’)</p>
+<p>找尋DOM中符合此<code>class</code>名稱的所有元素，並回傳相對應的element集合，集合無HTMLCollection。</p>
+</li>
+<li><p>document.querySelector(‘selector’)</p>
+<p>利用selecor來找尋DOM中的元素，並回傳相對應的第一個element. </p>
+</li>
+<li><p>document.querySelectorAll(‘selector’)</p>
+<p>利用selecor來找尋DOM中的所有元素，並品傳相對應的第一個element，集合為NodeList</p>
+</li>
+</ul>
+<p>這裡稍微提一下HTMLCollection以及NodeList兩個都是Collection of DOM Nodes，那到底差在哪呢？</p>
+<ul>
+<li><p>HTMLCollection</p>
+<p>集合內元素為HTML element，也因此Node type只能接受Element</p>
+</li>
+<li><p>NodeList</p>
+<p>集合內元素為Node，也因此全部的Node都可以存收在NodeList內。</p>
+</li>
+</ul>
+<p>其實真正常用的 <strong>DOM API</strong> 也就這幾種而已</p>
+<h3 id="day04-CSS選擇器"><a href="#day04-CSS選擇器" class="headerlink" title="day04-CSS選擇器"></a>day04-CSS選擇器</h3><p>學會<strong>CSS Selectors</strong>才能算是真正的學會了CSS，其實上面有兩個<strong>CSS Selectors</strong>,那就是<code>.clss</code>以及<code>#id</code>這兩個其實就是selectors裡面的成員，接下來介紹幾個常用的selectors</p>
+<h4 id="什麼是CSS選擇器-CSS-Selectors"><a href="#什麼是CSS選擇器-CSS-Selectors" class="headerlink" title="什麼是CSS選擇器(CSS Selectors)"></a>什麼是CSS選擇器(CSS Selectors)</h4><p>看到名字就知道這是負責去選取事物，其實select這個名詞在CSS中扮演的是一種模式，這個模式就是負責去找指定的element，而selectors就是負責去實踐這個模式的重要工具。</p>
+<h4 id="為何需要CSS選擇器"><a href="#為何需要CSS選擇器" class="headerlink" title="為何需要CSS選擇器"></a>為何需要CSS選擇器</h4><p>CSS在網頁所扮演的角色就是負責打扮整個網頁的樣式 可以想像成在一個群體中只有一位化妝師要負責去打扮這個群體裡所有的人，其中這個群體的每位人物都會有屬於自已的裝扮，這時候化妝師就必須要用一些方法去挑選這裡頭的人來進行化妝，selectors就是這種存在，一個網頁裡會有非常多的element, 而CSS要㮹何讓這些element可以正確的擁有自已的style，就必須要依靠selectors去找尋這些element了。</p>
+<h4 id="常用的CSS選擇器"><a href="#常用的CSS選擇器" class="headerlink" title="常用的CSS選擇器"></a>常用的CSS選擇器</h4><p>選擇器主要可以分成以下四大類<strong>單純選擇器(Simple Selectors)、組合選擇器(Combinators)、偽類別(Pseudo-Class)、偽元素(Pseudo-Element)</strong></p>
+<ul>
+<li><p>單純選擇器(Simple Selectors)</p>
+<p>這邊介紹的選擇器都只有單純的選取某一個element或者是符合此條件的全部集合</p>
+<ul>
+<li><p>*</p>
+<p>這個符號就是一個星星<code>*</code>這個東西在selectors裡面扮演的就是全部事物，所以會選取到HTML內的所有element</p>
+</li>
+<li><p>element</p>
+<p>element就是指這個被選取到的element全部都會有相對應的樣式，雖然也是全部的概念但是跟<code>*</code>不一樣。</p>
+</li>
+<li><p>.className</p>
+<p><code>.className</code>代表只要element的class attribute其<code>className</code>與<code>.className</code>一樣就會被選取到。</p>
+</li>
+<li><p>#idName</p>
+<p><code>#id</code>代表只要element的id attribute其<code>idName</code>與<code>#idName</code>一樣就會被選取到。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>接下來要來講點跟attribure有關的了，這邊的attribute並不包含global attribure</p>
+<p>只要是寫跟attribure有關的都一定要用[]包起來，這邊會用兩張圖來描述attribure的相關寫法。    </p>
+<p><a href="https://js-ulouyf.stackblitz.io/">stackblitz</a>   注意<code>input[value]</code>中間沒有空格</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">       <span class="selector-tag">input</span><span class="selector-attr">[value]</span> &#123;</span></span><br><span class="line"><span class="css">         <span class="selector-tag">color</span><span class="selector-pseudo">:red</span>;</span></span><br><span class="line">       &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">"123"</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">"123456"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>效果如下的畫面</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-15_13_36_15_Image.png" alt="2019-07-15_13_36_15"></p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-15_13_39_02_Image.png" alt="2019-07-15_13_39_02"></p>
+<p>比較上兩張圖後可以發現，如果單純只在[]裡面寫上attribute的話，代表全部都有這個attribute的都會被選取到，但假如在attribure後方加上數值的話就代表要完美符合這個條件的才會被選取到。</p>
+<ul>
+<li><p>組合選擇器(Combinators)</p>
+<ul>
+<li><p><strong>element1,element2,…</strong></p>
+<p>這個代表的是<strong>element1</strong>以及<strong>element2</strong>都會有一樣的樣式。</p>
+</li>
+<li><p><strong>element1 element2 …</strong></p>
+<p>這個代表的是只要有被<strong>element1</strong>包起來的<strong>element2</strong>,其<strong>element2</strong>會有相對應的樣式，簡單的來說<strong>空白</strong>這個<strong>selector</strong>不管你的<strong>element2</strong>在哪一層，只要他被<strong>element1</strong>包起來就會被選取到。</p>
+</li>
+<li><p><strong>element1 &gt; element2 &gt; …</strong></p>
+<p>這個代表的是<strong>element1</strong>下一層的<strong>element2</strong>會有相對應的樣式，這個<code>&gt;</code>跟上面的空白不一樣，這個比較嚴謹一點了，這個僅限於<strong>element1</strong>的下一層，只要<strong>element2</strong>不是在<strong>element1</strong>下一層的都不會被選取到。</p>
+</li>
+<li><p>*<em>ement1 + element2 + … *</em></p>
+<p>這個代表的是在同一層中緊接在<strong>element1</strong>的<strong>element2</strong>，其<strong>element2</strong>會有相對應的樣式，也就是這個條件要符合救一個重要元素就是兩個<strong>element</strong>彼此要為<strong>siblings</strong>，以程式碼方式讓大家來理解。<a href="https://js-sxxcln.stackblitz.io/">stackblitz</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">      <span class="selector-class">.item1</span> + <span class="selector-class">.item2</span> &#123;</span></span><br><span class="line"><span class="css">         <span class="selector-tag">color</span><span class="selector-pseudo">:red</span>;</span></span><br><span class="line">       &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item1"</span>&gt;</span>我的文字不是紅色 <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item2"</span>&gt;</span>我的文字是紅色 <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-16_11_11_07_Image.png" alt="2019-07-16_11_11_07"></p>
+</li>
+</ul>
+</li>
+<li><p>偽類別(Pseudo-Class)</p>
+<ul>
+<li><p><strong>element:nth-child(n)</strong></p>
+<p>這個代表的是所選取到的<strong>element</strong>，其第<strong>n</strong>個element會有相對應的樣式，這邊要注意一點：一般程式語言的起始<strong>index</strong>為<strong>0</strong>，可是CSS的起始index為<strong>1</strong>所以在指<strong>n</strong>的時候不要指定錯了<a href="https://js-jfjz4b.stackblitz.io/">stackblitz</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">      <span class="selector-class">.item</span><span class="selector-pseudo">:nth-child(2)</span> &#123;</span></span><br><span class="line"><span class="css">         <span class="selector-tag">color</span><span class="selector-pseudo">:red</span>;</span></span><br><span class="line">       &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span>我的文字不是紅色 <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span>我的文字是紅色 <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span>我的文字不是紅色 <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-16_11_22_47_Image.png" alt="2019-07-16_11_22_47"></p>
+</li>
+<li><p><strong>element:hover</strong></p>
+<p>hover的動作就是指讓滑鼠游標移動到<strong>element</strong>上，並且不讓這個游標離開該element, 通常會用這樣式都是為了提醒使用者這個elemen是有功能的。<a href="https://js-thbyrk.stackblitz.io/">stackblitz</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">		<span class="selector-class">.btn</span><span class="selector-pseudo">:hover</span> &#123;</span></span><br><span class="line">			background-color: gray;</span><br><span class="line">			color: black;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line"><span class="css">		<span class="selector-class">.btn</span> &#123;</span></span><br><span class="line">			width: 80px;</span><br><span class="line">			height: 25px;</span><br><span class="line">			background-color: black;</span><br><span class="line">			color: white;</span><br><span class="line">			border: white 2px solid;</span><br><span class="line">			border-radius: 5px;</span><br><span class="line">			text-align: center;</span><br><span class="line">			cursor: pointer;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>我是按鈕 <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2019-07-16_13_51_45_Image.png" alt="2019-07-16_13_51_45"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>偽元素(Pseudo-Element)</p>
+<p>最後來講兩個最奇特的 <strong>selectors</strong> ： <strong>::after</strong> 以及 <strong>::before</strong> 。</p>
+<p>看到 <strong>偽元素</strong> 大概就猜想得到這個是一個假的元素是不存在的，沒錯這兩個 <strong>selectors</strong>其實跟一般 <strong>selectors</strong> 要做的事情比較不一樣，這兩個要做的事情是在網頁中插入一些不存在於 <strong>HTML</strong> 上的內容，而非單純的只有選取 <strong>element</strong> 而已，而這兩個偽元素也非常直觀，看名字就知道一個是在 <strong>element</strong> 後面加上偽內容另一個則是在前面，這邊舉一個最常使用的例子： <strong>clearfix</strong> 。</p>
+<p>所謂的 <strong>clearfix</strong> 就是為了不讓子元素高度超過父元素而導致頁面看起來很醜陋，並利用 <strong>::after</strong> 以及 <strong>::before</strong> 來達到父元素自動撐開高度的效果，詳情可以參考這個<a href="https://www.w3schools.com/css/tryit.asp?filename=trycss_layout_clearfix2">範例</a>。</p>
+</li>
+</ul>
+<h3 id="Day05-讓CSS不再難讀SCSS"><a href="#Day05-讓CSS不再難讀SCSS" class="headerlink" title="Day05-讓CSS不再難讀SCSS"></a>Day05-讓CSS不再難讀SCSS</h3><p>  什麼是SCSS</p>
+<p>  在開始介紹 <strong>SCSS</strong> 之前先來介紹一下 <a href="https://zh.wikipedia.org/wiki/Sass">SASS</a>，在前一篇的 <strong>CSS 選擇器</strong> 中相信大家寫久之後會有一個感想，每次都要寫一大串的選擇器真的是非常麻煩，有時候寫太快還會不小心寫錯，於是 <strong>SASS</strong> 就被創造出來了，而 <strong>SASS</strong> 的寫法有分為舊版的 <strong>縮排語法</strong> 以及新的 <strong>SCSS</strong> ，由於 <strong>SCSS</strong> 為 <strong>CSS</strong> 的超集合，此一特性不但讓 <strong>SCSS</strong> 能兼容全部的 <strong>CSS</strong> 語法也讓大多數的人都選擇寫 <strong>SCSS</strong></p>
+<h4 id="範例-1"><a href="#範例-1" class="headerlink" title="範例"></a>範例</h4><p>  在開始介紹下方的範例之前，提供一個非常適合練習 <strong>SCSS</strong> 的<a href="https://www.sassmeister.com/">網站</a>，大家不妨可以到這個網站練習看看 <strong>SCSS</strong> 的語法。</p>
+<ul>
+<li><p>變數與運算</p>
+<p>變數的最大的好處在於只履改變數的值就可以直接改變全部有用此變數的內容，最常被來當變數的就是顏色了，有了變數宣告𣄵不用一直複製顏色代碼了，而且也不擔心未來修改顏色時可能會忘記修改到某些元素的顏色。</p>
+<p>變數的宣告相當簡單，只要加個<code>$</code>而<code>:</code>後方接上變數的值即可，寫法跟<strong>CSS</strong>很像</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$image-color</span>: rgb(<span class="number">3</span>,<span class="number">102</span>,<span class="number">214</span>);</span><br><span class="line"><span class="variable">$border-color</span>: rgb(<span class="number">223</span>,<span class="number">226</span>,<span class="number">229</span>);</span><br><span class="line"><span class="variable">$folder-color</span>: rgba(<span class="number">3</span>,<span class="number">46</span>,<span class="number">97</span>,<span class="number">0.5</span>);</span><br></pre></td></tr></table></figure>
+
+<p>宣告完之後只要在有需要引用此變數的地方寫上此變數的名稱即可</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">color</span>: <span class="variable">$image-color</span>;</span><br></pre></td></tr></table></figure>
+
+<p>既然都可以宣告變數了，當然也可以進行變數的四則運算</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$index</span>: <span class="number">5px</span>;</span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="variable">$insex</span> * <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>巢狀結構(Nesting)</p>
+<p>寫<strong>SCSS</strong>最厲害的地方就在於他的巢狀結構了。有了巢狀結構就不用花一堆心力寫一堆選擇器了，大家不妨可以猜猜看以下程式碼轉換成 <strong>CSS</strong> 後會長成什麼樣式，這邊附上轉換後的<a href="https://www.sassmeister.com/gist/2320e8bb9dc70623df1e979b462caad7">解答</a>。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  </span><br><span class="line">  <span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  + <span class="selector-class">.container2</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  &amp;:hover &#123;</span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以發現巢狀結構的解析就是一層一層往下累加選擇器的class, 如果沒有指定選擇器則預設為<strong>空白</strong>, 而<code>&amp;:</code>這個符號就是給偽類別以及偽元素使用，這種寫法讓選擇器不再那麼麻煩而具也變得直觀許多。</p>
+</li>
+<li><p>匯入其他SCSS檔案(@import)</p>
+<p><strong>SCSS</strong>的檔案是可以互相被引用的，只要寫上<code>@import &#39;file.scss&#39;</code>即可，引用的好處在於假如我有一個<code>base.scss</code>裡面就是定義一些基本的style,之後在寫其他的<strong>SCSS</strong>時就不用重新在寫一次基本的樣式。</p>
+</li>
+<li><p>混合(@mixin)</p>
+<p>混合就如其名，就是要讓一個自訂的樣式可以融入指定的元素，概念有點像是變數但不一樣的是混合是要寫完整的樣式而非只有單純的值而已，也因此<code>@mixin</code>的樣式在轉換成<strong>CSS</strong>後是不會存在的，如果要甲用混合所宣告的組合則需使用<code>@include</code>, 通常用於大量且基本的樣式以減少開發時的<strong>CSS</strong>程式碼，<code>@mixin</code>寫法如下</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">mixin</span> block &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  @<span class="keyword">include</span> block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>轉換的結果可以參考<a href="https://www.sassmeister.com/gist/2d0dc30db2914e5fc99e818b396da577">這裡</a>。</p>
+</li>
+<li><p>延展(@extend)</p>
+<p>延展的概念跟口可以說是一模以，不一樣的地方在於<code>@extend</code>只能用在已存在的<strong>class</strong>，這邊用選擇器的觀念去思考的話可以把<code>@extend</code>想成逗號這個選擇器，所以轉換後樣式不但都會被保留而且都會其用一樣的樣式，這點就跟<code>＠minin</code>有著非常的的差別山，<code>@extend</code>的寫法如下。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.container2</span> &#123;</span><br><span class="line">  @<span class="keyword">extend</span> .container;</span><br><span class="line">  <span class="attribute">background-color</span>: blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>轉換後的結果可以參考<a href="https://www.sassmeister.com/gist/ad19036405e7b188bb8ad325af8e146c">這裡</a>。</p>
+</li>
+<li><p>函式(@function)</p>
+<p><strong>SCSS</strong>也可以寫函式來進行簡單的運算，而且也具備一些基本的程式語法像是：<code>@if</code>、<code>@return</code>、<code>@for</code>等等，而<strong>SCSS</strong>也內建了許多函式可以使用，詳細的函式庫可以參考這個<a href="http://sass-lang.com/documentation/Sass/Script/Functions.html">網站</a>，<code>@function</code>的寫法如下</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@function calc-margin(<span class="variable">$value</span>) &#123;</span><br><span class="line">  @return <span class="variable">$value</span> * 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: calc-margin(<span class="number">5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>轉換後的結果可以參考<a href="https://www.sassmeister.com/gist/a6d18deb2a6a889ae6d1071ad1bd0ec4">這裡</a>。</p>
+</li>
+</ul>
+<h3 id="Day06-HTML開發利器！Emmet"><a href="#Day06-HTML開發利器！Emmet" class="headerlink" title="Day06-HTML開發利器！Emmet"></a>Day06-HTML開發利器！Emmet</h3><p>Emmet的使用方式基本上跟寫CSS是差不多的，利用selectors的方式表達HTML架構，寫完後在按下鍵盤中的<code>tab</code>就會自動轉成HTML程式碼，目前主流的編輯器也都內建好Emmet這個強大的套件就連codepen也都有內建，可以直接在<a href="https://codepen.io/pen/">codepen</a>上練習</p>
+<p>範例</p>
+<ul>
+<li><p>element</p>
+</li>
+<li><p>element.className</p>
+</li>
+<li><p>element.className1.className2</p>
+</li>
+<li><p>element#idName</p>
+</li>
+<li><p>element.className(#idName)&gt;element.className(#idName)&gt;….</p>
+</li>
+<li><p>element.className(#idName)+element.className(#idName)+…</p>
+</li>
+<li><p>elemetn.className(#idName)*value</p>
+</li>
+<li><p>!  或 html:5</p>
+</li>
+</ul>
+<p>今天分享的 Emmet 可以說是前端工程師在寫 HTML 檔的必備神器，摸熟 Emmet 保證可以讓你在撰寫 HTML 的過程中更加容易、更加迅速，而大家在看 Emmet 的文章時也發現裡面牽扯到很多 CSS selectors 的觀念，所以大家不妨可以先把選擇器摸熟後再來看 Emmet 的介紹，這樣會更容易看懂文章喔！  </p>
+<h3 id="Day07-網頁排版利器！Flexbox"><a href="#Day07-網頁排版利器！Flexbox" class="headerlink" title="Day07-網頁排版利器！Flexbox"></a>Day07-網頁排版利器！Flexbox</h3><p>網頁最重要的就是排版，一般來說網頁是由一個一個的煰塊(block)組合而成，要排得好看其本上都要給定寬高，但這種排法會讓每個區塊過於死板，即便不把寬高寫死而是用百分比符號代替，這種寫法雖不會過於死板但有可能會讓區壞大小不夠精準，於是有彈性的區塊：<code>Flexbox</code>出來了。</p>
+<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>在正式介紹之前先了解一下Flexbox的基本概念與一般的區塊不同，Flexbox多了<strong>水平起點(main start)</strong>與<strong>水平終點(main end)</strong>、<strong>垂直起點(cross start)</strong>與<strong>垂直終點(cross end)</strong>、水平線與垂直線，這種非常細節性的屬性都是為了要讓區塊變得更加有彈性，這也讓Flexbox逐漸取代一般的區塊。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/1525241598_89066.png" alt="1525241598_89066"></p>
+<p>Flexbox講求的是同一個父元素中，其子元素的自由排版，也因此以下種種屬性設定都是寫在父元素而非寫在子元素中<img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/flex-container.svg" alt="flex-container"></p>
+<h4 id="屬性介紹"><a href="#屬性介紹" class="headerlink" title="屬性介紹"></a>屬性介紹</h4><p>Flexbox的屬性可以分為以下幾點：</p>
+<ul>
+<li><p>display</p>
+<p>display可以說是CSS中最其本的屬性了，而Flexbox基本上也跟一般的區塊一樣可以分成<code>display:flex;</code>以及<code>display: inline-flex;</code>兩種，而這兩種的差別也跟一般的區塊一樣只在於元素後方需不需換行而已。</p>
+</li>
+<li><p>flex-direction</p>
+<p>這個屬性主要是設定Flexbox內的元素<strong>排列方向</strong>，其值可分為以下四種</p>
+<ul>
+<li><p>row</p>
+<p>元素由在到右排序，為flex direction的預設值。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/gLuqRpn.jpg" alt="gLuqRpn"></p>
+</li>
+<li><p>row-reverse</p>
+<p>元素由右到左排序</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/esBYRnm.jpg" alt="esBYRnm"></p>
+</li>
+<li><p>column</p>
+<p>元素由上到下排序</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/ZRq2NE6.jpg" alt="ZRq2NE6"></p>
+</li>
+<li><p>column-reverse</p>
+<p>元素由下到上排序</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Lsvtpjc.jpg" alt="Lsvtpjc"></p>
+</li>
+</ul>
+</li>
+<li><p>justify-content</p>
+<p>這個屬性主要是設定Flexbox內的元素<strong>水平對齊位置</strong>，其值可分為以下五種</p>
+<ul>
+<li><p>flex-start</p>
+<p>元素對齊水平方向最在邊的main start, 為預設值。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/PaxVJny.jpg" alt="PaxVJny"></p>
+</li>
+<li><p>flex-end</p>
+<p>元素對齊水平方向最右邊的mainend</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/GTdcTpj.jpg" alt="GTdcTpj"></p>
+</li>
+<li><p>center</p>
+<p>元素水平置中</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/tavxcVC.jpg" alt="tavxcVC"></p>
+</li>
+<li><p>space-between</p>
+<p>元素平均分配，但左右兩邊的元素會典齊main start 以及mainend. </p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/ciT1OEs.jpg" alt="ciT1OEs"></p>
+</li>
+<li><p>space-around</p>
+<p>元素平均分配，每個元素間距都會一致。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/neTUclU.jpg" alt="neTUclU"></p>
+</li>
+</ul>
+</li>
+<li><p>align-items</p>
+<p>這個屬性主要是設定Flexbox內的元素<strong>垂直對齊位置</strong>其值可分為以下了種</p>
+<ul>
+<li><p>flex-start</p>
+<p>元素對齊垂直方向最上面的cross start</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/gYmixVS.jpg" alt="gYmixVS"></p>
+</li>
+<li><p>flex-end</p>
+<p>元素對齊垂直方向最下面的cross end</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/fQ7IudI.jpg" alt="fQ7IudI"></p>
+</li>
+<li><p>center</p>
+<p>元素垂直置中</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/kr4yfQy.jpg" alt="kr4yfQy"></p>
+</li>
+<li><p>stretch</p>
+<p>元素撐滿整個高度，為預設值</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/TSpX1bt.jpg" alt="TSpX1bt"></p>
+</li>
+<li><p>baseline</p>
+<p>以元素內的所有內容為基線對齊</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Uo9AlW4.jpg" alt="Uo9AlW4"></p>
+</li>
+</ul>
+</li>
+<li><p>align-self</p>
+<p>這個屬性跟上面的<strong>align-items</strong>可以說是一模一樣，差別在於align-sele是針對單一元素而不是整個元素，也因此這個屬性比較特別是寫子元素中而不是父元素。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/flex-align-self.gif" alt="flex-align-self"></p>
+</li>
+<li><p>align-content</p>
+<p>這個屬性也跟上面的<strong>align-items</strong>很像，差別在顧align-items是針對單行元素，而align-content是針對多行元素</p>
+<ul>
+<li><p>flex-start</p>
+<p>元素對齊垂直方向最上面的cross start</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/XIRF6QN.jpg" alt="XIRF6QN"></p>
+</li>
+<li><p>flex-end</p>
+<p>元素對齊垂直方向最下面的cross end</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/meyNZaC.jpg" alt="meyNZaC"></p>
+</li>
+<li><p>center</p>
+<p>元素垂置中</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/sU0m594.jpg" alt="sU0m594"></p>
+</li>
+<li><p>space-between</p>
+<p>第一行元素對齊上方corss start，最後一行元素對齊下方cross end. </p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/P0ZMe8S.jpg" alt="P0ZMe8S"></p>
+</li>
+<li><p>space-around</p>
+<p>每行元素平均分布，間距一致</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/0CNtB0J.jpg" alt="0CNtB0J"></p>
+</li>
+<li><p>stretch</p>
+<p>元素撐滿整個高度，為預設值。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/yGkD4Vs.jpg" alt="yGkD4Vs"></p>
+</li>
+</ul>
+</li>
+<li><p>order</p>
+<p>這個屬性主要設定Flexbox內的元素順序，也因此這個屬性也是寫在子元素中，元素將由數值從小到大排序。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/order-illustration.png" alt="order-illustration"></p>
+</li>
+<li><p>flex-wrap</p>
+<p>這個屬性主要是設定Flexbox內的元素是否換行，在inline-flex的設定中，子元素會以單行方式撐滿整個父元素且不會換行，也因此需要此屬性進行換行，此屬性的值可分為以下的種：</p>
+<ul>
+<li><p>nowrap</p>
+<p>不換行，為預設值</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/jhxvy9M.jpg" alt="jhxvy9M"></p>
+</li>
+<li><p>wrap</p>
+<p>換行</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/qSTvV8i.jpg" alt="qSTvV8i"></p>
+</li>
+<li><p>wrap-reverse</p>
+<p>換行但元素反轉</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/8hB7Zot.jpg" alt="8hB7Zot"></p>
+</li>
+</ul>
+</li>
+<li><p>flex</p>
+<p>flex這個屬性是由三種不同的屬性結合而成:<strong>flex grow</strong>、<strong>flex shrink</strong>、<strong>flex basis</strong>，主要作用就是讓Flexbox內的元素進行彈性的比例伸縮，以下三種屬性皆是寫在子元素中，且值都為數值不可為<strong>負值</strong>，最小值為0。</p>
+<ul>
+<li><p>flex-basis</p>
+<p>子元素是否進行伸縮的依據，預設值為0。</p>
+</li>
+<li><p>flex-grow</p>
+<p>當子元素flex-basis的值小於flex-grow所指定的值，則元素會進行<strong>伸展</strong>，預設數值為0</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/fg.png" alt="fg"></p>
+</li>
+<li><p>flex-shrink</p>
+<p>當子元素flex-basis的值大於flex-grow所指定的值，則元素會進行<strong>壓縮</strong>，預設數值為1。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/flex-shrink-example.png" alt="flex-shrink-example"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="block與flexbox比較"><a href="#block與flexbox比較" class="headerlink" title="block與flexbox比較"></a>block與flexbox比較</h4><p>flexbox最厲害的地方就在於可以用簡單的CSS寫法來達到工程師想要的版面，一個最顯著的<a href="https://codepen.io/Andy-Chen/pen/rqwPXQ">例子</a>來看 <strong>block</strong> 與 <strong>flexbox</strong> 是如何讓元素置中，可以發現 <strong>flexbox</strong> 真的簡單很多。</p>
+<h4 id="總結練習"><a href="#總結練習" class="headerlink" title="總結練習"></a>總結練習</h4><p><strong>Flexbox</strong> 可以說是非常好用的排版利器，只要學會了 <strong>flexbox</strong> ，任何版面都可以順利刻出來，就像這個<a href="https://codepen.io/Andy-Chen/pen/NgGwyM">例子</a>，而且目前主流的瀏覽器都有支援這個 <strong>CSS</strong> </p>
+<h3 id="Day08-更強大的網頁排版利器-Grid"><a href="#Day08-更強大的網頁排版利器-Grid" class="headerlink" title="Day08-更強大的網頁排版利器!Grid"></a>Day08-更強大的網頁排版利器!Grid</h3><p>藉由flexbox讓網頁排版不再因難，然而前端世界變化萬千，比flexbox更厲害的排版樣式:<strong>grid</strong>出來了</p>
+<h4 id="什麼是grid"><a href="#什麼是grid" class="headerlink" title="什麼是grid"></a>什麼是grid</h4><p>grid就是一個○的網格，如果說flexbox是針對一維(單行)的排版那麼grid就是針對二維(多行)的排版，在grid的世界裡，我們要做的就是把整個container的行數以及列數定義好，之微的排版只要用第幾行第幾列的方式去填元素就可以讓元素擺在想要的位置非常方便，在這邊提到一個有趣的<a href="http://cssgridgarden.com/">網站</a>，這個網站利用可愛的介面以及簡單的程式碼讓大家可以循序漸進的了解grid的強大排版能力。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/grid-start-end-c.png" alt="grid-start-end-c"></p>
+<h4 id="屬性介紹-1"><a href="#屬性介紹-1" class="headerlink" title="屬性介紹"></a>屬性介紹</h4><p>grid的屬性可以分成外部容器以及內部容器兩類:</p>
+<ul>
+<li><p>外部容器</p>
+<ul>
+<li><p>display</p>
+<p>grid一樣也分為<code>display: grid;</code>以及<code>display: inline-grid;</code>,差別在於兩個grid container之間需不需要換行。</p>
+</li>
+<li><p>grid-template-columns</p>
+<p>定義gird有多少行以及每行寬度，舉例來說：假如此grid具有五行，每行寬度均為原寬度的10％，則寫法如下。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  grid-template-<span class="attribute">columns</span>: <span class="number">10%</span> <span class="number">10%</span> <span class="number">10%</span> <span class="number">10%</span> <span class="number">10%</span>;</span><br><span class="line">  <span class="comment">/*也可以簡寫為*/</span></span><br><span class="line">  grid-template-colums: repeat(<span class="number">5</span>,<span class="number">10%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>grid-template-rows</p>
+<p>定義grid有多少列以及每列高度，舉例來說：假如此grid具有五例，每列高度均為100px，則寫法如下。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  grid-template-rows: <span class="number">100px</span> <span class="number">100px</span> <span class="number">100px</span> <span class="number">100px</span> <span class="number">100px</span>;</span><br><span class="line">    <span class="comment">/* 也可以簡寫為 */</span></span><br><span class="line">  grid-template-rows: repeat(<span class="number">5</span>,<span class="number">100px</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>grid有一個長度新的單位：<code>fr</code>, 這個<code>fr</code>代表的是<strong>可用空間的分塊(fraction)</strong>，也就將剩餘空間等比例切割後產生的網格，舉例來說：假如我有一個5<em>5的contaiber，我在grid-template-colums:定義成10％ 10％ 2fr 1fr 1fr，我那5個column中會有2個寬度是目前container寬度10％然後再將剩餘的空間切割成1個寬度為(100%-2</em>10%)<em>(2/4)大小的column以及2個寬度為(100%-2</em>10%)*(1/4)大小的column。<img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/world-of-css-grid-13-638.jpg" alt="world-of-css-grid-13-638"></p>
+</blockquote>
+</li>
+<li><p>grid-auto-columns/gtid-auto-rows</p>
+<p>定義gird內每個網格的寬高且每個網格寬高均會一致，寫法如下</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.contaiber</span> &#123;</span><br><span class="line">    grid-<span class="attribute">auto</span>-colums: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊要講兩個重要的grid格線:</p>
+<ul>
+<li><p>明式格線(Explicit grid)</p>
+<p>需清楚定義整個container具有多少行以及多少列，可客制化每個網格的寬高<code>grid-template-colums/gtid-template-rows</code>屬於此類。</p>
+</li>
+<li><p>暗式格線(Implicit grid)</p>
+<p>無需清楚定義整個container具有多少行以及多少列，無法制化每個網格的寬高<code>grid-auto-columns/grid-auto-rows</code>屬於此類。</p>
+</li>
+</ul>
+</li>
+<li><p>grid-template-areas</p>
+<p>定義grid每一個網格的名稱，舉例來說：下圖是一個簡單的3*3grid裡面分成了四大區塊。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/grid-area.png" alt="grid-area"></p>
+<p>這時候只要像下方這樣寫就可以達到上圖的樣式了</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  grid-template-areas:</span><br><span class="line">      <span class="string">"header header header"</span></span><br><span class="line">      <span class="string">"content content sidebar"</span></span><br><span class="line">      <span class="string">"footer footer footer"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>小提醒：每一列的網格名稱可以動複出現但不可分離，因此<code>sidebar content content sidebar</code>是錯誤的，所以如果兩側都要有sidebar的話可以定義成這樣<code>sidebar1 conten content siebar2</code>。</p>
+</blockquote>
+</li>
+<li><p>grid-auto-flow</p>
+<p>定義grid的排列方式</p>
+<ul>
+<li><p>row</p>
+<p>預設值，grid內的元素會以横向(左到右)排列。</p>
+</li>
+<li><p>column</p>
+<p>gtid內的元素會以緃向(上到下)排列。</p>
+</li>
+<li><p>dense(row dense/column dense)</p>
+<p> grid內的小元素優先排列，可服會造成排序上的優先問題，不建議使用。</p>
+</li>
+</ul>
+</li>
+<li><p>grid-gap/grid-column-gap/grid-row-gap</p>
+<p>定義grid水平及垂直隔線的間格，其中grid-gap為grid-column0gap以及grip-row-gap的結合，寫法如下</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    grid-row-gap: <span class="number">15px</span>;<span class="comment">//每列會有15px的間格</span></span><br><span class="line">    grid-<span class="attribute">column-gap</span>: <span class="number">10px</span>;<span class="comment">//每行會有10px的間格</span></span><br><span class="line">    <span class="comment">/* 將上面兩行結合 */</span></span><br><span class="line">    grid-gap: <span class="number">19px</span> <span class="number">10px</span>;<span class="comment">//先寫列再寫行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>內部容器</p>
+<ul>
+<li><p>grid-column-start/grid-row-start</p>
+<p>定義grid內元素的寬/高起始網格。</p>
+</li>
+<li><p>grid-column-end/grid-row-end</p>
+<p>定義grid內元素的寬/高終止網格。</p>
+<blockquote>
+<p>提醒：假如我有一個元素佔了第一個網格到第三個網格，這時候start為1而end為4而不是3喔！</p>
+<p>如果怕自己會忘記在end的地方加一，也可以用<code>span number</code>來寫，<code>number</code>為所佔網格數目，因此end的值就可以改寫成span 3而不用寫4，這樣就不用擔心自己寫錯了。</p>
+</blockquote>
+</li>
+<li><p>grid-column/grid-row</p>
+<p>將上面兩個合併，中間用<code>/</code>分開，<code>/</code>左邊為start右邊為end。</p>
+</li>
+<li><p>grid-area</p>
+<p>定義grid內元素位置，對應到<code>grid-template-areas</code>的區塊名稱，寫法如下。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    grid-template-areas: <span class="string">"header header"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.header</span> &#123;</span><br><span class="line">    grid-<span class="selector-tag">area</span>:header</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h4><p><strong>grid</strong> 跳脫了以往一列一列的排版模式，要想成每一個不同的元素被安排在特定的網格中，也讓 <strong>HTML</strong> 的結構變得更單純不會過於複雜，今天的總結<a href="https://codepen.io/Andy-Chen/pen/ZqvGzE">練習</a>延續昨天的 <strong>flexbox</strong>練習，只不過改成 <strong>grid</strong> 的版本</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>### Day09-CSS定位系統！position
+
+一開始學習的網頁都是比較單純，都是一行一行的排版，前面的介紹也都是以排版的樣鄉開始介紹，然而時間久了自然會想讓網頁變得更加複雜，例如會想做點堆疊或者是幫圖片加上浮水印之類的效果，為了讓網頁可以排出更複雜的版面，來介紹**position**以及**z-index**這兩個CSS樣式。
+
+#### position介紹
+
+position翻成中文就是位置的意思，既然跟位置有關可以推想一下一定會有一個參考點跟自己的定位點，不然這個位置是無法確定的，所以可以猜想出來一定會有兩個元素分別去寫自己的position來定位。
+
+- 預設定位(static)
+
+  預設值，沒有依何的定位效果，元素都會逐行排列。
+
+  ![Nxb7oNh](/前端學習HTML-CSS-JAVASCRIPT/Nxb7oNh.jpg)
+
+- 相對定位(relative)
+
+  基本上跟static非常像，差別在於寫`position: relative;`時，假如加了`top`、`bottom`、`left`、`right`等𨬓幫助定位的屬性，在`position: relative;`時會相對性的調整該元素的位置。
+
+  ![RvGWIFY](/前端學習HTML-CSS-JAVASCRIPT/RvGWIFY.jpg)
+
+- 絕對定位(absolute)
+
+  絕對定位跟底下的固定定位非常像，差別在於假如父元素有寫上position的相關屬性，則子元素會依照父元素的位置去進行後續的定位動作，若父元素沒有寫上任何的position，則會逐漸往上尋找其他袓先元素看看袓先元素是否有寫position屬性，如果都沒有則會依照HTML body來進行絕對定位，所以會寫`position: absolute;`的通常都是在子元素的地方撰寫，而父元素會寫上`position: relative;`幫助子元素進行絕對定位
+
+  ![position-absolute](/前端學習HTML-CSS-JAVASCRIPT/position-absolute.jpg)
+
+- 固定定位(fixed)
+
+  固定定位相對於絕對定位就單純很多，只會針對頁面去進行定位，其父元素永遠都是HTML body，不用刻意的去思考上層元素的相對定位。
+
+  ![21fig10](/前端學習HTML-CSS-JAVASCRIPT/21fig10.jpg)</code></pre>
+<h4 id="z-index"><a href="#z-index" class="headerlink" title="z-index"></a>z-index</h4><p>有提到了堆疊這個效果，z-index就是負責處理元素堆疊的樣式，一般來說網頁元素都是屬於二維空間的排列，也就是單純利用x軸以及y軸來考慮元素的位置，既然要做到堆疊元素勢必得考慮上下之間的關系，這時候就牽扯到z軸了，而z-index就是負責處理z軸的重要樣式。</p>
+<p>這邊帶點空間概念來思者，以我們眼睛面對螢幕來看，x軸為左右、y軸為上下、而z軸就是面對我們眼睛的方向了，用這種方式來思者z-index應該會相對好懂一些。</p>
+<p>而z-index後方所接的值以數字為主，數字越大代表在越上層反之則是在越下層，這時候你可能會問：我前面也可以利用絕對定位的方式來達到堆疊的效果，為什麼還要特地學一個z-index呢?</p>
+<p>其實道理很簡單，前面的絕對定位的確可以達到堆疊的效果，但僅限於父元素與子元素之間，假如我今天有多個子元素要進行堆疊，而且這些子元素同時面對一個父元素，這種時候用絕對定位就比較不好做，就必須要利用z-index了。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/z-index-02.png" alt="z-index-02"></p>
+<blockquote>
+<p>提醒：要使用z-index記得要搭配position，這也是為什麼先提position再提z-indez</p>
+</blockquote>
+<h4 id="小結-1"><a href="#小結-1" class="headerlink" title="小結"></a>小結</h4><p>今天的總結<a href="https://codepen.io/Andy-Chen/pen/LggmOW">練習</a>主要就是探討 <strong>position</strong> 以及 <strong>z-index</strong> 之間的關係， <strong>position</strong> 在複雜的網頁中扮演非常重要的角色，同時這也算是 <strong>CSS</strong> 中非常容易搞混的樣式，把 <strong>position</strong> 以及 <strong>z-index</strong> 搞懂任何再複雜的網頁都可以順利的排版出來了。</p>
+<h3 id="day10-html-tag元素預設排版樣式"><a href="#day10-html-tag元素預設排版樣式" class="headerlink" title="day10-html tag元素預設排版樣式"></a>day10-html tag元素預設排版樣式</h3><p>來講一些HTML tag本身預設的排版樣式，讓工程師不用為了一些簡單的排版還要去寫一些客製化的樣式，直托用HTML tag就可以達到一樣的效果了。</p>
+<h4 id="display樣式"><a href="#display樣式" class="headerlink" title="display樣式"></a>display樣式</h4><p>首先先了了解一下最基礎的display樣式，畢竟HTML tag的預設樣式還沒有進化到直接用flexbox或grid之類的排版𫋵器</p>
+<ul>
+<li><p>block</p>
+<p>預設值，最單純的區塊，可以設定寬跟高來調整一區塊的大小，區塊與區塊彼此間<strong>都會換行排列</strong>。</p>
+</li>
+<li><p>inline</p>
+<p>不能設定區塊的大小，但區塊與區塊彼此間<strong>不會換行排列</strong>。</p>
+</li>
+<li><p>inline-block</p>
+<p>結合<strong>block</strong>與<strong>inline</strong>的特點，可以設定寬跟高來調整單一區塊的大小，同時區塊與區塊彼此間不會換行排列。</p>
+</li>
+</ul>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/css-display-block-vs-inline-block.png" alt="css-display-block-vs-inline-block"></p>
+<h4 id="html-tag"><a href="#html-tag" class="headerlink" title="html tag"></a>html tag</h4><p>這邊HTML tag預設的排版樣式可分為<code>display: block;</code>以及<code>display: inline;</code>兩種，只純討論元素的diplay樣式，其他一些附加上去的樣式像是<code>h1</code>還有<code>font-weight: bold;</code>等等，這邊都不袁慮進去喔！</p>
+<ul>
+<li><p>block</p>
+<ul>
+<li>div</li>
+<li>p</li>
+<li>h1/h2/h3/h4/h5/h6</li>
+<li>ul/ol</li>
+<li>li</li>
+<li>video</li>
+<li>form</li>
+<li>table</li>
+</ul>
+</li>
+<li><p>inline</p>
+<ul>
+<li><p>span</p>
+</li>
+<li><p>a</p>
+</li>
+<li><p>img</p>
+</li>
+<li><p>label</p>
+</li>
+<li><p>b/string</p>
+</li>
+<li><p>input</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="小結-2"><a href="#小結-2" class="headerlink" title="小結"></a>小結</h4><p>介紹了HTML tag預設的display樣式，雖然一些複雜的排版可能無法單純用HTML tab來達到理想的效果，必須要用到之前提到的flexbox或gird進行排版，不過如果是單純要用一些可能文字上的排版就不用多寫CSS來描述，直接用HTML tag就可以達偌理想的效果可以說是相當省力，所以HTML tab預設的dispplay樣式還是可以稍微了解一下。</p>
+<h3 id="Day11-HTML元素邊界關系！margin、padding、border"><a href="#Day11-HTML元素邊界關系！margin、padding、border" class="headerlink" title="Day11-HTML元素邊界關系！margin、padding、border"></a>Day11-HTML元素邊界關系！margin、padding、border</h3><p>大家在看任何跟邊界有關的CSS時不曉得有沒有看過這張圖，這張圖代表著HTML內的每個元素的邊設定。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Difference-Between-Padding-and-Margin.png" alt="Difference-Between-Padding-and-Margin"></p>
+<p>相信很多人在初學網頁的時候都會<strong>margin</strong>、<strong>padding</strong>傻傻分不清，兩者的作用都是負責調整邊界的間距，到底兩個差別在哪裡呢?以及<strong>border</strong>與<strong>box-sizing</strong>之間又有什麼關系呢?</p>
+<h4 id="margin"><a href="#margin" class="headerlink" title="margin"></a>margin</h4><p>margin是負責調整<strong>元素與元素</strong>之間的邊界間距，屬於元素外部邊界調整。</p>
+<ul>
+<li><p>屬性介紹</p>
+<ul>
+<li><p>margin-top</p>
+<p>設定元素與元素之間的上邊界間距</p>
+</li>
+<li><p>margin-right</p>
+<p>設定元素與元素之間的右邊界間距</p>
+</li>
+<li><p>margin-bottom</p>
+<p>設定元素與元素之間的下邊界間距</p>
+</li>
+<li><p>margin-left</p>
+<p>設定元素與元素之間的左邊界間距</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/JBpq8np.jpg" alt="JBpq8np"></p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>也可以將上述屬性合併寫成margin即可，但要注意方向性，margin寫法可以參考下圖</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/9DORgmF.jpg" alt="9DORgmF">    </p>
+</blockquote>
+<h4 id="padding"><a href="#padding" class="headerlink" title="padding"></a>padding</h4><p>padding是負責調整<strong>元素內所有內容與元素自身</strong>的邊界間距，屬於元素內部的邊界調整。</p>
+<ul>
+<li><p>屬性介紹</p>
+<ul>
+<li><p>padding-top</p>
+<p>設定元素內容與元素自身上邊界的間距</p>
+</li>
+<li><p>padding-right</p>
+<p>設定元素內容與元素自身右邊界的間距</p>
+</li>
+<li><p>padding-bottom</p>
+<p>設定元素內容與元素自身下邊界的間距</p>
+</li>
+<li><p>padding-left</p>
+<p>設定元素內容與元素自身左邊界的間距</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Hcin1Gy.jpg" alt="Hcin1Gy"></p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>也可以將上述的屬性合併寫成padding即可,但要注意方向性，padding寫法可以參考下圖</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/sk9UA62.jpg" alt="sk9UA62"></p>
+</blockquote>
+<h4 id="border"><a href="#border" class="headerlink" title="border"></a>border</h4><p>border是元素最外層的邊界，常見的元素外框設定就是此設定。</p>
+<ul>
+<li><p>邊界樣式介紹</p>
+<ul>
+<li><p>border-width</p>
+<p>設定邊框寬度大小。</p>
+</li>
+<li><p>border-style</p>
+<p>設定邊框樣式，常見的有<strong>實線(solid)</strong>、<strong>虛線(dashed)</strong>。</p>
+</li>
+<li><p>border-color</p>
+<p>設定邊框顏色</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/W3TBl.gif" alt="W3TBl"></p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>屬性介紹</p>
+<p>底下屬性後方所接的值為上面提到的樣式，順序為<strong>border-width</strong>、<strong>border-color</strong>、<strong>border-style</strong>，中間用空格隔開。</p>
+<ul>
+<li><p>border-top</p>
+<p>設定元素自身的上邊框。</p>
+</li>
+<li><p>border-right</p>
+<p>設定元素自身的右邊框。</p>
+</li>
+<li><p>border-bottom</p>
+<p>設定元素自身的下邊框。</p>
+</li>
+<li><p>border-left</p>
+<p>設定元素自身的左邊框。</p>
+<blockquote>
+<p>也可以將上述四屬性合併寫成border即可，代表四個方向的邊框都會套用一樣的樣式，寫法如下<img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/12wRO1c.jpg" alt="12wRO1c"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="box-sizing"><a href="#box-sizing" class="headerlink" title="box-sizing"></a>box-sizing</h4><p>box-sizing的出現是用來調整區塊的內距與邊框計算方式，與<strong>border</strong>以及<strong>padding</strong>的設定有關，常見的狀況就是元素內的內容設定了<strong>border</strong>以及<strong>padding</strong>導致外框超出原本元素的外框，影響了網頁的美觀程度。</p>
+<ul>
+<li><p>參數介紹</p>
+<ul>
+<li><p>content-box</p>
+<p>設定的寬度僅為內容寬度、<strong>padding</strong>與<strong>border</strong>寬度會再額外加上去，所以內容仍然超出元素自身的外框。</p>
+</li>
+<li><p>border-box</p>
+<p>設定的寬度就已經包含內容寬度、<strong>padding</strong>與<strong>border</strong>寬度，所以內容不會超出元素自身外框。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/wUWx6e3.jpg" alt="wUWx6e3"></p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/2lRsmNg.jpg" alt="2lRsmNg"></p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/PnGWDaQ.jpg" alt="PnGWDaQ"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="小結-3"><a href="#小結-3" class="headerlink" title="小結"></a>小結</h4><p>今天提到了非常重要的邊界關係，假如今天要調整的是 <strong>元素與元素</strong> 之間不要靠得太近，就可以用 <strong>margin</strong> ，如果是要調整 <strong>元素內的內容與元素自身</strong> 不要靠得太近，就可以用 <strong>padding</strong> ，最後就用一個簡單的<a href="https://codepen.io/Andy-Chen/pen/Pyxrvb">範例</a>讓大家更了解 <strong>margin</strong> 以及 <strong>padding</strong> 的相關操作應用吧！</p>
+<h3 id="Day12-響應式網頁設計！RWD"><a href="#Day12-響應式網頁設計！RWD" class="headerlink" title="Day12-響應式網頁設計！RWD"></a>Day12-響應式網頁設計！RWD</h3><p>什麼是響應式網頁設計(Responsive Web Design)</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1">響應式網頁設計(Responsive Web Design)</a>是一種讓網頁可以在不同的裝置上皆有適合的呈現模式，讓使用者在依何裝置上都可以用正常的操作方式來瀏覽網頁，RWD的宗旨在於內容像水一樣可以完美地適應任何一個新的環境，也奠了未來的網頁開發模式。</p>
+<p><img src="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/Content-is-like-water-1980.jpg" alt="Content-is-like-water-1980"></p>
+<p>早期智慧型手機剛出來的時候，因為手機螢幕比一般的顯示器來的小很多，那時候的網頁都要透過使用者自行縮放進行瀏覽十分的不方便，當時的解決之道就重新寫一個網頁並且新增一個網址為<code>m.xxx.com.tw</code>的網頁來讓手機瀏覽。但這樣會增加前端工程師的作業量，要製作兩種不同的網頁非常的累，這時候有一位著的設計師就說了：何不讓網頁自己去做調整呢？藉都<strong>CSS Media Queries</strong>讓我們可以輕鬆的達到響應式網頁設計，接下來就讓我們來熟悉RWD的設計模式吧！</p>
+<h4 id="CSS-Media-Queries"><a href="#CSS-Media-Queries" class="headerlink" title="CSS Media Queries"></a>CSS Media Queries</h4><p>既然是一種Query想當然一定會配合條件限制來達到其望的結果，在開始介紹Media的相關內容之前先簡單的介紹一下條件語法。</p>
+<ul>
+<li><p>not</p>
+<p>用來排除某些設備的樣式，假如有AB兩個設備，其中有一個樣式是想要A有卻不想要B有，這時候就可以用<code>@media A not B</code>的方式來讓A設備有指定樣式。</p>
+</li>
+<li><p>only</p>
+<p>用於一些老舊不支援Media Queries的瀏覽器，不過現今的瀏覽器都支援Media Queries了，所以這個語法了解就好了。</p>
+</li>
+<li><p>and</p>
+<p><code>and</code>是最常使用的語法，翻成中水可以想成而且，用邏輯的方式去想𣄵代表左右兩邊均成立才成立，而<code>and</code>最常被擺在等等要介紹的Medai Feature進行串接。</p>
+<p>條件語法𣄵只有這三項而已非常簡單接下來就開始介紹重頭戲:<strong>Media Rule</strong>吧</p>
+</li>
+<li><p>Media Type</p>
+<p>Media Type有非常多種，在這邊僅列出最常用的三種：</p>
+<ul>
+<li><p>all</p>
+<p>用於全部的裝置。</p>
+</li>
+<li><p>print</p>
+<p>用於印表機，此樣式套用於預覽列印中。</p>
+</li>
+<li><p>screen</p>
+<p>用於所有的螢幕，舉凡電腦、手机、平板裝置等螢幕皆適用於此。</p>
+</li>
+</ul>
+</li>
+<li><p>Media Feature</p>
+<p>Media Feature也有非常多種，這邊僅介紹用於RWD上的幾種Featues</p>
+<ul>
+<li><p>width</p>
+<p>寬度可分為<strong>最大寬度(max-width)</strong>以及<strong>最小寬度(min-width)</strong>兩種，用於裝置寬度範圍內的特定樣式。</p>
+</li>
+<li><p>height</p>
+<p>高度可分為<strong>最大高度(max-height)</strong>以及<strong>最小寬度(min-height)</strong>兩種，用於裝置高度範圍內的特定樣式</p>
+</li>
+<li><p>orientation</p>
+<p>當裝置處於<strong>直立(portrait)</strong>以及<strong>横向(landscope)</strong>時錢有特定樣式。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>接下來讓我們把Media Rule以及條件語法結合成Media Query吧</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 當裝置寬度介於300~600px之間，className為container會有display:node;的樣式*/</span></span><br><span class="line">@<span class="keyword">media</span> screen and (max-width: 600px) and (min-width: 300px)&#123;</span><br><span class="line">    <span class="selector-class">.container</span> &#123;</span><br><span class="line">        <span class="attribute">display</span>: block;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="小結-4"><a href="#小結-4" class="headerlink" title="小結"></a>小結</h4><p>其實RWD實作非常簡單，只要把Media Queries搞懂就可以了，難處在於要如何設計在不同的寬度中要如何顯示才能方便使用者操作，提供一個<a href="https://codepen.io/Andy-Chen/pen/vmaqxP">範例</a>來簡單描述一下 <strong>RWD</strong> 在各個裝置上的基本設定，先把Codepen外觀調成程式碼在左右兩側藉左右移曾頁面與程式碼之間的捲軸來觀看頁面item的變化。</p>
+<p><img src="5u5rDGV.gif" alt="5u5rDGV"></p>
+<h3 id="Day13-JavaScript基本觀念介紹"><a href="#Day13-JavaScript基本觀念介紹" class="headerlink" title="Day13-JavaScript基本觀念介紹"></a>Day13-JavaScript基本觀念介紹</h3><p>雖然JavaScript被譽為最容易上手的程式語言之一，但JavaScript還是有許多小細節以及小觀念需要注意與釐清。</p>
+<h4 id="強型別VS弱型別"><a href="#強型別VS弱型別" class="headerlink" title="強型別VS弱型別"></a>強型別VS弱型別</h4><p>程式語言分為強型以及弱型別，差別於有沒有做<strong>型別檢查</strong>，什麼是型別檢查？就是當我要進行變數運算的時候，編譯器是否會先檢查變數型別，如果變數型別都一致才可以進行變數的運算，舉個例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>;   <span class="comment">// x 無 integer</span></span><br><span class="line"><span class="keyword">var</span> y = <span class="string">"1"</span>; <span class="comment">// y 為 string</span></span><br><span class="line"><span class="keyword">var</span> z = x + y;</span><br><span class="line"><span class="built_in">console</span>.log(z);</span><br></pre></td></tr></table></figure>
+
+<p>以強型別的語言來說會直接噴錯誤，因為<code>x</code>與<code>y</code>的型別不一樣，整數與字串是不能進行運算的，可是弱型別的語言就不一樣了，以JavaScript來說這段程式碼不但可以被執行，而且<code>z</code>的值會是“11”, 雖然這樣有個好處就是使程式碼不會無綠無故地被終止，但這樣也可能會間接的讓程式發生不可預期的後果，因為不同型別的變數竟然可以拿來運算，所以這也是在撰寫JavaScript程式碼需要注意的一些重點。</p>
+<h4 id="靜態型別VS動態型別"><a href="#靜態型別VS動態型別" class="headerlink" title="靜態型別VS動態型別"></a>靜態型別VS動態型別</h4><p>靜態型別與動態型別，兩者差異非常簡單就於有沒有宣告變數的資料型別而已，舉例來說像C/C++在變數宣告上需要寫上資料型別：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">123</span>;</span><br><span class="line"><span class="built_in">string</span> str = <span class="string">"Hello World"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>而JavaScript完全不用寫上資料型別交給編輯器去判斷，寫法法就簡潔很多：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">var</span> string = <span class="string">"Hello World"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>所以可以推想得知不用特別去寫變數資料型別的就是<strong>動態型別</strong>反之要寫上變數型別的就是<strong>靜態型別</strong>。</p>
+<p><img src="/b0aeb7ffd1667b9162e5329154d43777_hd.jpg"></p>
+<h4 id="變數比較判斷"><a href="#變數比較判斷" class="headerlink" title="變數比較判斷"></a>變數比較判斷</h4><p>上面提到了強型別與弱型別，靜態型別與動態型別的差異，我們可以發現JavaScript不但屬於弱型別同時也是動態型別，所有是自由，最沒有限制元素都在JavaScript裡面了，這也是為什麼JavaScript會有這麼多坑等著工程師去踩。</p>
+<p>難道JavaScirpt就不能稍微的嚴謹一點嗎？接下來要來講一下JavaScript要如何在比較判斷上稍微增加一點嚴謹性讓工程師不會發生一些變數上的操作意外。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">var</span> y = <span class="string">"123"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(x == y);<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p>以上面的例子來看<code>x == y</code>應該是<code>false</code>才對，可是答案竟然會是<code>true</code>，其實JavaScript在進行比較判斷的過程中是只有比較數值，雖然<code>x</code>跟<code>y</code>兩者型態不一樣可是數值都是<code>123</code>, 所以<code>x == y</code>為<code>true</code>是正確的，可是這樣還是一樣不嚴謹啊！哪裡嚴謹了。</p>
+<p>所以JavaScript針對這情況推出了嚴謹比較運算子，寫法也非常簡單只要把<code>==</code>改成<code>===</code>。<code>!=</code>改成<code>!==</code>就好了，這樣有什麼差別呢？我們一樣看剛剛的那個例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">var</span> y = <span class="string">"123"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(x === y);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>多了一個 <code>=</code> 其實就是多了一個資料型別的比較，雖然 <code>x</code> 跟 <code>y</code> 的數值是一樣的但是 <code>x</code> 跟 <code>y</code> 的型態是不一樣的，所以 <code>x === y</code> 才會是 <code>false</code> ，這時候你可能就會問了，既然 <code>===</code> 與 <code>!==</code> 都有多一個資料型別的比較，可是比較運算子還有 <code>&gt;</code> 跟 <code>&lt;</code> 這兩個啊！這兩個怎麼沒有拿來這裡討論呢？</p>
+<p>因為 <code>&gt;</code> 跟 <code>&lt;</code> 沒有嚴謹的比較運算子所以就沒拿來這裡討論了</p>
+<h4 id="JSON-JavaScript-Object-Notation，JavaScript物件表示法"><a href="#JSON-JavaScript-Object-Notation，JavaScript物件表示法" class="headerlink" title="JSON(JavaScript Object Notation，JavaScript物件表示法)"></a>JSON(<strong>J</strong>ava<strong>S</strong>cript <strong>O</strong>bject <strong>N</strong>otation，JavaScript物件表示法)</h4><p>大家都知網頁是藉由JavaScript這個程式語言來傳遞資料，而JavaScript為了讓瀏覽器在傳遞資料以及資料的負擔不要過大，於是提出了一種輕量化的資料結構，這種格式稱為<a href="https://zh.wikipedia.org/wiki/JSON">JSON</a></p>
+<p>JSON格式一共可以分為<strong>物件(Object)</strong>以及<strong>陣列(Array)</strong>這兩種。</p>
+<ul>
+<li><p>物件(Object)</p>
+<p>一個物件以<code>{</code>開始並以<code>}</code>結束，裡面為一組一組的<strong>關鍵字(key)-數值(value) pair</strong>,並且用<code>:</code>來切割<strong>key</strong>以及<strong>value</strong>,寫法如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const obj = &#123;</span><br><span class="line">    name: 'Andy',</span><br><span class="line">    contest: 'IT-Ironman'</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要讀取也非常簡單只要寫<code>obj.key</code>就可以了，假如我今天知道<code>obj</code>裡面<code>name</code>這個<strong>key</strong>的<strong>value</strong>，只要寫成<code>obj.name</code>就可以了。</p>
+</li>
+<li><p>陣列(Array)</p>
+<p>陣列就跟一般程式語言的陣列一模樣，讀取方法也完全一模一樣，這裡就不多加敘述了，但JavaScript比較不一樣的一點是<strong>陣列裡面可以包物件</strong>，寫法如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const arr = [&#123;</span><br><span class="line">    name: 'Andy',</span><br><span class="line">    contest: 'IT-Ironman'</span><br><span class="line">&#125;, &#123;</span><br><span class="line">    name: 'Andy',</span><br><span class="line">    contest: 'IT-Ironman2'</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>這時候的<code>arr[0]</code>會是一個<strong>物件</strong>而不是單純的<strong>value</strong>而已，也因此要用物件的讀取方法來取得<strong>value</strong>。</p>
+<h4 id="小結-5"><a href="#小結-5" class="headerlink" title="小結"></a>小結</h4><p>JavaScript雖然寫法簡單，不用為了編譯器一天到晚都在噴錯而搞得心灰意冷，但這些都是捨棄了非常多嚴謹性所換來的結果，也因此JavaScript可以說是難<strong>debug</strong>的程式語言。</p>
+</li>
+</ul>
+<h4 id="Day15-淺談JS版本差異！ES5、ES6"><a href="#Day15-淺談JS版本差異！ES5、ES6" class="headerlink" title="Day15-淺談JS版本差異！ES5、ES6"></a>Day15-淺談JS版本差異！ES5、ES6</h4><p>大家在查JavaScript相關文章的時候不曉得有沒有看過所謂的ES5才及ES6，點進去看後發現原來ES5指的是JavaScript的版本這時候心裡難會想一下無啥是ES5而不是JS5啊？其實這跟JavaScript的標準規範有關。</p>
+<h4 id="ECMAScript"><a href="#ECMAScript" class="headerlink" title="ECMAScript"></a>ECMAScript</h4><p>Script代表著腳本，而ECMAScript提供了腳本語言需要遵守的規則，細節和規範，JavaScript是實現ECMAScript的規範後所誕生出來的語言，也因此ECMAScript常常被稱為JavaScript，但兩者其實是有差別的喔！</p>
+<h4 id="ES5"><a href="#ES5" class="headerlink" title="ES5"></a>ES5</h4><p>ES5這個版本主要新增了兩個項目：</p>
+<ul>
+<li><p>嚴格模式(“user strict”)</p>
+<p>大家都知道JavaScript其實相較於其它的語言已經算是非常不嚴格了，不但變數型態為弱型別甚至可以不用宣告變數型態直托寫變數名稱就好了，也讓一些寫習慣強型別語言的工程師相當不習慣，因此在ES5的時候嚴格模式出來了。要使用嚴格模式要先在檔案的開頭寫上<code>&quot;user strict&quot;</code>之後的程式碼才會使用嚴格模式，嚴格模式角義了非常多，這裡就不一一列舉了，想看更多嚴格模式的定義可以到這個<a href="https://www.w3schools.com/js/js_strict.asp">網站</a>。</p>
+</li>
+<li><p>Array/Object操作方法</p>
+<p>ES5提供了非常多Array以及Object的操作方式，這邊就簡單的列舉幾個常用的操作方法，相知道更多的操作方法可以參考這個<a href="https://www.w3schools.com/js/js_es5.asp">網站</a>。</p>
+<ul>
+<li><p>Array.forEach(function(element){})</p>
+<p>將陣列內的元素抓取出來，並可對其操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">  arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(element);    <span class="comment">// 1 2 3</span></span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Array.map(function(element){})</p>
+<p>  將陣列內的元素抓取出來，並可對其操作，並在function執行結束後回傳一個新的陣列。</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> arr2 = arr.map(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> element * <span class="number">2</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(arr);    <span class="comment">// [1, 2, 3]</span></span><br><span class="line"><span class="built_in">console</span>.log(arr2);   <span class="comment">// [2, 4, 6]</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>Array.filter(function(element){})</p>
+<p>過濾陣列內的元素，並回傳過濾後的新陣列</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> arr2 = arr.filter(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> element &lt; <span class="number">3</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(arr2);     <span class="comment">// [1, 2]</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>Array.reduce(function(accumulator,currentValue){})</p>
+<p>將陣列內的元素全部加總。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> sum = arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">accumulator, currentValue</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> accumulator += currentValue;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(sum);    <span class="comment">// 6</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>Array.indexOf(element)</p>
+<p>抓取陣列內元素的index</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> index = arr.indexOf(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">console</span>.log(index);     <span class="comment">// 0代表值1的index</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>JSON.parse(JSONstring)</p>
+<p>將一個長得很像JSON的字串轉型成JSON物件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> JSONString = <span class="string">'&#123;"key": 1&#125;'</span>;</span><br><span class="line"><span class="keyword">var</span> JSONObject = <span class="built_in">JSON</span>.parse(JSONString);</span><br><span class="line"><span class="built_in">console</span>.log(JSONObject);    <span class="comment">// &#123;"key": 1&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>JSON.stringify(JSONObject)</p>
+<p>將JSON物件轉型成字串</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> JSONObject = &#123;<span class="string">"key"</span>: <span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> JSONstring = <span class="built_in">JSON</span>.stringify(JSONObject);</span><br><span class="line"><span class="built_in">console</span>.log(JSONstring);    <span class="comment">// '&#123;"key": 1&#125;'</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>Object.keys(JSONObject)</p>
+<p>回傳一個新的陣列其值為Object的key</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> JSONObject = &#123;<span class="string">"key"</span>: <span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> keyArray = <span class="built_in">Object</span>.keys(JSONObject);</span><br><span class="line"><span class="built_in">console</span>.log(keyArray);    <span class="comment">// ["key"]</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h4 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h4><p>ES6新增的則是一些寫法上的改變，讓寫法變得更精簡，以及新增了非同步專爭的<strong>Promise</strong>、JS模組化必備的<strong>ES6Modules</strong>、<strong>Class</strong>這裏不會詳細介紹<strong>Promise</strong>、 <strong>ES6Modules</strong>。</p>
+<ul>
+<li><p>const &amp; let</p>
+<p>改變變數型態宣告方式，從單純的<code>var</code>增加為<strong>定量</strong><code>const</code>以及<strong>變量</strong><code>let</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">let</span> b = <span class="number">123</span>;</span><br><span class="line">a = <span class="number">456</span>;      <span class="comment">// 錯誤a為定量其值不可改變</span></span><br><span class="line">b = <span class="number">456</span>;      <span class="comment">// b的值已被改變成456</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>Template Literals(Spread Operator)</p>
+<p>改變了以往字串的寫法，不用再用<code>+</code>來進行字串與變數的結合。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">'Andy'</span>;</span><br><span class="line"><span class="comment">//ES5寫法</span></span><br><span class="line"><span class="keyword">var</span> str5 = <span class="string">'Hello'</span> + name + <span class="string">"!"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6寫法</span></span><br><span class="line"><span class="keyword">const</span> str6 = <span class="string">`Hello <span class="subst">$&#123;name&#125;</span>`</span>;</span><br></pre></td></tr></table></figure>
+
+<p>也可以多行一起串接！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES5寫法</span></span><br><span class="line"><span class="keyword">var</span> html5 = <span class="string">"&lt;div&gt;"</span>;</span><br><span class="line">html5 += <span class="string">"&lt;p&gt;Hello World&lt;/p&gt;"</span>;</span><br><span class="line">html5 += <span class="string">"&lt;/div&gt;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6寫法</span></span><br><span class="line"><span class="keyword">const</span> html6 = <span class="string">`</span></span><br><span class="line"><span class="string">  &lt;div&gt;</span></span><br><span class="line"><span class="string">    &lt;p&gt;Hello World&lt;/p&gt;</span></span><br><span class="line"><span class="string">  &lt;/div&gt;  </span></span><br><span class="line"><span class="string">`</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>Destructuring Assignment</p>
+<p>用更簡短的方式宣告陣列或物件的元素的值，不過物件比較麻煩一點，必須要讓變數名稱取名跟<strong>key</strong>一樣的名稱，陣列則不用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES5寫法</span></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">d</span>: <span class="number">1</span>, <span class="attr">e</span>: <span class="number">2</span>, <span class="attr">f</span>: <span class="number">3</span> &#125;;</span><br><span class="line"><span class="keyword">var</span> a = arr[<span class="number">0</span>],</span><br><span class="line">    b = arr[<span class="number">1</span>],</span><br><span class="line">    c = arr[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">var</span> d = obj.d,</span><br><span class="line">    e = obj.e,</span><br><span class="line">    f = obj.f;</span><br><span class="line"><span class="built_in">console</span>.log(a, b, c);</span><br><span class="line"><span class="built_in">console</span>.log(d, e, f);</span><br><span class="line"></span><br><span class="line">/ES6寫法</span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">const</span> obj = &#123; <span class="attr">d</span>: <span class="number">1</span>, <span class="attr">e</span>: <span class="number">2</span>, <span class="attr">f</span>: <span class="number">3</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> [a, b, c] = arr; <span class="comment">// a = arr[0], b = arr[1], c = arr[2]</span></span><br><span class="line"><span class="keyword">const</span> &#123; d, e, f &#125; = obj;<span class="comment">// d = obj.d, e = obj.e, f = obj.f</span></span><br><span class="line"><span class="built_in">console</span>.log(a, b, c);    <span class="comment">// 1 2 3</span></span><br><span class="line"><span class="built_in">console</span>.log(d, e, f);    <span class="comment">// 1 2 3</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>Object Literals</p>
+<p>假如JSON內的元素其<strong>key</strong>與<strong>value</strong>名稱一樣，可以省略<strong>key</strong>直接寫<strong>value</strong>名稱即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES5寫法</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'Andy'</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    name: name</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//ES6寫法</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">'Andy'</span>;</span><br><span class="line"><span class="keyword">const</span> obj = &#123; name &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(obj.name);</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>Arrow Functions</p>
+<p>讓匿名函式寫法更簡略，寫法為<code>()=&gt;{}</code>，假如省略大括號的話，代表直接<code>return</code>第一行程式碼，假如參數只有一個還可以省鉻小括號。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> marr = arr.map(<span class="function"><span class="keyword">function</span> (<span class="params">element</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> element * <span class="number">2</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(marr);<span class="comment">//2,4,6</span></span><br><span class="line"><span class="comment">//ES6寫法</span></span><br><span class="line"><span class="keyword">const</span> arr=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">const</span> mapArr=arr.map(<span class="function"><span class="params">element</span>=&gt;</span>element*<span class="number">2</span>);</span><br><span class="line"><span class="built_in">console</span>.log(mapArr);<span class="comment">//2,4,6</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>Classes</p>
+<p><strong>Classes</strong>為新的概念，用於建立物件以及物件繼承上，在使用上必須先<code>new</code>一個物件出來才可使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">square</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(width, height) &#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width;</span><br><span class="line">        <span class="keyword">this</span>.height = height;</span><br><span class="line">    &#125;</span><br><span class="line">    calcArea() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.width * <span class="keyword">this</span>.height;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> square1 = <span class="keyword">new</span> square(<span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line"><span class="keyword">const</span> area = square1.calcArea();</span><br><span class="line"><span class="built_in">console</span>.log(area);</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>ES6Modules</p>
+<p>ES6Modules為新的概念，用於JS模組化。</p>
+</li>
+<li><p>Promise</p>
+<p>此為非同步專用。</p>
+</li>
+</ul>
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><p><a href="https://ithelp.ithome.com.tw/users/20111948/ironman/1776">從0開始的網頁生活！30天從網頁新手到網頁入門</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/html/" rel="tag"># html</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="學習Angular測試的使用">
+      <i class="fa fa-chevron-left"></i> 學習Angular測試的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Angular%E6%8E%A8%E6%92%AD%E5%8A%9F%E8%83%BD/" rel="next" title="學習Angular推播功能">
+      學習Angular推播功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day02網頁三兄弟HTML、CSS、JavaScript"><span class="nav-text">day02網頁三兄弟HTML、CSS、JavaScript</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#網頁架構"><span class="nav-text">網頁架構</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML"><span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML基本觀念"><span class="nav-text">HTML基本觀念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS"><span class="nav-text">CSS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CSS其本觀念"><span class="nav-text">CSS其本觀念</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JavaScript"><span class="nav-text">JavaScript</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaScript基本觀念"><span class="nav-text">JavaScript基本觀念</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#script-tag-lt-script-gt"><span class="nav-text">script tag(&lt;script&gt;)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#script-src-import-js-files"><span class="nav-text">script src import js files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day03深入理解網頁架構DOM"><span class="nav-text">day03深入理解網頁架構DOM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#範例"><span class="nav-text">範例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM操作"><span class="nav-text">DOM操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day04-CSS選擇器"><span class="nav-text">day04-CSS選擇器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什麼是CSS選擇器-CSS-Selectors"><span class="nav-text">什麼是CSS選擇器(CSS Selectors)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#為何需要CSS選擇器"><span class="nav-text">為何需要CSS選擇器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的CSS選擇器"><span class="nav-text">常用的CSS選擇器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day05-讓CSS不再難讀SCSS"><span class="nav-text">Day05-讓CSS不再難讀SCSS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#範例-1"><span class="nav-text">範例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day06-HTML開發利器！Emmet"><span class="nav-text">Day06-HTML開發利器！Emmet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day07-網頁排版利器！Flexbox"><span class="nav-text">Day07-網頁排版利器！Flexbox</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本概念"><span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#屬性介紹"><span class="nav-text">屬性介紹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#block與flexbox比較"><span class="nav-text">block與flexbox比較</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#總結練習"><span class="nav-text">總結練習</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day08-更強大的網頁排版利器-Grid"><span class="nav-text">Day08-更強大的網頁排版利器!Grid</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什麼是grid"><span class="nav-text">什麼是grid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#屬性介紹-1"><span class="nav-text">屬性介紹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小結"><span class="nav-text">小結</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#z-index"><span class="nav-text">z-index</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小結-1"><span class="nav-text">小結</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day10-html-tag元素預設排版樣式"><span class="nav-text">day10-html tag元素預設排版樣式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#display樣式"><span class="nav-text">display樣式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#html-tag"><span class="nav-text">html tag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小結-2"><span class="nav-text">小結</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day11-HTML元素邊界關系！margin、padding、border"><span class="nav-text">Day11-HTML元素邊界關系！margin、padding、border</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#margin"><span class="nav-text">margin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#padding"><span class="nav-text">padding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#border"><span class="nav-text">border</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#box-sizing"><span class="nav-text">box-sizing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小結-3"><span class="nav-text">小結</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day12-響應式網頁設計！RWD"><span class="nav-text">Day12-響應式網頁設計！RWD</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS-Media-Queries"><span class="nav-text">CSS Media Queries</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小結-4"><span class="nav-text">小結</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Day13-JavaScript基本觀念介紹"><span class="nav-text">Day13-JavaScript基本觀念介紹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#強型別VS弱型別"><span class="nav-text">強型別VS弱型別</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#靜態型別VS動態型別"><span class="nav-text">靜態型別VS動態型別</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#變數比較判斷"><span class="nav-text">變數比較判斷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON-JavaScript-Object-Notation，JavaScript物件表示法"><span class="nav-text">JSON(JavaScript Object Notation，JavaScript物件表示法)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小結-5"><span class="nav-text">小結</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Day15-淺談JS版本差異！ES5、ES6"><span class="nav-text">Day15-淺談JS版本差異！ES5、ES6</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ECMAScript"><span class="nav-text">ECMAScript</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ES5"><span class="nav-text">ES5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ES6"><span class="nav-text">ES6</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

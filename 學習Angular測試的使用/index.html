@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言這篇記錄，是自已要學習有關Angular testing的相關內容，在網路上有看到的些大大記錄了他們的心得，我只是轉錄一下，加上自已的記錄 基礎介紹測試很重要！關於測試的觀念有所謂的TDD(Test-Driven Development)與BDD(Behavior-Driven Development)相關內容可以參考 自動軟體測、TDD與BDD這裏不再敘述。 Angular 主要是採用Jas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習Angular測試的使用">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言這篇記錄，是自已要學習有關Angular testing的相關內容，在網路上有看到的些大大記錄了他們的心得，我只是轉錄一下，加上自已的記錄 基礎介紹測試很重要！關於測試的觀念有所謂的TDD(Test-Driven Development)與BDD(Behavior-Driven Development)相關內容可以參考 自動軟體測、TDD與BDD這裏不再敘述。 Angular 主要是採用Jas">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/2019-07-09_16_22_33_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/2019-07-09_16_26_35_Image.png">
+<meta property="article:published_time" content="2019-07-09T15:18:40.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="Test">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/2019-07-09_16_22_33_Image.png">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習Angular測試的使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習Angular測試的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-07-09 15:18:40" itemprop="dateCreated datePublished" datetime="2019-07-09T15:18:40+00:00">2019-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Angular/" itemprop="url" rel="index"><span itemprop="name">Angular</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>這篇記錄，是自已要學習有關Angular testing的相關內容，在網路上有看到的些大大記錄了他們的心得，我只是轉錄一下，加上自已的記錄</p>
+<h3 id="基礎介紹"><a href="#基礎介紹" class="headerlink" title="基礎介紹"></a>基礎介紹</h3><p>測試很重要！關於測試的觀念有所謂的TDD(Test-Driven Development)與BDD(Behavior-Driven Development)相關內容可以參考 <a href="https://medium.com/@yurenju/%E8%87%AA%E5%8B%95%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6-tdd-%E8%88%87-bdd-464519672ac5">自動軟體測、TDD與BDD</a>這裏不再敘述。</p>
+<p>Angular 主要是採用<code>Jasmine</code>與<code>Karam</code>作為unit test與function test, 然後使用<code>protractor</code>作為E2E(End to End)的測試套件。</p>
+<h4 id="Jasmine"><a href="#Jasmine" class="headerlink" title="Jasmine"></a>Jasmine</h4><p>是一套Javascript用來做測試的framework,優點就是撰寫的程式碼比較易於被人所閱讀。就算閱讀者本身不是程式相關人員。</p>
+<h4 id="Karma"><a href="#Karma" class="headerlink" title="Karma"></a>Karma</h4><p>是一套Jasmine測試可以運行在瀏覽器內顯示結果，並且可以持續監視程式碼達到撰寫或是修改完後立即可以看到瀏覽器上的結果。</p>
+<h3 id="測試方法"><a href="#測試方法" class="headerlink" title="測試方法"></a>測試方法</h3><p>Angular Cli其實本身已經整合測試的指令了！通常如果你的Angular專案都是透過Angular Cli去產生相關component, project,service,module…等就可以透過<code>ng test</code>來執行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng test</span><br></pre></td></tr></table></figure>
+
+<p>至於測試內容則是撰寫在副檔名為<code>xxx.spec.ts</code>的typescript檔內。只要你是透過Angular cli產生的Angular任何相關元件，Cli都會產生一份<code>xxxx.spec.ts</code>的文件作為撰寫測試內容。</p>
+<p><img src="/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/2019-07-09_16_22_33_Image.png" alt="2019-07-09_16_22_33_Image"></p>
+<p>在command line下執行<code>ng test</code>後會開啟一個測試用的Chrome</p>
+<p><img src="/%E5%AD%B8%E7%BF%92Angular%E6%B8%AC%E8%A9%A6%E7%9A%84%E4%BD%BF%E7%94%A8/2019-07-09_16_26_35_Image.png" alt="2019-07-09_16_26_35_Image"></p>
+<p>如果要指定除錯時的瀏覽器可以透過修改專案下的<code>karma.conf.js</code>這個檔案內的<code>browsers</code>的設定值</p>
+<p>Angular 官方有提到說：關於測試的library也透過修改這些設定檔來運行在自北喜𣤾的testing library，並沒有強制你一定要用Jasmine與Karma這兩套。</p>
+<h4 id="運行測試後"><a href="#運行測試後" class="headerlink" title="運行測試後"></a>運行測試後</h4><p>在上面有提到在執行<code>ng test</code>後會開啟瀏覽器顯示測試結果。其實這個時候angular cli並<strong>不會停止測試</strong>，反而會持續監控測試狀態，因此只要有發生測試失敗的部份就可以直接修改程式碼並且自動重新測試，很像我們在撰寫angular專案時的ng serve的特性。若想要停止測試可以在command line四按<code>Ctrl+c</code>做中斷測試。</p>
+<h4 id="測試覆蓋率"><a href="#測試覆蓋率" class="headerlink" title="測試覆蓋率"></a>測試覆蓋率</h4><p>簡單的說𣄵是看看你所寫的測試能夠函蓋你專案程式碼的多少百分比？當然越高越好但是也不用要作到100%，通常會建議作到90％左右就好，能夠到90％以上最好。在<code>karma.conf.js</code>裏加入加下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">coverageIstanbulReporter: &#123;</span><br><span class="line">  reports: [ <span class="string">'html'</span>, <span class="string">'lcovonly'</span> ],</span><br><span class="line">  fixWebpackSourcePaths: <span class="literal">true</span>,</span><br><span class="line">  thresholds: &#123;</span><br><span class="line">    statements: <span class="number">80</span>,</span><br><span class="line">    lines: <span class="number">80</span>,</span><br><span class="line">    branches: <span class="number">80</span>,</span><br><span class="line">    functions: <span class="number">80</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>在command line</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng test --watch&#x3D;false --code-coverage</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="建立專案"><a href="#建立專案" class="headerlink" title="建立專案"></a>建立專案</h3><p>首先來建立專案來學習測試程式如何撰寫</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng new ngtest01</span><br></pre></td></tr></table></figure>
+
+<h3 id="測試程式的架構邏輯-Jasmine"><a href="#測試程式的架構邏輯-Jasmine" class="headerlink" title="測試程式的架構邏輯 Jasmine"></a>測試程式的架構邏輯 Jasmine</h3><p>Jasmine這個的Behaviour Driven Dwvelopment(BDD)的library，一般來說BDD會用比較喜歡口語的描述來撰寫測試，一來比容易閱讀，二來就算是非技術人員也能容易了解，這個測試在測什麼</p>
+<p>在<code>src\app\app.component.ts</code>中是我們要測試的function</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-root'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./app.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</span><br><span class="line">  title = <span class="string">'ngtest01'</span>;</span><br><span class="line"></span><br><span class="line">  helloWorld() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello World'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\app.component.spec.ts</code>中寫下測試程式</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">describe(<span class="string">"Hello World"</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  beforeEach(<span class="keyword">async</span>(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    TestBed.configureTestingModule(&#123;</span><br><span class="line">      imports: [</span><br><span class="line">        RouterTestingModule</span><br><span class="line">      ],</span><br><span class="line">      declarations: [</span><br><span class="line">        AppComponent</span><br><span class="line">      ],</span><br><span class="line">    &#125;).compileComponents();</span><br><span class="line">  &#125;));</span><br><span class="line"></span><br><span class="line">  it(<span class="string">"show hello world"</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fixture = TestBed.createComponent(AppComponent);</span><br><span class="line">    <span class="keyword">const</span> app = fixture.debugElement.componentInstance;</span><br><span class="line">    expect(app.helloWorld()).toEqual(<span class="string">'Hello World'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>從測試程式碼中可以看到<strong><em>describe(string, function);</em></strong>這個開頭。後方的<code>function</code>這是Test Suite裡面會有許多關於<code>string (&quot;Hello World&quot;)</code>的獨立單元測試，所以可以說<code>function</code>是單元測試的集合。</li>
+<li><strong><em>it(string,function)</em></strong>這個定義我們每一個獨立的單元測試，這會包含一個或是多僤的Expectation(期望)</li>
+<li><strong><em>expect(actual)</em></strong>這個描述我們稱之為Expectation(期望)後方會接著呼應的結果(Matcher)來描述我們這個測試『期望的結果』是如何，通常這個matcher(expected)的描述就是我們說的呼應結果(Matcher)其值為boolean。</li>
+<li>期得值(expected)與實際值(actual value)被丟到expect這個fucntion內做比較，如果出來的值為false就代表這個測試失敗。</li>
+</ol>
+<p>所以上述的那段測試碼就是說:這一段是做Hello Word的相關測試，然後show hello world這個單元測式就是～期望(expect) helloWorld()這個fucntion會等於(toEqual) <code>&quot;Hello World&quot;</code>這個字串。</p>
+<p>至於expect後方的Matchers除了目前看到的toEqual()之外Jasmine提供了許多Matchers給我們，以下是大概列舉的。更多的請上<a href="https://jasmine.github.io/api/edge/matchers.html">Jasmine官網</a>參考。</p>
+<ul>
+<li><strong>toContain(number)</strong></li>
+<li><strong>toThrow(string)</strong></li>
+<li><strong>toBe(instance)</strong></li>
+<li><strong>toBeFalsy()</strong></li>
+<li><strong>toBeTruthy()</strong></li>
+<li><strong>toEqual(mixed)</strong></li>
+<li><strong>toMatch(pattern)</strong></li>
+<li><strong>toBeGreaterThan(number);</strong></li>
+<li><strong>toBeNaN();</strong></li>
+</ul>
+<p>有時候在測試某些功能時我們會預先建立一些物件，服務之類的或是在單元測試結束要求清除一些檔案或是變數因此Jasmine提供了下列幾個特殊Function供我們測試時做<strong>預處理</strong>或是<strong>後處理</strong></p>
+<p><em>beforeAll</em></p>
+<p>這個function只會在describe()內的所有測試之前被呼叫一次。</p>
+<p><em>afterAll</em></p>
+<p>這個function會<strong>所有</strong>的describe()都做完之後被呼叫一次。</p>
+<p><em>beforeEach</em></p>
+<p>這個function會在每一個it fuction執行之前被執行</p>
+<p><em>afterEach</em></p>
+<p>這個fuction會在每一個單元測試後被呼叫。</p>
+<h4 id="忽略某些測試的方法"><a href="#忽略某些測試的方法" class="headerlink" title="忽略某些測試的方法"></a>忽略某些測試的方法</h4><p>如果想要 Jasmine 在測試的時候忽略某些已經寫好的測試碼時，除了註解掉之外另外一種就是在 describe() 或是 it() 的前面加上 ‘x’ 也就是變成 xdescribe() 或是 xit() 。這樣 Jasmine 一樣會列出這些測試的名稱但是不會真的進行測試，而且結果的圈圈會打上灰色的圓圈。</p>
+<h4 id="專注某些測試"><a href="#專注某些測試" class="headerlink" title="專注某些測試"></a>專注某些測試</h4><p>同樣專注某些測試的方法就是在 describe() 與 it() 前面加上 ‘f’ ，這樣在測試結果的 report 中會把這些需要專注的測試清單列在最前面，連同失敗或是成功的綠色圈圈也會被列在最前方。</p>
+<h3 id="測試service元件"><a href="#測試service元件" class="headerlink" title="測試service元件"></a>測試service元件</h3><p>如何測試Angular的service元件。service元通常在前端比較常見的功能就是向後端要求資料，所以API的功能通常都會寫在service元件裡面。這邊我們會建立一個測試service元件的專案。</p>
+<p>建立一個login的component。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g c login</span><br></pre></td></tr></table></figure>
+
+<p>接著在建立一個demo的 service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g s demo</span><br></pre></td></tr></table></figure>
+
+<p>將<code>src\app\app.component.html</code>裏的東西刪除只留下最後一行</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>將<code>src\app\app.component.spec.ts</code>的預設測試程式部分刪除只保留如下內容</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; TestBed, <span class="keyword">async</span> &#125; <span class="keyword">from</span> <span class="string">'@angular/core/testing'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; RouterTestingModule &#125; <span class="keyword">from</span> <span class="string">'@angular/router/testing'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'AppComponent'</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  beforeEach(<span class="keyword">async</span>(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    TestBed.configureTestingModule(&#123;</span><br><span class="line">      imports: [</span><br><span class="line">        RouterTestingModule</span><br><span class="line">      ],</span><br><span class="line">      declarations: [</span><br><span class="line">        AppComponent</span><br><span class="line">      ],</span><br><span class="line">    &#125;).compileComponents();</span><br><span class="line">  &#125;));</span><br><span class="line"></span><br><span class="line">  it(<span class="string">'should create the app'</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fixture = TestBed.createComponent(AppComponent);</span><br><span class="line">    <span class="keyword">const</span> app = fixture.debugElement.componentInstance;</span><br><span class="line">    expect(app).toBeTruthy();</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// describe("Hello World", () =&gt; &#123;</span></span><br><span class="line"><span class="comment">//   beforeEach(async(() =&gt; &#123;</span></span><br><span class="line"><span class="comment">//     TestBed.configureTestingModule(&#123;</span></span><br><span class="line"><span class="comment">//       imports: [</span></span><br><span class="line"><span class="comment">//         RouterTestingModule</span></span><br><span class="line"><span class="comment">//       ],</span></span><br><span class="line"><span class="comment">//       declarations: [</span></span><br><span class="line"><span class="comment">//         AppComponent</span></span><br><span class="line"><span class="comment">//       ],</span></span><br><span class="line"><span class="comment">//     &#125;).compileComponents();</span></span><br><span class="line"><span class="comment">//   &#125;));</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//   it("show hello world", () =&gt; &#123;</span></span><br><span class="line"><span class="comment">//     const fixture = TestBed.createComponent(AppComponent);</span></span><br><span class="line"><span class="comment">//     const app = fixture.debugElement.componentInstance;</span></span><br><span class="line"><span class="comment">//     expect(app.helloWorld()).toEqual('Hello World');</span></span><br><span class="line"><span class="comment">//   &#125;);</span></span><br><span class="line"><span class="comment">// &#125;);</span></span><br></pre></td></tr></table></figure>
+
+<p>使用bootstrap做簡單的css style處理所以來安裝bootstrap</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install bootstrap --save</span><br></pre></td></tr></table></figure>
+
+<p>由於於使用bootstrap提供的css所以要在angular.json裡面找到 buil-&gt;styles加入</p>
+<p><code>&quot;./node_modules/bootstrap/dist/css/bootstrap.min.css&quot;</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"styles": [</span><br><span class="line">              "./node_modules/bootstrap/dist/css/bootstrap.min.css",</span><br><span class="line">              <span class="string">"src/styles.scss"</span></span><br><span class="line">            ],</span><br></pre></td></tr></table></figure>
+
+<p>修改路由<code>src\app\app-routing.module.ts</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> routes: Routes = [</span><br><span class="line">  &#123; path: <span class="string">''</span>, component: LoginComponent &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\login\login.component.html</code>加入</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"loginComp"</span> <span class="attr">class</span>=<span class="string">"loginComp col-xs-12 col-sm-12 </span></span></span><br><span class="line"><span class="tag"><span class="string">col-md-12 col-lg-12"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">article</span> <span class="attr">id</span>=<span class="string">"loginTitleSec"</span> <span class="attr">class</span>=<span class="string">"col-xs-12 col-sm-12 </span></span></span><br><span class="line"><span class="tag"><span class="string">    col-md-12 col-lg-12"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">h4</span> <span class="attr">class</span>=<span class="string">""</span>&gt;</span>登入帳號<span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">"loginData col-xs-12 col-sm-12 col-md-12 col-lg-12"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">id</span>=<span class="string">"loginData"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">form</span> [<span class="attr">formGroup</span>]=<span class="string">"loginForm"</span> (<span class="attr">ngSubmit</span>)=<span class="string">"onSubmit()"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">id</span>=<span class="string">"loginForm"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span>  <span class="attr">class</span>=<span class="string">"form-group input-group col-xs-12 col-sm-12 </span></span></span><br><span class="line"><span class="tag"><span class="string">        col-md-12 col-lg-12"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> <span class="attr">id</span>=<span class="string">"email"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">formControlName</span>=<span class="string">"email"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">class</span>=<span class="string">"form-control email"</span> <span class="attr">placeholder</span>=<span class="string">"電子郵件(用於帳號登入)"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group input-group </span></span></span><br><span class="line"><span class="tag"><span class="string">        col-xs-12 col-sm-12 col-md-12 col-lg-12"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">id</span>=<span class="string">"password"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">formControlName</span>=<span class="string">"password"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">class</span>=<span class="string">"form-control password"</span> <span class="attr">placeholder</span>=<span class="string">"密碼"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-primary col-xs-12 </span></span></span><br><span class="line"><span class="tag"><span class="string">        col-sm-12 col-md-12 col-lg-12"</span></span></span><br><span class="line"><span class="tag">        [<span class="attr">disabled</span>]=<span class="string">"loginForm.invalid"</span>&gt;</span></span><br><span class="line">          登入</span><br><span class="line">        <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>由於這個頁面的form表單有用到Angular的<strong>ReativeFormsModule</strong>所以我們要先把ReactiveFormsModule載入到<code>app.modules.ts</code>裡。修改app.modules.ts加入ReactiveFormsModule</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserModule &#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ReactiveFormsModule &#125; <span class="keyword">from</span> <span class="string">"@angular/forms"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AppRoutingModule &#125; <span class="keyword">from</span> <span class="string">'./app-routing.module'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; LoginComponent &#125; <span class="keyword">from</span> <span class="string">'./login/login.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [</span><br><span class="line">    AppComponent,</span><br><span class="line">    LoginComponent</span><br><span class="line">  ],</span><br><span class="line">  imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    ReactiveFormsModule,</span><br><span class="line">    AppRoutingModule</span><br><span class="line">  ],</span><br><span class="line">  providers: [],</span><br><span class="line">  bootstrap: [AppComponent]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\login\login.component.ts</code>裏我們要把ReactiveForm對應到html表單上面要給使用者輸入的欄位名稱。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; FormBuilder, FormGroup, Validators, FormArray &#125; <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-login'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./login.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./login.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> LoginComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> loginForm: FormGroup;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> fb: FormBuilder</span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">    <span class="keyword">this</span>.loginForm = <span class="keyword">this</span>.fb.group(&#123;</span><br><span class="line">      email: [<span class="string">''</span>, [</span><br><span class="line">        Validators.required,</span><br><span class="line">        Validators.minLength(<span class="number">5</span>),</span><br><span class="line">        Validators.pattern(</span><br><span class="line">          <span class="string">'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'</span>)</span><br><span class="line">      ]],</span><br><span class="line">      password: [<span class="string">''</span>, [</span><br><span class="line">        Validators.required,</span><br><span class="line">        Validators.minLength(<span class="number">8</span>),</span><br><span class="line">        Validators.pattern(</span><br><span class="line">          <span class="string">'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]&#123;8,20&#125;$'</span>)</span><br><span class="line">      ]]</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  onSubmit() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`email: <span class="subst">$&#123;<span class="keyword">this</span>.loginForm.value.email&#125;</span>`</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`email: <span class="subst">$&#123;<span class="keyword">this</span>.loginForm.value.password&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>簡單的說明也就是<code>loginForm</code>會對應到html的form表單 <code>[formGroup]=&quot;loginForm&quot;</code>, 然後loginForm裡的email物件會對應到<code>input type=&quot;email&quot;</code>的DOM(因為 formControlName=”email”)並且這個欄位為必填 Validators.required，最小長度為5 Validators.minLength(5)並且內容必須為email格式 Validators.pattern(), password也是如上。</p>
+<p>demo service部份：</p>
+<p>在<code>src\app\demo.service.ts</code>中加入我們的程式</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Injectable &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; of &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>(&#123;</span><br><span class="line">  providedIn: <span class="string">'root'</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> DemoService &#123;</span><br><span class="line">  <span class="keyword">protected</span> value = <span class="string">"Hi Clover"</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  getValue() &#123; <span class="keyword">return</span> <span class="keyword">this</span>.value; &#125;</span><br><span class="line">  setValue(value: <span class="built_in">string</span>) &#123; <span class="keyword">this</span>.value = value; &#125;</span><br><span class="line"></span><br><span class="line">  getObservableValue() &#123; <span class="keyword">return</span> of(<span class="string">"observable Clover"</span>); &#125;</span><br><span class="line">  getPromiseValue() &#123; <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve(<span class="string">"promise value"</span>); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面這幾個其實只是return一些字串，Promise或是Observable物件回去，這是我們在前端很常會這樣做的功能。再來就是開始針對demo.service撰寫測試了。</p>
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><p><a href="http://cloverhsc.blogspot.com/2018/11/angular-testing-1.html">Angular Testing 筆記</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Angular/" rel="tag"># Angular</a>
+              <a href="/tags/Test/" rel="tag"># Test</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84Ubuntu%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/" rel="prev" title="記錄Ubuntu的相關問題">
+      <i class="fa fa-chevron-left"></i> 記錄Ubuntu的相關問題
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%89%8D%E7%AB%AF%E5%AD%B8%E7%BF%92HTML-CSS-JAVASCRIPT/" rel="next" title="前端學習HTML-CSS-JAVASCRIPT">
+      前端學習HTML-CSS-JAVASCRIPT <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基礎介紹"><span class="nav-text">基礎介紹</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Jasmine"><span class="nav-text">Jasmine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Karma"><span class="nav-text">Karma</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#測試方法"><span class="nav-text">測試方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#運行測試後"><span class="nav-text">運行測試後</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#測試覆蓋率"><span class="nav-text">測試覆蓋率</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立專案"><span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#測試程式的架構邏輯-Jasmine"><span class="nav-text">測試程式的架構邏輯 Jasmine</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#忽略某些測試的方法"><span class="nav-text">忽略某些測試的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#專注某些測試"><span class="nav-text">專注某些測試</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#測試service元件"><span class="nav-text">測試service元件</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

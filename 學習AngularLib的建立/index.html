@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言(未成功)因為在寫了一些測試專案後，發現有一些常用的服務會一直使用，來整理成通用的lib可以下次來使用不用一直拷貝和複製 建立 Angular Library 函式庫專案建立專案骨架 (Monorepo) 123ng new ng-hs-lib --create-application&#x3D;false --routing false --style csscd ng-hs-libcode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習AngularLib的建立">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92AngularLib%E7%9A%84%E5%BB%BA%E7%AB%8B/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言(未成功)因為在寫了一些測試專案後，發現有一些常用的服務會一直使用，來整理成通用的lib可以下次來使用不用一直拷貝和複製 建立 Angular Library 函式庫專案建立專案骨架 (Monorepo) 123ng new ng-hs-lib --create-application&#x3D;false --routing false --style csscd ng-hs-libcode">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-06-13T15:35:31.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Angular">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92AngularLib%E7%9A%84%E5%BB%BA%E7%AB%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習AngularLib的建立 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92AngularLib%E7%9A%84%E5%BB%BA%E7%AB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習AngularLib的建立
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-06-13 15:35:31" itemprop="dateCreated datePublished" datetime="2019-06-13T15:35:31+00:00">2019-06-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Angular/" itemprop="url" rel="index"><span itemprop="name">Angular</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言-未成功"><a href="#前言-未成功" class="headerlink" title="前言(未成功)"></a>前言(未成功)</h3><p>因為在寫了一些測試專案後，發現有一些常用的服務會一直使用，來整理成通用的lib可以下次來使用不用一直拷貝和複製</p>
+<h3 id="建立-Angular-Library-函式庫專案"><a href="#建立-Angular-Library-函式庫專案" class="headerlink" title="建立 Angular Library 函式庫專案"></a>建立 Angular Library 函式庫專案</h3><p>建立專案骨架 (Monorepo)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ng new ng-hs-lib --create-application&#x3D;false --routing false --style css</span><br><span class="line">cd ng-hs-lib</span><br><span class="line">code .</span><br></pre></td></tr></table></figure>
+
+<p>建立AngularLibrary函式庫專案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng generate library hs-lib --prefix&#x3D;hs</span><br></pre></td></tr></table></figure>
+
+<p>建立Angular應用程式專案(用來測試我們撰寫的函式庫元件之用)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g application demo1 --routing --style css --skip-tests</span><br></pre></td></tr></table></figure>
+
+<p>此時你可以測試看看，使用 <code>npm run build</code> 或 <code>ng build</code> 就會自動建置<code>hs-lib</code>的專案</p>
+<blockquote>
+<p>請注意：從 Angular CLI v6.1 開始，建置 Angular Library 預設就是採用 <code>--prod</code> 生產環境建置！</p>
+</blockquote>
+<p>如果你想要建置 <code>demo1</code> 專案的話，可以試試 <code>ng build demo1</code> 或 <code>ng build --project demo1</code> 這個命令，就會自動對 <code>demo1</code> 專案進行建置！</p>
+<p>這裡有個蠻值得一提的地方，就是專案根目錄下的 <code>tsconfig.json</code> 檔案，裡面有個 <code>&quot;paths&quot;</code> 區段設定，替 TypeScript 的編譯器指出 <code>import</code> 路徑的別名：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">"paths": &#123;</span><br><span class="line">      "hs-lib": [</span><br><span class="line">        <span class="string">"dist/hs-lib"</span></span><br><span class="line">      ],</span><br><span class="line">      "hs-lib/*": [</span><br><span class="line">        <span class="string">"dist/hs-lib/*"</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>也就是說，在這個 monorepo 專案中，任何一個子專案都可以透過 <code>&#39;hs-lib&#39;</code> 來 import 函式庫中的任何模組或服務元件：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; HsLibModule &#125; <span class="keyword">from</span> <span class="string">"hs-lib"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>所以為了讓我們的 Angular Library 專案可以被匯入到 Angular 應用程式之中，你可以先修改 <code>demo1</code> 專案內的 <code>app.module.ts</code> 檔案，並將 <code>HsLibModule模組匯入到預設的 </code>AppModule` 之中。</p>
+<p>如此一來，就完成了一個基本的 Monorepo 架構，並設定好模組匯入。</p>
+<p>最後，我們需要確認專案可以正常建置，有幾件事需要提醒各位：</p>
+<p>所有的 Angular Library 都需要建置後才能被 Angular 應用程式開發時參考</p>
+<ol>
+<li><p>你可以用 <code>ng build hs-lib --watch</code> 命令自動建置專案，該命令會自動建置任意檔案變更，並自動重新建置此函式庫。</p>
+</li>
+<li><p>執行 Angular 應用程式</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng serve demo1</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="創建組件"><a href="#創建組件" class="headerlink" title="創建組件"></a>創建組件</h3><p>在創建組件要注意的是需要設置<code>--project</code>參數</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng generate component hsbutton --project&#x3D;hs-lib</span><br></pre></td></tr></table></figure>
+
+<p>接著從hs-lib模塊中導出組件在<code>projects\hs-lib\src\lib\hs-lib.module.ts</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HsLibComponent &#125; <span class="keyword">from</span> <span class="string">'./hs-lib.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HsbuttonComponent &#125; <span class="keyword">from</span> <span class="string">'./hsbutton/hsbutton.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [HsLibComponent, HsbuttonComponent],</span><br><span class="line">  imports: [</span><br><span class="line">  ],</span><br><span class="line">  exports: [HsLibComponent]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> HsLibModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>之後還需要在<code>projects\hs-lib\src\public-api.ts</code>中導出新建的組件</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lib/hs-lib.service'</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lib/hs-lib.component'</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lib/hs-lib.module'</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lib/hsbutton/hsbutton.component'</span>;<span class="comment">//</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>projects\hs-lib\src\lib\hs-lib.module.ts</code>中要將元件export出來不然看不到</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HsLibComponent &#125; <span class="keyword">from</span> <span class="string">'./hs-lib.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HsbuttonComponent &#125; <span class="keyword">from</span> <span class="string">'./hsbutton/hsbutton.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [HsLibComponent, HsbuttonComponent],</span><br><span class="line">  imports: [</span><br><span class="line">  ],</span><br><span class="line">  exports: [HsLibComponent, HsbuttonComponent]<span class="comment">//</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> HsLibModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要重建hs-lib庫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng build hs-lib</span><br></pre></td></tr></table></figure>
+
+<p>在demo1的<code>projects\demo1\src\app\app.component.html</code>內容如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">hs-hs-lib</span>&gt;</span><span class="tag">&lt;/<span class="name">hs-hs-lib</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hs-hsbutton</span>&gt;</span><span class="tag">&lt;/<span class="name">hs-hsbutton</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="創建服務"><a href="#創建服務" class="headerlink" title="創建服務"></a>創建服務</h3><p>在創建服務要注意的是需要設置<code>--project</code>參數</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g service data --project&#x3D;hs-lib</span><br></pre></td></tr></table></figure>
+
+<p>假設我們的DataService需要利用HttpClient從網路上取對應的數據，這時我們就需要在<strong>HsLibModule</strong>模塊中道入HttpClientModule模塊，且在DataServeie注入HeepClient服務在<code>projects\hs-lib\src\lib\data.service.ts</code>中</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Injectable &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpClient &#125; <span class="keyword">from</span> <span class="string">"@angular/common/http"</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>(&#123;</span><br><span class="line">  providedIn: <span class="string">'root'</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> DataService &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> http: HttpClient</span>) &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>projects\hs-lib\src\lib\hs-lib.module.ts</code>的內容</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpClientModule &#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;<span class="comment">//</span></span><br><span class="line"><span class="keyword">import</span> &#123; HsLibComponent &#125; <span class="keyword">from</span> <span class="string">'./hs-lib.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HsbuttonComponent &#125; <span class="keyword">from</span> <span class="string">'./hsbutton/hsbutton.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [HsLibComponent, HsbuttonComponent],</span><br><span class="line">  imports: [</span><br><span class="line">    HttpClientModule <span class="comment">//</span></span><br><span class="line">  ],</span><br><span class="line">  exports: [HsLibComponent, HsbuttonComponent]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> HsLibModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>還需要在<code>projects\hs-lib\src\public-api.ts</code>中導出新建的組件</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lib/hs-lib.service'</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lib/hs-lib.component'</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lib/hs-lib.module'</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lib/hsbutton/hsbutton.component'</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">'./lib/data.service'</span>;<span class="comment">//</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="第一版-gt"><a href="#第一版-gt" class="headerlink" title="第一版-&gt;"></a>第一版-&gt;</h4><p>在<code>projects\hs-lib\src\lib\data.service.ts</code>中加入功能<code>setDataUrl</code>和屬性<code>dataUrl</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Injectable, Inject, InjectionToken &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpClient &#125; <span class="keyword">from</span> <span class="string">"@angular/common/http"</span>;</span><br><span class="line"><span class="comment">// import &#123; HsLibConfigService, HsLibConfig &#125; from '../public-api';</span></span><br><span class="line"><span class="keyword">import</span> &#123; Observable &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>(&#123;</span><br><span class="line">  providedIn: <span class="string">'root'</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> DataService &#123;</span><br><span class="line">  dataUrl: <span class="built_in">string</span> = <span class="string">""</span>; <span class="comment">//資料的位置</span></span><br><span class="line">  <span class="comment">// inject our configuration into our service</span></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> http: HttpClient</span>) &#123; &#125;</span><br><span class="line">  <span class="comment">// 設定資料的屬性</span></span><br><span class="line">  setDataUrl(strurl: <span class="built_in">string</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.dataUrl = strurl</span><br><span class="line">  &#125;</span><br><span class="line">  getData(): Observable&lt;<span class="built_in">any</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.http.get(<span class="keyword">this</span>.dataUrl);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如何使用在<code>projects\demo1\src\app\app.component.ts</code>中,在呼叫之前要設定服務器的位置</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; DataService &#125; <span class="keyword">from</span> <span class="string">'projects/hs-lib/src/lib/data.service'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-root'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./app.component.css'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  title = <span class="string">'demo1'</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> dataService: DataService</span>) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.dataService.setDataUrl(<span class="string">`https://jsonplaceholder.typicode.com/todos/1`</span>);</span><br><span class="line">    <span class="keyword">this</span>.dataService.getData().subscribe(<span class="built_in">console</span>.log);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>安裝Lib, 要找到lib的dist的路徑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install ..&#x2F;github&#x2F;TestNgLib&#x2F;ng-hs-lib&#x2F;dist&#x2F;hs-lib</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<p>在實際開發中，我們可能需要能夠來從外部來配置 DataServer服務的請求服務器的地址，我們需要修改<code>projects\hs-lib\src\lib\hs-lib.module.ts</code>首先定義給DataServer的介面</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定義</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> HsLibConfig &#123;</span><br><span class="line">  dataUrl: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> HsLibConfigService = <span class="keyword">new</span> InjectionToken&lt;HsLibConfig&gt;(</span><br><span class="line">  <span class="string">"HsLibConfig"</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>最後的<code>projects\hs-lib\src\lib\hs-lib.module.ts</code>的內容如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; NgModule, InjectionToken, ModuleWithProviders &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpClientModule &#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HsLibComponent &#125; <span class="keyword">from</span> <span class="string">'./hs-lib.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HsbuttonComponent &#125; <span class="keyword">from</span> <span class="string">'./hsbutton/hsbutton.component'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// first define an interface for our configuration</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> HsLibConfig &#123;</span><br><span class="line">  dataUrl: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// then define injectionToken</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> HsLibConfigService = <span class="keyword">new</span> InjectionToken&lt;HsLibConfig&gt;(</span><br><span class="line">  <span class="string">"HsLibConfig"</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [HsLibComponent, HsbuttonComponent],</span><br><span class="line">  imports: [</span><br><span class="line">    HttpClientModule</span><br><span class="line">  ],</span><br><span class="line">  exports: [HsLibComponent, HsbuttonComponent]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> HsLibModule &#123;</span><br><span class="line">  <span class="keyword">static</span> forRoot(config: HsLibConfig): ModuleWithProviders &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      ngModule: HsLibModule,</span><br><span class="line">      providers: [</span><br><span class="line">        &#123; provide: HsLibConfigService, useValue: config &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><p><a href="http://www.semlinker.com/ng-library-quickstart/">Angular Library 快速入门</a><br><a href="https://blog.miniasp.com/post/2019/04/19/Learn-Angular-Library-and-build-custom-Form-Validators">簡介 Angular CLI 建立專案過程</a><br><a href="https://codinglatte.com/posts/angular/building-angular-6-libraries/">A Guide for Building Angular 6 Libraries</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Angular/" rel="tag"># Angular</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84Angular%E5%8D%87%E7%89%88%E6%9C%AC%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/" rel="prev" title="記錄Angular升版本的相關問題">
+      <i class="fa fa-chevron-left"></i> 記錄Angular升版本的相關問題
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92webpack%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="next" title="學習webpack的使用">
+      學習webpack的使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言-未成功"><span class="nav-text">前言(未成功)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立-Angular-Library-函式庫專案"><span class="nav-text">建立 Angular Library 函式庫專案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#創建組件"><span class="nav-text">創建組件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#創建服務"><span class="nav-text">創建服務</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一版-gt"><span class="nav-text">第一版-&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言 這是參考網路上的小馬有介紹一些ES6的語法和使用，記錄一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習ES2015(ES6)的相關知識">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92ES2015-ES6-%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言 這是參考網路上的小馬有介紹一些ES6的語法和使用，記錄一下">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-03-30T09:32:23.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92ES2015-ES6-%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習ES2015(ES6)的相關知識 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92ES2015-ES6-%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習ES2015(ES6)的相關知識
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2021-03-30 09:32:23" itemprop="dateCreated datePublished" datetime="2021-03-30T09:32:23+00:00">2021-03-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p> 這是參考網路上的小馬有介紹一些ES6的語法和使用，記錄一下<br> <a id="more"></a> </p>
+<p><a href="https://gitee.com/komavideo/LearnES6">參考的程式碼</a></p>
+<p><a href="https://stackblitz.com/edit/js-b7seqg">程上測試</a></p>
+<h2 id="Symbol新類型"><a href="#Symbol新類型" class="headerlink" title="Symbol新類型"></a>Symbol新類型</h2><ul>
+<li>ES6增加了Symbol 新的原始類型</li>
+</ul>
+<p>實戰演習</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#region Symbol新類型</span></span><br><span class="line"><span class="keyword">let</span> str1 = <span class="built_in">String</span>(<span class="string">"HelloWorld"</span>);</span><br><span class="line"><span class="keyword">let</span> str2 = <span class="built_in">String</span>(<span class="string">"HelloWorld"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(str1 == str2); <span class="comment">//結果 true</span></span><br><span class="line"><span class="built_in">console</span>.log(str1 === str2); <span class="comment">//結果 true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> s1 = <span class="built_in">Symbol</span>(<span class="string">"mySymbol"</span>);</span><br><span class="line"><span class="keyword">let</span> s2 = <span class="built_in">Symbol</span>(<span class="string">"mySymbol"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> s1); <span class="comment">//結果 symbol</span></span><br><span class="line"><span class="built_in">console</span>.log(s1.toString()); <span class="comment">// 結果 Symbol(mySymbol)</span></span><br><span class="line"><span class="built_in">console</span>.log(s1 == s2); <span class="comment">//結果 false</span></span><br><span class="line"><span class="built_in">console</span>.log(s1 === s2); <span class="comment">//結果 false</span></span><br><span class="line"><span class="comment">//#endregion Symbol新類型</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Symbol的用法"><a href="#Symbol的用法" class="headerlink" title="Symbol的用法"></a>Symbol的用法</h2><ul>
+<li>作為常量</li>
+<li>作為屬性</li>
+<li>半隱藏屬性</li>
+</ul>
+<p>實戰演習</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#region Symbol的用法</span></span><br><span class="line"><span class="comment">//作為常量</span></span><br><span class="line"><span class="keyword">const</span> Java = <span class="built_in">Symbol</span>();</span><br><span class="line"><span class="keyword">const</span> Ruby = <span class="built_in">Symbol</span>();</span><br><span class="line"><span class="keyword">const</span> Perl = <span class="built_in">Symbol</span>();</span><br><span class="line"><span class="keyword">const</span> Php = <span class="built_in">Symbol</span>();</span><br><span class="line"><span class="keyword">const</span> VB = <span class="built_in">Symbol</span>();</span><br><span class="line"><span class="keyword">let</span> lang = Php;</span><br><span class="line"><span class="keyword">if</span> (lang === Java) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"Java的未來在哪裏?"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (lang === Ruby) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"再學個Ruby on Rails吧。"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//作為屬性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> s1 = <span class="built_in">Symbol</span>(<span class="string">"mySymbol"</span>);</span><br><span class="line"><span class="keyword">let</span> s2 = <span class="built_in">Symbol</span>(<span class="string">"mySymbol"</span>);</span><br><span class="line"><span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">obj[s1] = <span class="string">"hello"</span>;</span><br><span class="line">obj[s2] = <span class="string">"world"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj); <span class="comment">//&#123;Symbol(mySymbol): "hello", Symbol(mySymbol): "world"&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(obj[s1]); <span class="comment">//hello</span></span><br><span class="line"><span class="built_in">console</span>.log(obj[s2]); <span class="comment">//world</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//半隱藏屬性</span></span><br><span class="line"><span class="keyword">const</span> MYKEY = <span class="built_in">Symbol</span>();</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(key, name, age) &#123;</span><br><span class="line">    <span class="keyword">this</span>[MYKEY] = key;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line">  &#125;</span><br><span class="line">  checkKEY(key) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>[MYKEY] === key;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> User(<span class="number">123</span>, <span class="string">"Curry"</span>, <span class="number">29</span>);</span><br><span class="line"><span class="built_in">console</span>.log(user.name, user.age, user[MYKEY]);</span><br><span class="line"><span class="built_in">console</span>.log(user.checkKEY(<span class="number">123</span>)); <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(user.checkKEY(<span class="number">456</span>));<span class="comment">//false</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(user));<span class="comment">//["name", "age"]</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(user));<span class="comment">//&#123;"name":"Curry","age":29&#125;</span></span><br><span class="line"><span class="comment">//#endregion Symbol的用法</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="解構賦值-destructuring-assigment"><a href="#解構賦值-destructuring-assigment" class="headerlink" title="解構賦值(destructuring assigment)"></a>解構賦值(destructuring assigment)</h2><p>實戰演習</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//數組賦值</span></span><br><span class="line"><span class="keyword">let</span> [a, b ,c] = [<span class="number">10</span> ,<span class="number">20</span> ,<span class="number">30</span>];</span><br><span class="line"><span class="built_in">console</span>.log(a, b, c); <span class="comment">// 10 20 30</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> [x, y, ...other] = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</span><br><span class="line"><span class="built_in">console</span>.log(x, y, other); <span class="comment">// 1 2 [3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//對象賦值</span></span><br><span class="line"><span class="keyword">let</span> &#123;name , age&#125; = &#123; <span class="attr">name</span>: <span class="string">'ttom'</span>, <span class="attr">age</span>: <span class="string">'30'</span>&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(name , age);</span><br><span class="line"></span><br><span class="line"><span class="comment">//函數賦值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="number">10</span>,<span class="number">20</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> [num1,num2]= func1();</span><br><span class="line"><span class="built_in">console</span>.log(num1,num2);</span><br><span class="line"></span><br><span class="line"><span class="comment">//函數參數名指定</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func2</span>(<span class="params">&#123;x=<span class="number">1</span>,y=<span class="number">2</span>&#125;</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x+y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(func2(&#123;&#125;));          <span class="comment">//3</span></span><br><span class="line"><span class="built_in">console</span>.log(func2(&#123;<span class="attr">x</span>:<span class="number">10</span>&#125;));      <span class="comment">//12</span></span><br><span class="line"><span class="built_in">console</span>.log(func2(&#123;<span class="attr">y</span>:<span class="number">10</span>&#125;));      <span class="comment">//11</span></span><br><span class="line"><span class="built_in">console</span>.log(func2(&#123;<span class="attr">x</span>:<span class="number">10</span>,<span class="attr">y</span>:<span class="number">20</span>&#125;)); <span class="comment">//30</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="可迭代的對象"><a href="#可迭代的對象" class="headerlink" title="可迭代的對象"></a>可迭代的對象</h2><ul>
+<li>制作一個可迭代的對象</li>
+<li>Symbol.iterator</li>
+</ul>
+<p>實戰演習</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#region 可迭代的對象</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Player</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(list) &#123;</span><br><span class="line">    <span class="keyword">this</span>.list = list;</span><br><span class="line">  &#125;</span><br><span class="line">  [<span class="built_in">Symbol</span>.iterator]() &#123;</span><br><span class="line">    <span class="keyword">let</span> current = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> that = <span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      next() &#123;</span><br><span class="line">        <span class="keyword">return</span> current &lt; that.list.length</span><br><span class="line">          ? &#123; <span class="attr">value</span>: that.list[current++], <span class="attr">done</span>: <span class="literal">false</span> &#125;</span><br><span class="line">          : &#123; <span class="attr">done</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> player = <span class="keyword">new</span> Player([<span class="string">"Curry"</span>, <span class="string">"Harden"</span>, <span class="string">"LeBron"</span>]);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> tmp <span class="keyword">of</span> player) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(tmp);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//#endregion 可迭代的對象</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="簡單迭代生成器"><a href="#簡單迭代生成器" class="headerlink" title="簡單迭代生成器"></a>簡單迭代生成器</h2><ul>
+<li>function* {} :迭代生成器</li>
+<li>yield : 迭代返回</li>
+</ul>
+<p>實戰演習</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#region 簡單迭代生成器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">myGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">"一"</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">"條"</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">"大"</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">"河"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> val <span class="keyword">of</span> myGenerator()) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(val);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">countdown</span>(<span class="params">begin</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (begin &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">yield</span> begin--;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> tmp <span class="keyword">of</span> countdown(<span class="number">5</span>)) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(tmp);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//#endregion 簡單迭代生成器</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="簡單迭代類"><a href="#簡單迭代類" class="headerlink" title="簡單迭代類"></a>簡單迭代類</h2><ul>
+<li>建立一個單的迭代類(yield)</li>
+</ul>
+<p>實戰演習</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#region 簡單迭代類</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyList</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(list) &#123;</span><br><span class="line">    <span class="keyword">this</span>.list = list;</span><br><span class="line">    <span class="keyword">this</span>[<span class="built_in">Symbol</span>.iterator] = <span class="function"><span class="keyword">function</span>*(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">let</span> current = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">let</span> that = <span class="keyword">this</span>;</span><br><span class="line">      <span class="keyword">while</span> (current &lt; that.list.length) &#123;</span><br><span class="line">        <span class="keyword">yield</span> that.list[current++];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> mylist = <span class="keyword">new</span> MyList([<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">400</span>, <span class="number">500</span>]);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> val <span class="keyword">of</span> mylist) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(val);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//#endregion 簡單迭代類</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="模塊化設計"><a href="#模塊化設計" class="headerlink" title="模塊化設計"></a>模塊化設計</h2><ul>
+<li>建立一個模塊</li>
+<li>調用模塊功能</li>
+</ul>
+<p>建立模塊 mymath.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">minus</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x - y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123; add, minus &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>使用模塊</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#region 模塊化設計</span></span><br><span class="line"><span class="keyword">import</span> &#123; add, minus &#125; <span class="keyword">from</span> <span class="string">"./mymath"</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">10</span>, <span class="number">20</span>));</span><br><span class="line"><span class="built_in">console</span>.log(minus(<span class="number">30</span>, <span class="number">20</span>));</span><br><span class="line"><span class="comment">//#endregion 模塊化設計</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="類模塊設計"><a href="#類模塊設計" class="headerlink" title="類模塊設計"></a>類模塊設計</h2><ul>
+<li>類模設計和引用</li>
+</ul>
+<p>建立類文件Player.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#region 類模塊設計</span></span><br><span class="line"><span class="keyword">import</span> Player <span class="keyword">from</span> <span class="string">"./Player"</span>;</span><br><span class="line"><span class="keyword">let</span> curry = <span class="keyword">new</span> Player(<span class="string">"Curry"</span>);</span><br><span class="line">curry.sayHello();</span><br><span class="line"><span class="comment">//#endregion 類模塊設計</span></span><br></pre></td></tr></table></figure>
+
+<p>使用類模塊</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#region 類模塊設計</span></span><br><span class="line"><span class="keyword">import</span> Player <span class="keyword">from</span> <span class="string">"./Player"</span>;</span><br><span class="line"><span class="keyword">let</span> curry = <span class="keyword">new</span> Player(<span class="string">"Curry"</span>);</span><br><span class="line">curry.sayHello();</span><br><span class="line"><span class="comment">//#endregion 類模塊設計</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84kafka%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/" rel="prev" title="記錄kafka的相關使用">
+      <i class="fa fa-chevron-left"></i> 記錄kafka的相關使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84python%E7%9A%84memoryleak%E7%9B%B8%E9%97%9C/" rel="next" title="記錄python的memoryleak相關">
+      記錄python的memoryleak相關 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbol新類型"><span class="nav-text">Symbol新類型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Symbol的用法"><span class="nav-text">Symbol的用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解構賦值-destructuring-assigment"><span class="nav-text">解構賦值(destructuring assigment)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可迭代的對象"><span class="nav-text">可迭代的對象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#簡單迭代生成器"><span class="nav-text">簡單迭代生成器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#簡單迭代類"><span class="nav-text">簡單迭代類</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模塊化設計"><span class="nav-text">模塊化設計</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#類模塊設計"><span class="nav-text">類模塊設計</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

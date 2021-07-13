@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言因為在測試記錄Flask多資料庫的用法時，因為有資料在顯示上需要用到更新和刪除，所以需要表格上來處理所以來研究一下Angular Material Table的用法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習Angular-Material-Table的相關使用">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言因為在測試記錄Flask多資料庫的用法時，因為有資料在顯示上需要用到更新和刪除，所以需要表格上來處理所以來研究一下Angular Material Table的用法">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-03_12_12_58_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-03_13_38_43_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-03_13_46_28_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-03_14_28_00_Image.jpg">
+<meta property="article:published_time" content="2019-09-03T09:34:07.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:34.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Angular Material">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-03_12_12_58_Image.jpg">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習Angular-Material-Table的相關使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習Angular-Material-Table的相關使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-09-03 09:34:07" itemprop="dateCreated datePublished" datetime="2019-09-03T09:34:07+00:00">2019-09-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:34" itemprop="dateModified" datetime="2021-07-13T01:17:34+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Angular/" itemprop="url" rel="index"><span itemprop="name">Angular</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Angular/Angular-Material/" itemprop="url" rel="index"><span itemprop="name">Angular Material</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因為在測試<a href="https://ttom921.github.io/%E8%A8%98%E9%8C%84Flask%E5%A4%9A%E8%B3%87%E6%96%99%E5%BA%AB%E7%9A%84%E7%94%A8%E6%B3%95/">記錄Flask多資料庫的用法</a>時，因為有資料在顯示上需要用到更新和刪除，所以需要表格上來處理所以來研究一下Angular Material Table的用法</p>
+<a id="more"></a>
+
+<h2 id="建立基本測試"><a href="#建立基本測試" class="headerlink" title="建立基本測試"></a>建立基本測試</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng new TestMatTab</span><br></pre></td></tr></table></figure>
+
+<p>加入AngularMateial</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng add @angular&#x2F;material</span><br></pre></td></tr></table></figure>
+
+<p>因為我選擇<code>pink-bluegrey</code></p>
+<p>加入theme設定</p>
+<p>在’styles.scss’中,有四種選一種</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/indigo-pink.css";</span></span><br><span class="line">@<span class="keyword">import</span> <span class="string">"~@angular/material/prebuilt-themes/pink-bluegrey.css"</span>;</span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/purple-green.css";</span></span><br></pre></td></tr></table></figure>
+
+<p>加入SharedAngularMaterial &lt;<a href="https://ithelp.ithome.com.tw/articles/10209937">https://ithelp.ithome.com.tw/articles/10209937</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g m share\SharedAngularMaterial</span><br></pre></td></tr></table></figure>
+
+<p>在MatIcon中使用SVG</p>
+<p>必須透過Angular提供的DomSanitizer Service來信任這個路徑。接著我們就可以透過<code>MatIconRegistry</code>來擴充SVG icon</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> SharedAngularMaterialModule <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> matIconRegistry: MatIconRegistry, <span class="keyword">private</span> domSanitizer: DomSanitizer</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.ngOnInit();</span><br><span class="line">  &#125;</span><br><span class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="comment">// this.matIconRegistry.addSvgIconInNamespace(</span></span><br><span class="line">    <span class="comment">//   "custom-svg",</span></span><br><span class="line">    <span class="comment">//   "angular",</span></span><br><span class="line">    <span class="comment">//   this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/angular_solidBlack.svg")</span></span><br><span class="line">    <span class="comment">// );</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在MatIcon中使用Icon Font</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @fortawesome&#x2F;fontawesome-free</span><br></pre></td></tr></table></figure>
+
+<p>接下來在<code>src\styles.scss</code>中</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/indigo-pink.css";</span></span><br><span class="line">@<span class="keyword">import</span> <span class="string">"~@angular/material/prebuilt-themes/pink-bluegrey.css"</span>;</span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/purple-green.css";</span></span><br><span class="line">@<span class="keyword">import</span> <span class="string">"~@fortawesome/fontawesome-free/css/all.css"</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="開始使用Angular-Material的Data-Table"><a href="#開始使用Angular-Material的Data-Table" class="headerlink" title="開始使用Angular Material的Data Table"></a>開始使用Angular Material的Data Table</h2><p>基本上大多數的data table，都需要3個主要部分：<strong>資料顯示的主體、允許排序的標題及分頁</strong>。在Angular Magerial中這三個功能分別放在<code>MatTableModule</code>、MatSortModule、MatPaginatorModule。</p>
+<h3 id="使用mat-table"><a href="#使用mat-table" class="headerlink" title="使用mat-table"></a>使用mat-table</h3><p>建立測試用的元件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g component Inbox</span><br></pre></td></tr></table></figure>
+
+<p>先從最基本的顯示資料主體開始，使用到<code>&lt;mat-table&gt;</code>這個元件；在Angular Material中，使用<code>&lt;mat-table&gt;</code>與一般table的使用方式會略有不同。</p>
+<ol>
+<li>準備data source</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatTableDataSource &#125; <span class="keyword">from</span> <span class="string">'@angular/material/table'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpClient &#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-inbox'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./inbox.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./inbox.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> InboxComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line">  emailsDataSource = <span class="keyword">new</span> MatTableDataSource&lt;<span class="built_in">any</span>&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> httpClient: HttpClient</span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">    <span class="keyword">this</span>.httpClient.get&lt;<span class="built_in">any</span>&gt;(<span class="string">'https://api.github.com/repos/angular/material/issues?page=1'</span>).subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.emailsDataSource.data = data.items;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先𢬘資料來源準好，這裡我們先把Angular Material的GitHub repository中的issues當作是我們的email資料來源，同時我們建立一個<code>emailDataSource</code>當作資料的來源，他的型別是<code>MatTableDataSource&lt;T&gt;</code>，其中的<code>data: T</code>屬性是用來放置主要呈現資料的屬性。</p>
+<p>接著在畫面上可以使用一個<code>&lt;mat-table&gt;</code>當作data table的主體，同時使用<code>dataSource</code>屬性設定資料的來源，來源必須是<code>MatTableDataSource&lt;T&gt;</code>，也就是我們在程式中的<code>emailsDataSource</code>:</p>
+<ol start="2">
+<li>定義表格的欄位及資料呈現</li>
+</ol>
+<p>接著在<code>&lt;mat-table&gt;</code>裡面，我們可以使用<code>&lt;ng-container matColumnDef=&quot;XXXX&quot;&gt;</code>來定義一個表格的欄位(column)，<code>matColunmDef=&quot;xxxx&quot;</code>代表這個欄位的名稱。</p>
+<p>而在欄位裡面需要提供兩個資訊：</p>
+<ul>
+<li><code>&lt;mat-header-cell * matHeaderCellDef&gt;</code>：代表資料在標題列cell內容。</li>
+<li><code>&lt;mat-cell *matCellDef=&quot;let xxx&quot;</code>：代表實際呈現資料的cell。</li>
+</ul>
+<p>在這裡我們定義了4個column，其中3個負責呈現資料，最後一個則是用來管理資料用的：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-table</span> [<span class="attr">dataSource</span>]=<span class="string">"emailsDataSource"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-container</span> <span class="attr">matColumnDef</span>=<span class="string">"id"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-header-cell</span> *<span class="attr">matHeaderCellDef</span>&gt;</span> 文章編號 <span class="tag">&lt;/<span class="name">mat-header-cell</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-cell</span> *<span class="attr">matCellDef</span>=<span class="string">"let row"</span>&gt;</span> &#123;&#123;row.id&#125;&#125; <span class="tag">&lt;/<span class="name">mat-cell</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-container</span> <span class="attr">matColumnDef</span>=<span class="string">"name"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-header-cell</span> *<span class="attr">matHeaderCellDef</span>&gt;</span> 標題 <span class="tag">&lt;/<span class="name">mat-header-cell</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-cell</span> *<span class="attr">matCellDef</span>=<span class="string">"let row"</span>&gt;</span> &#123;&#123;row.name&#125;&#125; <span class="tag">&lt;/<span class="name">mat-cell</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-container</span> <span class="attr">matColumnDef</span>=<span class="string">"body"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-header-cell</span> *<span class="attr">matHeaderCellDef</span>&gt;</span> 內容 <span class="tag">&lt;/<span class="name">mat-header-cell</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-cell</span> *<span class="attr">matCellDef</span>=<span class="string">"let row"</span>&gt;</span> &#123;&#123;row.body&#125;&#125; <span class="tag">&lt;/<span class="name">mat-cell</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-container</span> <span class="attr">matColumnDef</span>=<span class="string">"management"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-header-cell</span> *<span class="attr">matHeaderCellDef</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">u</span>&gt;</span>管理<span class="tag">&lt;/<span class="name">u</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mat-header-cell</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-cell</span> *<span class="attr">matCellDef</span>=<span class="string">"let row"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span> <span class="attr">color</span>=<span class="string">"primary"</span>&gt;</span>回覆<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">mat-button</span> <span class="attr">color</span>=<span class="string">"warn"</span>&gt;</span>刪除<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mat-cell</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>顯示標題資料列</p>
+<p>我們可以使用<code>&lt;mat-head-row *matHeaderRowDef=&quot;[]&quot;&gt;</code>語法，將資料的標題列上顯示出來，其中<code>*matHeaderRowDef=&quot;[]&quot;</code>放置的是每個標題欄位的名稱，也就是我們上個步驟的<code>matColumnDef=&quot;XXX&quot;</code>的名稱，設定後會把對應名稱column裡的<code>&lt;mat-header-cell&gt;</code>找出來並呈現在畫面上：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-table</span> [<span class="attr">dataSource</span>]=<span class="string">"emailsDataSource"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-container</span> <span class="attr">matColumnDef</span>=<span class="string">"id"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-header-cell</span> *<span class="attr">matHeaderCellDef</span>&gt;</span> 文章編號 <span class="tag">&lt;/<span class="name">mat-header-cell</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-cell</span> *<span class="attr">matCellDef</span>=<span class="string">"let row"</span>&gt;</span> &#123;&#123;row.id&#125;&#125; <span class="tag">&lt;/<span class="name">mat-cell</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line">  </span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-header-row</span> *<span class="attr">matHeaderRowDef</span>=<span class="string">"['id','name','body','management']"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-header-row</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>這時候我們已經可以看到標題列的呈現囉：</p>
+<p><img src="/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-03_12_12_58_Image.jpg"></p>
+</li>
+<li><p>顯示資料列</p>
+<p>有了標題列之後，我們再來把資料列本身顯示出來，透過<code>&lt;mat-row *matRowDef=&quot;&quot;</code>的語法，我們可以決定要顯示的欄位資料，使用方式如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-table</span> [<span class="attr">dataSource</span>]=<span class="string">"emailsDataSource"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-container</span> <span class="attr">matColumnDef</span>=<span class="string">"id"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-header-cell</span> *<span class="attr">matHeaderCellDef</span>&gt;</span> 文章編號 <span class="tag">&lt;/<span class="name">mat-header-cell</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-cell</span> *<span class="attr">matCellDef</span>=<span class="string">"let row"</span>&gt;</span> &#123;&#123;row.id&#125;&#125; <span class="tag">&lt;/<span class="name">mat-cell</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-header-row</span> *<span class="attr">matHeaderRowDef</span>=<span class="string">"['id','name','body','management']"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-header-row</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mat-row</span> *<span class="attr">matRowDef</span>=<span class="string">"let eachrow;columns:['id','name','body','management']"</span>&gt;</span><span class="tag">&lt;/<span class="name">mat-row</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在邊我們拆成兩個部分</p>
+<ul>
+<li><code>let eachrow</code>:代表每一列的資料列名稱，可以相像成類似<code>&lt;ng-container *ngFor=&quot;let eachrow of dataSource.data&quot;&gt;&lt;/ng-container&gt;</code>的概念。</li>
+<li><code>columns</code>：代表實際上要呈現的資料欄位名稱</li>
+</ul>
+<p>這時候畫面就可以正確呈現data table資料啦</p>
+<img src="/學習Angular-Material-Table的相關使用/2019-09-03_13_38_43_Image.jpg" style="zoom:50%;" />
+
+</li>
+</ol>
+<h3 id="圖解程式碼"><a href="#圖解程式碼" class="headerlink" title="圖解程式碼"></a>圖解程式碼</h3><p>用文字其實稍微有點難描述，畢竟這跟我們一般使用<code>&lt;table&gt;</code>、<code>&lt;tr&gt;</code>和<code>&lt;td&gt;</code>的習慣不太相同，所以搭配圖示解說，可以把以下圖片與上面的步驟對應，應該會比較好理解：</p>
+<p><img src="/%E5%AD%B8%E7%BF%92Angular-Material-Table%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/2019-09-03_13_46_28_Image.jpg"></p>
+<p>以上就是基本的data table資料的呈現方式，剛開𤖥可能會不太適應，但用習慣之後， 你會發現這種設計其實更加直覺，維護起來也會更加容易哩！</p>
+<blockquote>
+<p>雖然是以表格的方式呈現，但在Angular Material的data table已經把資料拆成一塊一塊的，再<strong>透過flexbox排版組合</strong>，因此已經不像原生的HTML的<code>&lt;table&gt;</code>了，也同時代表我們能夠有彈性的調整data table的呈現方式囉。</p>
+</blockquote>
+<h3 id="客製化cell樣式"><a href="#客製化cell樣式" class="headerlink" title="客製化cell樣式"></a>客製化cell樣式</h3><p>預設情況下，每個欄立的寬度都會被平均分配，但這不一定是我們需要的，已上述例子來說「文章編號」其實不爭那麼寬，我們可以把空間省下來，至於該如何做呢?其實在每個<code>matColumnDef</code>區塊內，都會依照我們給的名稱，加上<code>mat-column-xxx</code>的class，例如文章編號欄位我們定義為<code>matColumnDef=&quot;id&quot;</code>, 此時在裡面的<code>&lt;mat-header-cell&gt;</code>和<code>&lt;mat-cell&gt;</code>都會加上一個<code>mat-column-id</code>的class，所以我們只需要定義這個class就可以啦！</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//有關文章編號</span></span><br><span class="line"><span class="selector-class">.mat-column-id</span> &#123;</span><br><span class="line">  <span class="attribute">max-width</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mat-header-cell</span><span class="selector-class">.mat-column-id</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>:red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mat-cell</span><span class="selector-class">.mat-column-id</span> &#123;</span><br><span class="line">  <span class="attribute">font-weight</span>: bold;</span><br><span class="line">  <span class="attribute">cursor</span>: pointer;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//有關標題</span></span><br><span class="line"><span class="selector-class">.mat-cell</span><span class="selector-class">.mat-column-name</span> &#123;</span><br><span class="line">  <span class="comment">//font-weight: bold;</span></span><br><span class="line">  <span class="attribute">text-decoration-line</span>: underline;</span><br><span class="line">  <span class="attribute">text-decoration-style</span>: wavy;</span><br><span class="line">  <span class="attribute">text-decoration-color</span>: <span class="number">#FFF</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述CSS中我們將所有包含<code>.mat-column-id</code>的cell最大寬度都設為<code>100px</code>，同時我們也設定了標題cell改用紅色文字，以及內容cell的樣式調整，結果是否如我們預期呢?</p>
+<p>成果如下？</p>
+<img src="/學習Angular-Material-Table的相關使用/2019-09-03_14_28_00_Image.jpg" style="zoom:50%;" />
+
+<p>果然完全照著我們的預期顯示，完全不爭擔心跟原來習慣不同後會不會產生難以做細部調整的問題。</p>
+<h3 id="加入分頁功能"><a href="#加入分頁功能" class="headerlink" title="加入分頁功能"></a>加入分頁功能</h3><p>接下來我們要加入另一個data table應該具有重要功䐳，<strong>分頁</strong>。</p>
+<h4 id="使用前端資料進行分頁"><a href="#使用前端資料進行分頁" class="headerlink" title="使用前端資料進行分頁"></a>使用前端資料進行分頁</h4><p>我們可以使用<code>&lt;mat-paginator&gt;</code>元件，立刻產生一個基本的分頁畫面，並把這個<code>&lt;mat-paginator&gt;</code>傳給我們的<code>MatTableDataSource</code>，這時候就可以把分頁功能和data table綁在一起啦！</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-paginator</span> #<span class="attr">paginator</span> </span></span><br><span class="line"><span class="tag">               [<span class="attr">length</span>]=<span class="string">"totalCount"</span> </span></span><br><span class="line"><span class="tag">               [<span class="attr">pageIndex</span>]=<span class="string">"0"</span> </span></span><br><span class="line"><span class="tag">               [<span class="attr">pageSize</span>]=<span class="string">"10"</span> </span></span><br><span class="line"><span class="tag">               [<span class="attr">pageSizeOptions</span>]=<span class="string">"[5,10,15]"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-paginator</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-table</span> [<span class="attr">dataSource</span>]=<span class="string">"emailsDataSource"</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;mat-paginator&gt;</code>的幾個重要屬性說明如下：</p>
+<ul>
+<li><code>length</code>：資料的總筆數，有這個筆數才能夠搭配其他參數算出總其有幾頁等資訊</li>
+<li><code>pageIndex</code>：目前的頁碼，從0開𤖥，預設值是<code>0</code></li>
+<li><code>pageSize</code>：每頁要呈現幾筆資料，預設值是<code>50</code></li>
+<li><code>pageSizeOptons</code>:允𧥸切換的每頁資料筆數</li>
+</ul>
+<p>接著我們調整一下程式部分：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit, ViewChild &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatTableDataSource &#125; <span class="keyword">from</span> <span class="string">'@angular/material/table'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpClient &#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatPaginator &#125; <span class="keyword">from</span> <span class="string">'@angular/material/paginator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-inbox'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./inbox.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./inbox.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> InboxComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ViewChild</span>(MatPaginator, &#123; <span class="keyword">static</span>: <span class="literal">true</span> &#125;) paginator: MatPaginator;</span><br><span class="line"></span><br><span class="line">  emailsDataSource = <span class="keyword">new</span> MatTableDataSource&lt;<span class="built_in">any</span>&gt;();</span><br><span class="line">  totalCount: <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> httpClient: HttpClient</span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">    <span class="keyword">this</span>.httpClient.get&lt;<span class="built_in">any</span>&gt;(<span class="string">'https://jsonplaceholder.typicode.com/comments?_start=0'</span>).subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.totalCount = data.length;</span><br><span class="line">      <span class="keyword">this</span>.emailsDataSource.data = data;</span><br><span class="line">      <span class="keyword">this</span>.emailsDataSource.paginator = <span class="keyword">this</span>.paginator;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡主要是設定總筆數跟data source所使用的paginator。</p>
+<h4 id="使用後端資料進行分頁"><a href="#使用後端資料進行分頁" class="headerlink" title="使用後端資料進行分頁"></a>使用後端資料進行分頁</h4><p>剛剛我們已經完成一個基本的分頁了，不過目前這僤分頁有點問題，因為分頁的對象是已經撈到前端資料，因此撈出30筆，就只能針對這30筆做分頁，但在實數上我們常常是而要將分頁資訊傳遞給後端，由後端依照分頁資訊撈取資料後，再傳給前端顯示，這應該怎麼做呢?</p>
+<p>這時候我們就再需要把<code>&lt;mat-paginator&gt;</code>指定給data source，而是接收<code>&lt;mat-paginator&gt;</code>的<code>page: Observable《PageEvent&gt;</code>變動，當使用者切換分頁資訊時，再依照分頁資訊傳遞給後端重新撈取資料，而使用者切換資料時會得到一個PageEvent，這個PageEvent有3個參數：</p>
+<ul>
+<li><code>pageIndex</code>:頁碼</li>
+<li><code>pageSize</code>:每頁筆數</li>
+<li><code>length</code>:目前資料總筆數(通常是用不到)</li>
+</ul>
+<p>接著就讓我們來調整一下程式碼，讓分頁時可以到後端讀取資料吧！</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit, ViewChild &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatTableDataSource &#125; <span class="keyword">from</span> <span class="string">'@angular/material/table'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpClient &#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatPaginator, PageEvent &#125; <span class="keyword">from</span> <span class="string">'@angular/material/paginator'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; forkJoin &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-inbox'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./inbox.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./inbox.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> InboxComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ViewChild</span>(MatPaginator, &#123; <span class="keyword">static</span>: <span class="literal">true</span> &#125;) paginator: MatPaginator;</span><br><span class="line"></span><br><span class="line">  emailsDataSource = <span class="keyword">new</span> MatTableDataSource&lt;<span class="built_in">any</span>&gt;();</span><br><span class="line">  totalCount: <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> httpClient: HttpClient</span>) &#123; &#125;</span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">    <span class="keyword">this</span>.getPages(<span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">    <span class="comment">// 分頁切換時，動新取得資料</span></span><br><span class="line">    <span class="keyword">this</span>.paginator.page.subscribe(<span class="function">(<span class="params">page: PageEvent</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.getPages(page.pageIndex, page.pageSize);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  getPages(pageIndex, pageSize) &#123;</span><br><span class="line">    <span class="comment">// let totalcount_ = this.httpClient.get('https://jsonplaceholder.typicode.com/comments?_start=0', &#123; observe: 'response' &#125;);</span></span><br><span class="line">    <span class="comment">// let pagedata_ = this.httpClient.get&lt;any&gt;(`https://jsonplaceholder.typicode.com/comments?_page=$&#123;pageIndex&#125;&amp;_limit=$&#123;pageSize&#125;`);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// forkJoin([totalcount_, pagedata_]).subscribe(results =&gt; &#123;</span></span><br><span class="line">    <span class="comment">//   // results[0] is our totalcount_</span></span><br><span class="line">    <span class="comment">//   // results[1] is our character pagedata_</span></span><br><span class="line">    <span class="comment">//   //this.totalCount = results[0].length;</span></span><br><span class="line">    <span class="comment">//   // resp =&gt; &#123;</span></span><br><span class="line">    <span class="comment">//   //   // display its headers</span></span><br><span class="line">    <span class="comment">//   //   const keys = resp.headers.keys();</span></span><br><span class="line">    <span class="comment">//   //   this.headers = keys.map(key =&gt;</span></span><br><span class="line">    <span class="comment">//   //     `$&#123;key&#125;: $&#123;resp.headers.get(key)&#125;`);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//   console.log(results[0]);</span></span><br><span class="line">    <span class="comment">//   this.emailsDataSource.data = results[1];</span></span><br><span class="line">    <span class="comment">// &#125;);</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.httpClient.get&lt;<span class="built_in">any</span>&gt;(<span class="string">`https://jsonplaceholder.typicode.com/comments?_page=<span class="subst">$&#123;pageIndex&#125;</span>&amp;_limit=<span class="subst">$&#123;pageSize&#125;</span>`</span>, &#123; observe: <span class="string">'response'</span> &#125;).subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// const keys = data.headers.keys();</span></span><br><span class="line">      <span class="comment">// keys.map(key =&gt;</span></span><br><span class="line">      <span class="comment">//   console.log(`$&#123;key&#125;: $&#123;data.headers.get(key)&#125;`));</span></span><br><span class="line">      <span class="keyword">this</span>.totalCount = <span class="built_in">Number</span>(data.headers.get(<span class="string">'X-Total-Count'</span>));<span class="comment">//data.length;</span></span><br><span class="line">      <span class="keyword">this</span>.emailsDataSource.data = data.body;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ngOnInit() &#123;</span></span><br><span class="line">  <span class="comment">//   this.httpClient.get&lt;any&gt;('https://jsonplaceholder.typicode.com/comments?_start=0').subscribe(data =&gt; &#123;</span></span><br><span class="line">  <span class="comment">//     this.totalCount = data.length;</span></span><br><span class="line">  <span class="comment">//     this.emailsDataSource.data = data;</span></span><br><span class="line">  <span class="comment">//     this.emailsDataSource.paginator = this.paginator;</span></span><br><span class="line">  <span class="comment">//   &#125;);</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因為需要取得所有的數量，才可以來做分頁，有兩種方法，</p>
+<ol>
+<li><p>向後台問有多少個，在結合目前的參數</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">getPages(pageIndex, pageSize) &#123;</span><br><span class="line">    <span class="keyword">let</span> totalcount_ = <span class="keyword">this</span>.httpClient.get(<span class="string">'https://jsonplaceholder.typicode.com/comments?_start=0'</span>, &#123; observe: <span class="string">'response'</span> &#125;);</span><br><span class="line">    <span class="keyword">let</span> pagedata_ = <span class="keyword">this</span>.httpClient.get&lt;<span class="built_in">any</span>&gt;(<span class="string">`https://jsonplaceholder.typicode.com/comments?_page=<span class="subst">$&#123;pageIndex&#125;</span>&amp;_limit=<span class="subst">$&#123;pageSize&#125;</span>`</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     forkJoin([totalcount_, pagedata_]).subscribe(<span class="function"><span class="params">results</span> =&gt;</span> &#123;</span><br><span class="line">       <span class="comment">// results[0] is our totalcount_</span></span><br><span class="line">       <span class="comment">// results[1] is our character pagedata_</span></span><br><span class="line">       <span class="keyword">this</span>.totalCount = results[<span class="number">0</span>].length;</span><br><span class="line">       <span class="comment">// resp =&gt; &#123;</span></span><br><span class="line">       <span class="comment">//   // display its headers</span></span><br><span class="line">       <span class="comment">//   const keys = resp.headers.keys();</span></span><br><span class="line">       <span class="comment">//   this.headers = keys.map(key =&gt;</span></span><br><span class="line">       <span class="comment">//     `$&#123;key&#125;: $&#123;resp.headers.get(key)&#125;`);</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">//console.log(results[0]);</span></span><br><span class="line">       <span class="keyword">this</span>.emailsDataSource.data = results[<span class="number">1</span>];</span><br><span class="line">     &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>使用X-Total-Count的heads回傳值來取得，目前是使用此方法</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">getPages(pageIndex, pageSize) &#123;</span><br><span class="line">    <span class="keyword">this</span>.httpClient.get&lt;<span class="built_in">any</span>&gt;(<span class="string">`https://jsonplaceholder.typicode.com/comments?_page=<span class="subst">$&#123;pageIndex&#125;</span>&amp;_limit=<span class="subst">$&#123;pageSize&#125;</span>`</span>, &#123; observe: <span class="string">'response'</span> &#125;).subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// const keys = data.headers.keys();</span></span><br><span class="line">      <span class="comment">// keys.map(key =&gt;</span></span><br><span class="line">      <span class="comment">//   console.log(`$&#123;key&#125;: $&#123;data.headers.get(key)&#125;`));</span></span><br><span class="line">      <span class="keyword">this</span>.totalCount = <span class="built_in">Number</span>(data.headers.get(<span class="string">'X-Total-Count'</span>));<span class="comment">//data.length;</span></span><br><span class="line">      <span class="keyword">this</span>.emailsDataSource.data = data.body;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="加入排序功能"><a href="#加入排序功能" class="headerlink" title="加入排序功能"></a>加入排序功能</h3><p>   有了分頁後，我們再來加排序功能</p>
+<h4 id="使用前端資料進行排序"><a href="#使用前端資料進行排序" class="headerlink" title="使用前端資料進行排序"></a>使用前端資料進行排序</h4><p>   要替欄立加上排序功能很簡單，首先在<code>&lt;mat-table&gt;</code>中加入<code>matSort</code>，接著在要排序欄位的<code>&lt;mat-header-cell&gt;</code>加入<code>mat-sort-header</code>這個directive即可。</p>
+   <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-paginator</span> #<span class="attr">paginator</span> [<span class="attr">length</span>]=<span class="string">"totalCount"</span> [<span class="attr">pageIndex</span>]=<span class="string">"0"</span> [<span class="attr">pageSize</span>]=<span class="string">"10"</span> [<span class="attr">pageSizeOptions</span>]=<span class="string">"[5,10,15]"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-paginator</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mat-table</span> [<span class="attr">dataSource</span>]=<span class="string">"emailsDataSource"</span> <span class="attr">matSort</span> #<span class="attr">sortTable</span>=<span class="string">"matSort"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-container</span> <span class="attr">matColumnDef</span>=<span class="string">"id"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-header-cell</span> *<span class="attr">matHeaderCellDef</span> <span class="attr">mat-sort-header</span>&gt;</span> 文章編號 <span class="tag">&lt;/<span class="name">mat-header-cell</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mat-cell</span> *<span class="attr">matCellDef</span>=<span class="string">"let row"</span>&gt;</span> &#123;&#123;row.id&#125;&#125; <span class="tag">&lt;/<span class="name">mat-cell</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>   跟前端資料分頁時一樣，要把這個<code>matSort</code>的來源交給data source</p>
+   <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit, ViewChild &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatTableDataSource &#125; <span class="keyword">from</span> <span class="string">'@angular/material/table'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpClient &#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatPaginator, PageEvent &#125; <span class="keyword">from</span> <span class="string">'@angular/material/paginator'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; forkJoin &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatSort &#125; <span class="keyword">from</span> <span class="string">'@angular/material/sort'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-inbox'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./inbox.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./inbox.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> InboxComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ViewChild</span>(MatPaginator, &#123; <span class="keyword">static</span>: <span class="literal">true</span> &#125;) paginator: MatPaginator;</span><br><span class="line">  <span class="meta">@ViewChild</span>(MatSort, &#123; <span class="keyword">static</span>: <span class="literal">true</span> &#125;) sortTable: MatSort;</span><br><span class="line"></span><br><span class="line">  emailsDataSource = <span class="keyword">new</span> MatTableDataSource&lt;<span class="built_in">any</span>&gt;();</span><br><span class="line">  totalCount: <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> httpClient: HttpClient</span>) &#123; &#125;</span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line">    <span class="keyword">this</span>.getPages(<span class="number">0</span>, <span class="number">10</span>);</span><br><span class="line">    <span class="comment">// 分頁切換時，動新取得資料</span></span><br><span class="line">    <span class="keyword">this</span>.paginator.page.subscribe(<span class="function">(<span class="params">page: PageEvent</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.getPages(page.pageIndex, page.pageSize);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  getPages(pageIndex, pageSize) &#123;</span><br><span class="line">    <span class="keyword">this</span>.httpClient.get&lt;<span class="built_in">any</span>&gt;(<span class="string">`https://jsonplaceholder.typicode.com/comments?_page=<span class="subst">$&#123;pageIndex&#125;</span>&amp;_limit=<span class="subst">$&#123;pageSize&#125;</span>`</span>, &#123; observe: <span class="string">'response'</span> &#125;).subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.totalCount = <span class="built_in">Number</span>(data.headers.get(<span class="string">'X-Total-Count'</span>));<span class="comment">//data.length;</span></span><br><span class="line">      <span class="keyword">this</span>.emailsDataSource.data = data.body;</span><br><span class="line">      <span class="comment">//設定使用前端資料排序</span></span><br><span class="line">      <span class="keyword">this</span>.emailsDataSource.sort = <span class="keyword">this</span>.sortTable;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用後端資料進行排序"><a href="#使用後端資料進行排序" class="headerlink" title="使用後端資料進行排序"></a>使用後端資料進行排序</h4><p>當然，我們也一樣可以透過把資料傳遞給後端的方式來進行排序，只需要在加入<code>matSort</code>的來源(也就是<code>&lt;mat-table&gt;</code>)加入一個<code>matSortChange</code>事件即可，當使用者按下欄位排序時，會傳入一個<code>Sort</code>型別的變數，包含兩個欄位：</p>
+<ul>
+<li>active：選擇要排序的欄位。</li>
+<li>direction：包含<code>asc</code>、<code>desc</code>和<code>空字串</code>，代表要如何進行排序。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mat-table</span> [<span class="attr">dataSource</span>]=<span class="string">"emailsDataSource"</span> <span class="attr">matSort</span> #<span class="attr">sortTable</span>=<span class="string">"matSort"</span> (<span class="attr">matSortChange</span>)=<span class="string">"changeSort($event)"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mat-table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接著我們針對<code>matSortChange</code>來處理排序，並把程式做一些比較大的調整：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, OnInit, ViewChild &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatTableDataSource &#125; <span class="keyword">from</span> <span class="string">'@angular/material/table'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; HttpClient &#125; <span class="keyword">from</span> <span class="string">'@angular/common/http'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatPaginator, PageEvent &#125; <span class="keyword">from</span> <span class="string">'@angular/material/paginator'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; MatSort, Sort &#125; <span class="keyword">from</span> <span class="string">'@angular/material/sort'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-inbox'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./inbox.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./inbox.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> InboxComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ViewChild</span>(MatPaginator, &#123; <span class="keyword">static</span>: <span class="literal">true</span> &#125;) paginator: MatPaginator;</span><br><span class="line">  <span class="meta">@ViewChild</span>(MatSort, &#123; <span class="keyword">static</span>: <span class="literal">true</span> &#125;) sortTable: MatSort;</span><br><span class="line"></span><br><span class="line">  emailsDataSource = <span class="keyword">new</span> MatTableDataSource&lt;<span class="built_in">any</span>&gt;();</span><br><span class="line">  totalCount: <span class="built_in">number</span>;</span><br><span class="line">  currentPage: PageEvent;</span><br><span class="line">  currentSort: Sort;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> httpClient: HttpClient</span>) &#123; &#125;</span><br><span class="line">  ngOnInit() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.currentPage = &#123;</span><br><span class="line">      pageIndex: <span class="number">0</span>,</span><br><span class="line">      pageSize: <span class="number">10</span>,</span><br><span class="line">      length: <span class="literal">null</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">this</span>.currentSort = &#123;</span><br><span class="line">      active: <span class="string">''</span>,</span><br><span class="line">      direction: <span class="string">''</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.getPages();</span><br><span class="line">    <span class="comment">// 分頁切換時，動新取得資料</span></span><br><span class="line">    <span class="keyword">this</span>.paginator.page.subscribe(<span class="function">(<span class="params">page: PageEvent</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.currentPage = page;</span><br><span class="line">      <span class="keyword">this</span>.getPages();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  changeSort(sortInfo: Sort) &#123;</span><br><span class="line">    <span class="comment">// 因為API排序欄位是created，因此在這邊做調整</span></span><br><span class="line">    <span class="keyword">if</span> (sortInfo.active === <span class="string">'id'</span>) &#123;</span><br><span class="line">      sortInfo.active = <span class="string">'id'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.currentSort = sortInfo;</span><br><span class="line">    <span class="keyword">this</span>.getPages();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getPages() &#123;</span><br><span class="line">    <span class="keyword">const</span> baseUrl = <span class="string">'https://jsonplaceholder.typicode.com/comments'</span>;</span><br><span class="line">    <span class="keyword">let</span> targetUrl = <span class="string">`<span class="subst">$&#123;baseUrl&#125;</span>?_page=<span class="subst">$&#123;<span class="keyword">this</span>.currentPage.pageIndex + <span class="number">1</span>&#125;</span>&amp;_limit=<span class="subst">$&#123;<span class="keyword">this</span>.currentPage.pageSize&#125;</span>`</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.currentSort.direction) &#123;</span><br><span class="line">      targetUrl = <span class="string">`<span class="subst">$&#123;targetUrl&#125;</span>&amp;_sort=<span class="subst">$&#123;<span class="keyword">this</span>.currentSort.active&#125;</span>&amp;_order=<span class="subst">$&#123;<span class="keyword">this</span>.currentSort.direction&#125;</span>`</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(targetUrl);</span><br><span class="line">    <span class="keyword">this</span>.httpClient.get&lt;<span class="built_in">any</span>&gt;(targetUrl, &#123; observe: <span class="string">'response'</span> &#125;).subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.totalCount = <span class="built_in">Number</span>(data.headers.get(<span class="string">'X-Total-Count'</span>));<span class="comment">//data.length;</span></span><br><span class="line">      <span class="keyword">this</span>.emailsDataSource.data = data.body;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// this.httpClient.get&lt;any&gt;(`https://jsonplaceholder.typicode.com/comments?_page=$&#123;pageIndex&#125;&amp;_limit=$&#123;pageSize&#125;`, &#123; observe: 'response' &#125;).subscribe(data =&gt; &#123;</span></span><br><span class="line">    <span class="comment">//   this.totalCount = Number(data.headers.get('X-Total-Count'));//data.length;</span></span><br><span class="line">    <span class="comment">//   this.emailsDataSource.data = data.body;</span></span><br><span class="line">    <span class="comment">//   //設定使用前端資料排序</span></span><br><span class="line">    <span class="comment">//   this.emailsDataSource.sort = this.sortTable;</span></span><br><span class="line">    <span class="comment">// &#125;);</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><p><a href="https://github.com/typicode/json-server">JSON Server</a></p>
+<p><a href="https://blog.kevinyang.net/2018/09/19/angular-material-table-hidden-api/">Angular Material Table API 筆記</a></p>
+<p><a href="https://ithelp.ithome.com.tw/articles/10196731">Table (基礎功能)</a></p>
+<p><a href="https://github.com/marinantonio/angular-mat-table-crud">CRUD operations for the Angular Material Table</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Angular-Material/" rel="tag"># Angular Material</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84hexo-Next%E4%B8%BB%E9%A1%8C%E5%8A%A0%E5%85%A5%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/" rel="prev" title="記錄Hexo-Next主題加入搜索功能">
+      <i class="fa fa-chevron-left"></i> 記錄Hexo-Next主題加入搜索功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Angular-Material-Table2%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/" rel="next" title="學習Angular-Material-Table2的相關使用">
+      學習Angular-Material-Table2的相關使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立基本測試"><span class="nav-text">建立基本測試</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#開始使用Angular-Material的Data-Table"><span class="nav-text">開始使用Angular Material的Data Table</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用mat-table"><span class="nav-text">使用mat-table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圖解程式碼"><span class="nav-text">圖解程式碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客製化cell樣式"><span class="nav-text">客製化cell樣式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入分頁功能"><span class="nav-text">加入分頁功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用前端資料進行分頁"><span class="nav-text">使用前端資料進行分頁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用後端資料進行分頁"><span class="nav-text">使用後端資料進行分頁</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入排序功能"><span class="nav-text">加入排序功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用前端資料進行排序"><span class="nav-text">使用前端資料進行排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用後端資料進行排序"><span class="nav-text">使用後端資料進行排序</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

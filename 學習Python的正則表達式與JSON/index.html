@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="正則表達式正表表達式是一個特殊的字符序列，一個字符串是否與我們所設定的這樣的字符序列，相匹配。快速檢索文本、實現一些替換文本的操作  檢查一串數字是否是電話號碼 檢測一組字符串是否符合email的格式 把一僤文本里指定的單詞替換為另外一個單詞  1234567891011121314151617# c1.pyimport rea &#x3D; &#39;C|C++|Java|C#|Python|Javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習Python的正則表達式與JSON">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E6%AD%A3%E5%89%87%E8%A1%A8%E9%81%94%E5%BC%8F%E8%88%87JSON/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="正則表達式正表表達式是一個特殊的字符序列，一個字符串是否與我們所設定的這樣的字符序列，相匹配。快速檢索文本、實現一些替換文本的操作  檢查一串數字是否是電話號碼 檢測一組字符串是否符合email的格式 把一僤文本里指定的單詞替換為另外一個單詞  1234567891011121314151617# c1.pyimport rea &#x3D; &#39;C|C++|Java|C#|Python|Javascript">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-03-29T18:05:39.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E6%AD%A3%E5%89%87%E8%A1%A8%E9%81%94%E5%BC%8F%E8%88%87JSON/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習Python的正則表達式與JSON | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E6%AD%A3%E5%89%87%E8%A1%A8%E9%81%94%E5%BC%8F%E8%88%87JSON/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習Python的正則表達式與JSON
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-03-29 18:05:39" itemprop="dateCreated datePublished" datetime="2019-03-29T18:05:39+00:00">2019-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="正則表達式"><a href="#正則表達式" class="headerlink" title="正則表達式"></a>正則表達式</h1><p>正表表達式是一個特殊的字符序列，一個字符串是否與我們所設定的這樣的字符序列，相匹配。<br>快速檢索文本、實現一些替換文本的操作</p>
+<ul>
+<li>檢查一串數字是否是電話號碼</li>
+<li>檢測一組字符串是否符合email的格式</li>
+<li>把一僤文本里指定的單詞替換為另外一個單詞</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c1.py</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">a = <span class="string">'C|C++|Java|C#|Python|Javascript'</span></span><br><span class="line"></span><br><span class="line">res=re.findall(<span class="string">'Python'</span>,a)</span><br><span class="line">print(res)</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(a.index('Python')&gt;-1)</span></span><br><span class="line"><span class="comment"># print('Python' in a)</span></span><br><span class="line"><span class="comment">#----------------------------------------s</span></span><br><span class="line"><span class="comment"># c1.py</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">a = <span class="string">'C|C++|Java|C#|Python|Javascript'</span></span><br><span class="line"></span><br><span class="line">res=re.findall(<span class="string">'Python'</span>,a)</span><br><span class="line"><span class="keyword">if</span> len(res) &gt; <span class="number">0</span>:</span><br><span class="line">    print(<span class="string">'字符串中包含Python'</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="元字符與普通字符"><a href="#元字符與普通字符" class="headerlink" title="元字符與普通字符"></a>元字符與普通字符</h2><p>‘Python’ 普通字符<br>‘\d’元字符</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># c3.py</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">a = <span class="string">'C0C++7Java8C#9Python6Javascript'</span></span><br><span class="line">r = re.findall(<span class="string">'\d'</span>,a) <span class="comment">#取數字</span></span><br><span class="line">print(r) </span><br><span class="line"><span class="comment"># ['0', '7', '8', '9', '6']</span></span><br><span class="line"><span class="comment"># -----------------------------------</span></span><br><span class="line"><span class="comment"># c3.py</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">a = <span class="string">'C0C++7Java8C#9Python6Javascript'</span></span><br><span class="line">r = re.findall(<span class="string">'\D'</span>,a) <span class="comment">#取非數字</span></span><br><span class="line">print(r)  </span><br><span class="line"><span class="comment"># ['C', 'C', '+', '+', 'J', 'a', 'v', 'a', 'C', '#', 'P', 'y', 't', 'h', 'o', 'n', 'J', 'a', 'v', 'a', 's', 'c', 'r', 'i', 'p', 't']</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> 字符集</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'abc, acc, adc, aec, afc, ahc'</span></span><br><span class="line">r = re.findall(<span class="string">'a[cf]c'</span>,s) <span class="comment"># 取得中間有c或f</span></span><br><span class="line">print(r)</span><br><span class="line"><span class="comment"># ['acc', 'afc']</span></span><br><span class="line"><span class="comment">#---------------------</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'abc, acc, adc, aec, afc, ahc'</span></span><br><span class="line">r = re.findall(<span class="string">'a[^cfd]c'</span>,s) <span class="comment"># 取得不是 cfd </span></span><br><span class="line">print(r)</span><br><span class="line"><span class="comment"># ['abc', 'aec', 'ahc']</span></span><br><span class="line"><span class="comment">#---------------------</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'abc, acc, adc, aec, afc, ahc'</span></span><br><span class="line">r = re.findall(<span class="string">'a[c-f]c'</span>,s) 取得中間有c到f</span><br><span class="line">print(r)</span><br><span class="line"><span class="comment"># ['acc', 'adc', 'aec', 'afc']</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="根括字符集"><a href="#根括字符集" class="headerlink" title="根括字符集"></a>根括字符集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="comment"># \d [0-9]</span></span><br><span class="line"><span class="comment"># \D [^0-9]</span></span><br><span class="line"><span class="comment"># \w [A-Za-z0-9_] 單詞字符</span></span><br><span class="line"><span class="comment"># \W 非單詞字符</span></span><br><span class="line"><span class="comment"># \s 空白字符[' ', '\n', '\r', '\t']</span></span><br><span class="line"><span class="comment"># \S 非空候字符</span></span><br><span class="line"><span class="comment"># . 匹配除換行符\n之外其它所有字符</span></span><br><span class="line">a = <span class="string">'phthon 1111java&amp;_\n\r\t678php'</span></span><br><span class="line"></span><br><span class="line">r = re.findall(<span class="string">'\S'</span>,a)</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure>
+
+<h2 id="數量詞"><a href="#數量詞" class="headerlink" title="數量詞"></a>數量詞</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="comment"># [a-z]&#123;3&#125; 匹配3個為一組 ['pht', 'hon', 'jav', 'php']</span></span><br><span class="line"><span class="comment"># [a-z]&#123;3&#125; 匹配3到6個為一組 ['phthon', 'java', 'php']</span></span><br><span class="line">a = <span class="string">'phthon 1111java678php'</span></span><br><span class="line"></span><br><span class="line">r = re.findall(<span class="string">'[a-z]&#123;3,6&#125;'</span>,a)</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure>
+
+<h3 id="貪婪與非貪婪"><a href="#貪婪與非貪婪" class="headerlink" title="貪婪與非貪婪"></a>貪婪與非貪婪</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="comment"># 貪婪 預設</span></span><br><span class="line"><span class="comment"># 非貪婪 ? ['pht', 'hon', 'jav', 'php']</span></span><br><span class="line">a = <span class="string">'phthon 1111java678php'</span></span><br><span class="line"></span><br><span class="line">r = re.findall(<span class="string">'[a-z]&#123;3,6&#125;?'</span>,a)</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure>
+
+<h3 id="匹配0次1次或者無限多次"><a href="#匹配0次1次或者無限多次" class="headerlink" title="匹配0次1次或者無限多次"></a>匹配0次1次或者無限多次</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="comment"># * 匹配前一個字0次或者無限多次 'python*'  ['pytho', 'python', 'pythonn']</span></span><br><span class="line"><span class="comment"># + 匹配前一個字1次或者無限多次 'python+'  ['python', 'pythonn']</span></span><br><span class="line"><span class="comment"># ? 匹配前一個字0次或者1次 'python?' ['pytho', 'python', 'python']</span></span><br><span class="line">a = <span class="string">'pytho0python1pythonn2'</span></span><br><span class="line"></span><br><span class="line">r = re.findall(<span class="string">'python?'</span>,a)</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure>
+
+<h3 id="邊界匹配符"><a href="#邊界匹配符" class="headerlink" title="邊界匹配符"></a>邊界匹配符</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">qq = <span class="string">'100000001'</span></span><br><span class="line"><span class="comment"># 4~8位數字 '\d&#123;4,8&#125;' ['10000000'] 有問題</span></span><br><span class="line"><span class="comment"># 4~8位數字 邊界前^ 後&amp; '^\d&#123;4,8&#125;&amp;' []</span></span><br><span class="line">r = re.findall(<span class="string">'^\d&#123;4,8&#125;&amp;'</span>,qq)</span><br><span class="line">print(r)</span><br><span class="line"><span class="comment">#-------------------------------</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">qq = <span class="string">'100000001'</span></span><br><span class="line"><span class="comment"># '^000' []</span></span><br><span class="line"><span class="comment"># '000&amp;' []</span></span><br><span class="line">r = re.findall(<span class="string">'000&amp;'</span>,qq)</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure>
+
+<h3 id="組"><a href="#組" class="headerlink" title="組"></a>組</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># '(Python)&#123;3&#125;' ['Python']</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">a = <span class="string">'PythonPythonPythonPythonPython'</span></span><br><span class="line"></span><br><span class="line">r = re.findall(<span class="string">'(Python)&#123;3&#125;'</span>,a)</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure>
+
+<h2 id="匹配模式參數"><a href="#匹配模式參數" class="headerlink" title="匹配模式參數"></a>匹配模式參數</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模式參數 </span></span><br><span class="line"><span class="comment"># re.I 忽略大小寫 ['C#']</span></span><br><span class="line"><span class="comment"># re.S</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">language = <span class="string">'PythonC#JavaPHP'</span></span><br><span class="line"></span><br><span class="line">r = re.findall(<span class="string">'c#'</span>,language,re.I)</span><br><span class="line">print(r)</span><br><span class="line"><span class="comment">#-----------------------------------</span></span><br><span class="line"><span class="comment"># 模式參數 </span></span><br><span class="line"><span class="comment"># re.S ['C#\n']</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">language = <span class="string">'PythonC#\nJavaPHP'</span></span><br><span class="line"></span><br><span class="line">r = re.findall(<span class="string">'c#.&#123;1&#125;'</span>,language,re.I | re.S)</span><br><span class="line">print(r)</span><br></pre></td></tr></table></figure>
+
+<h2 id="re-sub正則替換"><a href="#re-sub正則替換" class="headerlink" title="re.sub正則替換"></a>re.sub正則替換</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">language = <span class="string">'PythonC#JavaPHP'</span></span><br><span class="line"></span><br><span class="line">r = re.sub(<span class="string">'C#'</span>,<span class="string">'GO'</span>,language)</span><br><span class="line">print(r) <span class="comment"># PythonGOJavaPHP</span></span><br><span class="line"><span class="comment">#---------------------------------</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">language = <span class="string">'PythonC#JavaC#PHPC#'</span></span><br><span class="line"></span><br><span class="line">r = re.sub(<span class="string">'C#'</span>,<span class="string">'GO'</span>,language,<span class="number">1</span>) <span class="comment"># 預設0代表無限替換，1代表替換1次</span></span><br><span class="line">print(r) <span class="comment"># PythonGOJavaC#PHPC#</span></span><br><span class="line"><span class="comment">#----------------------------------</span></span><br><span class="line"><span class="comment"># 使用函數</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert</span><span class="params">(value)</span>:</span></span><br><span class="line">    <span class="comment">#print(value)</span></span><br><span class="line">    matched = value.group()</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'!!'</span> + matched + <span class="string">'!!'</span></span><br><span class="line">language = <span class="string">'PythonC#JavaC#PHPC#'</span></span><br><span class="line">r = re.sub(<span class="string">'C#'</span>,convert,language)</span><br><span class="line">print(r) <span class="comment">#Python!!C#!!Java!!C#!!PHP!!C#!!</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="把函數作為參數傳遞"><a href="#把函數作為參數傳遞" class="headerlink" title="把函數作為參數傳遞"></a>把函數作為參數傳遞</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">"A8C3721D86"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert</span><span class="params">(value)</span>:</span></span><br><span class="line">    matched = int(value.group())</span><br><span class="line">    <span class="keyword">if</span> matched &gt;=<span class="number">6</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'9'</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'0'</span>    </span><br><span class="line"></span><br><span class="line">r = re.sub(<span class="string">'\d'</span>,convert,s)</span><br><span class="line">print(r) <span class="comment"># A9C0900D99</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="search與match函數"><a href="#search與match函數" class="headerlink" title="search與match函數"></a>search與match函數</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'A8C3721D8E67'</span></span><br><span class="line">r = re.match(<span class="string">'\d'</span>,s)</span><br><span class="line">print(r) </span><br><span class="line"><span class="comment">#None</span></span><br><span class="line"><span class="comment">#&lt;re.Match object; span=(1, 2), match='8'&gt;</span></span><br><span class="line"><span class="comment">#----------------------------------</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'8C3721D8E67'</span></span><br><span class="line">r = re.match(<span class="string">'\d'</span>,s)</span><br><span class="line">print(r)</span><br><span class="line">re = re.search(<span class="string">'\d'</span>,s)</span><br><span class="line">print(re)</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 1), match='8'&gt;</span></span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 1), match='8'&gt;</span></span><br><span class="line"><span class="comment">#----------------------------------</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'8C3721D8E67'</span></span><br><span class="line">r = re.match(<span class="string">'\d'</span>,s)</span><br><span class="line">print(r.span())</span><br><span class="line">re = re.search(<span class="string">'\d'</span>,s)</span><br><span class="line">print(re.group())</span><br><span class="line"><span class="comment"># (0, 1)</span></span><br><span class="line"><span class="comment"># 8</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="group分組"><a href="#group分組" class="headerlink" title="group分組"></a>group分組</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'life is short,i user python'</span></span><br><span class="line">r = re.search(<span class="string">'life(.*)python'</span>,s)</span><br><span class="line">print(r.group(<span class="number">1</span>))</span><br><span class="line"><span class="comment">#  is short,i user</span></span><br><span class="line"><span class="comment">#----------------------------------</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'life is short,i user python, i love python'</span></span><br><span class="line">r = re.search(<span class="string">'life(.*)python(.*)python'</span>,s)</span><br><span class="line">print(r.group(<span class="number">0</span>))</span><br><span class="line">print(r.group(<span class="number">1</span>))</span><br><span class="line">print(r.group(<span class="number">2</span>))</span><br><span class="line"><span class="comment"># life is short,i user python, i love python</span></span><br><span class="line"><span class="comment">#  is short,i user</span></span><br><span class="line"><span class="comment">#  , i love</span></span><br><span class="line"><span class="comment">#----------------------------------</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'life is short,i user python, i love python'</span></span><br><span class="line">r = re.search(<span class="string">'life(.*)python(.*)python'</span>,s)</span><br><span class="line">print(r.group(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment"># ('life is short,i user python, i love python', ' is short,i user ', ', i love ')</span></span><br><span class="line"><span class="comment">#----------------------------------</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">'life is short,i user python, i love python'</span></span><br><span class="line">r = re.search(<span class="string">'life(.*)python(.*)python'</span>,s)</span><br><span class="line">print(r.groups())</span><br><span class="line"><span class="comment"># (' is short,i user ', ', i love ')</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h1><p><strong>什麼是JSON (JavaScript  Object  Notation)</strong> </p>
+<ul>
+<li>一種輕量級的數據<strong>交換格式</strong></li>
+<li>JSON是一種<strong>數據格式</strong></li>
+<li>字符串是JSON的表現形式</li>
+<li>符合JSON格式的字符串叫做JSON字符串<ul>
+<li>{a:”qiyue”}          不是JSON字符串</li>
+<li>{“name”:”qiyue”} 是JSON字符串</li>
+</ul>
+</li>
+</ul>
+<h2 id="JSON的優勢"><a href="#JSON的優勢" class="headerlink" title="JSON的優勢"></a>JSON的優勢</h2><ul>
+<li>易于閱讀</li>
+<li>易于解析</li>
+<li>網絡傳輸效率高</li>
+<li><strong>跨語言交換數據</strong></li>
+</ul>
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="comment"># json object</span></span><br><span class="line">json_str = <span class="string">'&#123;"name":"qiyue", "age":18&#125;'</span></span><br><span class="line">student =  json.loads(json_str)</span><br><span class="line">print(type(student))</span><br><span class="line">print(student)</span><br><span class="line">print(student[<span class="string">'name'</span>])</span><br><span class="line">print(student[<span class="string">'age'</span>])</span><br><span class="line"><span class="comment"># &lt;class 'dict'&gt;</span></span><br><span class="line"><span class="comment"># &#123;'name': 'qiyue', 'age': 18&#125;</span></span><br><span class="line"><span class="comment"># qiyue</span></span><br><span class="line"><span class="comment"># 18</span></span><br><span class="line"><span class="comment">#----------------------------------</span></span><br><span class="line"><span class="keyword">import</span> json </span><br><span class="line"><span class="comment"># json array</span></span><br><span class="line">json_str = <span class="string">'[&#123;"name":"qiyue", "age":18,"flag":false&#125;,&#123;"name":"eeyue", "age":16,"flag":true&#125;]'</span></span><br><span class="line">student =  json.loads(json_str)</span><br><span class="line">print(type(student))</span><br><span class="line">print(student)</span><br><span class="line">print(student[<span class="number">1</span>][<span class="string">'name'</span>])</span><br><span class="line">print(student[<span class="number">1</span>][<span class="string">'age'</span>])</span><br><span class="line"><span class="comment"># &lt;class 'list'&gt;</span></span><br><span class="line"><span class="comment"># [&#123;'name': 'qiyue', 'age': 18, 'flag': False&#125;, &#123;'name': 'eeyue', 'age': 16, 'flag': True&#125;]</span></span><br><span class="line"><span class="comment"># eeyue</span></span><br><span class="line"><span class="comment"># 16</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><table>
+<thead>
+<tr>
+<th>json</th>
+<th>python</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>object</td>
+<td>dic</td>
+</tr>
+<tr>
+<td>array</td>
+<td>list</td>
+</tr>
+<tr>
+<td>string</td>
+<td>str</td>
+</tr>
+<tr>
+<td>number</td>
+<td>int</td>
+</tr>
+<tr>
+<td>number</td>
+<td>float</td>
+</tr>
+<tr>
+<td>true</td>
+<td>True</td>
+</tr>
+<tr>
+<td>false</td>
+<td>False</td>
+</tr>
+<tr>
+<td>null</td>
+<td>None</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line">student = [</span><br><span class="line">            &#123;<span class="string">'name'</span>:<span class="string">'qiyue'</span>, <span class="string">'age'</span>: <span class="number">18</span>, <span class="string">'flag'</span>: <span class="literal">False</span>&#125;,</span><br><span class="line">            &#123;<span class="string">'name'</span>:<span class="string">'eeyue'</span>, <span class="string">'age'</span>: <span class="number">16</span>&#125;</span><br><span class="line">          ]</span><br><span class="line">json_str = json.dumps(student)</span><br><span class="line">print(type(json_str))</span><br><span class="line">print(json_str)</span><br><span class="line"><span class="comment"># &lt;class 'str'&gt;</span></span><br><span class="line"><span class="comment"># [&#123;"name": "qiyue", "age": 18, "flag": false&#125;, &#123;"name": "eeyue", "age": 16&#125;]</span></span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/" rel="prev" title="學習Python的物件導向">
+      <i class="fa fa-chevron-left"></i> 學習Python的物件導向
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E9%AB%98%E7%B4%9A%E8%AA%9E%E6%B3%95%E8%88%87%E7%94%A8%E6%B3%95/" rel="next" title="學習Python的高級語法與用法">
+      學習Python的高級語法與用法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正則表達式"><span class="nav-text">正則表達式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#元字符與普通字符"><span class="nav-text">元字符與普通字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集"><span class="nav-text">字符集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根括字符集"><span class="nav-text">根括字符集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#數量詞"><span class="nav-text">數量詞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#貪婪與非貪婪"><span class="nav-text">貪婪與非貪婪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配0次1次或者無限多次"><span class="nav-text">匹配0次1次或者無限多次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#邊界匹配符"><span class="nav-text">邊界匹配符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#組"><span class="nav-text">組</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匹配模式參數"><span class="nav-text">匹配模式參數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#re-sub正則替換"><span class="nav-text">re.sub正則替換</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#把函數作為參數傳遞"><span class="nav-text">把函數作為參數傳遞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#search與match函數"><span class="nav-text">search與match函數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group分組"><span class="nav-text">group分組</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSON"><span class="nav-text">JSON</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON的優勢"><span class="nav-text">JSON的優勢</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反序列化"><span class="nav-text">反序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化"><span class="nav-text">序列化</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

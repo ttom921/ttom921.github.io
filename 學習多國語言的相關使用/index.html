@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言這是學習和記䤸有關多國語言的處理的相關測試和記錄，主要的githib">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習多國語言的相關使用">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92%E5%A4%9A%E5%9C%8B%E8%AA%9E%E8%A8%80%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言這是學習和記䤸有關多國語言的處理的相關測試和記錄，主要的githib">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-03-23T10:51:16.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Excel">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92%E5%A4%9A%E5%9C%8B%E8%AA%9E%E8%A8%80%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習多國語言的相關使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92%E5%A4%9A%E5%9C%8B%E8%AA%9E%E8%A8%80%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習多國語言的相關使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2020-03-23 10:51:16" itemprop="dateCreated datePublished" datetime="2020-03-23T10:51:16+00:00">2020-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Excel/" itemprop="url" rel="index"><span itemprop="name">Excel</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>這是學習和記䤸有關多國語言的處理的相關測試和記錄，主要的<a href="https://github.com/ttom921/multilang">githib</a></p>
+<a id="more"></a>
+
+<h2 id="使用多國語系在你的元件裏"><a href="#使用多國語系在你的元件裏" class="headerlink" title="使用多國語系在你的元件裏"></a>使用多國語系在你的元件裏</h2><h3 id="建立新的專案"><a href="#建立新的專案" class="headerlink" title="建立新的專案"></a>建立新的專案</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng new Sample01 --routing --style scss</span><br></pre></td></tr></table></figure>
+
+<h3 id="加入多國語系的模組"><a href="#加入多國語系的模組" class="headerlink" title="加入多國語系的模組"></a>加入多國語系的模組</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install @ngx-translate&#x2F;core --save</span><br><span class="line">npm install @ngx-translate&#x2F;http-loader --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="模組impot"><a href="#模組impot" class="headerlink" title="模組impot"></a>模組impot</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import &#123;TranslateModule&#125; from &#39;@ngx-translate&#x2F;core&#39;;</span><br><span class="line">import &#123;HttpClientModule, HttpClient&#125; from &#39;@angular&#x2F;common&#x2F;http&#39;;</span><br><span class="line">import &#123;TranslateModule, TranslateLoader&#125; from &#39;@ngx-translate&#x2F;core&#39;;</span><br><span class="line">import &#123;TranslateHttpLoader&#125; from &#39;@ngx-translate&#x2F;http-loader&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; AoT requires an exported function for factories</span><br><span class="line">export function HttpLoaderFactory(http: HttpClient) &#123;</span><br><span class="line">    return new TranslateHttpLoader(http);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">imports: [</span><br><span class="line">        .....</span><br><span class="line">         HttpClientModule,</span><br><span class="line">    TranslateModule.forRoot(&#123;</span><br><span class="line">      loader: &#123;</span><br><span class="line">          provide: TranslateLoader,</span><br><span class="line">          useFactory: HttpLoaderFactory,</span><br><span class="line">          deps: [HttpClient]</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">        .....</span><br><span class="line">    ],</span><br></pre></td></tr></table></figure>
+
+<p>使用預設的 loader來讀取多國語言檔<br>這樣就會載入transModule，此設定翻譯檔預設會抓網站底下的i18n目錄，如果你要自訂翻譯檔的路徑可以改由以下設定如果不自訂不用加入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export function createTranslateLoader(http: HttpClient) &#123;</span><br><span class="line">    return new TranslateHttpLoader(http, &#39;.&#x2F;assets&#x2F;i18n&#x2F;&#39;, &#39;.json&#39;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>記得要import service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123;TranslateService&#125; from &#39;@ngx-translate&#x2F;core&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>以下是參考的語言碼<br><a href="http://4umi.com/web/html/languagecodes.php">http://4umi.com/web/html/languagecodes.php</a></p>
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><p>先來建立一個service來處理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g service _services&#x2F;language&#x2F;Language</span><br></pre></td></tr></table></figure>
+
+<p>內容</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Injectable &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; LangChangeEvent, TranslateService &#125; <span class="keyword">from</span> <span class="string">'@ngx-translate/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ReplaySubject &#125; <span class="keyword">from</span> <span class="string">'rxjs'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; take &#125; <span class="keyword">from</span> <span class="string">'rxjs/operators'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>(&#123;</span><br><span class="line">  providedIn: <span class="string">'root'</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> LanguageService &#123;</span><br><span class="line">  language$ = <span class="keyword">new</span> ReplaySubject&lt;LangChangeEvent&gt;(<span class="number">1</span>);</span><br><span class="line">  translate = <span class="keyword">this</span>.translateService;</span><br><span class="line">  <span class="keyword">private</span> curlanguage = <span class="string">"ja"</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> translateService: TranslateService</span>) &#123; &#125;</span><br><span class="line">  <span class="comment">//初始化</span></span><br><span class="line">  setInitState() &#123;</span><br><span class="line">    <span class="keyword">this</span>.translateService.addLangs([<span class="string">'ja'</span>, <span class="string">'en'</span>, <span class="string">'zh-tw'</span>]);</span><br><span class="line">    <span class="keyword">if</span> (localStorage.getItem(<span class="string">"language"</span>) != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>.curlanguage = localStorage.getItem(<span class="string">"language"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">//localStorage.setItem("language",this.languages[i].title.toLowerCase());</span></span><br><span class="line">      <span class="comment">//根據使用者的瀏覽器語言設定，如果是中文就顯示中文，否則都顯示英文</span></span><br><span class="line">      <span class="comment">// 繁體/簡體中文代碼都是zh</span></span><br><span class="line">      <span class="keyword">this</span>.curlanguage = (<span class="keyword">this</span>.translate.getBrowserLang().includes(<span class="string">'zh'</span>)) ? <span class="string">'zh-tw'</span> : <span class="string">'en'</span>;</span><br><span class="line">      localStorage.setItem(<span class="string">"language"</span>, <span class="keyword">this</span>.curlanguage);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"目前語言："</span> + <span class="keyword">this</span>.curlanguage);</span><br><span class="line">    <span class="keyword">this</span>.translateService.use(<span class="keyword">this</span>.curlanguage);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//切換語言使用</span></span><br><span class="line">  selectLanguage(lang: <span class="built_in">string</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.translateService.onLangChange.pipe(take(<span class="number">1</span>)).subscribe(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.language$.next(result);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">this</span>.translateService.use(lang);</span><br><span class="line">    <span class="keyword">this</span>.curlanguage = lang;</span><br><span class="line">    localStorage.setItem(<span class="string">"language"</span>, <span class="keyword">this</span>.curlanguage);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在app.component.ts</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; LanguageService &#125; <span class="keyword">from</span> <span class="string">'./_services/language/language.service'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-root'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./app.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent &#123;</span><br><span class="line">  title = <span class="string">'webfmsui'</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">private</span> languageService: LanguageService</span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.languageService.setInitState();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有SharedAngularMaterialModule要加入和export</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">imports: [</span><br><span class="line">    .....</span><br><span class="line">    TranslateModule,</span><br><span class="line">   .....</span><br><span class="line">  ],</span><br><span class="line">  exports: [</span><br><span class="line">    ....</span><br><span class="line">    TranslateModule,</span><br><span class="line">   .....</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><a href="https://edwardzou.blogspot.com/2019/01/ngx-translate.html">參考</a></p>
+<h2 id="語言檔的轉換"><a href="#語言檔的轉換" class="headerlink" title="語言檔的轉換"></a>語言檔的轉換</h2><h3 id="excel的結構"><a href="#excel的結構" class="headerlink" title="excel的結構"></a>excel的結構</h3><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Comment</th>
+<th>en</th>
+<th>tw</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>menu_home</td>
+<td>首頁</td>
+<td>home</td>
+<td>首頁</td>
+</tr>
+<tr>
+<td>menu_feature_name</td>
+<td>功能模組</td>
+<td>module</td>
+<td>功能模組</td>
+</tr>
+<tr>
+<td>menu_feature_form</td>
+<td>表單</td>
+<td>form</td>
+<td>表單</td>
+</tr>
+<tr>
+<td>menu_language</td>
+<td>語言</td>
+<td>language</td>
+<td>語言</td>
+</tr>
+<tr>
+<td>menu_languageList_taiwanese</td>
+<td>繁體中文</td>
+<td>繁體中文</td>
+<td>繁體中文</td>
+</tr>
+<tr>
+<td>menu_languageList_english</td>
+<td>english</td>
+<td>english</td>
+<td>english</td>
+</tr>
+<tr>
+<td>error_require</td>
+<td>為必埴欄位</td>
+<td> is require</td>
+<td>為必埴欄位</td>
+</tr>
+<tr>
+<td>enum_gender</td>
+<td>男</td>
+<td>man</td>
+<td>男</td>
+</tr>
+<tr>
+<td>validationMessages_email_required</td>
+<td>郵箱必須輸入</td>
+<td>email is require</td>
+<td>郵箱必須輸入</td>
+</tr>
+<tr>
+<td>validationMessages_email_pattern</td>
+<td>請輸入正確的郵箱地址</td>
+<td>email had problem</td>
+<td>請輸入正確的郵箱地址</td>
+</tr>
+</tbody></table>
+<h3 id="網頁版"><a href="#網頁版" class="headerlink" title="網頁版"></a>網頁版</h3><p>可以在將excel轉成json，也可以將json轉成excel</p>
+<h4 id="建立新的測試專案"><a href="#建立新的測試專案" class="headerlink" title="建立新的測試專案"></a>建立新的測試專案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng new ExceltoJson</span><br></pre></td></tr></table></figure>
+
+<h4 id="加入AngularMateial"><a href="#加入AngularMateial" class="headerlink" title="加入AngularMateial"></a>加入AngularMateial</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng add @angular&#x2F;material</span><br></pre></td></tr></table></figure>
+
+<p>加入SharedAngularMaterial &lt;<a href="https://ithelp.ithome.com.tw/articles/10209937">https://ithelp.ithome.com.tw/articles/10209937</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng g m share\SharedAngularMaterial</span><br></pre></td></tr></table></figure>
+
+<p>接下來在src\styles.scss中</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/indigo-pink.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";</span></span><br><span class="line"><span class="comment">//@import "~@angular/material/prebuilt-themes/purple-green.css";</span></span><br><span class="line"><span class="comment">//@import "~@fortawesome/fontawesome-free/css/all.css";</span></span><br><span class="line"><span class="comment">//使mat-car有作用</span></span><br><span class="line">mat-card&#123;</span><br><span class="line">  <span class="attribute">margin</span>:<span class="number">4px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//寬度為填滿</span></span><br><span class="line"><span class="selector-class">.full-width</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">html</span>, <span class="selector-tag">body</span>, app-root,mat-sidenav-container, <span class="selector-class">.site</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.site</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">&#125;</span><br><span class="line">main &#123;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>: column;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">margin-top</span>:<span class="number">64px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.fill-remaining-space</span> &#123;</span><br><span class="line">  <span class="comment">// 使用 flexbox 填充剩余空间</span></span><br><span class="line">  <span class="comment">// @angular/material 中的很多控件使用了 flex 布局</span></span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span> <span class="number">1</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//#region 以下是自定義字型大小</span></span><br><span class="line"><span class="selector-class">.mat-raised-button</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">18px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// .mat-list-base .mat-list-item .mat-line:nth-child(n+2) &#123;</span></span><br><span class="line"><span class="comment">//   font-size: 18px;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="selector-class">.mat-line</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">18px</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mat-list-base</span> <span class="selector-class">.mat-list-option</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">18px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mat-header-cell</span>&#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">14px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mat-cell</span>&#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">18px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//#endregion 以下是自定義字型大小</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="安裝flex-layout模組"><a href="#安裝flex-layout模組" class="headerlink" title="安裝flex-layout模組"></a>安裝flex-layout模組</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @angular&#x2F;flex-layout@8.0.0-beta.27</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; FlexLayoutModule &#125; <span class="keyword">from</span> <span class="string">'@angular/flex-layout'</span>;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">(&#123;</span><br><span class="line">    ...</span><br><span class="line">    imports: [ FlexLayoutModule ],</span><br><span class="line">    ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="安裝xlsx"><a href="#安裝xlsx" class="headerlink" title="安裝xlsx"></a>安裝xlsx</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install xlsx --save</span><br><span class="line"></span><br><span class="line">import * as XLSX from &#39;xlsx&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>有找到相關的程式碼，可以將json物件轉成key和value</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install flat</span><br><span class="line">npm install @types&#x2F;flat --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>安裝下載檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install file-saver --save</span><br><span class="line">npm install @types&#x2F;file-saver --save-dev</span><br></pre></td></tr></table></figure>
+
+<h4 id="先將json物件轉成excel"><a href="#先將json物件轉成excel" class="headerlink" title="先將json物件轉成excel"></a>先將json物件轉成excel</h4><p>tw.json的結構</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"menu"</span>: &#123;</span><br><span class="line">    <span class="attr">"home"</span>: <span class="string">"首頁"</span>,</span><br><span class="line">    <span class="attr">"feature"</span>: &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"功能模組"</span>,</span><br><span class="line">      <span class="attr">"form"</span>: <span class="string">"表單"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"language"</span>: <span class="string">"語言"</span>,</span><br><span class="line">    <span class="attr">"languageList"</span>: &#123;</span><br><span class="line">      <span class="attr">"taiwanese"</span>: <span class="string">"繁體中文"</span>,</span><br><span class="line">      <span class="attr">"english"</span>: <span class="string">"English"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"error"</span>: &#123;</span><br><span class="line">    <span class="attr">"require"</span>: <span class="string">"&#123;&#123;itemName&#125;&#125;為必埴欄位"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"enum"</span>: &#123;</span><br><span class="line">    <span class="attr">"gender"</span>: <span class="string">"男"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"validationMessages"</span>: &#123;</span><br><span class="line">    <span class="attr">"email"</span>: &#123;</span><br><span class="line">      <span class="attr">"required"</span>: <span class="string">"郵箱必須輸入"</span>,</span><br><span class="line">      <span class="attr">"pattern"</span>: <span class="string">"請輸入正確的郵箱地址"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>將上面的json檔轉成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">menu_home: &quot;首頁&quot;, </span><br><span class="line">menu_feature_name: &quot;功能模組&quot;, </span><br><span class="line">menu_feature_form: &quot;表單&quot;, </span><br><span class="line">menu_language: &quot;語言&quot;, </span><br><span class="line">menu_languageList_taiwanese: &quot;繁體中文&quot;, </span><br><span class="line">…&#125;</span><br></pre></td></tr></table></figure>
+
+<p>基本流程</p>
+<pre class="mermaid">graph TD;
+先讀入json檔 --> 將json打平;
+將打平的json --> 輸出成excel檔;</pre>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">onFileJsonChange(ev) &#123;</span><br><span class="line">    <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">    <span class="keyword">const</span> file = ev.target.files[<span class="number">0</span>];</span><br><span class="line">    reader.onload = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> data = reader.result <span class="keyword">as</span> <span class="built_in">string</span>;</span><br><span class="line">      <span class="keyword">const</span> json = <span class="built_in">JSON</span>.parse(data);</span><br><span class="line">      <span class="comment">//console.log(json);</span></span><br><span class="line">      <span class="comment">//將原json打平</span></span><br><span class="line">      <span class="keyword">this</span>.flatjson = flatten.flatten(json, &#123; delimiter: <span class="string">'_'</span> &#125;);</span><br><span class="line">      <span class="comment">//console.log(this.flatjson);</span></span><br><span class="line">    &#125;;</span><br><span class="line">    reader.readAsText(file);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>輸出excel檔</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">btnJsonToExcel(ev) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.flatjson == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">const</span> workBook = XLSX.utils.book_new(); <span class="comment">// 創建一個一作簿</span></span><br><span class="line">    <span class="keyword">let</span> _excelcellheaders = &#123;</span><br><span class="line">      header: [<span class="string">'Key'</span>, <span class="string">'Comment'</span>, <span class="string">'tw'</span>],</span><br><span class="line">      skipHeader: <span class="literal">false</span><span class="comment">// 是否跳過上面的標題行跳过上面的标题行</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">let</span> _data = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> <span class="keyword">this</span>.flatjson) &#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.flatjson.hasOwnProperty(key)) &#123;</span><br><span class="line">        <span class="keyword">const</span> element = <span class="keyword">this</span>.flatjson[key];</span><br><span class="line">        <span class="comment">//console.log(element);</span></span><br><span class="line">        <span class="keyword">let</span> myobj = &#123;</span><br><span class="line">          <span class="string">'Key'</span>: key, <span class="string">'Comment'</span>: element, <span class="string">'tw'</span>: element</span><br><span class="line">        &#125;</span><br><span class="line">        _data.push(myobj);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//console.log(_data);</span></span><br><span class="line">    <span class="keyword">const</span> workSheet = XLSX.utils.json_to_sheet(_data, _excelcellheaders);</span><br><span class="line">    <span class="comment">//console.log(workSheet);</span></span><br><span class="line">    <span class="comment">// 向工作簿中追加工作表</span></span><br><span class="line">    XLSX.utils.book_append_sheet(workBook, workSheet, <span class="string">'Sheet1'</span>);</span><br><span class="line">    XLSX.writeFile(workBook, <span class="string">'output.xlsx'</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="將excel檔轉成json物件"><a href="#將excel檔轉成json物件" class="headerlink" title="將excel檔轉成json物件"></a>將excel檔轉成json物件</h4><pre class="mermaid">graph TD;
+讀入excle檔 --> 取出Sheet1的資料
+取出Sheet1的資料 --> 取得語言數量
+取得語言數量 --> 轉成各語言json物件
+修儲存各語言的json檔 --> 將各語言unflatten
+將各語言unflatten --> 儲存成json檔</pre>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">onFileExcelChange(ev) &#123;</span><br><span class="line">  <span class="keyword">let</span> workBook = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">let</span> jsonData = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">  <span class="keyword">const</span> file = ev.target.files[<span class="number">0</span>];</span><br><span class="line">  reader.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> data = reader.result;</span><br><span class="line">    <span class="comment">//讀excel檔</span></span><br><span class="line">    workBook = XLSX.read(data, &#123; <span class="keyword">type</span>: <span class="string">'binary'</span> &#125;);</span><br><span class="line">    jsonData = workBook.SheetNames.reduce(<span class="function">(<span class="params">initial, name</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> sheet = workBook.Sheets[name];</span><br><span class="line">      initial[name] = XLSX.utils.sheet_to_json(sheet);</span><br><span class="line">      <span class="keyword">return</span> initial;</span><br><span class="line">    &#125;, &#123;&#125;);</span><br><span class="line">    <span class="keyword">let</span> Sheet1jsondata = jsonData[<span class="string">'Sheet1'</span>];</span><br><span class="line">    <span class="comment">//console.log(Sheet1jsondata);</span></span><br><span class="line">    <span class="comment">//取得語言的數量</span></span><br><span class="line">    <span class="keyword">this</span>.langlist = <span class="keyword">this</span>.getLanguagelist(Sheet1jsondata);</span><br><span class="line">    <span class="comment">//console.log(this.langlist);</span></span><br><span class="line">    <span class="keyword">this</span>.langlist.forEach(<span class="function"><span class="params">lang</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">let</span> keyvalue = &#123;&#125;;</span><br><span class="line">      Sheet1jsondata.forEach(<span class="function"><span class="params">element</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> keyname = <span class="built_in">Object</span>.getOwnPropertyNames(element)[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">let</span> key = element[keyname];</span><br><span class="line">        <span class="keyword">let</span> value = element[lang];</span><br><span class="line">        <span class="comment">//console.log(`key=$&#123;key&#125;,value=$&#123;value&#125;`);</span></span><br><span class="line">        keyvalue[key] = value;</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">this</span>.langjson[lang] = keyvalue;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//console.log(this.langjson);</span></span><br><span class="line">    <span class="comment">//儲存各語言的json檔</span></span><br><span class="line">    <span class="keyword">this</span>.saveLangJson();</span><br><span class="line"></span><br><span class="line">  &#125;;</span><br><span class="line">  reader.readAsBinaryString(file);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> saveLangJson() &#123;</span><br><span class="line">  <span class="keyword">this</span>.langlist.forEach(<span class="function"><span class="params">lang</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> jsonlang = flatten.unflatten(<span class="keyword">this</span>.langjson[lang], &#123; delimiter: <span class="string">'_'</span> &#125;)</span><br><span class="line">    <span class="comment">//console.log(jsonlang);</span></span><br><span class="line">    <span class="keyword">let</span> jsonse = <span class="built_in">JSON</span>.stringify(jsonlang);</span><br><span class="line">    <span class="keyword">let</span> blob = <span class="keyword">new</span> Blob([jsonse], &#123; <span class="keyword">type</span>: <span class="string">"application/json"</span> &#125;);</span><br><span class="line">    saveAs(blob, <span class="string">`<span class="subst">$&#123;lang&#125;</span>.json`</span>);</span><br><span class="line"></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//取得語言的數量</span></span><br><span class="line">getLanguagelist(Sheet1jsondata) &#123;</span><br><span class="line">  <span class="keyword">let</span> langlist = [];</span><br><span class="line">  Sheet1jsondata.forEach(<span class="function"><span class="params">element</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> propnames = <span class="built_in">Object</span>.getOwnPropertyNames(element);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> index = <span class="number">3</span>; index &lt; propnames.length; index++) &#123;</span><br><span class="line">      <span class="keyword">const</span> lang = propnames[index];</span><br><span class="line">      <span class="keyword">if</span> (!langlist.includes(lang)) &#123;</span><br><span class="line">        langlist.push(lang);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> langlist;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><p><a href="https://jsonformatter.curiousconcept.com/">json格式化</a></p>
+<p><a href="https://www.dazhuanlan.com/2019/10/17/5da780d276205/?__cf_chl_jschl_tk__=059a17250329480fc2bd57d793c377f4af0d72e1-1584689439-0-ATboesb6s2icrDeGNnWHQavOHGQT4LgRgjmwTCNUMB1wl0zoMGiKWAr11RnOZCGkDdceVSAfNR3240Zb2s1in16IqmwDoryerhiuAAd03F8HoFhmKDC89BJm590zxtTgC6YYaL9TuXZehelBzDVB3moykdYREcreQ8GCHLruYEGY3ClIiDdJeNaCdkBseppYj0h8-ofg_8NwufBL--ewgFBUfC-U72XNUArPeLtbSxUlGQE_6ljtilTcAUy0Fh0RPfLJPyuKNaukFsXOyO2KGRfhAJLbg6FgpDN6EAMhwA7qeRR0__T_03zfjH7dJAjueg">js-xlsx 使用教程</a></p>
+<p><a href="https://github.com/hughsk/flat">githubflat程式庫</a></p>
+<p><a href="https://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects">Fastest way to flatten / un-flatten nested JSON objects</a></p>
+<p><a href="https://stackoverflow.com/questions/6393943/convert-javascript-string-in-dot-notation-into-an-object-reference">Convert JavaScript string in dot notation into an object reference</a></p>
+<p><a href="https://stackoverflow.com/questions/44168616/build-nested-json-from-string-of-nested-keys">Build nested JSON from string of nested keys [duplicate]</a></p>
+<p><a href="https://scarletsky.github.io/2016/01/30/nodejs-process-excel/">在 Node.js 中利用 js-xlsx 处理 Excel 文件</a></p>
+<p><a href="https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-and-arays-by-string-path">Accessing nested JavaScript objects and arays by string path</a></p>
+<p><a href="https://blog.kdchang.cc/2016/09/23/javascript-data-structure-algorithm-dictionary-hash-table/">用 JavaScript 學習資料結構和演算法：字典（Dictionary）和雜湊表（Hash Table）篇</a></p>
+<h3 id="VC版"><a href="#VC版" class="headerlink" title="VC版"></a>VC版</h3><p>這個版本是使用C#將excel讀入excel的表格，之後轉成各語言的json檔，在github里有VC的程式</p>
+<h2 id="AngularJs"><a href="#AngularJs" class="headerlink" title="AngularJs"></a>AngularJs</h2><p>這是之前angularjs的做法</p>
+<p>使用 angular-translate 模塊的前期準備工作<br>使用 bower 管理工具下載 angular 及 angular-translate 模塊</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">angular</span><br><span class="line">angular-translate</span><br><span class="line">angular-translate-loader-static-files</span><br></pre></td></tr></table></figure>
+
+<p>要引用此模組,可以在bundleconfig.json裏將此模組加入<br>上面2個json文件對應相同的鍵 ,我們稱之為 翻譯鍵,不同的語言文件中,<br>相同的翻譯鍵對應相應的翻譯值即可.如 “LogIn” 對應 “登錄”</p>
+<p>接下來我們需要在App的模組來依賴注入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var App &#x3D; angular.module(&#39;App&#39;, [&#39;ui.bootstrap&#39;, &#39;pascalprecht.translate&#39;]);</span><br><span class="line">App.config([&#39;$translateProvider&#39;, function ($translateProvider) &#123;</span><br><span class="line">    var lang &#x3D; window.localStorage.lang || &#39;zh-tw&#39;;</span><br><span class="line">    $translateProvider.preferredLanguage(lang);</span><br><span class="line">        $translateProvider.useStaticFilesLoader(&#123;</span><br><span class="line">        prefix: &#39;&#x2F;i18n&#x2F;&#39;,</span><br><span class="line">        suffix: &#39;.json&#39;</span><br><span class="line">    &#125;)</span><br><span class="line">	.useSanitizeValueStrategy(&#39;escapeParameters&#39;)</span><br><span class="line">	;</span><br><span class="line">	$translateProvider.preferredLanguage(lang);</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
+
+<p>在html裏使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; &#39;PasswordLogin&#39; | translate &#125;&#125;</span><br><span class="line">&lt;input class&#x3D;&quot;form-control&quot; placeholder&#x3D;&quot;&#123;&#123; &#39;ReservationSerPlaceHolder&#39; | translate &#125;&#125;&quot; name&#x3D;&quot;&quot; ng-model&#x3D;&quot;query&quot; type&#x3D;&quot;text&quot;&gt;</span><br><span class="line">&lt;td ng-bind&#x3D;&quot;&#39;CustomerProfileCustomerType&#39; | translate&quot;&gt;客戶類別&lt;&#x2F;td&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在Controller裏使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$translate.onReady(function () &#123;</span><br><span class="line">    &#x2F;&#x2F;預約</span><br><span class="line">    $rootScope.Reservation &#x3D; $translate.instant(&#39;Reservation&#39;);</span><br><span class="line">        </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="AngularJS的uib-datepicker的使用-MVC版"><a href="#AngularJS的uib-datepicker的使用-MVC版" class="headerlink" title="AngularJS的uib-datepicker的使用(MVC版)"></a>AngularJS的uib-datepicker的使用(MVC版)</h4><p>因為要使用動態來切換語系,因此要將使用此模組tmh.dynamicLocale<br>在mvc版裏在bundleConfig.cs加入以下的程式碼</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;datapick 的多國語系</span><br><span class="line">&quot;~&#x2F;Scripts&#x2F;angular-dynamic-locale&#x2F;tmhDynamicLocale.min.js&quot;,</span><br><span class="line">&quot;~&#x2F;Scripts&#x2F;i18n&#x2F;angular-locale_en-us.js&quot;,</span><br><span class="line">&quot;~&#x2F;Scripts&#x2F;i18n&#x2F;angular-locale_zh-hans-cn.js&quot;,</span><br><span class="line">&quot;~&#x2F;Scripts&#x2F;i18n&#x2F;angular-locale_zh-tw.js&quot;, &#x2F;&#x2F;datepicker for zh-TW</span><br></pre></td></tr></table></figure>
+
+<p>然後加入app的模組如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var App &#x3D; angular.module(&#39;MyReservationApp&#39;, [&#39;ui.bootstrap&#39;, &#39;underscore&#39;, &#39;pascalprecht.translate&#39;, &#39;tmh.dynamicLocale&#39;]);</span><br></pre></td></tr></table></figure>
+
+<p>在多國語言config時設定tmh.dynamicLocale的讀取的路徑如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;多國語言</span><br><span class="line">App.config([&#39;$translateProvider&#39;, &#39;tmhDynamicLocaleProvider&#39;, function ($translateProvider, tmhDynamicLocaleProvider) &#123;</span><br><span class="line">    var lang &#x3D; window.localStorage.lang;</span><br><span class="line">    console.log(&#39;目前語言-&gt;&#39; + lang);</span><br><span class="line">    $translateProvider.useStaticFilesLoader(&#123;</span><br><span class="line">        prefix: &#39;&#x2F;i18n&#x2F;&#39;,</span><br><span class="line">        suffix: &#39;.json&#39;</span><br><span class="line">    &#125;)</span><br><span class="line">        .useSanitizeValueStrategy(&#39;escapeParameters&#39;)</span><br><span class="line">        ;</span><br><span class="line">    $translateProvider.preferredLanguage(lang);</span><br><span class="line">    tmhDynamicLocaleProvider.localeLocationPattern(&#39;&#x2F;Scripts&#x2F;i18n&#x2F;angular-locale_&#123;&#123;locale&#125;&#125;.js&#39;);</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
+
+<p>之後在controll裏可以設定使用的語言</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tmhDynamicLocale.set(&#39;zh-Hant-TW&#39;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="AngularJS的uib-datepicker的使用-Core版"><a href="#AngularJS的uib-datepicker的使用-Core版" class="headerlink" title="AngularJS的uib-datepicker的使用(Core版)"></a>AngularJS的uib-datepicker的使用(Core版)</h4><p>安裝使用bower找’angular-dynamic-locale’<br>因為要使用動態來切換語系,因此要將使用此模組tmh.dynamicLocale<br>在bundleconfig.json加入以下的程式碼</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F;datapick 的多國語系</span><br><span class="line">&quot;wwwroot&#x2F;lib&#x2F;angular-dynamic-locale&#x2F;src&#x2F;tmhDynamicLocale.js&quot;,</span><br><span class="line">&quot;wwwroot&#x2F;lib&#x2F;angular-i18n&#x2F;angular-locale_en-us.js&quot;,</span><br><span class="line">&quot;wwwroot&#x2F;lib&#x2F;angular-i18n&#x2F;angular-locale_zh-hans-cn.js&quot;,</span><br><span class="line">&quot;wwwroot&#x2F;lib&#x2F;angular-i18n&#x2F;angular-locale_zh-hant-tw.js&quot;</span><br></pre></td></tr></table></figure>
+
+<p>然後加入app的模組如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var App &#x3D; angular.module(&#39;RepairMessageApp&#39;, [&#39;ui.router&#39;, &#39;ui.bootstrap&#39;, &#39;ngSanitize&#39;, &#39;ui-notification&#39;, &#39;pascalprecht.translate&#39;, &#39;tmh.dynamicLocale&#39;]);</span><br></pre></td></tr></table></figure>
+
+<p>在多國語言config時設定tmh.dynamicLocale的讀取的路徑如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;日曆多國</span><br><span class="line">App.config([&#39;tmhDynamicLocaleProvider&#39;, function (tmhDynamicLocaleProvider) &#123;</span><br><span class="line">    tmhDynamicLocaleProvider.localeLocationPattern(&#39;&#x2F;lib&#x2F;angular-i18n&#x2F;angular-locale_&#123;&#123;locale&#125;&#125;.js&#39;);</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
+
+<p>之後在controll裏可以設定使用的語言<br>在controller注入$locale,tmhDynamicLocale</p>
+<h4 id="工具相關"><a href="#工具相關" class="headerlink" title="工具相關"></a>工具相關</h4><ol>
+<li>支援NuGet安裝，使用 ClosedXML 的lib</li>
+<li>以Open XML SDK為基礎，所以只支援xlsx，不支援xls格式</li>
+</ol>
+<ul>
+<li>資源檔 以Resource 以ResXResourceWriter為主</li>
+<li>json檔 以c# 的Dictionary為主和Json.NET來轉換</li>
+</ul>
+<h4 id="多國語系代碼"><a href="#多國語系代碼" class="headerlink" title="多國語系代碼"></a>多國語系代碼</h4><p>en-US<br>zh-Hant-TW<br>zh-Hans-CN</p>
+<h4 id="參考資料-1"><a href="#參考資料-1" class="headerlink" title="參考資料"></a>參考資料</h4><ul>
+<li><a href="http://blog.darkthread.net/post-2013-07-02-resx-excel-conversion.aspx">使用Excel維護多國語系字串資源檔</a></li>
+<li><a href="http://kyleap.blogspot.tw/2016/11/angular2.html">Angular2 在專案加入多國語系</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Excel/" rel="tag"># Excel</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92AngularUI%E5%85%83%E4%BB%B6%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/" rel="prev" title="學習AngularUI元件相關使用">
+      <i class="fa fa-chevron-left"></i> 學習AngularUI元件相關使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92CSS%E7%9A%84%E5%9F%BA%E7%A4%8E/" rel="next" title="學習CSS的基礎">
+      學習CSS的基礎 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用多國語系在你的元件裏"><span class="nav-text">使用多國語系在你的元件裏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立新的專案"><span class="nav-text">建立新的專案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入多國語系的模組"><span class="nav-text">加入多國語系的模組</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模組impot"><span class="nav-text">模組impot</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用"><span class="nav-text">如何使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#語言檔的轉換"><span class="nav-text">語言檔的轉換</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#excel的結構"><span class="nav-text">excel的結構</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#網頁版"><span class="nav-text">網頁版</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立新的測試專案"><span class="nav-text">建立新的測試專案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加入AngularMateial"><span class="nav-text">加入AngularMateial</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝flex-layout模組"><span class="nav-text">安裝flex-layout模組</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝xlsx"><span class="nav-text">安裝xlsx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#先將json物件轉成excel"><span class="nav-text">先將json物件轉成excel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#將excel檔轉成json物件"><span class="nav-text">將excel檔轉成json物件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VC版"><span class="nav-text">VC版</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AngularJs"><span class="nav-text">AngularJs</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AngularJS的uib-datepicker的使用-MVC版"><span class="nav-text">AngularJS的uib-datepicker的使用(MVC版)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AngularJS的uib-datepicker的使用-Core版"><span class="nav-text">AngularJS的uib-datepicker的使用(Core版)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具相關"><span class="nav-text">工具相關</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多國語系代碼"><span class="nav-text">多國語系代碼</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料-1"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="測試資料庫使用的是mariadb的資料庫，所以要匯入northwind的測試資料庫，並且使用期中的資料表employees來做增刪查改 12mysql -u root -p northwind &lt; northwind.sqlmysql -u root -p northwind &lt; northwind-data.sql   參考 使用MicroOrm.Dapper.Repositorie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="記錄Dapper的使用">
+<meta property="og:url" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84Dapper%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="測試資料庫使用的是mariadb的資料庫，所以要匯入northwind的測試資料庫，並且使用期中的資料表employees來做增刪查改 12mysql -u root -p northwind &lt; northwind.sqlmysql -u root -p northwind &lt; northwind-data.sql   參考 使用MicroOrm.Dapper.Repositorie">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-07-03T10:46:25.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Dapper">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84Dapper%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>記錄Dapper的使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84Dapper%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          記錄Dapper的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2018-07-03 10:46:25" itemprop="dateCreated datePublished" datetime="2018-07-03T10:46:25+00:00">2018-07-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Dapper/" itemprop="url" rel="index"><span itemprop="name">Dapper</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="測試資料庫"><a href="#測試資料庫" class="headerlink" title="測試資料庫"></a>測試資料庫</h2><p>使用的是mariadb的資料庫，所以要匯入northwind的測試資料庫，並且使用期中的資料表employees來做增刪查改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p northwind &lt; northwind.sql</span><br><span class="line">mysql -u root -p northwind &lt; northwind-data.sql</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><a href="https://github.com/dalers/mywind">參考</a></p>
+<h2 id="使用MicroOrm-Dapper-Repositories的函式庫"><a href="#使用MicroOrm-Dapper-Repositories的函式庫" class="headerlink" title="使用MicroOrm.Dapper.Repositories的函式庫"></a>使用MicroOrm.Dapper.Repositories的函式庫</h2><p>下載和建立</p>
+</li>
+<li><p><a href="https://github.com/phnx47/MicroOrm.Dapper.Repositories">參考</a></p>
+<h2 id="測試和使用Dapper函式庫"><a href="#測試和使用Dapper函式庫" class="headerlink" title="測試和使用Dapper函式庫"></a>測試和使用Dapper函式庫</h2><p>加入需要的 NuGet package<br>Microsoft.Extensions.Configuration.Json<br>//log<br>  AutofacSerilogIntegration<br>  Serilog.AspNetCore<br>  Serilog.Sinks.Console<br>  Serilog.Sinks.RollingFileAlternate (2.0.9)<br>//DI<br> Autofac.Extensions.DependencyInjection<br>//mysql<br> MySql.Data</p>
+<p>1 加入Dapper.Respositiories的dll，使用的函式庫是這個<a href="https://github.com/phnx47/MicroOrm.Dapper.Repositories">phnx47/MicroOrm.Dapper.Repositories</a> 只將轉成core 2.1<br>2 連接資料庫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;ConnectionStrings&quot;: &#123;</span><br><span class="line">    &quot;GomoDatabase&quot;: &quot;Server&#x3D;192.168.2.152;Database&#x3D;northwind;user id&#x3D;uername;password&#x3D;psword;sslmode&#x3D;None;CharSet&#x3D;utf8;persistsecurityinfo&#x3D;True;allowuservariables&#x3D;True;minpoolsize&#x3D;10;&quot;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="建立使用的物件"><a href="#建立使用的物件" class="headerlink" title="建立使用的物件"></a>建立使用的物件</h2><p>可以參考此網路 <a href="http://kevintsengtw.blogspot.com/2015/10/dapper-linqpad-sql-command.html">Dapper - 使用 LINQPad 快速產生相對映 SQL Command 查詢結果的類別</a><br>Table 是使用那一個資料表<br>Identity 是primary key, 在Insert之後物件會回寫primar key    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[Table(&quot;employees&quot;)]</span><br><span class="line">   public partial class Employee</span><br><span class="line">   &#123;</span><br><span class="line">       &#x2F;&#x2F;[Identity,Key]</span><br><span class="line">       [Identity]</span><br><span class="line">       public int id &#123; get; set; &#125;</span><br><span class="line">       public string company &#123; get; set; &#125;</span><br><span class="line">       public string last_name &#123; get; set; &#125;</span><br><span class="line">       public string first_name &#123; get; set; &#125;</span><br><span class="line">       public string email_address &#123; get; set; &#125;</span><br><span class="line">       public string job_title &#123; get; set; &#125;</span><br><span class="line">       public string business_phone &#123; get; set; &#125;</span><br><span class="line">       public string home_phone &#123; get; set; &#125;</span><br><span class="line">       public string mobile_phone &#123; get; set; &#125;</span><br><span class="line">       public string fax_number &#123; get; set; &#125;</span><br><span class="line">       public string address &#123; get; set; &#125;</span><br><span class="line">       public string city &#123; get; set; &#125;</span><br><span class="line">       public string state_province &#123; get; set; &#125;</span><br><span class="line">       public string zip_postal_code &#123; get; set; &#125;</span><br><span class="line">       public string country_region &#123; get; set; &#125;</span><br><span class="line">       public string web_page &#123; get; set; &#125;</span><br><span class="line">       public string notes &#123; get; set; &#125;</span><br><span class="line">       public byte[] attachments &#123; get; set; &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="建立-EmployeeRepository"><a href="#建立-EmployeeRepository" class="headerlink" title="建立    EmployeeRepository"></a>建立    EmployeeRepository</h2><p>介面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface IEmployeeRepository: IDapperRepository&lt;Employee&gt;</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>實作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class EmployeeRepository : DapperRepository&lt;Employee&gt;,IEmployeeRepository</span><br><span class="line">&#123;</span><br><span class="line">   public EmployeeRepository(IDbConnection connection, ISqlGenerator&lt;Employee&gt; sqlGenerator)</span><br><span class="line">   : base(connection, sqlGenerator)</span><br><span class="line">   &#123;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="註開相關的物件"><a href="#註開相關的物件" class="headerlink" title="註開相關的物件"></a>註開相關的物件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">internal IContainer Configure()</span><br><span class="line">&#123;</span><br><span class="line">    var builder &#x3D; new ContainerBuilder();</span><br><span class="line">    &#x2F;&#x2F;註冊log</span><br><span class="line">    builder.RegisterLogger();</span><br><span class="line">    &#x2F;&#x2F;將service註冊</span><br><span class="line">    builder.Register(x &#x3D;&gt; this.Configuration).As&lt;IConfigurationRoot&gt;();</span><br><span class="line">    builder.RegisterType&lt;Application&gt;().As&lt;IApplication&gt;();</span><br><span class="line">    builder.RegisterType&lt;BatchService&gt;().As&lt;IBatchService&gt;();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;Database connection</span><br><span class="line">    var connectionString &#x3D; Configuration[&quot;ConnectionStrings:GomoDatabase&quot;];</span><br><span class="line">    builder.Register(c &#x3D;&gt; new MySqlConnection(connectionString)).As&lt;IDbConnection&gt;().InstancePerLifetimeScope();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; sql config</span><br><span class="line">    &#x2F;&#x2F;builder.Register(c &#x3D;&gt; new SqlGeneratorConfig() &#123; SqlProvider &#x3D; SqlProvider.MySQL, UseQuotationMarks &#x3D; true &#125;).As&lt;SqlGeneratorConfig&gt;().SingleInstance();</span><br><span class="line">    &#x2F;&#x2F;Sql generators</span><br><span class="line">    builder.Register(c &#x3D;&gt; new SqlGenerator&lt;Employee&gt;(SqlProvider.MySQL, true) &#123; &#125;).As&lt;ISqlGenerator&lt;Employee&gt;&gt;().SingleInstance();</span><br><span class="line">    &#x2F;&#x2F;builder.RegisterType&lt;SqlGenerator&lt;Employee&gt;&gt;().As&lt;ISqlGenerator&lt;Employee&gt;&gt;().SingleInstance();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;Repository</span><br><span class="line">    builder.RegisterType&lt;EmployeeRepository&gt;().As&lt;IEmployeeRepository&gt;().InstancePerLifetimeScope();</span><br><span class="line">    return builder.Build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="資料庫的動作"><a href="#資料庫的動作" class="headerlink" title="資料庫的動作"></a>資料庫的動作</h2><ul>
+<li><p>增</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public bool Insert(Employee employee)</span><br><span class="line">      &#123;</span><br><span class="line">          var ret &#x3D; _EmployeeRepository.Insert(employee);</span><br><span class="line">          return ret;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>刪</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public bool Delete(int id)</span><br><span class="line">      &#123;</span><br><span class="line">          var ret &#x3D; _EmployeeRepository.Delete( e &#x3D;&gt; e.id&#x3D;&#x3D; id);</span><br><span class="line">          return ret;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public Employee GetOne(int id)</span><br><span class="line">&#123;</span><br><span class="line">	var employee &#x3D; _EmployeeRepository.Find(x &#x3D;&gt; x.id &#x3D;&#x3D; id);</span><br><span class="line">	return employee;</span><br><span class="line">&#125;</span><br><span class="line">public IEnumerable&lt;Employee&gt; GetEmployees()</span><br><span class="line">      &#123;</span><br><span class="line">          var employees&#x3D; _EmployeeRepository.FindAll();</span><br><span class="line">          return employees;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public bool Update(Employee employee)</span><br><span class="line">      &#123;</span><br><span class="line">          employee.address &#x3D; &quot;修改這是住址&quot;;</span><br><span class="line">          employee.first_name &#x3D; &quot;修改姓&quot;;</span><br><span class="line">          var ret &#x3D; _EmployeeRepository.Update((e &#x3D;&gt; e.id&#x3D;&#x3D;employee.id), employee);</span><br><span class="line">          return ret;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h5></li>
+<li><p><a href="https://github.com/phnx47/MicroOrm.Dapper.Repositories">phnx47/MicroOrm.Dapper.Repositories</a></p>
+</li>
+<li><p><a href="http://kevintsengtw.blogspot.com/2015/10/dapper-linqpad-sql-command.html">Dapper - 使用 LINQPad 快速產生相對映 SQL Command 查詢結果的類別</a></p>
+</li>
+<li><p><a href="https://github.com/ElNinjaGaiden/Dapper.DataRepositories.Demo/blob/master/Dapper.DataRepositories.Demo/IoC.cs">IoC.cs</a></p>
+</li>
+<li><p><a href="https://www.reddit.com/r/dotnet/comments/6wdoyn/how_to_properly_register_dapper_on_net_core_2_di/">How to properly register Dapper on .NET Core 2 DI container?</a></p>
+</li>
+<li><p><a href="https://stackoverflow.com/questions/12762733/using-whats-the-preferred-way-to-combine-autofac-and-dapper">Using what’s the preferred way to combine Autofac and Dapper</a></p>
+</li>
+<li><p><a href="https://www.jeremymorgan.com/blog/programming/how-to-dapper-web-api/">Easy CRUD for Your Web API With Dapper</a></p>
+</li>
+<li><p><a href="https://github.com/gaui/perfect-pattern">gaui/perfect-pattern</a></p>
+</li>
+<li><p><a href="https://github.com/ElNinjaGaiden/MicroOrm.Pocos.SqlGenerator">ElNinjaGaiden/MicroOrm.Pocos.SqlGenerator</a></p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/b11451fc538c">轻量级ORM框架—Dapper</a></p>
+</li>
+</ul>
+<h2 id="使用Dapper-SimpleCRUD的函式庫"><a href="#使用Dapper-SimpleCRUD的函式庫" class="headerlink" title="使用Dapper.SimpleCRUD的函式庫"></a>使用Dapper.SimpleCRUD的函式庫</h2><p>使用SimpleCRUD的資料庫，在他的網站有有說明只要將兩個cs檔加入到使用的專案即可<br><a href="https://github.com/ericdc1/Dapper.SimpleCRUD/blob/master/Dapper.SimpleCRUD/SimpleCRUD.cs">SimpleCRUD.cs</a><br><a href="https://github.com/ericdc1/Dapper.SimpleCRUD/blob/master/Dapper.SimpleCRUD/SimpleCRUDAsync.cs">SimpleCRUDAsync.cs</a></p>
+<h2 id="測試和使用Dapper-SimpleCRUD函式庫"><a href="#測試和使用Dapper-SimpleCRUD函式庫" class="headerlink" title="測試和使用Dapper.SimpleCRUD函式庫"></a>測試和使用Dapper.SimpleCRUD函式庫</h2><p>需要的函式庫和測試MicroOrm.Dapper.Repositories的一樣</p>
+<h2 id="建立使用的物件-1"><a href="#建立使用的物件-1" class="headerlink" title="建立使用的物件"></a>建立使用的物件</h2><p>目前測試換成是下列的物件<br>Key主要的是id</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class AgentShopLink</span><br><span class="line">&#123;</span><br><span class="line">    [Key]</span><br><span class="line">    public int Id &#123; get; set; &#125;</span><br><span class="line">    public int Agent_Id &#123; get; set; &#125;</span><br><span class="line">    public int Shop_Id &#123; get; set; &#125;</span><br><span class="line">    public int Point_Balance &#123; get; set; &#125;</span><br><span class="line">    public int Point_Release &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="建立-Repository"><a href="#建立-Repository" class="headerlink" title="建立    Repository"></a>建立    Repository</h2><p>介面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface IDapperRepository&lt;TEntity&gt; where TEntity : class</span><br><span class="line">&#123;</span><br><span class="line">    IDbConnection Connection &#123; get; &#125;</span><br><span class="line">    IDbConnection GetOpenConnection();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>實作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public partial class DapperRepository&lt;TEntity&gt; : IDapperRepository&lt;TEntity&gt;</span><br><span class="line">    where TEntity : class</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;inheritdoc &#x2F;&gt;</span><br><span class="line">    public IDbConnection Connection &#123; get; &#125;</span><br><span class="line">    public DapperRepository(IDbConnection connection)</span><br><span class="line">    &#123;</span><br><span class="line">  &#x2F;&#x2F;設定為MySql</span><br><span class="line">        SimpleCRUD.SetDialect(SimpleCRUD.Dialect.MySQL);</span><br><span class="line">        Connection &#x3D; connection;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public IDbConnection GetOpenConnection()</span><br><span class="line">    &#123;</span><br><span class="line">        Connection.Open();</span><br><span class="line">        return Connection;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>物件的Repository<br>介面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface IAgentShopLinkRepository : IDapperRepository&lt;AgentShopLink&gt;</span><br><span class="line">&#123;</span><br><span class="line">    string Insert_sql();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>實作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class AgentShopLinkRepository : DapperRepository&lt;AgentShopLink&gt;, IAgentShopLinkRepository</span><br><span class="line">&#123;</span><br><span class="line">    public AgentShopLinkRepository(IDbConnection connection) </span><br><span class="line">        : base(connection)</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    public string Insert_sql()</span><br><span class="line">    &#123;</span><br><span class="line">        string sqlcmd &#x3D; &quot;INSERT INTO AgentShopLink(Agent_Id,Shop_Id,Point_Balance,Point_Release) VALUES (@Agent_Id,@Shop_Id,@Point_Balance,@Point_Release);&quot;;</span><br><span class="line">        return sqlcmd;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="測試資料庫的動作"><a href="#測試資料庫的動作" class="headerlink" title="測試資料庫的動作"></a>測試資料庫的動作</h2><h5 id="參考資料-1"><a href="#參考資料-1" class="headerlink" title="參考資料"></a>參考資料</h5><ul>
+<li><a href="https://github.com/ericdc1/Dapper.SimpleCRUD">Dapper.SimpleCRUD</a></li>
+<li><a href="http://blog.leanote.com/post/colin_xia@yeah.net/Dapper.SimpleCURD">簡介使用</a></li>
+<li><a href="http://kevintsengtw.blogspot.com/2015/09/dapper_28.html">Dapper 練習題 - 新增多筆或大量資料</a></li>
+<li><a href="https://dotblogs.com.tw/oldnick/2018/01/15/dapper">輕量級ORM - Dapper 使用</a><ul>
+<li><a href="https://www.jianshu.com/p/b11451fc538c">轻量级ORM框架—Dapper</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
+              <a href="/tags/Dapper/" rel="tag"># Dapper</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84IIS%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="記錄IIS的使用">
+      <i class="fa fa-chevron-left"></i> 記錄IIS的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84SSL%E7%9A%84%E5%AE%89%E8%A3%9D/" rel="next" title="記錄SSL的安裝">
+      記錄SSL的安裝 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#測試資料庫"><span class="nav-text">測試資料庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用MicroOrm-Dapper-Repositories的函式庫"><span class="nav-text">使用MicroOrm.Dapper.Repositories的函式庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試和使用Dapper函式庫"><span class="nav-text">測試和使用Dapper函式庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立使用的物件"><span class="nav-text">建立使用的物件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-EmployeeRepository"><span class="nav-text">建立    EmployeeRepository</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#註開相關的物件"><span class="nav-text">註開相關的物件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#資料庫的動作"><span class="nav-text">資料庫的動作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Dapper-SimpleCRUD的函式庫"><span class="nav-text">使用Dapper.SimpleCRUD的函式庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試和使用Dapper-SimpleCRUD函式庫"><span class="nav-text">測試和使用Dapper.SimpleCRUD函式庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立使用的物件-1"><span class="nav-text">建立使用的物件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立-Repository"><span class="nav-text">建立    Repository</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#測試資料庫的動作"><span class="nav-text">測試資料庫的動作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#參考資料-1"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

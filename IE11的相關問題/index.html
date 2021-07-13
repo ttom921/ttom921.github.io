@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="IE11影像播放問題在IE11在播放mp4的影像時，需要在聲音的播收需要使用acc的格式 讓IE11可以在Angular9上執行  因為日本客戶要求，要在IE10 IE11上可以執行，所以先來將Angular9，來測試一下可不可以使用因為在官方的文件上，是可以支持IE9-11的，所以來測試一下。 目前使用的方法安裝程式庫 12npm install --save classlist.jsnpm i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IE11的相關問題">
+<meta property="og:url" content="https://ttom921.github.io/IE11%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="IE11影像播放問題在IE11在播放mp4的影像時，需要在聲音的播收需要使用acc的格式 讓IE11可以在Angular9上執行  因為日本客戶要求，要在IE10 IE11上可以執行，所以先來將Angular9，來測試一下可不可以使用因為在官方的文件上，是可以支持IE9-11的，所以來測試一下。 目前使用的方法安裝程式庫 12npm install --save classlist.jsnpm i">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/IE11%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/2020-05-22_13_59_49_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/IE11%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/2020-05-22_14_28_09_Image.jpg">
+<meta property="article:published_time" content="2018-03-07T09:40:02.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:34.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="專案">
+<meta property="article:tag" content="Angular">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/IE11%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/2020-05-22_13_59_49_Image.jpg">
+
+<link rel="canonical" href="https://ttom921.github.io/IE11%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>IE11的相關問題 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/IE11%E7%9A%84%E7%9B%B8%E9%97%9C%E5%95%8F%E9%A1%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IE11的相關問題
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2018-03-07 09:40:02" itemprop="dateCreated datePublished" datetime="2018-03-07T09:40:02+00:00">2018-03-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:34" itemprop="dateModified" datetime="2021-07-13T01:17:34+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B0%88%E6%A1%88/" itemprop="url" rel="index"><span itemprop="name">專案</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B0%88%E6%A1%88/%E7%9B%B8%E9%97%9C/" itemprop="url" rel="index"><span itemprop="name">相關</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="IE11影像播放問題"><a href="#IE11影像播放問題" class="headerlink" title="IE11影像播放問題"></a>IE11影像播放問題</h2><p>在IE11在播放mp4的影像時，需要在聲音的播收需要使用acc的格式</p>
+<h2 id="讓IE11可以在Angular9上執行"><a href="#讓IE11可以在Angular9上執行" class="headerlink" title="讓IE11可以在Angular9上執行"></a>讓IE11可以在Angular9上執行</h2><p>  因為日本客戶要求，要在IE10 IE11上可以執行，所以先來將Angular9，來測試一下可不可以使用因為在官方的文件上，是可以支持IE9-11的，所以來測試一下。</p>
+<h3 id="目前使用的方法"><a href="#目前使用的方法" class="headerlink" title="目前使用的方法"></a>目前使用的方法</h3><p>安裝程式庫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save classlist.js</span><br><span class="line">npm install --save web-animations-js</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>src\polyfills.ts</code>中，將需要的程式庫打開</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***************************************************************************************************</span></span><br><span class="line"><span class="comment"> * BROWSER POLYFILLS</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** IE10 and IE11 requires the following for NgClass support on SVG elements */</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'classlist.js'</span>;  <span class="comment">// Run `npm install --save classlist.js`.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Web Animations `@angular/platform-browser/animations`</span></span><br><span class="line"><span class="comment"> * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.</span></span><br><span class="line"><span class="comment"> * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'web-animations-js'</span>;  <span class="comment">// Run `npm install --save web-animations-js`.</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>browserslist</code>檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># This file is used by the build system to adjust CSS and JS output to support the specified browsers below.</span><br><span class="line"># For additional information regarding the format and rule options, please see:</span><br><span class="line"># https:&#x2F;&#x2F;github.com&#x2F;browserslist&#x2F;browserslist#queries</span><br><span class="line"></span><br><span class="line"># You can see what browsers were selected by your queries by running:</span><br><span class="line">#   npx browserslist</span><br><span class="line"></span><br><span class="line">&gt; 0.5%</span><br><span class="line">last 2 versions</span><br><span class="line">Firefox ESR</span><br><span class="line">not dead</span><br><span class="line">not IE 9-11 # For IE 9-11 support, remove &#39;not&#39;.</span><br><span class="line">IE 10-11</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>tsconfig.json</code>將”target”: “es2015”改成”target”: “es5”,</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compileOnSave"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"baseUrl"</span>: <span class="string">"./"</span>,</span><br><span class="line">    <span class="attr">"outDir"</span>: <span class="string">"./dist/out-tsc"</span>,</span><br><span class="line">    <span class="attr">"sourceMap"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"declaration"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"downlevelIteration"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"experimentalDecorators"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"module"</span>: <span class="string">"esnext"</span>,</span><br><span class="line">    <span class="attr">"moduleResolution"</span>: <span class="string">"node"</span>,</span><br><span class="line">    <span class="attr">"importHelpers"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"target"</span>: <span class="string">"es5"</span>,</span><br><span class="line">    <span class="attr">"lib"</span>: [</span><br><span class="line">      <span class="string">"es2018"</span>,</span><br><span class="line">      <span class="string">"dom"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"angularCompilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"fullTemplateTypeCheck"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"strictInjectionParameters"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>參考資料<a href="https://indepth.dev/angular-internet-explorer/">Angular and Internet Explorer</a></p>
+<h3 id="有如入tsconfig的方法"><a href="#有如入tsconfig的方法" class="headerlink" title="有如入tsconfig的方法"></a>有如入tsconfig的方法</h3><p>   安裝程式庫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save classlist.js</span><br><span class="line">npm install --save web-animations-js</span><br></pre></td></tr></table></figure>
+
+<p>在<code>browserslist</code>檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; 0.5%</span><br><span class="line">last 2 versions</span><br><span class="line">Firefox ESR</span><br><span class="line">not dead</span><br><span class="line">IE 9-11 # For IE 9-11 support, remove &#39;not&#39;.</span><br></pre></td></tr></table></figure>
+
+
+
+<p>  先來建立一個<code>tsconfig.app.es5.json</code>(自已取一個任意檔名)繼承tsconfig.app.json，但輸出設為ES5</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"extends"</span>: <span class="string">"./tsconfig.app.json"</span>,</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"target"</span>: <span class="string">"es5"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如下個所示</p>
+<img src="2020-05-22_13_59_49_Image.jpg" style="zoom:80%;" />
+
+<p><code>angular.json</code></p>
+<ul>
+<li>在<code>architect.build.configurations</code>下多一估ES5，指定到新的<code>tsconfig.app.es5.json</code></li>
+<li>在<code>serve.configurations</code>下多一個ES5指定新的<code>builder option</code></li>
+</ul>
+<img src="2020-05-22_14_28_09_Image.jpg" style="zoom:80%;" />
+
+<p><code>package.json</code></p>
+<p>指定原本的start為新的方式</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "ng": "ng",</span><br><span class="line">  "start": "ng serve --host=0.0.0.0 --proxy-config proxy.config.json --configuration es5",</span><br><span class="line">  "start-es6": "ng serve --host=0.0.0.0 --proxy-config proxy.config.json",</span><br><span class="line">  "build": "ng build",</span><br><span class="line">  "test": "ng test",</span><br><span class="line">  "lint": "ng lint",</span><br><span class="line">  "e2e": "ng e2e"</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h3><p><a href="https://timmybeef.github.io/2019/09/20/ng8-in-ie11/">Angular 8 設定 - 支援 IE 11 顯示</a></p>
+<h2 id="設定讓IE11可以在獨立的執行"><a href="#設定讓IE11可以在獨立的執行" class="headerlink" title="設定讓IE11可以在獨立的執行"></a>設定讓IE11可以在獨立的執行</h2><p>因為在專案上，之前的作法是將整個網站放在專案的一個資料夾，之後在C#的webbrowser來執行它的index.html檔，這樣就不用另外架設web服務器。測試方法很簡單，在angular執行build成production時會產生dist的資料夾，如果可以將dist的資料夾中的index.html直接拖放到ie11,如果可以顯示，那基本上應該是沒有問題。<a href="https://github.com/ttom921/TestIE11">github</a></p>
+<p>先來建立測試專案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng new ie11</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改APP-BASE-HREF的路徑"><a href="#修改APP-BASE-HREF的路徑" class="headerlink" title="修改APP_BASE_HREF的路徑"></a>修改<code>APP_BASE_HREF</code>的路徑</h3><p>在<code>src\app\app.module.ts</code>主要的修改是<code>import { CommonModule, APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from &#39;@angular/common&#39;;</code>和<code>providers: [     { provide: APP_BASE_HREF, useValue: &#39;/&#39; },     { provide: LocationStrategy, useClass: HashLocationStrategy },   ],</code>如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; BrowserModule &#125; <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; AppRoutingModule &#125; <span class="keyword">from</span> <span class="string">'./app-routing.module'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; AppComponent &#125; <span class="keyword">from</span> <span class="string">'./app.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; CommonModule, APP_BASE_HREF, LocationStrategy, HashLocationStrategy &#125; <span class="keyword">from</span> <span class="string">'@angular/common'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  declarations: [</span><br><span class="line">    AppComponent</span><br><span class="line">  ],</span><br><span class="line">  imports: [</span><br><span class="line">    CommonModule,</span><br><span class="line">    BrowserModule,</span><br><span class="line">    AppRoutingModule</span><br><span class="line">  ],</span><br><span class="line">  providers: [</span><br><span class="line">    &#123; provide: APP_BASE_HREF, useValue: <span class="string">'/'</span> &#125;,</span><br><span class="line">    &#123; provide: LocationStrategy, useClass: HashLocationStrategy &#125;,</span><br><span class="line">  ],</span><br><span class="line">  bootstrap: [AppComponent]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppModule &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改index-html的路徑"><a href="#修改index-html的路徑" class="headerlink" title="修改index.html的路徑"></a>修改<code>index.html</code>的路徑</h3><p>接下來在<code>src\index.html</code>中的修改主要是加入<code>&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=11&quot;&gt;</code>和<code>&lt;!-- &lt;base href=&quot;/&quot;&gt; --&gt;</code>如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=11"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Ie11<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- &lt;base href="/"&gt; --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"icon"</span> <span class="attr">type</span>=<span class="string">"image/x-icon"</span> <span class="attr">href</span>=<span class="string">"favicon.ico"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">app-root</span>&gt;</span><span class="tag">&lt;/<span class="name">app-root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>顯示一張圖片先將圖片拷貝到<code>src\assets</code></p>
+<p>在<code>src\app\app.component.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>顯示一張圖片<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"assets/2019-08-22_12_29_57_Image.png"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="修改編譯版本"><a href="#修改編譯版本" class="headerlink" title="修改編譯版本"></a>修改編譯版本</h3><p>設定編譯版本將原來的<code>&quot;target&quot;: &quot;es2015&quot;,</code>修改成<code>&quot;target&quot;: &quot;es5&quot;</code></p>
+<p>在<code>tsconfig.json</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"compileOnSave"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="string">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="string">"baseUrl"</span>: <span class="string">"./"</span>,</span><br><span class="line">    <span class="string">"outDir"</span>: <span class="string">"./dist/out-tsc"</span>,</span><br><span class="line">    <span class="string">"sourceMap"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"declaration"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"downlevelIteration"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"experimentalDecorators"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"module"</span>: <span class="string">"esnext"</span>,</span><br><span class="line">    <span class="string">"moduleResolution"</span>: <span class="string">"node"</span>,</span><br><span class="line">    <span class="string">"importHelpers"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"target"</span>: <span class="string">"es5"</span>,</span><br><span class="line">    <span class="string">"typeRoots"</span>: [</span><br><span class="line">      <span class="string">"node_modules/@types"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"lib"</span>: [</span><br><span class="line">      <span class="string">"es2018"</span>,</span><br><span class="line">      <span class="string">"dom"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"angularCompilerOptions"</span>: &#123;</span><br><span class="line">    <span class="string">"fullTemplateTypeCheck"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"strictInjectionParameters"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>參考資料</p>
+<p><a href="https://stackoverflow.com/questions/39771458/running-an-angular-2-application-built-locally-on-chrome-using-angular-cli-witho">Running an angular 2 application built locally on Chrome using angular-cli without a node server</a></p>
+<h2 id="IE11和Form互傳"><a href="#IE11和Form互傳" class="headerlink" title="IE11和Form互傳"></a>IE11和Form互傳</h2><p>在專案上的應用上是windwos form和IE11，有可能會互傳資料，所以先來測試一下</p>
+<h3 id="Form傳給Angular資料"><a href="#Form傳給Angular資料" class="headerlink" title="Form傳給Angular資料"></a>Form傳給Angular資料</h3><p>在win form的建置和設定，就不列出來，相關的程式碼有在github上，所以可以下載來看。</p>
+<p>基本的流程</p>
+<p><code>&lt;pre class=&quot;mermaid&quot;&gt;graph TD; winfom呼叫callMe --&gt; javascript收到 javascript收到   --&gt; 呼叫設定好的元件 </code></pre></p>
+<h4 id="form上的主要程式"><a href="#form上的主要程式" class="headerlink" title="form上的主要程式"></a>form上的主要程式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private void button1_Click(object sender, System.EventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">            object[] args &#x3D; &#123; &quot;argString1&quot;, &quot;argString2&quot; &#125;;</span><br><span class="line">            object ret &#x3D; webBrowser1.Document.InvokeScript(&quot;callMe&quot;, args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Angular上的主要程式"><a href="#Angular上的主要程式" class="headerlink" title="Angular上的主要程式"></a>Angular上的主要程式</h4><p>在<code>src\index.html</code>有javascript的程式,這里有要<strong>注要的地方，是IE11的問題在功能呼叫時可以有這樣的簡寫<code>()=&gt;{}</code>，但是IE11會將它過濾掉，所以要改寫成<code>function() {}</code></strong> <a href="https://stackoverflow.com/questions/35276291/how-to-expose-angular-2-methods-publicly/35276652#35276652">參考</a></p>
+<p><a href="https://www.c-sharpcorner.com/blogs/call-angular-2-function-from-javascript">https://www.c-sharpcorner.com/blogs/call-angular-2-function-from-javascript</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=11"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Ie11<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- &lt;base href="/"&gt; --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"icon"</span> <span class="attr">type</span>=<span class="string">"image/x-icon"</span> <span class="attr">href</span>=<span class="string">"favicon.ico"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">app-root</span>&gt;</span><span class="tag">&lt;/<span class="name">app-root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">  <span class="function"><span class="keyword">function</span> <span class="title">callMe</span><span class="params">(arg1, arg2)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">//</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> alertMessage = <span class="string">"arg1 is "</span> + arg1 + <span class="string">" and arg2 is "</span> + arg2 + <span class="string">"!"</span>;</span></span><br><span class="line">    alert(alertMessage);</span><br><span class="line"><span class="actionscript">    <span class="comment">//console.log("arg1 is " + arg1 + " and arg2 is " + arg2 + "!");</span></span></span><br><span class="line"><span class="actionscript">    <span class="comment">//"arg1 is " + arg1 + " and arg2 is " + arg2 + "!"</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.angularComponentReference.zone.run(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="built_in">window</span>.angularComponentReference.loadAngularFunction(arg1, arg2); &#125;);</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在元件上的設定<code>src\app\app.component.ts</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, NgZone, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-root'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./app.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line">  title = <span class="string">'ie11'</span>;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> ngZone: NgZone,</span></span><br><span class="line"><span class="params">  </span>) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  ngOnInit(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="comment">//Called after the constructor, initializing input properties, and the first call to ngOnChanges.</span></span><br><span class="line">    <span class="comment">//Add 'implements OnInit' to the class.</span></span><br><span class="line">    <span class="built_in">window</span>[<span class="string">'angularComponentReference'</span>] = &#123; component: <span class="keyword">this</span>, zone: <span class="keyword">this</span>.ngZone, loadAngularFunction: <span class="function">(<span class="params">arg1, arg2</span>) =&gt;</span> <span class="keyword">this</span>.angularFunctionCalled(arg1, arg2), &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> angularFunctionCalled(arg1, arg2) &#123;</span><br><span class="line">    <span class="keyword">let</span> alertMessage = <span class="string">"angular :arg1 is "</span> + arg1 + <span class="string">" and arg2 is "</span> + arg2 + <span class="string">"!"</span>;</span><br><span class="line">    alert(alertMessage);</span><br><span class="line">    <span class="comment">//console.log("arg1 is " + arg1 + " and arg2 is " + arg2 + "!");</span></span><br><span class="line">    <span class="comment">//"arg1 is " + arg1 + " and arg2 is " + arg2 + "!"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Angular傳給Form"><a href="#Angular傳給Form" class="headerlink" title="Angular傳給Form"></a>Angular傳給Form</h3><p>將Angular中來呼叫Form的方法和傳資料給它<a href="https://seydahatipoglu.wordpress.com/2016/11/11/calling-native-javascript-functions-from-angular-components/">參考</a></p>
+<p>在Form的程式，主要是在一開始要設定誰來處理這個功能<code>webBrowser1.ObjectForScripting = this</code>,在被Javascript呼叫的功能是<code>OnWebPageReady(string msg)</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public Form1()</span><br><span class="line">&#123;</span><br><span class="line">     InitializeComponent();</span><br><span class="line"> </span><br><span class="line">     webBrowser1.ObjectForScripting &#x3D; this;&#x2F;&#x2F;2、設定js中window.external物件代表的類</span><br><span class="line">     webBrowser1.ScriptErrorsSuppressed &#x3D; true;</span><br><span class="line">           </span><br><span class="line">&#125;</span><br><span class="line">public void OnWebPageReady(string msg)</span><br><span class="line">&#123;</span><br><span class="line">     MessageBox.Show(msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在angular中<code>src\index.html</code>中來呼叫<code>callFunc(arg1)</code>並傳入參數</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">  <span class="function"><span class="keyword">function</span> <span class="title">callFunc</span><span class="params">(arg1)</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.external.OnWebPageReady(arg1);</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\app.component.html</code>中加入呼叫的button</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>顯示一張圖片<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"assets/2019-08-22_12_29_57_Image.png"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> (<span class="attr">click</span>)=<span class="string">"sendDatatoWinform()"</span>&gt;</span>傳送到winform<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">router-outlet</span>&gt;</span><span class="tag">&lt;/<span class="name">router-outlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>src\app\app.component.ts</code>中主要是來宣告呼叫Javascript的功能<code>declare var callFunc: Function;</code>之後可以在元件中來呼叫<code>sendDatatoWinform()</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component, NgZone, OnInit &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">var</span> callFunc: <span class="built_in">Function</span>;</span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  selector: <span class="string">'app-root'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./app.component.scss'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> AppComponent <span class="keyword">implements</span> OnInit &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  sendDatatoWinform() &#123;</span><br><span class="line">    <span class="keyword">let</span> msg = <span class="string">"this data form angular"</span>;</span><br><span class="line">    callFunc(msg);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>之後在來寫管理器來統一處理這些機制</p>
+<h2 id="設定讓IE11可以執行angular2"><a href="#設定讓IE11可以執行angular2" class="headerlink" title="設定讓IE11可以執行angular2"></a>設定讓IE11可以執行angular2</h2><p>安裝classlist.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save classlist.js</span><br><span class="line">npm install --save web-animations-js</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>修改index.html<br>在index.html中要加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src&#x3D;&quot;node_modules&#x2F;core-js&#x2F;client&#x2F;shim.min.js&quot;&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>修改polyfills.ts<br>為了讓angular2在IE11上可以順利的執行，要到src/polyfills.ts 將所有的註解打開</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B0%88%E6%A1%88/" rel="tag"># 專案</a>
+              <a href="/tags/Angular/" rel="tag"># Angular</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%BB%8A%E4%B8%BB%E7%AB%AF%E5%B0%88%E6%A1%88%E7%9B%B8%E9%97%9C/" rel="prev" title="車主端專案相關">
+      <i class="fa fa-chevron-left"></i> 車主端專案相關
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84git%E7%9B%B8%E9%97%9C%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="next" title="記錄git相關的使用">
+      記錄git相關的使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IE11影像播放問題"><span class="nav-text">IE11影像播放問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#讓IE11可以在Angular9上執行"><span class="nav-text">讓IE11可以在Angular9上執行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目前使用的方法"><span class="nav-text">目前使用的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有如入tsconfig的方法"><span class="nav-text">有如入tsconfig的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定讓IE11可以在獨立的執行"><span class="nav-text">設定讓IE11可以在獨立的執行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改APP-BASE-HREF的路徑"><span class="nav-text">修改APP_BASE_HREF的路徑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改index-html的路徑"><span class="nav-text">修改index.html的路徑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改編譯版本"><span class="nav-text">修改編譯版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IE11和Form互傳"><span class="nav-text">IE11和Form互傳</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Form傳給Angular資料"><span class="nav-text">Form傳給Angular資料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#form上的主要程式"><span class="nav-text">form上的主要程式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Angular上的主要程式"><span class="nav-text">Angular上的主要程式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Angular傳給Form"><span class="nav-text">Angular傳給Form</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定讓IE11可以執行angular2"><span class="nav-text">設定讓IE11可以執行angular2</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

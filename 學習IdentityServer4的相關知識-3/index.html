@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Hybrid Flow和Offline Access目前我們解決方案里面有三項目Authorization Server,Web api和Mvc Client,在現實世界中,他們都在不同的地方現在讓我們從MvcClient使用Authorization Server獲取的token來訪問web api.併且確保這個token不過期現在我們的MvcClient使用的是implicit flow,也就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習IdentityServer4的相關知識-3">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="Hybrid Flow和Offline Access目前我們解決方案里面有三項目Authorization Server,Web api和Mvc Client,在現實世界中,他們都在不同的地方現在讓我們從MvcClient使用Authorization Server獲取的token來訪問web api.併且確保這個token不過期現在我們的MvcClient使用的是implicit flow,也就">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_19_1Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_22_2Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_28_3Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_32_4Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_37_5Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_45_6Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_54_7Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_59_8Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_13_28_9Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_13_39_10Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_13_40_11Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_14_00_13Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_14_08_14Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_15_23_15Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_15_39_16Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_17_39_17Image.png">
+<meta property="article:published_time" content="2018-12-11T09:39:27.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="IdentityServer4">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_19_1Image.png">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習IdentityServer4的相關知識-3 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習IdentityServer4的相關知識-3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2018-12-11 09:39:27" itemprop="dateCreated datePublished" datetime="2018-12-11T09:39:27+00:00">2018-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/IdentityServer4/" itemprop="url" rel="index"><span itemprop="name">IdentityServer4</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Hybrid-Flow和Offline-Access"><a href="#Hybrid-Flow和Offline-Access" class="headerlink" title="Hybrid Flow和Offline Access"></a>Hybrid Flow和Offline Access</h1><p>目前我們解決方案里面有三項目Authorization Server,Web api和Mvc Client,在現實世界中,他們都在不同的地方<br>現在讓我們從MvcClient使用Authorization Server獲取的token來訪問web api.併且確保這個token不過期<br>現在我們的MvcClient使用的是implicit flow,也就是說，token被發送到client,這種情況下token的生命可能短，但<br>是我們可以重向Authorization server重新獲取新的token.<br>例如，SPA(Single Page Application)中,implicit flow基本上就是除了Resource owner password flow以外唯一合<br>適的flow,但是我們的網站可能會在client(SPA client/或者指用戶)沒有使用網站訪問api,為了這樣做，不但要保證<br>token不過期，我們還需要使用別的flow,我們要介紹一下authorization code flow,它和implicit flow很像，不同的<br>是在重定向回到網站的時候獲取的不是access token,而是從authorization server獲取一個code,使用它網站可以交換<br>一個sercret,使用這個sercret可以獲取access token和reftesh token</p>
+<p>Hybrid flow,是兩䅜的混合，首先identity token通過瀏覽器傳過來了，然後客戶端可以在進行任何工作之前對其驗證<br>，如果驗證成功，客戶端就會再打開一個通道向Authorization Server請求獲取access token</p>
+<h2 id="首先在Authoriztion-serer的InMemoryConfiguration添加一個Client"><a href="#首先在Authoriztion-serer的InMemoryConfiguration添加一個Client" class="headerlink" title="首先在Authoriztion serer的InMemoryConfiguration添加一個Client"></a>首先在Authoriztion serer的InMemoryConfiguration添加一個Client</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">new Client</span><br><span class="line">&#123;</span><br><span class="line">    ClientId &#x3D; &quot;mvc_code&quot;,</span><br><span class="line">    ClientName &#x3D; &quot;MVC Code Client&quot;,</span><br><span class="line">    AllowedGrantTypes &#x3D; GrantTypes.HybridAndClientCredentials,</span><br><span class="line">    ClientSecrets &#x3D;</span><br><span class="line">    &#123;</span><br><span class="line">        new Secret(&quot;secret&quot;.Sha256())</span><br><span class="line">    &#125;,</span><br><span class="line">    RedirectUris &#x3D; &#123; &quot;http:&#x2F;&#x2F;localhost:5002&#x2F;signin-oidc&quot; &#125;,</span><br><span class="line">    PostLogoutRedirectUris &#x3D; &#123; &quot;http:&#x2F;&#x2F;localhost:5002&#x2F;signout-callback-oidc&quot; &#125;,</span><br><span class="line">    AllowedScopes &#x3D; new List&lt;string&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        IdentityServerConstants.StandardScopes.OpenId,</span><br><span class="line">        IdentityServerConstants.StandardScopes.Profile,</span><br><span class="line">        IdentityServerConstants.StandardScopes.Email,</span><br><span class="line">        &quot;socialnetwork&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">     AllowOfflineAccess &#x3D; true,</span><br><span class="line">     AllowAccessTokensViaBrowser &#x3D; true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先一定要修改一下ClientId<br>GrantType要改成Hybrid或是HybrdAndClientCredentials，如果只使用Code Flow的話不行，因為我們的網站使用<br>Authorization Server來進行Authentication，我們想獲取Access token以便被授權來訪問api,所以這里用HybridFlow<br>還要添加一個新的Email scope, 因為我想改變api來允許我基于email來創建用戶的數據，因為authorization server和<br>web api是分開的，所以用戶的數據庫也是分開的，api使用用戶名(email)來查詢數據蟀中的數據<br>AllowOfflineAccess我們還需要獲取Refresh Token，這就要求我們的網站必須可以”離線”工作，這里離線是指用戶和網站<br>之間斷開了，併不是指網站離線了<br>這就是說網站可以使用token來和api進行交互，而不需要用戶登入到網站上</p>
+<h2 id="修改MvcClient的Startup的ConfigurdServices"><a href="#修改MvcClient的Startup的ConfigurdServices" class="headerlink" title="修改MvcClient的Startup的ConfigurdServices"></a>修改MvcClient的Startup的ConfigurdServices</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices(IServiceCollection services)</span><br><span class="line">&#123;</span><br><span class="line">    JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();</span><br><span class="line">    services.AddAuthentication(options &#x3D;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.DefaultScheme &#x3D; &quot;Cookies&quot;;</span><br><span class="line">        options.DefaultChallengeScheme &#x3D; &quot;oidc&quot;;</span><br><span class="line">    &#125;)</span><br><span class="line">    .AddCookie(&quot;Cookies&quot;)</span><br><span class="line">    .AddOpenIdConnect(&quot;oidc&quot;, options &#x3D;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.SignInScheme &#x3D; &quot;Cookies&quot;;</span><br><span class="line"></span><br><span class="line">        options.Authority &#x3D; &quot;http:&#x2F;&#x2F;localhost:5000&quot;;</span><br><span class="line">        options.RequireHttpsMetadata &#x3D; false;</span><br><span class="line"></span><br><span class="line">        options.ClientId &#x3D; &quot;mvc_code&quot;;</span><br><span class="line">        options.ClientSecret &#x3D; &quot;secret&quot;;</span><br><span class="line">        options.ResponseType &#x3D; &quot;id_token code&quot;;</span><br><span class="line">        options.Scope.Add(&quot;socialnetwork&quot;);</span><br><span class="line">        options.Scope.Add(&quot;offline_access&quot;);</span><br><span class="line">        options.SaveTokens &#x3D; true;</span><br><span class="line">        options.GetClaimsFromUserInfoEndpoint &#x3D; true;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    services.Configure&lt;CookiePolicyOptions&gt;(options &#x3D;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; This lambda determines whether user consent for non-essential cookies is needed for a given request.</span><br><span class="line">        options.CheckConsentNeeded &#x3D; context &#x3D;&gt; true;</span><br><span class="line">        options.MinimumSameSitePolicy &#x3D; SameSiteMode.None;</span><br><span class="line">    &#125;);</span><br><span class="line">    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先改ClientId和Authorization server一致這樣用戶訪問的時候和implicit差不多，只不過重定向回來的時候，獲取一個code,<br>使用這個code可以換取secret然後獲取access token<br>所以需要在網站(MvcClient)上指定Client Secret,這個不要泄露出去<br>還需要改變reponse type,不需要再獲取access token了，而是code,這意味著使用的是authorization Code flow<br>還需履指定請求訪問的scopes:包括socialnetwork api和離線訪問<br>最後還可以告訴它從UserInfo 節點獲取用戶的claims</p>
+<h2 id="運行"><a href="#運行" class="headerlink" title="運行"></a>運行</h2><p>點擊about重定向到authorization server<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_19_1Image.png" alt="image"><br>同時在Authorization Server的控制台可以看見如下的信息<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_22_2Image.png" alt="image"><br>這里可以看到請求訪問的scope,response_type還告訴我們的respose mode是from_post,這就是說在這登入後重定向回到網站是使用<br>form post方式<br>然後登入<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_28_3Image.png" alt="image"><br>這里可以看到請求訪問是範圍，包括個人信息和Applocation access<br>點擊yes, allow<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_32_4Image.png" alt="image"><br>重定向回到了網站，這里看起來和以前一樣，但是如果看一下Authorization Server的控制台<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_37_5Image.png" alt="image"><br>就會看到一個request，中間件發起了一個請求使用Authorization Code和ClientId和secret來探取Access token<br>當Authorization驗證上述信息後它就會創建一個token</p>
+<h2 id="印出Refresh-Token"><a href="#印出Refresh-Token" class="headerlink" title="印出Refresh Token"></a>印出Refresh Token</h2><p>修改MvcClient的About.cshtml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">@using Microsoft.AspNetCore.Authentication</span><br><span class="line">@&#123;</span><br><span class="line">    ViewData[&quot;Title&quot;] &#x3D; &quot;About&quot;;</span><br><span class="line">&#125;</span><br><span class="line">&lt;h2&gt;@ViewData[&quot;Title&quot;]&lt;&#x2F;h2&gt;</span><br><span class="line">&lt;h3&gt;@ViewData[&quot;Message&quot;]&lt;&#x2F;h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;p&gt;Use this area to provide additional information.&lt;&#x2F;p&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;strong&gt;id_token&lt;&#x2F;strong&gt;</span><br><span class="line">    &lt;span&gt;@await ViewContext.HttpContext.GetTokenAsync(&quot;id_token&quot;)&lt;&#x2F;span&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;strong&gt;access_token&lt;&#x2F;strong&gt;</span><br><span class="line">    &lt;span&gt;@await ViewContext.HttpContext.GetTokenAsync(&quot;access_token&quot;)&lt;&#x2F;span&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;strong&gt;refresh_token&lt;&#x2F;strong&gt;</span><br><span class="line">    &lt;span&gt;@await ViewContext.HttpContext.GetTokenAsync(&quot;refresh_token&quot;)&lt;&#x2F;span&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;dl&gt;</span><br><span class="line">    @foreach (var claim in User.Claims)</span><br><span class="line">    &#123;</span><br><span class="line">        &lt;dt&gt;@claim.Type&lt;&#x2F;dt&gt;</span><br><span class="line">        &lt;dt&gt;@claim.Value&lt;&#x2F;dt&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;&#x2F;dl&gt;</span><br></pre></td></tr></table></figure>
+<p>刷新頁面<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_45_6Image.png" alt="image"><br>看到了refresh token<br>這些toke包含了什塺時候過期的信息<br>如果access token過期，就無法訪問api，所以需要確保access token不過期，這就需要refresh token了<br>複制一下refresh toke,然後使用postman<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_54_7Image.png" alt="image"><br>使用這個refresh token可以獲取到新的access token和refresh_token,當這個access_token過期的時候，可<br>以使用refresh_toke再獲取一個access_token和refresh_token<br>而如果使用同一個refresh token 兩次,就會得到下面的結果<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_11_59_8Image.png" alt="image"><br>所以說,refresh token是一次性的</p>
+<h2 id="獲取自定義Claims"><a href="#獲取自定義Claims" class="headerlink" title="獲取自定義Claims"></a>獲取自定義Claims</h2><p>web api 要求request請求提供access token,以証明請求的用戶是已經授權的，現在我們準備從access token<br>里面提一些自定義Claims,例如Email<br>看看Authorization Server的Cleint配罝<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_13_28_9Image.png" alt="image"><br>Client的AllowedScoped已經包括了Email但是還沒有配置Authorization Server允許這個Scope，所以需要修改<br>GerIdentitResources()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public static IEnumerable&lt;IdentityResource&gt; GetIdentityResources()</span><br><span class="line">&#123;</span><br><span class="line">    return new List&lt;IdentityResource&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        new IdentityResources.OpenId(),</span><br><span class="line">        new IdentityResources.Profile(),</span><br><span class="line">        new IdentityResources.Email(),</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然後需要為TestUser添加一個定義的Claims;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static IEnumerable&lt;TestUser&gt; Users()</span><br><span class="line">&#123;</span><br><span class="line">    return new[]</span><br><span class="line">    &#123;</span><br><span class="line">        new TestUser</span><br><span class="line">        &#123;</span><br><span class="line">            SubjectId &#x3D; &quot;1&quot;,</span><br><span class="line">            Username&#x3D;&quot;test&quot;,</span><br><span class="line">            Password&#x3D;&quot;1234&quot;,</span><br><span class="line">            Claims &#x3D; new [] &#123; new Claim(&quot;email&quot;, &quot;mail@qq.com&quot;) &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然後需要對MvcClient進行設置,Startup的ConfigureServices</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices(IServiceCollection services)</span><br><span class="line">&#123;</span><br><span class="line">    JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();</span><br><span class="line">    services.AddAuthentication(options &#x3D;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.DefaultScheme &#x3D; &quot;Cookies&quot;;</span><br><span class="line">        options.DefaultChallengeScheme &#x3D; &quot;oidc&quot;;</span><br><span class="line">    &#125;)</span><br><span class="line">    .AddCookie(&quot;Cookies&quot;)</span><br><span class="line">    .AddOpenIdConnect(&quot;oidc&quot;, options &#x3D;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.SignInScheme &#x3D; &quot;Cookies&quot;;</span><br><span class="line"></span><br><span class="line">        options.Authority &#x3D; &quot;http:&#x2F;&#x2F;localhost:5000&quot;;</span><br><span class="line">        options.RequireHttpsMetadata &#x3D; false;</span><br><span class="line"></span><br><span class="line">        options.ClientId &#x3D; &quot;mvc_code&quot;;</span><br><span class="line">        options.ClientSecret &#x3D; &quot;secret&quot;;</span><br><span class="line">        options.ResponseType &#x3D; &quot;id_token code&quot;;</span><br><span class="line">        options.Scope.Add(&quot;socialnetwork&quot;);</span><br><span class="line">        options.Scope.Add(&quot;offline_access&quot;);</span><br><span class="line">        options.SaveTokens &#x3D; true;</span><br><span class="line">        options.Scope.Add(&quot;email&quot;);</span><br><span class="line">        options.GetClaimsFromUserInfoEndpoint &#x3D; true;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    services.Configure&lt;CookiePolicyOptions&gt;(options &#x3D;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; This lambda determines whether user consent for non-essential cookies is needed for a given request.</span><br><span class="line">        options.CheckConsentNeeded &#x3D; context &#x3D;&gt; true;</span><br><span class="line">        options.MinimumSameSitePolicy &#x3D; SameSiteMode.None;</span><br><span class="line">    &#125;);</span><br><span class="line">    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加email scope所以MvcClient就也會請求這個scope<br>運行<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_13_39_10Image.png" alt="image"><br>這時在同意(consent)頁圖時就會出現email address一欄<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_13_40_11Image.png" alt="image"><br>同意之後，可以看到email已經獲取到了</p>
+<h2 id="使用Access-Token調用web-Api"><a href="#使用Access-Token調用web-Api" class="headerlink" title="使用Access Token調用web Api"></a>使用Access Token調用web Api</h2><p>首先在web api 項目建立一個IdentityController:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">namespace WebApi.Controllers</span><br><span class="line">&#123;</span><br><span class="line">    [Route(&quot;api&#x2F;[controller]&quot;)]</span><br><span class="line">    [ApiController]</span><br><span class="line">    public class IdentityController : ControllerBase</span><br><span class="line">    &#123;</span><br><span class="line">        [Authorize]</span><br><span class="line">        [HttpGet]</span><br><span class="line">        public IActionResult Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var username &#x3D; User.Claims.First(x &#x3D;&gt; x.Type &#x3D;&#x3D; &quot;email&quot;).Value;</span><br><span class="line">            return Ok(username);</span><br><span class="line">            &#x2F;&#x2F;return new JsonResult(from c in User.Claims select new &#123; c.Type, c.Value&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我們想要通過自定義的Claim: email的值<br>然後回到MvcClietn的HomeController，添加一個方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public async Task&lt;IActionResult&gt; GetIdentity()</span><br><span class="line">&#123;</span><br><span class="line">    var token &#x3D; await HttpContext.GetTokenAsync(&quot;access_token&quot;);</span><br><span class="line">    using (var client &#x3D; new HttpClient())</span><br><span class="line">    &#123;</span><br><span class="line">        client.DefaultRequestHeaders.Authorization &#x3D; new System.Net.Http.Headers.AuthenticationHeaderValue(&quot;Bearer&quot;,token);</span><br><span class="line">        var content &#x3D; await client.GetStringAsync(&quot;http:&#x2F;&#x2F;localhost:5001&#x2F;api&#x2F;identity&quot;);</span><br><span class="line">        &#x2F;&#x2F; var json &#x3D; JArray.Parse(content).ToString();</span><br><span class="line">        return Ok(new &#123; value &#x3D; content &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先通過HttpContext獲得access token然後在請求的Authorization Header加上Bearer Token<br>讓我們運行一下,併在MvcClient和Web Api里都設好斷點。<br>登入後在瀏覽輸入<a href="http://localhost:5002/Home/GetIdentity">http://localhost:5002/Home/GetIdentity</a> 以執行GetIdentity方法，然後進人Web Api看看斷點調式情況<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_14_00_13Image.png" alt="image"><br>由於我們已經授權了，所以可以看到Uer的一些Claims,而中沒有email這個claim,再運行就報錯了<br>這是怎麼回事？我們回到About頁面，複制一下access_token, 去jwt.io分析一下<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_14_08_14Image.png" alt="image"><br>確實沒有email的值，所以提取不出來<br>所殺我們需要把emi添加到access token的數據裏面，這就需要告訴Authorization Server的Api Resource里面要包括User的Scope,<br>因無這是Identity Scope,我們想要把它添加到access token里<br>修改Authorization Serve的InMemoryConfiguration的ApiResources()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static IEnumerable&lt;ApiResource&gt; ApiResources()</span><br><span class="line">&#123;</span><br><span class="line">    return new[]</span><br><span class="line">    &#123;</span><br><span class="line">        new ApiResource(&quot;socialnetwork&quot;, &quot;社交網路&quot;)</span><br><span class="line">        &#123;</span><br><span class="line">            UserClaims &#x3D; new [] &#123; &quot;email&quot; &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這對這個Api Resource設置它的屬性UserClaims,里面寫上email<br>然後再運行一下程序，這童需要重新登入，首先分析一下token<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_15_23_15Image.png" alt="image"><br>有email了<br>然後執行GetIdentity(), 在web api 斷點調試，可以看到UserClaims已經包含了email:<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_15_39_16Image.png" alt="image"></p>
+<h2 id="刷新Access-Token"><a href="#刷新Access-Token" class="headerlink" title="刷新Access Token"></a>刷新Access Token</h2><p>根據配置不同,token的有效期可能差別很大，如果token過期了,那麼發送請求之後會返回401 UnAuthorized<br>當然如果token過期了，你可以讓用戶重定向到Authorization Server重新登入，再回來操作，不過這樣太不友<br>好，太麻煩了，既然我們有refresh token了，那不如向authorization server請求一個新的access token和refresh token,<br>然後再把這些更新到cookie里面， 所以下次再調api的時候使用的是新的token<br>在MvcClient的HomeContorller添加RefreshTokens的方法：<br>首先需要安裝IdentityModel，它是OpenIdConnect,OAuth2.0的客戶端庫<br><img src="../%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-3/2018-12-11_17_39_17Image.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[Authorize]</span><br><span class="line">public async Task RefreshTokensAsync()</span><br><span class="line">&#123;</span><br><span class="line">    var authorizationServerInfo &#x3D; await DiscoveryClient.GetAsync(&quot;http:&#x2F;&#x2F;localhost:5000&#x2F;&quot;);</span><br><span class="line">    var client &#x3D; new TokenClient(authorizationServerInfo.TokenEndpoint, &quot;mvc_code&quot;, &quot;secret&quot;);</span><br><span class="line">    var refreshToken &#x3D; await HttpContext.GetTokenAsync(&quot;refresh_token&quot;);</span><br><span class="line">    var response &#x3D; await client.RequestRefreshTokenAsync(refreshToken);</span><br><span class="line">    var identityToken &#x3D; await HttpContext.GetTokenAsync(&quot;identity_token&quot;);</span><br><span class="line">    var expiresAt &#x3D; DateTime.UtcNow + TimeSpan.FromSeconds(response.ExpiresIn);</span><br><span class="line">    var tokens &#x3D; new[]</span><br><span class="line">    &#123;</span><br><span class="line">        new AuthenticationToken</span><br><span class="line">        &#123;</span><br><span class="line">            Name &#x3D; OpenIdConnectParameterNames.IdToken,</span><br><span class="line">            Value &#x3D; identityToken</span><br><span class="line">        &#125;,</span><br><span class="line">        new AuthenticationToken</span><br><span class="line">        &#123;</span><br><span class="line">            Name &#x3D; OpenIdConnectParameterNames.AccessToken,</span><br><span class="line">            Value &#x3D; response.AccessToken</span><br><span class="line">        &#125;,</span><br><span class="line">        new AuthenticationToken</span><br><span class="line">        &#123;</span><br><span class="line">            Name &#x3D; OpenIdConnectParameterNames.RefreshToken,</span><br><span class="line">            Value &#x3D; response.RefreshToken</span><br><span class="line">        &#125;,</span><br><span class="line">        new AuthenticationToken</span><br><span class="line">        &#123;</span><br><span class="line">            Name &#x3D; &quot;expires_at&quot;,</span><br><span class="line">            Value &#x3D; expiresAt.ToString(&quot;o&quot;, CultureInfo.InvariantCulture)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    var authenticationInfo &#x3D; await HttpContext.AuthenticateAsync(&quot;Cookies&quot;);</span><br><span class="line">    authenticationInfo.Properties.StoreTokens(tokens);</span><br><span class="line">    await HttpContext.SignInAsync(&quot;Cookies&quot;, authenticationInfo.Principal, authenticationInfo.Properties);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先使用一個叫做discover client的東西來獲取Authorization Server的信息Authorization Server里面有一個discovery節<br>點(endpoint),可以通過這個地址查看： /.well-known/openid-configuration 從這裏可以獲得很多信息，例如authorization<br>節點，token節點，發布者，key,scopes等等<br>然後使用TokenClient，參數有token節點，clientId和secret然後可以使用這個client和refreshtoken來請求新的access token等<br>找到refresh token後，使用client獲取新的tokens, 返回結果是tokenresponse,你可以設斷點查看一下token response里面都有什<br>麼東西這就不弄了，里面包括identitytoken,accesstoken,refreshtoken等等<br>然後需要找原來的identity token，因為它相當是cookie中存儲的主鍵<br>然後設置一下過期時間<br>然後將老的ideneity token和新獲取到的其它token以及過期時間，組縑一個集合<br>然後使用這些tokens來重新登入用戶，不過首先要獲取當前用戶的authentication信息使用<br>HttpContext.AuthenticateAsync(“Cookies”),參數是AuthenticationScheme, 然後修改屬性，存儲新的tokens<br>最後就是重登錄，把當前用戶信息的Principal和Properties傳進去，這就會更新客戶端的Cookies，用戶也就保持登入併且刷新了tokens<br>先簡單調用一下這個方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public async Task&lt;IActionResult&gt; GetIdentity()</span><br><span class="line">&#123;</span><br><span class="line">    await RefreshTokensAsync();</span><br><span class="line">    var token &#x3D; await HttpContext.GetTokenAsync(&quot;access_token&quot;);</span><br><span class="line">    using (var client &#x3D; new HttpClient())</span><br><span class="line">    &#123;</span><br><span class="line">        client.DefaultRequestHeaders.Authorization &#x3D; new System.Net.Http.Headers.AuthenticationHeaderValue(&quot;Bearer&quot;,token);</span><br><span class="line">        var content &#x3D; await client.GetStringAsync(&quot;http:&#x2F;&#x2F;localhost:5001&#x2F;api&#x2F;identity&quot;);</span><br><span class="line">        &#x2F;&#x2F; var json &#x3D; JArray.Parse(content).ToString();</span><br><span class="line">        return Ok(new &#123; value &#x3D; content &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>正式生產環境不要這麼做，正式的環境中確應該在401之後，調用這個方法,如果再失敗，再返回錯誤<br>運行一下</p>
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><ul>
+<li><a href="https://www.cnblogs.com/cgzl/p/7795121.html">使用Identity Server 4建立Authorization Server (4)</a></li>
+<li><a href="https://christianlydemann.com/openid-connect-with-angular-5-oidc-part-7/">OpenID Connect with Angular 5  OIDC Part 7 </a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/IdentityServer4/" rel="tag"># IdentityServer4</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92IdentityServer4%E7%9A%84%E7%9B%B8%E9%97%9C%E7%9F%A5%E8%AD%98-2/" rel="prev" title="學習IdentityServer4的相關知識-2">
+      <i class="fa fa-chevron-left"></i> 學習IdentityServer4的相關知識-2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84FortiGate-70D%E7%9A%84%E8%B3%87%E8%A8%8A/" rel="next" title="記錄FortiGate 70D的資訊">
+      記錄FortiGate 70D的資訊 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hybrid-Flow和Offline-Access"><span class="nav-text">Hybrid Flow和Offline Access</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先在Authoriztion-serer的InMemoryConfiguration添加一個Client"><span class="nav-text">首先在Authoriztion serer的InMemoryConfiguration添加一個Client</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改MvcClient的Startup的ConfigurdServices"><span class="nav-text">修改MvcClient的Startup的ConfigurdServices</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#運行"><span class="nav-text">運行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#印出Refresh-Token"><span class="nav-text">印出Refresh Token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#獲取自定義Claims"><span class="nav-text">獲取自定義Claims</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Access-Token調用web-Api"><span class="nav-text">使用Access Token調用web Api</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刷新Access-Token"><span class="nav-text">刷新Access Token</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

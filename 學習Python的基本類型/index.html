@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Python的基本數據類型Number:數字在python數字只有，int和float兩種類型type可以顯示代表的類型在除法裏有&#x2F;和&#x2F;&#x2F; &#x2F;代表商是浮點數 12345&gt;&gt;&gt; 2&#x2F;21.0&gt;&gt;&gt; type(2&#x2F;2)&lt;class &#39;float&#39;&gt;&gt;&gt;&gt; &#x2F;&#x2F;代表商是整數 12345&gt;&gt;&gt; 2&#x2F;&#x2F;21&gt;&gt;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習Python的基本類型">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%A1%9E%E5%9E%8B/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="Python的基本數據類型Number:數字在python數字只有，int和float兩種類型type可以顯示代表的類型在除法裏有&#x2F;和&#x2F;&#x2F; &#x2F;代表商是浮點數 12345&gt;&gt;&gt; 2&#x2F;21.0&gt;&gt;&gt; type(2&#x2F;2)&lt;class &#39;float&#39;&gt;&gt;&gt;&gt; &#x2F;&#x2F;代表商是整數 12345&gt;&gt;&gt; 2&#x2F;&#x2F;21&gt;&gt;&amp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-03-16T10:57:36.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%A1%9E%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>學習Python的基本類型 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%A1%9E%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習Python的基本類型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2019-03-16 10:57:36" itemprop="dateCreated datePublished" datetime="2019-03-16T10:57:36+00:00">2019-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%B8%E7%BF%92/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Python的基本數據類型"><a href="#Python的基本數據類型" class="headerlink" title="Python的基本數據類型"></a>Python的基本數據類型</h1><h2 id="Number-數字"><a href="#Number-數字" class="headerlink" title="Number:數字"></a>Number:數字</h2><p>在python數字只有，<strong><em>int</em></strong>和<strong>f<em>loat</em></strong>兩種類型<br><strong><em>type</em></strong>可以顯示代表的類型<br>在除法裏有<strong><em>/</em></strong>和<strong><em>//</em></strong></p>
+<h3 id="代表"><a href="#代表" class="headerlink" title="/代表"></a>/代表</h3><p>商是浮點數</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2</span>/<span class="number">2</span></span><br><span class="line"><span class="number">1.0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(<span class="number">2</span>/<span class="number">2</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">float</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="代表-1"><a href="#代表-1" class="headerlink" title="//代表"></a>//代表</h3><p>商是整數</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2</span>//<span class="number">2</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(<span class="number">2</span>//<span class="number">2</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">int</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="進制的表示和轉換"><a href="#進制的表示和轉換" class="headerlink" title="進制的表示和轉換"></a>進制的表示和轉換</h3><p>有10進制，2進制，8進制，16進制的代表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">11</span> <span class="comment">##10進制</span></span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">0b11</span> <span class="comment">##2進制</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">0x11</span> <span class="comment">##16進制</span></span><br><span class="line"><span class="number">17</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">0o11</span> <span class="comment">##8進制</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>10褣制，2進制，8制進之間的轉換</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bin(<span class="number">11</span>)</span><br><span class="line"><span class="string">'0b1011'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bin(<span class="number">0o7</span>)</span><br><span class="line"><span class="string">'0b111'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bin(<span class="number">0xe</span>)</span><br><span class="line"><span class="string">'0b1110'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>int(<span class="number">0b111</span>)</span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>int(<span class="number">0o777</span>)</span><br><span class="line"><span class="number">511</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">888</span>)</span><br><span class="line"><span class="string">'0x378'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">0o7777</span>)</span><br><span class="line"><span class="string">'0xfff'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>oct(<span class="number">0b111</span>)</span><br><span class="line"><span class="string">'0o7'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>oct(<span class="number">0x777</span>)</span><br><span class="line"><span class="string">'0o3567'</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="bool類型"><a href="#bool類型" class="headerlink" title="bool類型"></a>bool類型</h2><p>代表真假,<strong><em>True</em></strong>和<strong><em>False</em></strong>,T和F是大寫<br><strong>不是空的就是True</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="literal">True</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="literal">False</span></span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>true</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;pyshell#2&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    true</span><br><span class="line">NameError: name <span class="string">'true'</span> <span class="keyword">is</span> <span class="keyword">not</span> defined</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(<span class="literal">True</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">bool</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; <span class="title">type</span><span class="params">(False)</span></span></span><br><span class="line"><span class="class">&lt;<span class="title">class</span> '<span class="title">bool</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; <span class="title">int</span><span class="params">(True)</span></span></span><br><span class="line"><span class="class">1</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; <span class="title">int</span><span class="params">(False)</span></span></span><br><span class="line"><span class="class">0</span></span><br><span class="line"><span class="class">&gt;&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool(<span class="number">1</span>)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool(<span class="number">0</span>)</span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool(<span class="string">'abc'</span>)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool(<span class="string">''</span>)</span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool([])</span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool(&#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>&#125;)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool(&#123;&#125;)</span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bool(<span class="literal">None</span>)</span><br><span class="line"><span class="literal">False</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="complex-複數"><a href="#complex-複數" class="headerlink" title="complex:複數"></a>complex:複數</h2><p>數學上使用, python的代表方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">36j</span></span><br><span class="line"><span class="number">36j</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串-單引號和雙引號"><a href="#字符串-單引號和雙引號" class="headerlink" title="字符串:單引號和雙引號"></a>字符串:單引號和雙引號</h2><ul>
+<li>str字符串</li>
+<li>如何表示字符串</li>
+<li>單引號，雙引號，三引號</li>
+</ul>
+<h3 id="單引號，雙引號"><a href="#單引號，雙引號" class="headerlink" title="單引號，雙引號"></a>單引號，雙引號</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'hello world'</span></span><br><span class="line"><span class="string">'hello world'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span></span><br><span class="line"><span class="string">'hello world'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(<span class="number">1</span>)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">int</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; <span class="title">type</span><span class="params">(<span class="string">'1'</span>)</span></span></span><br><span class="line"><span class="class">&lt;<span class="title">class</span> '<span class="title">str</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt; </span></span><br><span class="line"><span class="class">&gt;&gt;&gt; '<span class="title">Let</span>'<span class="title">s</span> <span class="title">go</span></span></span><br><span class="line"><span class="class"><span class="title">SyntaxError</span>:</span> invalid syntax</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"Let's go"</span></span><br><span class="line"><span class="string">"Let's go"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span> </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'We say "get some tools"'</span></span><br><span class="line"><span class="string">'We say "get some tools"'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'let\'s go'</span> <span class="comment">##轉譯字符</span></span><br><span class="line"><span class="string">"let's go"</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="三引號"><a href="#三引號" class="headerlink" title="三引號"></a>三引號</h3><p>用於多行文字顯示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'''</span></span><br><span class="line"><span class="string">this is a book</span></span><br><span class="line"><span class="string">hello world</span></span><br><span class="line"><span class="string">read book</span></span><br><span class="line"><span class="string">take book</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">'\nthis is a book\nhello world\nread book\ntake book\n'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"""</span></span><br><span class="line"><span class="string">hello workd</span></span><br><span class="line"><span class="string">take care</span></span><br><span class="line"><span class="string">go go python</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">'\nhello workd\ntake care\ngo go python\n'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"""hello world\nhello world\nhelloworld"""</span></span><br><span class="line"><span class="string">'hello world\nhello world\nhelloworld'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> (<span class="string">"""hello world\nhello world\nhelloworld"""</span>)</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">helloworld</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> (<span class="string">'hello world\nhello world\nhelloworld'</span>)</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">helloworld</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> (<span class="string">"hello world\nhello world\nhelloworld"</span>)</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">helloworld</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'hello \ #單雙引號換行</span></span><br><span class="line"><span class="string">world'</span></span><br><span class="line"><span class="string">'hello world'</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="轉義字符"><a href="#轉義字符" class="headerlink" title="轉義字符"></a>轉義字符</h3><ul>
+<li><p>特殊的字符</p>
+</li>
+<li><p>無法<strong>看見</strong>的字符</p>
+</li>
+<li><p>與語言本身語法有沖突的字符</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">表示</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">\n</td>
+<td align="center">換行</td>
+</tr>
+<tr>
+<td align="center">&#39;</td>
+<td align="center">單引號</td>
+</tr>
+<tr>
+<td align="center">\t</td>
+<td align="center">tab</td>
+</tr>
+<tr>
+<td align="center">\r</td>
+<td align="center">return</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> &gt;&gt;&gt; print(<span class="string">'c:\northwind\northewst'</span>)</span><br><span class="line">c:</span><br><span class="line">orthwind</span><br><span class="line">orthewst</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">'c:\\northwind\\northewst'</span>)</span><br><span class="line">c:\northwind\northewst</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">r'c:\northwind\northewst'</span>)</span><br><span class="line">c:\northwind\northewst</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">r'let'</span>s go<span class="string">') </span></span><br><span class="line"><span class="string">SyntaxError: invalid syntax</span></span><br><span class="line"><span class="string">&gt;&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="字符串的操作"><a href="#字符串的操作" class="headerlink" title="字符串的操作"></a>字符串的操作</h3><p>字符串的加和乘</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello"</span>+<span class="string">"world"</span></span><br><span class="line"><span class="string">'helloworld'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello"</span>*<span class="number">3</span></span><br><span class="line"><span class="string">'hellohellohello'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello"</span>*<span class="string">"world"</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;pyshell#2&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    <span class="string">"hello"</span>*<span class="string">"world"</span></span><br><span class="line">TypeError: can<span class="string">'t multiply sequence by non-int of type '</span>st<span class="string">r'</span></span><br><span class="line"><span class="string">&gt;&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>字符串的單個取得，<strong>正數是由前往後數，負數由後往前數</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">0</span>]</span><br><span class="line"><span class="string">'h'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">3</span>]</span><br><span class="line"><span class="string">'l'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">4</span>]</span><br><span class="line"><span class="string">'o'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">-1</span>]</span><br><span class="line"><span class="string">'d'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">-3</span>]</span><br><span class="line"><span class="string">'r'</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>字符串的多個取得，負數代表步長</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">0</span>:<span class="number">4</span>]</span><br><span class="line"><span class="string">'hell'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">0</span>:<span class="number">5</span>]</span><br><span class="line"><span class="string">'hello'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">0</span>:<span class="number">-1</span>]</span><br><span class="line"><span class="string">'hello worl'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">0</span>:<span class="number">-3</span>]</span><br><span class="line"><span class="string">'hello wo'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">6</span>:<span class="number">11</span>] <span class="comment">## 取得world</span></span><br><span class="line"><span class="string">'world'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">6</span>:<span class="number">20</span>] <span class="comment">## 取得world</span></span><br><span class="line"><span class="string">'world'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">6</span>:<span class="number">-1</span>]</span><br><span class="line"><span class="string">'worl'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello world"</span>[<span class="number">6</span>:] <span class="comment">## 取得world</span></span><br><span class="line"><span class="string">'world'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello python java c# javascript pho ruby"</span>[<span class="number">6</span>:] <span class="comment">## 不要hello</span></span><br><span class="line"><span class="string">'python java c# javascript pho ruby'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello python java c# javascript pho ruby"</span>[:<span class="number">-4</span>] <span class="comment">## 移除ruby</span></span><br><span class="line"><span class="string">'hello python java c# javascript pho '</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello python java c# javascript pho ruby"</span>[<span class="number">0</span>:<span class="number">-4</span>] <span class="comment">## 移除ruby</span></span><br><span class="line"><span class="string">'hello python java c# javascript pho '</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"hello python java c# javascript pho ruby"</span>[<span class="number">-4</span>:] <span class="comment">## 取得ruby</span></span><br><span class="line"><span class="string">'ruby'</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84OBS%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="記錄OBS的使用">
+      <i class="fa fa-chevron-left"></i> 記錄OBS的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/%E5%AD%B8%E7%BF%92Python%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%A1%9E%E5%9E%8B-%E7%B5%84%E7%9A%84%E6%A6%82%E5%BF%B5%E8%88%87%E5%AE%9A%E7%BE%A9/" rel="next" title="學習Python的基本類型-組的概念與定義">
+      學習Python的基本類型-組的概念與定義 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python的基本數據類型"><span class="nav-text">Python的基本數據類型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Number-數字"><span class="nav-text">Number:數字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代表"><span class="nav-text">&#x2F;代表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代表-1"><span class="nav-text">&#x2F;&#x2F;代表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#進制的表示和轉換"><span class="nav-text">進制的表示和轉換</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bool類型"><span class="nav-text">bool類型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#complex-複數"><span class="nav-text">complex:複數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串-單引號和雙引號"><span class="nav-text">字符串:單引號和雙引號</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#單引號，雙引號"><span class="nav-text">單引號，雙引號</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三引號"><span class="nav-text">三引號</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#轉義字符"><span class="nav-text">轉義字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串的操作"><span class="nav-text">字符串的操作</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

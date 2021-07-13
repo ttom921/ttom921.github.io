@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ttom921.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言 因為專案上會使用log和記䤸一些分析，所以來研究一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="記錄ELK的相關使用">
+<meta property="og:url" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84ELK%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言 因為專案上會使用log和記䤸一些分析，所以來研究一下">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84ELK%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/Snipaste_2021-05-24_14-56-25.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84ELK%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/Snipaste_2021-05-27_14-37-19.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84ELK%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/Snipaste_2021-05-27_14-42-23.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84ELK%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/Snipaste_2021-06-01_15-03-30.png">
+<meta property="article:published_time" content="2021-05-21T14:06:58.000Z">
+<meta property="article:modified_time" content="2021-07-13T01:17:35.000Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="ELK">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84ELK%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/Snipaste_2021-05-24_14-56-25.png">
+
+<link rel="canonical" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84ELK%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>記錄ELK的相關使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">被施工的Tom的記錄</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/ttom921" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84ELK%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          記錄ELK的相關使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+
+              <time title="創建時間：2021-05-21 14:06:58" itemprop="dateCreated datePublished" datetime="2021-05-21T14:06:58+00:00">2021-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-07-13 01:17:35" itemprop="dateModified" datetime="2021-07-13T01:17:35+00:00">2021-07-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/" itemprop="url" rel="index"><span itemprop="name">記錄</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A8%98%E9%8C%84/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p> 因為專案上會使用log和記䤸一些分析，所以來研究一下<br> <a id="more"></a> </p>
+<h1 id="使用Docker來安裝"><a href="#使用Docker來安裝" class="headerlink" title="使用Docker來安裝"></a>使用Docker來安裝</h1><h2 id="單節的裝法"><a href="#單節的裝法" class="headerlink" title="單節的裝法"></a>單節的裝法</h2><p>先安裝docker和dockercompose</p>
+<p>安裝Elasticsearch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull docker.elastic.co&#x2F;elasticsearch&#x2F;elasticsearch:7.12.1</span><br></pre></td></tr></table></figure>
+
+<p>啟動Elasticsearch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -p 9200:9200 -p 9300:9300 -e &quot;discovery.type&#x3D;single-node&quot; docker.elastic.co&#x2F;elasticsearch&#x2F;elasticsearch:7.12.1</span><br></pre></td></tr></table></figure>
+
+<p>安裝好 ElasticSearch之後，需先設定 vm.max_map_count值，至少需大於262144這個值，設定需在 /etc/sysctl.conf 檔案中加入以下這行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;sysctl.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count&#x3D;262144</span><br></pre></td></tr></table></figure>
+
+
+<p>如果要在線上系統直接啟動設定，可以執行以下這行指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -w vm.max_map_count&#x3D;262144</span><br></pre></td></tr></table></figure>
+
+<p>安裝Kibana</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull docker.elastic.co&#x2F;kibana&#x2F;kibana:7.12.1</span><br></pre></td></tr></table></figure>
+
+<p>安裝Logstash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull docker.elastic.co&#x2F;logstash&#x2F;logstash:7.12.1</span><br></pre></td></tr></table></figure>
+
+<p>以docker compose來啟動和安裝</p>
+<p>建立docker資料夾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;data&#x2F;docker&#x2F;elasticsearch</span><br><span class="line">cd &#x2F;data&#x2F;docker</span><br><span class="line">sudo chmod -R 777 elasticsearch&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>建立目錄為了docker compose</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir -p docker&#x2F;elastic</span><br><span class="line">cd docker&#x2F;elastic</span><br></pre></td></tr></table></figure>
+
+<p>建立 docker-compose.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+<p>docker-compose.yml內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span>                                                                                                                                                            </span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">es01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.12.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es01</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9200:9200"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9300:9300"</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"node.name=es01"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"cluster.name=es-docker-cluster"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"discovery.seed_hosts=es02,es03"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"cluster.initial_master_nodes=es01"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"node.max_local_storage_nodes=3"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"http.cors.allow-origin=*"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"http.cors.enabled=true"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"discovery.zen.minimum_master_nodes=2"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"ES_JAVA_OPTS=-Xms256m -Xmx256m"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/data/docker/elasticsearch:/usr/share/elasticsearch/data"</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">elk</span></span><br><span class="line">      </span><br><span class="line">  <span class="attr">es02:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.12.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es02</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"node.name=es02"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"cluster.name=es-docker-cluster"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"discovery.seed_hosts=es01,es03"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"cluster.initial_master_nodes=es01,es02,es03"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"node.max_local_storage_nodes=3"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"http.cors.allow-origin=*"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"http.cors.enabled=true"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"discovery.zen.minimum_master_nodes=2"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"ES_JAVA_OPTS=-Xms256m -Xmx256m"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/data/docker/elasticsearch:/usr/share/elasticsearch/data"</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">elk</span></span><br><span class="line">     </span><br><span class="line">  <span class="attr">es03:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.12.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es03</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"node.name=es03"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"cluster.name=es-docker-cluster"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"discovery.seed_hosts=es01,es02"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"cluster.initial_master_nodes=es01,es02,es03"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"node.max_local_storage_nodes=3"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"http.cors.allow-origin=*"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"http.cors.enabled=true"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"discovery.zen.minimum_master_nodes=2"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"ES_JAVA_OPTS=-Xms256m -Xmx256m"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/data/docker/elasticsearch:/usr/share/elasticsearch/data"</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">elk</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  logstash:</span></span><br><span class="line"><span class="comment">#    image: docker.elastic.co/logstash/logstash:7.12.1</span></span><br><span class="line"><span class="comment">#    container_name: logstash</span></span><br><span class="line"><span class="comment">#    ports:</span></span><br><span class="line"><span class="comment">#      - "5000:5000"</span></span><br><span class="line"><span class="comment">#    networks:</span></span><br><span class="line"><span class="comment">#      - elk</span></span><br><span class="line"><span class="comment">#    depends_on:</span></span><br><span class="line"><span class="comment">#      - es01</span></span><br><span class="line"><span class="comment">#    </span></span><br><span class="line"><span class="comment">#  kibana:</span></span><br><span class="line"><span class="comment">#    image: docker.elastic.co/kibana/kibana:7.12.1</span></span><br><span class="line"><span class="comment">#    container_name: kibana</span></span><br><span class="line"><span class="comment">#    ports:</span></span><br><span class="line"><span class="comment">#      - "5601:5601"</span></span><br><span class="line"><span class="comment">#    networks:</span></span><br><span class="line"><span class="comment">#      - elk</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">elk:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br></pre></td></tr></table></figure>
+
+<p>測試以網頁，輸入虛擬機的IP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;192.168.83.129:9200&#x2F;_cat&#x2F;nodes</span><br></pre></td></tr></table></figure>
+
+<p>如果看到下面的網頁</p>
+<img src="Snipaste_2021-05-24_14-56-25.png" style="zoom:67%;" />
+
+<p>或是在虛擬機下輸入<code>curl http://127.0.0.1:9200/_cat/nodes</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">172.19.0.3 36 83 0 0.02 0.49 0.68 cdfhilmrstw * es01</span><br><span class="line">172.19.0.2 51 83 0 0.02 0.49 0.68 cdfhilmrstw - es03</span><br><span class="line">172.19.0.4 40 83 0 0.02 0.49 0.68 cdfhilmrstw - es02</span><br></pre></td></tr></table></figure>
+
+<h2 id="叢集的裝法"><a href="#叢集的裝法" class="headerlink" title="叢集的裝法"></a>叢集的裝法</h2><p>在上面有設定 vm.max_map_count的值，一樣要設定</p>
+<p>資料的存放位置</p>
+<p>建立docker資料夾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;data&#x2F;docker&#x2F;elasticsearch</span><br><span class="line">cd &#x2F;data&#x2F;docker</span><br><span class="line">sudo chmod -R 777 elasticsearch&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>先在使用者下建立如下的資料夾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;home&#x2F;ttom&#x2F;docker&#x2F;elastic</span><br></pre></td></tr></table></figure>
+
+<p>在使用者的目錄(/home/ttom/docker/elastic)分別建立三個資料夾和檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">├── es01</span><br><span class="line">│   ├── docker-compose.yml</span><br><span class="line">│   └── es1.yml</span><br><span class="line">├── es02</span><br><span class="line">│   ├── docker-compose.yml</span><br><span class="line">│   └── es2.yml</span><br><span class="line">└── es03</span><br><span class="line">    ├── docker-compose.yml</span><br><span class="line">    └── es3.yml</span><br></pre></td></tr></table></figure>
+
+<h3 id="es01"><a href="#es01" class="headerlink" title="es01"></a>es01</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br><span class="line">vim es1.yml</span><br></pre></td></tr></table></figure>
+
+<p>docker-compose.yml的內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span>                                                                                                                                                            </span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">es01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.12.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es01</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9200:9200"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9300:9300"</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"node.max_local_storage_nodes=3"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"ES_JAVA_OPTS=-Xms256m -Xmx256m"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/home/ttom/docker/elastic/es01/es1.yml:/usr/share/elasticsearch/config/elasticsearch.yml"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/data/docker/elasticsearch:/usr/share/elasticsearch/data"</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>node.max_local_storage_nodes #一台當3台使用</p>
+</blockquote>
+<p>es1.yml的內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cluster.name:</span> <span class="string">elasticsearch-cluster</span>                                                                                                                                     </span><br><span class="line"><span class="attr">node.name:</span> <span class="string">es-node1</span></span><br><span class="line"><span class="attr">cluster.initial_master_nodes:</span> <span class="string">es-node1,es-node2,es-node3</span></span><br><span class="line"><span class="attr">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">network.publish_host:</span> <span class="number">192.168</span><span class="number">.83</span><span class="number">.129</span></span><br><span class="line"><span class="attr">http.port:</span> <span class="number">9200</span></span><br><span class="line"><span class="attr">transport.tcp.port:</span> <span class="number">9300</span></span><br><span class="line"><span class="attr">http.cors.enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">http.cors.allow-origin:</span> <span class="string">"*"</span></span><br><span class="line"><span class="attr">node.master:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">node.data:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">discovery.zen.ping.unicast.hosts:</span> <span class="string">["192.168.83.129:9300","192.168.83.129:9301","192.168.83.129:9302"]</span></span><br><span class="line"><span class="attr">discovery.zen.minimum_master_nodes:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>cluster.initial_master_nodes 設定主節點</p>
+<p>network.publish_host 主機的ip</p>
+<p>http.port http的port</p>
+<p>transport.tcp.port 互相溝通的port</p>
+<p>discovery.zen.ping.unicast.hosts 所有節點</p>
+</blockquote>
+<h3 id="es02"><a href="#es02" class="headerlink" title="es02"></a>es02</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br><span class="line">vim es2.yaml</span><br></pre></td></tr></table></figure>
+
+<p>docker-compose.yml的內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span>                                                                                                                                                            </span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">es01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.12.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es02</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9201:9201"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9301:9301"</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"node.max_local_storage_nodes=3"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"ES_JAVA_OPTS=-Xms256m -Xmx256m"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/home/ttom/docker/elastic/es02/es2.yml:/usr/share/elasticsearch/config/elasticsearch.yml"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/data/docker/elasticsearch:/usr/share/elasticsearch/data"</span></span><br></pre></td></tr></table></figure>
+
+<p>es2.yml的內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cluster.name:</span> <span class="string">elasticsearch-cluster</span>                                                                                                                                     </span><br><span class="line"><span class="attr">node.name:</span> <span class="string">es-node2</span></span><br><span class="line"><span class="attr">cluster.initial_master_nodes:</span> <span class="string">es-node1,es-node2,es-node3</span></span><br><span class="line"><span class="attr">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">network.publish_host:</span> <span class="number">192.168</span><span class="number">.83</span><span class="number">.129</span></span><br><span class="line"><span class="attr">http.port:</span> <span class="number">9201</span></span><br><span class="line"><span class="attr">transport.tcp.port:</span> <span class="number">9301</span></span><br><span class="line"><span class="attr">http.cors.enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">http.cors.allow-origin:</span> <span class="string">"*"</span></span><br><span class="line"><span class="attr">node.master:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">node.data:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">discovery.zen.ping.unicast.hosts:</span> <span class="string">["192.168.83.129:9300","192.168.83.129:9301","192.168.83.129:9302"]</span></span><br><span class="line"><span class="attr">discovery.zen.minimum_master_nodes:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="es03"><a href="#es03" class="headerlink" title="es03"></a>es03</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br><span class="line">vim es3.yaml</span><br></pre></td></tr></table></figure>
+
+<p>docker-compose.yml的內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span>                                                                                                                                                            </span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">es01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.12.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es03</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9202:9202"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9302:9302"</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"node.max_local_storage_nodes=3"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"ES_JAVA_OPTS=-Xms256m -Xmx256m"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/home/ttom/docker/elastic/es03/es3.yml:/usr/share/elasticsearch/config/elasticsearch.yml"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/data/docker/elasticsearch:/usr/share/elasticsearch/data"</span></span><br></pre></td></tr></table></figure>
+
+<p>es3.yml的內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cluster.name:</span> <span class="string">elasticsearch-cluster</span>                                                                                                                                     </span><br><span class="line"><span class="attr">node.name:</span> <span class="string">es-node3</span></span><br><span class="line"><span class="attr">cluster.initial_master_nodes:</span> <span class="string">es-node1,es-node2,es-node3</span></span><br><span class="line"><span class="attr">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">network.publish_host:</span> <span class="number">192.168</span><span class="number">.83</span><span class="number">.129</span></span><br><span class="line"><span class="attr">http.port:</span> <span class="number">9202</span></span><br><span class="line"><span class="attr">transport.tcp.port:</span> <span class="number">9302</span></span><br><span class="line"><span class="attr">http.cors.enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">http.cors.allow-origin:</span> <span class="string">"*"</span></span><br><span class="line"><span class="attr">node.master:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">node.data:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">discovery.zen.ping.unicast.hosts:</span> <span class="string">["192.168.83.129:9300","192.168.83.129:9301","192.168.83.129:9302"]</span></span><br><span class="line"><span class="attr">discovery.zen.minimum_master_nodes:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>測試</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http:&#x2F;&#x2F;192.168.83.129:9200</span><br><span class="line">curl http:&#x2F;&#x2F;192.168.83.129:9200&#x2F;_cat&#x2F;nodes</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝elasticsearch-head-支援度有問題"><a href="#安裝elasticsearch-head-支援度有問題" class="headerlink" title="安裝elasticsearch-head(支援度有問題)"></a>安裝elasticsearch-head(支援度有問題)</h2><p>目前不使用</p>
+<p>可以簡單操作的圖形介面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">cd docker</span><br><span class="line">mkdir elasticsearch-head</span><br><span class="line">cd elasticsearch-head</span><br></pre></td></tr></table></figure>
+
+<p>建立docker-compose.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+<p>docker-compose.yml內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span>                                                                                                                                                            </span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">es01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.io/mobz/elasticsearch-head:5</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">eshead</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9100:9100"</span></span><br></pre></td></tr></table></figure>
+
+<p>在瀏覽器上輸入<code>http://192.168.83.129:9100/</code>會有下面的畫面就是成功了</p>
+<img src="Snipaste_2021-05-27_14-37-19.png" style="zoom:80%;" />
+
+<p>在下面輸入<code>http://192.168.83.129:9200/</code>按下連接會有下面的畫面</p>
+<img src="Snipaste_2021-05-27_14-42-23.png" style="zoom:67%;" />
+
+<h2 id="安裝ElasticHQ"><a href="#安裝ElasticHQ" class="headerlink" title="安裝ElasticHQ"></a>安裝ElasticHQ</h2><p>可以簡單操作的圖形介面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">cd docker</span><br><span class="line">mkdir elastic-hq</span><br><span class="line">cd elastic-hq</span><br></pre></td></tr></table></figure>
+
+<p>建立docker-compose.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+<p>docker-compose.yml內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span>                                                                                                                                                            </span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">es01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.io/elastichq/elasticsearch-hq</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">eshq</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"5000:5000"</span></span><br></pre></td></tr></table></figure>
+
+<p>在瀏覽器上輸入<code>http://192.168.83.129:5000/</code>會有下面的畫面就是成功了</p>
+<img src="Snipaste_2021-06-01_15-03-30.png" style="zoom:67%;" />
+
+<h2 id="安裝Kibana"><a href="#安裝Kibana" class="headerlink" title="安裝Kibana"></a>安裝Kibana</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">cd docker</span><br><span class="line">mkdir kibana</span><br><span class="line">cd kibana&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>建立kibana.yml </p>
+<blockquote>
+<p>/home/ubuntu/docker/kibana</p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server.host:</span> <span class="string">"0.0.0.0"</span>                                                                                                                                                   </span><br><span class="line"><span class="attr">server.port:</span> <span class="number">5601</span></span><br><span class="line"><span class="attr">server.name:</span> <span class="string">"kibana"</span></span><br><span class="line"><span class="attr">elasticsearch.hosts:</span> <span class="string">["http://10.4.7.135:9200/"]</span> <span class="comment">#這邊記得改成自己的ES叢集ip</span></span><br><span class="line"><span class="attr">xpack:</span></span><br><span class="line">  <span class="attr">apm.ui.enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">graph.enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">ml.enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">monitoring.enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">reporting.enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">security.enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">grokdebugger.enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">searchprofiler.enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>ps.如果之後沒有要用到xpack，xpack的部分可以不用加上</p>
+<p>建立docker-compose.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+
+
+<p>docker-compose.yml的內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span>                                                                                                         </span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">kib01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/kibana/kibana:7.12.1</span> <span class="comment">#這裡記得要跟你建立的Elasticsearch版本一樣</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">kib01</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"5601:5601"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"/home/ubuntu/docker/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml"</span></span><br></pre></td></tr></table></figure>
+
+<p>測試</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;10.4.7.135:5601&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="初步檢索"><a href="#初步檢索" class="headerlink" title="初步檢索"></a>初步檢索</h2><p>可以使用postman來發送</p>
+<ol>
+<li><p>__cat_</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;_cat&#x2F;nodes 	:查看所有節點</span><br><span class="line">GET &#x2F;_cat&#x2F;health 	:查看es健康狀況</span><br><span class="line">GET &#x2F;_cat&#x2F;master	:查看主節點</span><br><span class="line">GET &#x2F;_cat&#x2F;indices	:查看所有索引 show database;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>索引一個文檔(保存)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUT customer&#x2F;external&#x2F;1</span><br></pre></td></tr></table></figure>
+
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;name&quot;:&quot;John Doe&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h2 id="下載測試數據"><a href="#下載測試數據" class="headerlink" title="下載測試數據"></a>下載測試數據</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 莎士比亞經典作品</span><br><span class="line">wget https:&#x2F;&#x2F;download.elastic.co&#x2F;demos&#x2F;kibana&#x2F;gettingstarted&#x2F;shakespeare_6.0.json</span><br><span class="line"></span><br><span class="line"># 一組虛擬生成的帳戶數據</span><br><span class="line">wget https:&#x2F;&#x2F;download.elastic.co&#x2F;demos&#x2F;kibana&#x2F;gettingstarted&#x2F;accounts.zip</span><br><span class="line"></span><br><span class="line"># 一組虛擬生成的日志數據</span><br><span class="line">wget https:&#x2F;&#x2F;download.elastic.co&#x2F;demos&#x2F;kibana&#x2F;gettingstarted&#x2F;logs.jsonl.gz</span><br></pre></td></tr></table></figure>
+
+<p>載入數據</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -H <span class="string">'Content-Type: application/x-ndjson'</span> -XPOST <span class="string">'10.4.7.135:9200/bank/account/_bulk?pretty'</span> --data-binary @accounts.json</span><br><span class="line"></span><br><span class="line">curl -H <span class="string">'Content-Type: application/x-ndjson'</span> -XPOST <span class="string">'10.4.7.135:9200/shakespeare/doc/_bulk?pretty'</span> --data-binary @shakespeare_6.0.json</span><br><span class="line"></span><br><span class="line">curl -H <span class="string">'Content-Type: application/x-ndjson'</span> -XPOST <span class="string">'10.4.7.135:9200/_bulk?pretty'</span> --data-binary @logs.jsonl</span><br></pre></td></tr></table></figure>
+
+<p>查詢all</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F;_cat&#x2F;indices?v</span><br></pre></td></tr></table></figure>
+
+<h2 id="Kibana測試"><a href="#Kibana測試" class="headerlink" title="Kibana測試"></a>Kibana測試</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">GET /school/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"match_all"</span>: &#123;</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#指定搜尋name=王小明的文檔 fail</span><br><span class="line">GET /school/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"term"</span>: &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"王小明"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">#搜尋name=王小明跟name=許小美 fail</span><br><span class="line">GET /school/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"terms"</span>: &#123;</span><br><span class="line">      <span class="attr">"name"</span>: [</span><br><span class="line">        <span class="string">"王小明"</span>,</span><br><span class="line">        <span class="string">"許小美"</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"># 搜尋name包含“王”、“小”，“明”</span><br><span class="line">GET /school/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"match"</span>: &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"王小明"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">#搜尋age=20的文檔</span><br><span class="line">GET /school/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"bool"</span>: &#123;</span><br><span class="line">      <span class="attr">"must"</span>: &#123;</span><br><span class="line">        <span class="attr">"term"</span>: &#123;</span><br><span class="line">          <span class="attr">"age"</span>: <span class="number">20</span></span><br><span class="line">        &#125;     </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h3><p><a href="https://ithelp.ithome.com.tw/users/20129976/ironman/3422">Python&amp;Elasticsearch 入門</a>系列</p>
+<h2 id="安裝Filebeat"><a href="#安裝Filebeat" class="headerlink" title="安裝Filebeat"></a>安裝Filebeat</h2><p>使用log的收集器</p>
+<p>因為測試的關系所以要建立多個Filebeat來測試所以在docker的目錄下建立一個資料夾filebeat</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">cd</span> docker</span><br><span class="line">mkdir filebeat</span><br><span class="line">/home/ubuntu/docker/filebeat</span><br></pre></td></tr></table></figure>
+
+<p>先來建立資料夾fb01</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> filebeat</span><br><span class="line">mkdir fb01</span><br><span class="line"><span class="built_in">cd</span> fb01</span><br></pre></td></tr></table></figure>
+
+<p>建立docker-compose.yml</p>
+<p>建立docker-compose.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+<p>內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">"3"</span>                                                                                                         </span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">fb01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/beats/filebeat:7.12.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">fb01</span></span><br><span class="line">    <span class="attr">entrypoint:</span> <span class="string">"filebeat -e -v -strict.perms=false"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro</span></span><br></pre></td></tr></table></figure>
+
+<p>在它的目錄下建立filebeat.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim filebeat.yml</span><br></pre></td></tr></table></figure>
+
+<p>內容(console輸出不工作)</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">filebeat.inputs:                                                                                                      - type:</span> <span class="string">stdin</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">output.console:</span></span><br><span class="line">  <span class="attr">pretty:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="測試Filebeat"><a href="#測試Filebeat" class="headerlink" title="測試Filebeat"></a>測試Filebeat</h3><p>使用python將log以tpc的方式來傳送給Filebeat,而Filebeat將傳送給logstash,而logstash傳送es</p>
+<blockquote>
+<p>python=&gt;filebeat=&gt;logstash=&gt;es</p>
+</blockquote>
+<p>測試的python</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime  <span class="comment"># 引入datetime</span></span><br><span class="line">logging.basicConfig(level=logging.DEBUG,</span><br><span class="line">                    format=<span class="string">'%(asctime)s.%(msecs)03d [%(lineno)s] [PID %(process)d] %(levelname)-7s %(message)s '</span>,</span><br><span class="line">                    <span class="comment"># datefmt='%m-%d %H:%M',</span></span><br><span class="line">                    )</span><br><span class="line"><span class="comment"># logging.info(f"info")</span></span><br><span class="line"><span class="comment"># logging.debug(f"debug")</span></span><br><span class="line">HOST = <span class="string">'192.168.83.129'</span></span><br><span class="line">PORT = <span class="number">9000</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heartbeattcp</span><span class="params">()</span>:</span></span><br><span class="line">    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    s.connect((HOST, PORT))</span><br><span class="line">    nowTime = datetime.datetime.now()  <span class="comment"># 取得現在時間</span></span><br><span class="line">    sendmessage = <span class="string">f"[<span class="subst">&#123;nowTime&#125;</span>] ERROR, ClientIP:123.128.251.73, SeverIP:172.16.152.104, testmessage[測試訊息]#逃避雖可恥但有用#新垣結衣我老婆"</span></span><br><span class="line">    <span class="comment"># sendmessage = "[2016-12-10 23:59:59.634] ERROR, ClientIP:123.128.251.73, SeverIP:172.16.152.104, testmessage[測試訊息]#逃避雖可恥但有用#新垣結衣我老婆"</span></span><br><span class="line">    outdata = <span class="string">f'<span class="subst">&#123;sendmessage&#125;</span>'</span></span><br><span class="line">    logging.info(<span class="string">f"send:<span class="subst">&#123;outdata&#125;</span>"</span>)</span><br><span class="line">    s.send(outdata.encode())</span><br><span class="line">    s.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hearbeatloop</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        heartbeattcp()</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    hearbeatloop()</span><br></pre></td></tr></table></figure>
+
+<p>設定<code>filebeat.yml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 安裝Logstash</span><br><span class="line"></span><br><span class="line">因為之後會使用到記錄log或是gps的資料，所以來研究一下</span><br><span class="line"></span><br><span class="line">因為可以建立多個Logstash,所在在docker的目錄下建立一個資料夾&#96;logstash&#96;</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;bash</span><br><span class="line">cd ~</span><br><span class="line">cd docker&#x2F;</span><br><span class="line">mkdir logstash</span><br><span class="line">&#x2F;home&#x2F;ttom&#x2F;docker&#x2F;logstash</span><br></pre></td></tr></table></figure>
+
+<p>先來建立資料夾ls01</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> logstash</span><br><span class="line">mkdir ls01</span><br><span class="line"><span class="built_in">cd</span> ls01</span><br></pre></td></tr></table></figure>
+
+<p>建立docker-compose.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+<p>內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">ls01:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">logstash:7.12.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">ls01</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9600:9600"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"5044:5044"</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:rw</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./logstash.yml:/usr/share/logstash/config/logstash.yml</span></span><br></pre></td></tr></table></figure>
+
+<p>在它的目錄下建立logstash.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim logstash.yml</span><br></pre></td></tr></table></figure>
+
+<p>內容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># set now host ip to http.host                                                                                      http.host: 0.0.0.0</span></span><br><span class="line"><span class="comment"># set the es-tribe-node host. let logstash monitor the es.</span></span><br><span class="line"><span class="attr">xpack.monitoring.elasticsearch.hosts:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">http://192.168.83.129:9200</span></span><br><span class="line"><span class="comment"># enable or disable the logstash monitoring the es.</span></span><br><span class="line"><span class="attr">xpack.monitoring.enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>在它的目錄下建立logstash.conf</p>
+<p>內容</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Sample Logstash configuration for creating a simple</span></span><br><span class="line"><span class="comment"># Beats -&gt; Logstash -&gt; Elasticsearch pipeline.</span></span><br><span class="line"></span><br><span class="line"><span class="section">input</span> &#123;</span><br><span class="line">  <span class="section">tcp</span> &#123;  <span class="comment">#使用TCP協定</span></span><br><span class="line">    port =&gt; 5044</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">output</span> &#123;</span><br><span class="line">  <span class="section">elasticsearch</span> &#123;</span><br><span class="line">    hosts =&gt; ["http://192.168.83.129:9200"]</span><br><span class="line">    <span class="comment">#index =&gt; "%&#123;[@metadata][beat]&#125;-%&#123;[@metadata][version]&#125;-%&#123;+YYYY.MM.dd&#125;" #這行是beats用的 註解掉目前用不到</span></span><br><span class="line">    <span class="comment">#user =&gt; "elastic"</span></span><br><span class="line">    <span class="comment">#password =&gt; "changeme"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在console下輸入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"test"</span> | nc localhost 5044</span><br></pre></td></tr></table></figure>
+
+<p>如果在Kibana有看到時，就是正常的</p>
+<p><a href="https://zh-tw.coderbridge.com/series/545e9e62af2c4ab8a1b329fc5f07be34/posts/699c911877034837bba0a359bf310a40">ELK環境建置與介紹</a></p>
+<p><a href="https://www.itread01.com/content/1561515062.html">【拆分版】Docker-compose構建Logstash多例項</a></p>
+<h3 id="測試logstash"><a href="#測試logstash" class="headerlink" title="測試logstash"></a>測試logstash</h3><p>以python來傳送log資料，之後在logstash的console來顯示</p>
+<p>在此強烈推薦一個實用的 grok 檢驗工具 <a href="https://grokdebug.herokuapp.com/">grokdebug</a> 給大家，有了它我們可以快速地完成 grok表達語法的組成並立即看到過濾結果。</p>
+<p>修改<code>logstash.conf</code>的內容</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">input</span> &#123;</span><br><span class="line">  <span class="section">tcp</span> &#123;  <span class="comment">#使用TCP協定</span></span><br><span class="line">    port =&gt; 5044</span><br><span class="line">    type =&gt; "testFilter"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">filter</span> &#123;</span><br><span class="line">  <span class="section">grok</span> &#123;</span><br><span class="line">    match =&gt; &#123;</span><br><span class="line">      <span class="comment">#[2021-06-23 17:00:49.161267] ERROR, ClientIP:123.128.251.73, SeverIP:172.16.152.104, testmessage[測試訊息]#逃避雖可恥但有用#新垣結衣我老婆</span></span><br><span class="line">      "message" =&gt; "\[(?&lt;date&gt;.+?)\] %&#123;LOGLEVEL:level&#125;, ClientIP:%&#123;IPV4:client_ip&#125;, SeverIP:%&#123;IPV4:server_ip&#125;, %&#123;GREEDYDATA:orgmessage&#125;"</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="section">output</span> &#123;</span><br><span class="line">  <span class="section">stdout</span> &#123;</span><br><span class="line">    codec =&gt; rubydebug</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在測試的python</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime  <span class="comment"># 引入datetime</span></span><br><span class="line">logging.basicConfig(level=logging.DEBUG,</span><br><span class="line">                    format=<span class="string">'%(asctime)s.%(msecs)03d [%(lineno)s] [PID %(process)d] %(levelname)-7s %(message)s '</span>,</span><br><span class="line">                    <span class="comment"># datefmt='%m-%d %H:%M',</span></span><br><span class="line">                    )</span><br><span class="line"><span class="comment"># logging.info(f"info")</span></span><br><span class="line"><span class="comment"># logging.debug(f"debug")</span></span><br><span class="line">HOST = <span class="string">'192.168.83.129'</span></span><br><span class="line">PORT = <span class="number">5044</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heartbeattcp</span><span class="params">()</span>:</span></span><br><span class="line">    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    s.connect((HOST, PORT))</span><br><span class="line">    nowTime = datetime.datetime.now()  <span class="comment"># 取得現在時間</span></span><br><span class="line">    sendmessage = <span class="string">f"[<span class="subst">&#123;nowTime&#125;</span>] ERROR, ClientIP:123.128.251.73, SeverIP:172.16.152.104, testmessage[測試訊息]#逃避雖可恥但有用#新垣結衣我老婆"</span></span><br><span class="line">    <span class="comment"># sendmessage = "[2016-12-10 23:59:59.634] ERROR, ClientIP:123.128.251.73, SeverIP:172.16.152.104, testmessage[測試訊息]#逃避雖可恥但有用#新垣結衣我老婆"</span></span><br><span class="line">    outdata = <span class="string">f'<span class="subst">&#123;sendmessage&#125;</span>'</span></span><br><span class="line">    logging.info(<span class="string">f"send:<span class="subst">&#123;outdata&#125;</span>"</span>)</span><br><span class="line">    s.send(outdata.encode())</span><br><span class="line">    s.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hearbeatloop</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        heartbeattcp()</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    hearbeatloop()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>另一版kafka(未測試)</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">input</span> &#123;     <span class="comment">#輸入</span></span><br><span class="line">  <span class="section">kafka</span> &#123;   <span class="comment">#使用kafka方式輸入</span></span><br><span class="line">    bootstrap_servers =&gt; "kafka1:9092,kafka2:9093,kafka3:9094" #kafka叢集節點列表</span><br><span class="line">    topics =&gt; ["all_logs"] #訂閱名為all_logs的topic</span><br><span class="line">    group_id =&gt; "logstash" #設定組為logstash</span><br><span class="line">    codec =&gt; json #轉換為json</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">filter</span> &#123; <span class="comment">#過濾分詞等都在這裡配置，暫時未配置</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">output</span> &#123;     <span class="comment">#輸出</span></span><br><span class="line">  <span class="section">elasticsearch</span> &#123; <span class="comment">#輸出到es</span></span><br><span class="line">    hosts =&gt; ["10.2.114.110:9204"] #es的路徑</span><br><span class="line">    index =&gt; "all-logs-%&#123;+YYYY.MM.dd&#125;" #輸出到es的索引名稱，這裡是每天一個索引</span><br><span class="line">    <span class="comment">#user =&gt; "elastic"</span></span><br><span class="line">    <span class="comment">#password =&gt; "changeme"</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="section">stdout</span> &#123;</span><br><span class="line">    codec =&gt; rubydebug</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ELK/" rel="tag"># ELK</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E8%A8%98%E9%8C%84nginx%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/" rel="prev" title="記錄nginx的相關使用">
+      <i class="fa fa-chevron-left"></i> 記錄nginx的相關使用
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Docker來安裝"><span class="nav-text">使用Docker來安裝</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#單節的裝法"><span class="nav-text">單節的裝法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#叢集的裝法"><span class="nav-text">叢集的裝法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#es01"><span class="nav-text">es01</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#es02"><span class="nav-text">es02</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#es03"><span class="nav-text">es03</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝elasticsearch-head-支援度有問題"><span class="nav-text">安裝elasticsearch-head(支援度有問題)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝ElasticHQ"><span class="nav-text">安裝ElasticHQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝Kibana"><span class="nav-text">安裝Kibana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初步檢索"><span class="nav-text">初步檢索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下載測試數據"><span class="nav-text">下載測試數據</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kibana測試"><span class="nav-text">Kibana測試</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#參考資料"><span class="nav-text">參考資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝Filebeat"><span class="nav-text">安裝Filebeat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#測試Filebeat"><span class="nav-text">測試Filebeat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#測試logstash"><span class="nav-text">測試logstash</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.1/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
