@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ttom921.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="簡介因為有看到使用POSTMAN來測試自已寫好的API，如果已經寫好的API可以寫一系列的測試案例來測試自已的程式，如果測試案例全過，代表程式應該被修改到，可以安心，這只是一個簡單的測試用例，記錄一下如何使用POSTMAN  測試用例是取得所有的使用者 因為一開始將所有的使用者清空，所有得到的是長度為0的陣列，可以來判斷是否是沒有使用者   在上圖中選擇&#123;&#123;url&#125;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習flask-restful如何透過POSTMAN執行整合測試">
+<meta property="og:url" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="簡介因為有看到使用POSTMAN來測試自已寫好的API，如果已經寫好的API可以寫一系列的測試案例來測試自已的程式，如果測試案例全過，代表程式應該被修改到，可以安心，這只是一個簡單的測試用例，記錄一下如何使用POSTMAN  測試用例是取得所有的使用者 因為一開始將所有的使用者清空，所有得到的是長度為0的陣列，可以來判斷是否是沒有使用者   在上圖中選擇&#123;&#123;url&#125;&amp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/2019-04-18_17_47_12_Image.jpg">
+<meta property="article:published_time" content="2019-04-18T17:36:31.000Z">
+<meta property="article:modified_time" content="2024-03-03T14:22:03.400Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="Flask,PostMan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/2019-04-18_17_47_12_Image.jpg">
+
+
+<link rel="canonical" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://ttom921.github.io/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/","path":"學習flask-restful如何透過POSTMAN執行整合測試/學習flask-restful如何透過POSTMAN執行整合測試/","title":"學習flask-restful如何透過POSTMAN執行整合測試"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>學習flask-restful如何透過POSTMAN執行整合測試 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">被施工的Tom的記錄</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">簡介</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/%E5%AD%B8%E7%BF%92flask-restful%E5%A6%82%E4%BD%95%E9%80%8F%E9%81%8EPOSTMAN%E5%9F%B7%E8%A1%8C%E6%95%B4%E5%90%88%E6%B8%AC%E8%A9%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="學習flask-restful如何透過POSTMAN執行整合測試 | 被施工的Tom的記錄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          學習flask-restful如何透過POSTMAN執行整合測試
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2019-04-18 17:36:31" itemprop="dateCreated datePublished" datetime="2019-04-18T17:36:31+00:00">2019-04-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-03-03 14:22:03" itemprop="dateModified" datetime="2024-03-03T14:22:03+00:00">2024-03-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%B8%E7%BF%92/" itemprop="url" rel="index"><span itemprop="name">學習</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%B8%E7%BF%92/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%B8%E7%BF%92/Python/Flask/" itemprop="url" rel="index"><span itemprop="name">Flask</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h3><p>因為有看到使用POSTMAN來測試自已寫好的API，如果已經寫好的API可以寫一系列的測試案例來測試自已的程式，如果測試案例全過，代表程式應該被修改到，可以安心，這只是一個簡單的測試用例，記錄一下如何使用POSTMAN</p>
+<ul>
+<li><p>測試用例是取得所有的使用者</p>
+<p>因為一開始將所有的使用者清空，所有得到的是長度為0的陣列，可以來判斷是否是沒有使用者</p>
+<img src="2019-04-18_17_47_12_Image.jpg" style="zoom:80%;" /></li>
+</ul>
+<p>在上圖中選擇<code>&#123;&#123;url&#125;&#125;/users</code>來測試此API，在右邊的橘色的框框是測試的範本，可以直接來點選，在左邊的紅色框框是可以寫的測試腳本是以JavaScript來撰寫</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;get users&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>();</span><br><span class="line">    pm.<span class="title function_">expect</span>(jsonData.<span class="property">users</span>.<span class="property">length</span>).<span class="property">to</span>.<span class="title function_">eql</span>(<span class="number">0</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Flask-PostMan/" rel="tag"># Flask,PostMan</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E5%AD%B8%E7%BF%92flask-restful%E8%AB%8B%E6%B1%82%E5%8F%83%E6%95%B8%E8%99%95%E7%90%86/%E5%AD%B8%E7%BF%92flask-restful%E8%AB%8B%E6%B1%82%E5%8F%83%E6%95%B8%E8%99%95%E7%90%86/" rel="prev" title="學習flask-restful請求參數處理">
+                  <i class="fa fa-angle-left"></i> 學習flask-restful請求參數處理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E5%AD%B8%E7%BF%92flask-restful%E4%BD%BF%E7%94%A8flask-marshmallow/%E5%AD%B8%E7%BF%92flask-restful%E4%BD%BF%E7%94%A8flask-marshmallow/" rel="next" title="學習flask-restful使用flask-marshmallow">
+                  學習flask-restful使用flask-marshmallow <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '60px',
+  right: 'unset',
+  left: '60px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

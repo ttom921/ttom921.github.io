@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ttom921.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言這是參考鐵人賽的一個JS學習者的日常所得來的，就只是記錄一下 day01陣列相關我們會用很多的陣列處理方法，forEach,map,reduce,filter 測試資料 12345678910111213141516171819202122var people &#x3D; [  &#123;    name: &#x27;Jim&#x27;,    nickname: &#x27;Hamburger&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一個JS學習者的日常">
+<meta property="og:url" content="https://ttom921.github.io/%E4%B8%80%E5%80%8BJS%E5%AD%B8%E7%BF%92%E8%80%85%E7%9A%84%E6%97%A5%E5%B8%B8/%E4%B8%80%E5%80%8BJS%E5%AD%B8%E7%BF%92%E8%80%85%E7%9A%84%E6%97%A5%E5%B8%B8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言這是參考鐵人賽的一個JS學習者的日常所得來的，就只是記錄一下 day01陣列相關我們會用很多的陣列處理方法，forEach,map,reduce,filter 測試資料 12345678910111213141516171819202122var people &#x3D; [  &#123;    name: &#x27;Jim&#x27;,    nickname: &#x27;Hamburger&amp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-05-24T09:28:00.000Z">
+<meta property="article:modified_time" content="2024-03-03T14:22:03.385Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ttom921.github.io/%E4%B8%80%E5%80%8BJS%E5%AD%B8%E7%BF%92%E8%80%85%E7%9A%84%E6%97%A5%E5%B8%B8/%E4%B8%80%E5%80%8BJS%E5%AD%B8%E7%BF%92%E8%80%85%E7%9A%84%E6%97%A5%E5%B8%B8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://ttom921.github.io/%E4%B8%80%E5%80%8BJS%E5%AD%B8%E7%BF%92%E8%80%85%E7%9A%84%E6%97%A5%E5%B8%B8/%E4%B8%80%E5%80%8BJS%E5%AD%B8%E7%BF%92%E8%80%85%E7%9A%84%E6%97%A5%E5%B8%B8/","path":"一個JS學習者的日常/一個JS學習者的日常/","title":"一個JS學習者的日常"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>一個JS學習者的日常 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">被施工的Tom的記錄</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day01%E9%99%A3%E5%88%97%E7%9B%B8%E9%97%9C"><span class="nav-number">2.</span> <span class="nav-text">day01陣列相關</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day02"><span class="nav-number">3.</span> <span class="nav-text">day02</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day03%E5%9F%BA%E6%9C%AC%E5%9E%8B%E5%88%A5"><span class="nav-number">4.</span> <span class="nav-text">day03基本型別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day04-callback%E7%9B%B8%E9%97%9C"><span class="nav-number">5.</span> <span class="nav-text">day04 callback相關</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day05-API"><span class="nav-number">6.</span> <span class="nav-text">day05 API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day06%E5%90%8C%E6%AD%A5%E5%92%8C%E9%9D%9E%E5%90%8C%E6%AD%A5"><span class="nav-number">7.</span> <span class="nav-text">day06同步和非同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day07%E5%A4%9A%E5%88%A4%E6%96%B7switch-case"><span class="nav-number">8.</span> <span class="nav-text">day07多判斷switch case</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day08-ES6%E5%B8%B8%E7%94%A8%E8%AA%9E%E6%B3%95"><span class="nav-number">9.</span> <span class="nav-text">day08 ES6常用語法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day09%E9%96%89%E5%8C%85Closure"><span class="nav-number">10.</span> <span class="nav-text">day09閉包Closure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day10%E5%BC%B7%E5%88%B6%E8%BD%89%E5%9E%8B"><span class="nav-number">11.</span> <span class="nav-text">day10強制轉型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day11%E9%8F%88%E5%BC%8F%E5%87%BD%E5%BC%8F"><span class="nav-number">12.</span> <span class="nav-text">day11鏈式函式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day12%E4%BF%AE%E6%94%B9%E7%B6%B2%E9%A0%81%E8%83%8C%E6%99%AF"><span class="nav-number">13.</span> <span class="nav-text">day12修改網頁背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day13%E7%B6%B2%E9%A0%81%E9%87%8D%E7%B9%AA%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">14.</span> <span class="nav-text">day13網頁重繪的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day14%E7%B6%B2%E9%A0%81%E4%BA%8B%E4%BB%B6"><span class="nav-number">15.</span> <span class="nav-text">day14網頁事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day16%E4%BA%82%E6%95%B8%E7%9A%84%E5%8F%96%E6%B3%95"><span class="nav-number">16.</span> <span class="nav-text">day16亂數的取法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day17%E7%95%AB%E5%9C%93"><span class="nav-number">17.</span> <span class="nav-text">day17畫圓</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day18%E9%8C%AF%E8%AA%A4%E8%99%95%E7%90%86"><span class="nav-number">18.</span> <span class="nav-text">day18錯誤處理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day19-chrome-%E5%B7%A5%E5%85%B7"><span class="nav-number">19.</span> <span class="nav-text">day19 chrome 工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day20-%E6%99%82%E9%96%93%E7%9A%84%E7%B2%BE%E5%BA%A6"><span class="nav-number">20.</span> <span class="nav-text">day20 時間的精度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day21-DOM"><span class="nav-number">21.</span> <span class="nav-text">day21 DOM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day22%E7%A8%8B%E5%BC%8F%E9%82%8F%E8%BC%AF"><span class="nav-number">22.</span> <span class="nav-text">day22程式邏輯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day23-Html%E7%9A%84ID"><span class="nav-number">23.</span> <span class="nav-text">day23 Html的ID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day24-html%E5%B1%AC%E6%80%A7"><span class="nav-number">24.</span> <span class="nav-text">day24 html屬性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day25-%E6%8A%93%E5%8F%96%E8%BC%B8%E5%85%A5"><span class="nav-number">25.</span> <span class="nav-text">day25 抓取輸入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day26%E7%BD%AE%E6%8F%9Bclass%E7%B6%B2%E9%A0%81%E6%95%88%E8%83%BD%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-number">26.</span> <span class="nav-text">day26置換class網頁效能的方法一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day27%E7%BD%AE%E6%8F%9Bcss%E5%B1%AC%E6%80%A7%E7%B6%B2%E9%A0%81%E6%95%88%E8%83%BD%E7%9A%84%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-number">27.</span> <span class="nav-text">day27置換css屬性網頁效能的方法二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day28%E8%99%95%E7%90%86%E6%99%82%E9%96%93"><span class="nav-number">28.</span> <span class="nav-text">day28處理時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#day29-%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%8A%80%E5%B7%A7"><span class="nav-number">29.</span> <span class="nav-text">day29 一些小技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">29.0.0.1.</span> <span class="nav-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E4%B8%80%E5%80%8BJS%E5%AD%B8%E7%BF%92%E8%80%85%E7%9A%84%E6%97%A5%E5%B8%B8/%E4%B8%80%E5%80%8BJS%E5%AD%B8%E7%BF%92%E8%80%85%E7%9A%84%E6%97%A5%E5%B8%B8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="一個JS學習者的日常 | 被施工的Tom的記錄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一個JS學習者的日常
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2019-05-24 09:28:00" itemprop="dateCreated datePublished" datetime="2019-05-24T09:28:00+00:00">2019-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-03-03 14:22:03" itemprop="dateModified" datetime="2024-03-03T14:22:03+00:00">2024-03-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>這是參考鐵人賽的一個JS學習者的日常所得來的，就只是記錄一下</p>
+<h3 id="day01陣列相關"><a href="#day01陣列相關" class="headerlink" title="day01陣列相關"></a>day01陣列相關</h3><p>我們會用很多的陣列處理方法，<code>forEach</code>,<code>map</code>,<code>reduce</code>,<code>filter</code></p>
+<p>測試資料</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> people = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;Jim&#x27;</span>,</span><br><span class="line">    <span class="attr">nickname</span>: <span class="string">&#x27;Hamburger&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">28</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;Andy&#x27;</span>,</span><br><span class="line">    <span class="attr">nickname</span>: <span class="string">&#x27;Spaghetti&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">27</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;Kevin&#x27;</span>,</span><br><span class="line">    <span class="attr">nickname</span>: <span class="string">&#x27;Curry&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">27</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;Arel&#x27;</span>,</span><br><span class="line">    <span class="attr">like</span>: <span class="string">&#x27;Sushi&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">27</span></span><br><span class="line">  &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>過了一年，所有人都長了一歲怎麼辦？要在每一個age上面加一歲</p>
+<p>先將資料簡化成更單純的樣子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> age = [<span class="number">28</span>, <span class="number">27</span>, <span class="number">27</span>, <span class="number">27</span>]</span><br><span class="line">age.<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">item,index</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(item,index);</span><br><span class="line">&#125;);</span><br><span class="line">age.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item,index</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(item,index);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 28 0</span></span><br><span class="line"><span class="comment">// 27 1</span></span><br><span class="line"><span class="comment">// 27 2</span></span><br><span class="line"><span class="comment">// 27 3</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>forEach</strong> 只把資料丟給內部的<code>callback function</code>去進行處理</p>
+<p><strong>map</strong> 把資料丟給內部的<code>callback function</code>去進行處理，並回組一組<strong>陣列</strong>資料</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> result=age.<span class="title function_">map</span>(<span class="keyword">function</span> (<span class="params">item, index</span>) &#123;</span><br><span class="line">    item = item + index</span><br><span class="line">    <span class="keyword">return</span> item;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">result= age.<span class="title function_">map</span>(<span class="function">(<span class="params">item,index</span>)=&gt;</span>&#123;</span><br><span class="line">    item= item+index;</span><br><span class="line">    <span class="keyword">return</span> item;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br></pre></td></tr></table></figure>
+
+<p><strong>reduce</strong>抓取初始值與下一個值，並回傳一個結果值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rsreduce = age.<span class="title function_">reduce</span>(<span class="keyword">function</span> (<span class="params">item, item2</span>) &#123;</span><br><span class="line">    item = item + item2;</span><br><span class="line">    <span class="keyword">return</span> item;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 28 + 27 + 27 + 27 = 109</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(rsreduce);</span><br><span class="line">rsreduce = age.<span class="title function_">reduce</span>(<span class="function">(<span class="params">item, item2</span>) =&gt;</span> &#123;</span><br><span class="line">    item = item + item2;</span><br><span class="line">    <span class="keyword">return</span> item;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 28 + 27 + 27 + 27 = 109</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(rsreduce);</span><br></pre></td></tr></table></figure>
+
+<p><strong>filter</strong>回傳Boolesn值true或false判斷引人處理後是否為要回傳的值，最後回一組陣列</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//filter</span></span><br><span class="line"><span class="keyword">var</span> rsfilter = age.<span class="title function_">filter</span>(<span class="keyword">function</span> (<span class="params">item</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (item &lt; <span class="number">28</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(rsfilter);</span><br><span class="line">rsfilter = age.<span class="title function_">filter</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (item &lt; <span class="number">28</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(rsfilter);</span><br></pre></td></tr></table></figure>
+
+<p>但回到原本的資料，如何把所有的年齡加1</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">people.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    item.<span class="property">age</span> += <span class="number">1</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(people);</span><br></pre></td></tr></table></figure>
+
+<h3 id="day02"><a href="#day02" class="headerlink" title="day02"></a>day02</h3><p>一個物件資料， 想要複製樣的格式給下一個，並修改結果被更動到了原本的人資料,這是因為是指同一個位置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Jim</span> = &#123;</span><br><span class="line">    <span class="attr">favMovie</span>: <span class="string">&quot;LaLaLand&quot;</span>,</span><br><span class="line">    <span class="attr">favBook</span>: <span class="string">&quot;Thid Hitchhiker&#x27;s Guide to the Galaxy&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Albert</span> = <span class="title class_">Jim</span>;</span><br><span class="line"><span class="title class_">Albert</span>.<span class="property">favMovie</span> = <span class="string">&quot;Fight Club&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Jim</span>.<span class="property">favMovie</span>);</span><br><span class="line"><span class="comment">//Fight Club</span></span><br></pre></td></tr></table></figure>
+<p>使用Object.assign</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用Object.assign</span></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Jim</span> = &#123;</span><br><span class="line">    <span class="attr">favMovie</span>: <span class="string">&quot;LaLaLand&quot;</span>,</span><br><span class="line">    <span class="attr">favBook</span>: <span class="string">&quot;Thid Hitchhiker&#x27;s Guide to the Galaxy&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Albert</span> = <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;&#125;, <span class="title class_">Jim</span>);</span><br><span class="line"><span class="title class_">Albert</span>.<span class="property">favMovie</span> = <span class="string">&quot;back to the future&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Jim</span>.<span class="property">favMovie</span>)</span><br><span class="line"><span class="comment">//LaLaLand</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>const</strong> 指定常數，不可改變，但是是陣列時內容是可以改變</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">PI</span>=<span class="number">3.14159</span>;</span><br><span class="line"><span class="variable constant_">PI</span>=<span class="number">1.141</span>;<span class="comment">//有錯誤，不可再指定</span></span><br><span class="line"><span class="comment">//Assignment to constant variable. </span></span><br><span class="line"><span class="comment">//  at ​day02.js:21:0​</span></span><br><span class="line"><span class="comment">//  at ​​​Object.&lt;anonymous&gt;​​​</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">arr.<span class="title function_">push</span>(<span class="number">4</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arr);</span><br><span class="line">arr[<span class="number">3</span>]=<span class="number">999</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arr)</span><br><span class="line"><span class="comment">//</span></span><br><span class="line">arr2=[<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>,<span class="number">13</span>]</span><br><span class="line">arr= arr2;<span class="comment">//有錯誤，不可再指定</span></span><br></pre></td></tr></table></figure>
+
+<p>函式沒有傳入參數，卻有這個變數可以用？回傳的這是啥</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">hello</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">arguments</span>.<span class="property">length</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">arguments</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">hello</span>(<span class="string">&#x27;echoooo&#x27;</span>);</span><br><span class="line"><span class="comment">//1 ​​​​​at ​​​arguments.length</span></span><br><span class="line"><span class="comment">//&#123; [Iterator]  0: &#x27;echoooo&#x27;, [Symbol(Symbol.iterator)]: [λ: values] &#125; at ​​​arguments​​​ </span></span><br></pre></td></tr></table></figure>
+
+<p>this是“這”的意思嗎？this到底指到哪裏？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="attr">sayHi</span>: <span class="string">&quot;How ar you?&quot;</span>,</span><br><span class="line">    <span class="attr">sayHello</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">sayHi</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHelo</span>(<span class="params">obj</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(obj);</span><br><span class="line">    obj.<span class="title function_">sayHello</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">sayHelo</span>(obj);</span><br><span class="line"><span class="comment">// &#123; sayHi: &#x27;How ar you?&#x27;, sayHello: [λ: sayHello] &#125;   at ​​​obj​​​ </span></span><br><span class="line"><span class="comment">// How ar you? ​​​​​at ​​​this.sayHi</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="day03基本型別"><a href="#day03基本型別" class="headerlink" title="day03基本型別"></a>day03基本型別</h3><p>有六種基本型別</p>
+<ul>
+<li>string</li>
+<li>number</li>
+<li>boolean</li>
+<li>null</li>
+<li>undefined</li>
+<li>object</li>
+</ul>
+<p>物件的宣告方式為兩種</p>
+<p>物件宣告第一種</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//物件宣告第一種</span></span><br><span class="line"><span class="keyword">var</span> myObj = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;123&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">18</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myObj.<span class="property">name</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myObj.<span class="property">age</span>)</span><br></pre></td></tr></table></figure>
+
+<p>物件宣告第二種</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> curObj= <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">curObj.<span class="property">name</span>=<span class="string">&quot;456&quot;</span>;</span><br><span class="line">curObj.<span class="property">age</span>=<span class="number">28</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(curObj.<span class="property">name</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(curObj.<span class="property">age</span>)</span><br></pre></td></tr></table></figure>
+
+<p>物件就像是一個群集，包含了資料跟處理資料的方法，他可能長成這樣</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> introduction=&#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;Jim&#x27;</span>,</span><br><span class="line">    <span class="attr">favFood</span>:<span class="string">&#x27;Sushi&#x27;</span>,</span><br><span class="line">    <span class="attr">breakIce</span>:<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hello I am <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>,My favFood is <span class="subst">$&#123;<span class="variable language_">this</span>.favFood&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">introduction.<span class="title function_">breakIce</span>();</span><br></pre></td></tr></table></figure>
+
+<p>我們有了一個績件後如何呼叫與存取有兩種方式為特性存取<strong>property access</strong>與鍵值存取<strong>key access</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> firstName = <span class="string">&#x27;Hu&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> ages = &#123;</span><br><span class="line">    <span class="title class_">FirstName</span>: <span class="string">&#x27;Hu&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;firstName&#x27;</span>: <span class="string">&#x27;Hu&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Hu Jim&#x27;</span>: <span class="number">28</span>,</span><br><span class="line">    <span class="string">&#x27;Hu Koa&#x27;</span>: <span class="number">60</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//特性存取(property access)</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ages.<span class="property">FirstName</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ages.<span class="property">firstName</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//鍵值存取(key access)</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ages[firstName + <span class="string">&#x27; Jim&#x27;</span>]);</span><br><span class="line"><span class="comment">//加入一個新的</span></span><br><span class="line">ages[firstName + <span class="string">&#x27; Ge&#x27;</span>] = <span class="number">30</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ages);</span><br></pre></td></tr></table></figure>
+
+<p>物件的複製</p>
+<p>Shallow Clone</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> firstName = <span class="string">&#x27;Hu&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ages = &#123;</span><br><span class="line">    <span class="string">&#x27;Hu Jim&#x27;</span>: <span class="number">28</span>,</span><br><span class="line">    <span class="string">&#x27;Hu Koa&#x27;</span>: <span class="number">60</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Shallow Clone</span></span><br><span class="line"><span class="keyword">var</span> agesNextYear = ages;</span><br><span class="line">agesNextYear[firstName + <span class="string">&#x27; Jim&#x27;</span>] = <span class="number">29</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Shallow Clone ages:&#x27;</span> + ages[firstName + <span class="string">&#x27; Jim&#x27;</span>]);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Shallow Clone agesNextYear&#x27;</span> + agesNextYear[firstName + <span class="string">&#x27; Jim&#x27;</span>]);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Deep Clone</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Deep Clone</span></span><br><span class="line"><span class="keyword">var</span> firstName = <span class="string">&#x27;Hu&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ages = &#123;</span><br><span class="line">    <span class="string">&#x27;Hu Jim&#x27;</span>: <span class="number">28</span>,</span><br><span class="line">    <span class="string">&#x27;Hu Koa&#x27;</span>: <span class="number">60</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> agesNextYear= <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;&#125;,ages);</span><br><span class="line">agesNextYear[firstName + <span class="string">&#x27; Jim&#x27;</span>] = <span class="number">29</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Deep Clone ages:&#x27;</span> + ages[firstName + <span class="string">&#x27; Jim&#x27;</span>]);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Deep Clone agesNextYear&#x27;</span> + agesNextYear[firstName + <span class="string">&#x27; Jim&#x27;</span>]);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="day04-callback相關"><a href="#day04-callback相關" class="headerlink" title="day04 callback相關"></a>day04 callback相關</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">example</span>(<span class="params">msg, callback</span>) &#123;</span><br><span class="line">    <span class="title function_">callback</span>(msg)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">example</span>(<span class="string">&#x27;hello callback&#x27;</span>, <span class="keyword">function</span> (<span class="params">sayHi</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(sayHi)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//結果 hello callback</span></span><br></pre></td></tr></table></figure>
+
+<p>什麼是callback,專有名詞來說就是一種高階函式的用法，可以把函式當作變數傳遞，當然函數也可以返回函數，而這樣做我們可以在需要的時候再去使用它或者解決非同步阻塞的問題。在處理陣列時我們也使用同樣的方法來處理我們的陣列資料。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> total = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"><span class="keyword">var</span> res = total.<span class="title function_">reduce</span>(<span class="function">(<span class="params">initvalue, nextitem</span>) =&gt;</span> &#123;</span><br><span class="line">    initvalue += nextitem</span><br><span class="line">    <span class="keyword">return</span> initvalue;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line"><span class="comment">// 結果 15</span></span><br></pre></td></tr></table></figure>
+
+<p>在撰寫邏輯上，我們可以直接的方式撰寫，變很快速理解，但直正使用的理由是，當我們事件與服務要求次數變多，要達到不阻塞I&#x2F;O或多緒執行的 益時，更需要思考我們撰寫程式的邏輯與方式並非單純直覺的以單線作為考量</p>
+<h3 id="day05-API"><a href="#day05-API" class="headerlink" title="day05 API"></a>day05 API</h3><p>當我們做一個會員登人系統，接到API後，拿到一個像這樣子的一筆JSON資料</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$.<span class="title function_">get</span>(<span class="string">&#x27;https://randomuser.me/api/&#x27;</span>,<span class="keyword">function</span>(<span class="params">result</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(result)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;firstName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hu&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lastName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Jim&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;sex&quot;</span><span class="punctuation">:</span> <span class="string">&quot;male&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span> <span class="number">18</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;address&quot;</span><span class="punctuation">:</span> </span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;streetAddress&quot;</span><span class="punctuation">:</span> <span class="string">&quot;21 2nd Street&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span> <span class="string">&quot;New York&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;state&quot;</span><span class="punctuation">:</span> <span class="string">&quot;NY&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;postalCode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;10021&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;phoneNumber&quot;</span><span class="punctuation">:</span> </span><br><span class="line">    <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">         <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;home&quot;</span><span class="punctuation">,</span></span><br><span class="line">         <span class="attr">&quot;number&quot;</span><span class="punctuation">:</span> <span class="string">&quot;212 555-1234&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">         <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;fax&quot;</span><span class="punctuation">,</span></span><br><span class="line">         <span class="attr">&quot;number&quot;</span><span class="punctuation">:</span> <span class="string">&quot;646 555-4567&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">   <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>什麼又是JSON</p>
+<p>通常我們會拿到一個物件或陣列格式，包含物件或陣列的資料。這樣的結構我們稱為JSON</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;results&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span><span class="attr">&quot;firstCol1&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span><span class="attr">&quot;firstCol2&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span><span class="attr">&quot;firstCol3&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span><span class="attr">&quot;firstCol4&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span><span class="attr">&quot;firstCol5&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span><span class="attr">&quot;SecCol1&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="punctuation">&#123;</span><span class="attr">&quot;SecCol2&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="punctuation">&#123;</span><span class="attr">&quot;SecCol3&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="punctuation">&#123;</span><span class="attr">&quot;SecCol4&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span> </span><br><span class="line">  <span class="punctuation">]</span>     </span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>看起來是物件或陣列，但在網路上傳遞資料的方式，是以字串的方式去處理的，所以我們必須使用<strong>JSON.stringify</strong>轉成字串或<strong>JSON.parse</strong>去轉回物件或陣列。</p>
+<p>再往回看一點點，我們到底在程式上要如何去接一個 API，可以使用 JS 原生的功能或者用套件，針對接 API 功能去處理，這裡提供五個例子，包含原始 XMLHttpRequest、jQuery、axios、superAgent、fetch。</p>
+<p><a href="https://codepen.io/JimHu1492/pen/JOPNYX">接API的五種方式</a></p>
+<h3 id="day06同步和非同步"><a href="#day06同步和非同步" class="headerlink" title="day06同步和非同步"></a>day06同步和非同步</h3><p>當你程式的某部份現在(now)立即執行而另外一部分要在之後(later)執行時，會發生什麼事，在這個now和loater之間有個間隙(gap)存在，期間你的程式並有積極執行</p>
+<p>什麼是非同步？非同步包括，網路連線要求之類的I&#x2F;O(例如AJAX，DOM事件處理，動畫流程處理，計時器)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;a&quot;</span>);</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">&#125;, <span class="number">3000</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;c&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>我們可以看到執行結果A-&gt;B-&gt;C，但是我們要處理的狀態越來越多，結構越來越雜的時候，callback也許就不夠用山，事件的交錯與不確定資料處理的期間，不斷增加開發中理解與撰寫上的困難，再進一步學習中，處理相關的問題Promise是其中一個選項</p>
+<h3 id="day07多判斷switch-case"><a href="#day07多判斷switch-case" class="headerlink" title="day07多判斷switch case"></a>day07多判斷switch case</h3><p>當我們需要多個判斷的時候，使用swith case的小細節</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fruit = <span class="string">&#x27;apple&#x27;</span>;</span><br><span class="line"><span class="keyword">switch</span> (fruit) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;banana&#x27;</span>:</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;It is a banana&#x27;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;peach&#x27;</span>:</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;It is a peach&#x27;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;apple&#x27;</span>:</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;It is a apple&#x27;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="attr">default</span>:</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I don\&#x27;t know what is it&#x27;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在switch case中如果要中斷，要加入<strong>break</strong>這關鍵字不然會一直執行下去。</p>
+<h3 id="day08-ES6常用語法"><a href="#day08-ES6常用語法" class="headerlink" title="day08 ES6常用語法"></a>day08 ES6常用語法</h3><p>ES6它的全名是ECMAScript6。便是我們所學的JS的語言核心。從第五版ES5到第六版ES6日漸普遍，而ES7也蓄勢待發</p>
+<ol>
+<li><p>解構賦值</p>
+<p>說明:我們可以將一個陣列以<strong>…</strong>的形式，一次展開或者一次打包起來</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="comment">//展開</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(...arr);</span><br><span class="line"><span class="comment">//結果 1 2 3 4 5</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">showArr</span>(<span class="params">num1, num2, ...num3</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(num1);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(num2);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(num3);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//打包</span></span><br><span class="line"><span class="title function_">showArr</span>(...arr);</span><br><span class="line"><span class="comment">//結果 </span></span><br><span class="line"><span class="comment">// 1 </span></span><br><span class="line"><span class="comment">// 2 </span></span><br><span class="line"><span class="comment">// [ 3, 4, 5 ]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模板字變量和多行字符串</p>
+<p>說明:可以在``(注意此為鍵盤左上方``符號非’’單引號)之間包含字串，邺以＄{}包𨭎變數，甚至換行也可以。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sayMyName</span>(<span class="params">firstName, lastName</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hollo My Name</span></span><br><span class="line"><span class="string">    is <span class="subst">$&#123;firstName&#125;</span> <span class="subst">$&#123;lastName&#125;</span></span></span><br><span class="line"><span class="string">    `</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">sayMyName</span>(<span class="string">&quot;tom&quot;</span>, <span class="string">&quot;tang&quot;</span>);</span><br><span class="line"><span class="comment">//結果 Hollo My Name </span></span><br><span class="line"><span class="comment">//    is tom tang </span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>箭頭函數</p>
+<p>說明:寫法(引數)&#x3D;&gt;{函式內容}</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> res=arr.<span class="title function_">reduce</span>(<span class="function">(<span class="params">total,items</span>)=&gt;</span>&#123;</span><br><span class="line">    total +=items;</span><br><span class="line">    <span class="keyword">return</span> total;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line"><span class="comment">//結果 15 </span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>let 宣告</p>
+<p>說明:JS本來是以function去分辨解析變名稱所使用的範圍，意思是在一各物綿內具有一個或往更上層找或是全域等等，也就是大家常說的scope，有別於其他語言可能以大括號**{}<strong>作為範圍的選擇，所以當使用var在物件宣告的時候，一樣會變宣告成往上找到最上層fucnton的範圍。而如果使用let，更會改以</strong>{}**去判斷scope</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> test =<span class="string">&quot;test&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(test==<span class="string">&quot;test&quot;</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> num5=<span class="number">10</span>;</span><br><span class="line">    <span class="keyword">let</span> num6=<span class="number">20</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(num5);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(num6);</span><br><span class="line"><span class="comment">//結果 10</span></span><br><span class="line"><span class="comment">// num6 is not defined </span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>5.預設參數</p>
+<p>  說明:一般來 說來如果引數與對應的參數不符合時，就會出錯。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">add</span>(<span class="params">num1=<span class="number">1</span></span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> num1+num2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">add</span>(<span class="number">10</span>);</span><br><span class="line"><span class="comment">//結果 num2 is not defined </span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">add</span>(<span class="params">num1=<span class="number">1</span>,num2=<span class="number">1</span></span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> num1+num2;</span><br><span class="line">&#125;</span><br><span class="line">res=<span class="title function_">add</span>(<span class="number">10</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line"><span class="comment">//結果 11</span></span><br></pre></td></tr></table></figure>
+
+<p>其它還未使用到的:</p>
+<p>Module的import export功能、OOP的class寫法</p>
+<p>補充:</p>
+<p>當我們所使用的語法。瀏覽器可能過舊或不支援，本身無法被解析的時候，我們便需要使用polyfill，便是那麼一段程式碼，好讓新的語法也能解析。而事實上自已也可以針對語法的格式去寫出要的功能，但你必須對語言背後的行為邏輯有正確的理解</p>
+<h3 id="day09閉包Closure"><a href="#day09閉包Closure" class="headerlink" title="day09閉包Closure"></a>day09閉包Closure</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">saveMoney</span>(<span class="params">newSaving = <span class="number">0</span></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> myAccount = <span class="number">20000</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> myAccount + newSaving;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">total = <span class="title function_">saveMoney</span>(<span class="number">1000</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">total</span>());</span><br><span class="line"><span class="comment">//結果 21000</span></span><br></pre></td></tr></table></figure>
+
+<p>第一次看到這個寫法覺得很𫋵奇，卻不知道它就是所謂鼎鼎大名的閉包(Closure)</p>
+<p>什麼是閉包?看code，是由兩個函式搆成的而且互為表裡。</p>
+<p>JS用function去界定變數名稱的作用範圍，當我們它一固函式用另一個函式包起來，便會形成一個封閉的空間，而裡面的變數名稱，也只在範圍內可以使用，我們稱無private變數。使用它來達到隱藏資訊的效果。</p>
+<p>再看一個累加的例子</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">accumulation</span>(<span class="params"><span class="built_in">number</span>=<span class="number">0</span></span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="built_in">number</span>++);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> total= <span class="title function_">accumulation</span>();</span><br><span class="line"><span class="title function_">total</span>();</span><br><span class="line"><span class="title function_">total</span>();</span><br><span class="line"><span class="title function_">total</span>();</span><br><span class="line"><span class="comment">//結果</span></span><br><span class="line"><span class="comment">//0 </span></span><br><span class="line"><span class="comment">//1 </span></span><br><span class="line"><span class="comment">//2 </span></span><br></pre></td></tr></table></figure>
+
+<p>為什麼number會一直累加上去，而因為每次執行而開始重新計算，這更是閉包達到的效果。藉由雙層函式的架構將number變數存在記憶體當中，並藉由accumulation去執行裡面的匿名函式去改變值。</p>
+<p>閉包博大精深，網路上有很多不同的資訊，但基本的function產生作用域用雙層function去達到封閉作用空間，是我對閉包基本認知。</p>
+<h3 id="day10強制轉型"><a href="#day10強制轉型" class="headerlink" title="day10強制轉型"></a>day10強制轉型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">conditionA = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (conditionA) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//無結果</span></span><br><span class="line">conditionB = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (conditionB) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//結果 hello</span></span><br></pre></td></tr></table></figure>
+
+<p>在修件判斷中，為什麼conditionA為什麼不會通過條件判斷？</p>
+<p>在條件判斷中，我們需要得到一個true或false才能去判斷接下來要不要執行𧟕面的程式，但如果裡面不是一個單純的比較，是一個物件或者其他東西會發生什麼事情？</p>
+<p>從JS的強制轉型搆起，看以下程式碼</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a=<span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b=a+<span class="string">&quot;&quot;</span>;<span class="comment">//隱含的強制轉型</span></span><br><span class="line"><span class="keyword">var</span> c= <span class="title class_">String</span>(a);<span class="comment">//明確的強制轉型</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(c);</span><br><span class="line"><span class="comment">//42 ​​​​​at ​​​b​​​ </span></span><br><span class="line"><span class="comment">//42 ​​​​​at ​​​c​​​</span></span><br></pre></td></tr></table></figure>
+
+<p>當我們的操作不符合正常狀況時，JS語言會幫我們進一步處理。回到我們條件判斷，我們應該給予一個Boolean值或一個得出Boolean值的比較，但如果是其他的東西，JS會幫我們進行強制轉型而要變為Boolean的true或fals就是用所謂的Truthy值或Falsy值去判斷。那我們現在給的東西是哪一種值呢？</p>
+<p>其㲒可以很簡單，除了以下Falsy的，都是Truthy</p>
+<ul>
+<li><p>undefined</p>
+</li>
+<li><p>null</p>
+</li>
+<li><p>false</p>
+</li>
+<li><p>+0、-0 以及NaN</p>
+</li>
+<li><p>“”</p>
+</li>
+</ul>
+<p>最上面的例子，其實常常用在判斷是否為空值時的判斷，我們也可以寫成以下，去判斷資料是否為空。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">conditionA = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!conditionA) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;目前沒有值&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 結果 </span></span><br><span class="line"><span class="comment">//目前沒有值 ​​​​​</span></span><br></pre></td></tr></table></figure>
+
+<p>另外使用三元運算式將我們原本的程式改寫成更簡潔的狀態。</p>
+<blockquote>
+<p>語法：</p>
+<p>判斷式?如果符合:如果不符合</p>
+</blockquote>
+<p>以下改寫</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">conditionA=<span class="string">&quot;&quot;</span>;</span><br><span class="line">!conditionA ? <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;目前沒有值&quot;</span>):<span class="variable language_">console</span>.<span class="title function_">log</span>(conditionA);</span><br><span class="line"><span class="comment">//結果 目前沒有值</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">conditionA=<span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">!conditionA ? <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;目前沒有值&quot;</span>):<span class="variable language_">console</span>.<span class="title function_">log</span>(conditionA);</span><br><span class="line"><span class="comment">//結果 Hello</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="day11鏈式函式"><a href="#day11鏈式函式" class="headerlink" title="day11鏈式函式"></a>day11鏈式函式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> $ = <span class="keyword">function</span> (<span class="params">Person</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">breakTheIce</span>: <span class="keyword">function</span> (<span class="params">message</span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(message + <span class="string">&quot; My name is &quot;</span> + <span class="title class_">Person</span>.<span class="property">name</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">introduce</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;I&#x27;m a &quot;</span> + <span class="title class_">Person</span>.<span class="property">intro</span> + <span class="string">&quot; Do you want to program with me?&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Jim</span> = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;Jim Hu&quot;</span>,</span><br><span class="line">    <span class="attr">intro</span>: <span class="string">&quot;Programmer!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">$(<span class="title class_">Jim</span>).<span class="title function_">breakTheIce</span>(<span class="string">&quot;Hi&quot;</span>).<span class="title function_">introduce</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="day12修改網頁背景"><a href="#day12修改網頁背景" class="headerlink" title="day12修改網頁背景"></a>day12修改網頁背景</h3><p>把 google 首頁背景變成黃色的三種方式。</p>
+<ol>
+<li>利用開發者模式功能</li>
+</ol>
+<blockquote>
+<p>在開法者模式下選擇 HTML tag <body></body>的部分，<br>然後在後面style欄位填上 background: yellow</p>
+</blockquote>
+<ol start="2">
+<li>利用 JS 原生語法</li>
+</ol>
+<blockquote>
+<p>利用 JavaScript 原生語法， getElementsByTagName 抓到<br>body 選項，再加上 style 改變顏色</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&quot;body&quot;</span>);</span><br><span class="line">x[<span class="number">0</span>].<span class="property">style</span>.<span class="property">background</span> = <span class="string">&#x27;yellow&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>利用 jQuery 函式庫</li>
+</ol>
+<blockquote>
+<p>先創建一個包含引入函式庫的 <script></script> 標籤，再來抓取 <head><style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head> 標頭，將標籤附加上去。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> el = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;script&#x27;</span>);</span><br><span class="line">el.<span class="property">src</span> = <span class="string">&quot;https://code.jquery.com/jquery-3.2.1.js&quot;</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&#x27;head&#x27;</span>)[<span class="number">0</span>].<span class="title function_">appendChild</span>(el);</span><br><span class="line"></span><br><span class="line"><span class="comment">//jQuery語法</span></span><br><span class="line">$(<span class="string">&quot;body&quot;</span>).<span class="title function_">css</span>(<span class="string">&quot;background-color&quot;</span>, <span class="string">&quot;yellow&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="day13網頁重繪的流程"><a href="#day13網頁重繪的流程" class="headerlink" title="day13網頁重繪的流程"></a>day13網頁重繪的流程</h3><p>要如何決定今天我們要製作一個移動的動畫，要用 translate 還是去改變 position 呢？<br>那我們就要了解一下重排（reflow）跟重繪（repaint）</p>
+<p>五個步驟：</p>
+<ol>
+<li>HTML 轉換成 DOM</li>
+<li>CSS 轉換成 CSSOM</li>
+<li>將兩個東西結合，生成一刻渲染樹 （包含每個節點的視覺訊息）</li>
+<li>生成佈局（layout），即將所有渲染入的節點進行平面合成</li>
+<li>將佈局繪製（paint）在平面上</li>
+</ol>
+<p>而大致上網頁的變動都不斷在重複 4. 跟 5. 的動作，而效能選擇上的差異便在降低這兩項事情的發生。</p>
+<p>需要重排跟重繪的狀況分為</p>
+<ol>
+<li>修改DOM</li>
+<li>修改樣式表</li>
+<li>觸發事件</li>
+</ol>
+<p>避免重新渲染，我們可以看看 CSStrigger 這個網站對於 transform 跟 position 的差異。就可以知道哪個選擇上比較合適。</p>
+<p>參考資料：<br><a href="http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html">阮一峰的网络日志</a><br><a href="https://csstriggers.com/">CSStrigger</a></p>
+<h3 id="day14網頁事件"><a href="#day14網頁事件" class="headerlink" title="day14網頁事件"></a>day14網頁事件</h3><p>事件表</p>
+<table>
+<thead>
+<tr>
+<th align="center">事件</th>
+<th align="center">行為</th>
+<th align="center">例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">onchange</td>
+<td align="center">當元素改變</td>
+<td align="center">selector</td>
+</tr>
+<tr>
+<td align="center">onclick</td>
+<td align="center">當點下 HTML 元素</td>
+<td align="center">點擊後送出資料或選擇該元素</td>
+</tr>
+<tr>
+<td align="center">onmouseover</td>
+<td align="center">當滑鼠通過 HTML 元素</td>
+<td align="center">提示效果，通常會搭配 onclick</td>
+</tr>
+<tr>
+<td align="center">onmouseout</td>
+<td align="center">當滑鼠離開 HTML 元素</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">onkeydown</td>
+<td align="center">當按下鍵盤</td>
+<td align="center">抓取值顯示</td>
+</tr>
+<tr>
+<td align="center">onload</td>
+<td align="center">當瀏覽器載入頁面時後</td>
+<td align="center">串接 API 更改資料列</td>
+</tr>
+</tbody></table>
+<p>其實寫法很簡單，都是在 tag 裡面<br>加上你要執行的 function 名稱</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;element event=&#x27;some JavaScript&#x27;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在例子中我們通常很難感受到效果，直到實際去操作。而 W3School 提供很多有趣的例子跟實驗平台，可以快速地以實踐為學習。推薦一開始從此下手。<br><a href="https://www.w3schools.com/js/js_events_examples.asp">學習連結</a></p>
+<h3 id="day16亂數的取法"><a href="#day16亂數的取法" class="headerlink" title="day16亂數的取法"></a>day16亂數的取法</h3><p>思考：</p>
+<p>如何取40~80間(不包含80)的亂數</p>
+<p>我們用Math.random()的語法，可以得到一個0~1之間穴包含1的亂數</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> res=<span class="title class_">Math</span>.<span class="title function_">random</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line"><span class="comment">//0.8273783802602397</span></span><br></pre></td></tr></table></figure>
+
+<p>取亂數的方法:</p>
+<ol>
+<li><p>將Math.random結果換算成取1～*並去掉小數點</p>
+</li>
+<li><p>用取餘數得到想要的亂數範圍</p>
+</li>
+<li><p>如果不是從0開始，加上要從多少開始數字</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> res = <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * <span class="number">100</span>) % <span class="number">40</span> + <span class="number">40</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br></pre></td></tr></table></figure>
+
+<p>逐一拆解便為</p>
+<ol>
+<li>Math.random()*100 &#x2F;&#x2F;可取0～99之間的數字</li>
+<li>Math.floor(Math.random()*100) &#x2F;&#x2F;去掉小數點</li>
+<li>Math.floor(Math.random()*100)%40 &#x2F;&#x2F;可取0～39之間的餘數</li>
+<li>Math.floor(Math.random()*100)%40+40&#x2F;&#x2F;可霰40～79之間的餘數</li>
+</ol>
+<h3 id="day17畫圓"><a href="#day17畫圓" class="headerlink" title="day17畫圓"></a>day17畫圓</h3><p><a href="https://stackblitz.com/edit/js-nrw4zh?file=index.js">stackblitz</a><br>用Canvas畫圓，並做成一個簡單的小動畫，想要畫的圓是同心圓，並搭配Fibonacci數列，讓圓圈大小更自然的變化, 在HTML的碼 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">&quot;canvas&quot;</span> <span class="attr">width</span>=<span class="string">&quot;1000px&quot;</span> <span class="attr">height</span>=<span class="string">&quot;1000px&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>畫同心圓</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Import stylesheets</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./style.css&#x27;</span>;</span><br><span class="line"><span class="comment">// 畫圓功能</span></span><br><span class="line"><span class="keyword">var</span> circle= <span class="keyword">function</span> (<span class="params">x, y, radius</span>) &#123;</span><br><span class="line">   ctx.<span class="title function_">beginPath</span>();</span><br><span class="line">   ctx.<span class="title function_">arc</span>(x, y, radius, <span class="number">0</span>, <span class="number">2</span>*<span class="title class_">Math</span>.<span class="property">PI</span>, <span class="literal">false</span>);</span><br><span class="line">   ctx.<span class="title function_">stroke</span>();</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Write Javascript code!</span></span><br><span class="line"><span class="keyword">const</span> appDiv = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;app&#x27;</span>);</span><br><span class="line"><span class="comment">//appDiv.innerHTML = `&lt;h1&gt;JS Starter&lt;/h1&gt;`;</span></span><br><span class="line"><span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;canvas&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">ctx.<span class="property">lineWidth</span> = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">ctx.<span class="property">strokeStyle</span> = <span class="string">&quot;Red&quot;</span>;</span><br><span class="line"><span class="title function_">circle</span>(<span class="number">200</span>,<span class="number">150</span>,<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">ctx.<span class="property">strokeStyle</span> = <span class="string">&quot;orange&quot;</span>;</span><br><span class="line"><span class="title function_">circle</span>(<span class="number">200</span>, <span class="number">150</span>, <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">ctx.<span class="property">strokeStyle</span> = <span class="string">&quot;yellow&quot;</span>;</span><br><span class="line"><span class="title function_">circle</span>(<span class="number">200</span>, <span class="number">150</span>, <span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">ctx.<span class="property">strokeStyle</span> = <span class="string">&quot;Green&quot;</span>;</span><br><span class="line"><span class="title function_">circle</span>(<span class="number">200</span>, <span class="number">150</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line">ctx.<span class="property">strokeStyle</span> = <span class="string">&quot;Blue&quot;</span>;</span><br><span class="line"><span class="title function_">circle</span>(<span class="number">200</span>, <span class="number">150</span>, <span class="number">80</span>);</span><br><span class="line"></span><br><span class="line">ctx.<span class="property">strokeStyle</span> = <span class="string">&quot;Purple&quot;</span>;</span><br><span class="line"><span class="title function_">circle</span>(<span class="number">200</span>, <span class="number">150</span>, <span class="number">130</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>用for loop 優化程式</p>
+<p>因為位置是重複的，所以可以試著把同樣的東西，用陣列與迴圈整理出來</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Import stylesheets</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./style.css&#x27;</span>;</span><br><span class="line"><span class="comment">// Write Javascript code!</span></span><br><span class="line"><span class="keyword">const</span> appDiv = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;app&#x27;</span>);</span><br><span class="line"><span class="comment">// 畫圓功能</span></span><br><span class="line"><span class="keyword">var</span> circle= <span class="keyword">function</span> (<span class="params">x, y, radius</span>) &#123;</span><br><span class="line">   ctx.<span class="title function_">beginPath</span>();</span><br><span class="line">   ctx.<span class="title function_">arc</span>(x, y, radius, <span class="number">0</span>, <span class="number">2</span>*<span class="title class_">Math</span>.<span class="property">PI</span>, <span class="literal">false</span>);</span><br><span class="line">   ctx.<span class="title function_">stroke</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;canvas&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">ctx.<span class="property">lineWidth</span> = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> styles = [<span class="string">&quot;Red&quot;</span>,<span class="string">&quot;orange&quot;</span>,<span class="string">&quot;yellow&quot;</span>,<span class="string">&quot;Green&quot;</span>,<span class="string">&quot;Blue&quot;</span>,<span class="string">&quot;Purple&quot;</span>,<span class="string">&quot;Gray&quot;</span>]</span><br><span class="line"><span class="keyword">let</span> size = [<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">50</span>,<span class="number">80</span>,<span class="number">130</span>,<span class="number">210</span>]</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;<span class="number">7</span>;i++)&#123;</span><br><span class="line">    ctx.<span class="property">strokeStyle</span> = styles[i];</span><br><span class="line">    <span class="title function_">circle</span>(<span class="number">200</span>,<span class="number">150</span>,size[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用setInterval反覆畫圖，將其變成動畫</p>
+<p>因為是動態的，所以不會一開始就色所有的線都畫出來，並且會一直執行畫線的動作，所以利用setInterval並改變半徑大小畫出不同的圓</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Import stylesheets</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./style.css&#x27;</span>;</span><br><span class="line"><span class="comment">// Write Javascript code!</span></span><br><span class="line"><span class="keyword">const</span> appDiv = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;app&#x27;</span>);</span><br><span class="line"><span class="comment">// 畫圓功能</span></span><br><span class="line"><span class="keyword">var</span> circle= <span class="keyword">function</span> (<span class="params">x, y, radius</span>) &#123;</span><br><span class="line">   ctx.<span class="title function_">beginPath</span>();</span><br><span class="line">   ctx.<span class="title function_">arc</span>(x, y, radius, <span class="number">0</span>, <span class="number">2</span>*<span class="title class_">Math</span>.<span class="property">PI</span>, <span class="literal">false</span>);</span><br><span class="line">   ctx.<span class="title function_">stroke</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;canvas&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">ctx.<span class="property">lineWidth</span> = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> styles = [<span class="string">&quot;Red&quot;</span>, <span class="string">&quot;orange&quot;</span>,<span class="string">&quot;yellow&quot;</span>, <span class="string">&quot;Green&quot;</span>, <span class="string">&quot;Blue&quot;</span>, <span class="string">&quot;Purple&quot;</span>, <span class="string">&quot;Gray&quot;</span>];</span><br><span class="line"><span class="keyword">let</span> size = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">50</span>, <span class="number">80</span>, <span class="number">130</span>, <span class="number">210</span>];</span><br><span class="line"><span class="keyword">let</span> styleClear = <span class="string">&quot;white&quot;</span></span><br><span class="line"><span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">setInterval</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  ctx.<span class="property">lineWidth</span> = <span class="number">4</span>;</span><br><span class="line">  ctx.<span class="property">strokeStyle</span> = styles[i];</span><br><span class="line">  <span class="title function_">circle</span>(<span class="number">200</span>, <span class="number">150</span>, size[i]);</span><br><span class="line">  ctx.<span class="property">lineWidth</span> = <span class="number">5</span>;</span><br><span class="line">  ctx.<span class="property">strokeStyle</span> = styleClear;</span><br><span class="line">  <span class="title function_">circle</span>(<span class="number">200</span>, <span class="number">150</span>, size[i-<span class="number">3</span>]); </span><br><span class="line">  </span><br><span class="line">  i += <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> ( i &gt; <span class="number">9</span> ) &#123;</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="day18錯誤處理"><a href="#day18錯誤處理" class="headerlink" title="day18錯誤處理"></a>day18錯誤處理</h3><p>通常錯誤處理的格式為try,catch,throw.</p>
+<p>一個字典查詢的功能，這裡用一個陣列來看看如何處理錯誤。當我們有找到值的時候，會回傳這個值，如果沒有就會進行錯誤處理。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">checkDictionary</span>(<span class="params">key</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> words = &#123;</span><br><span class="line">        <span class="string">&#x27;apple&#x27;</span>: <span class="string">&quot;蘋果&quot;</span>,</span><br><span class="line">        <span class="string">&#x27;banana&#x27;</span>: <span class="string">&quot;香蕉&quot;</span>,</span><br><span class="line">        <span class="string">&#x27;peach&#x27;</span>: <span class="string">&quot;桃子&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">if</span> (words[key]) &#123;</span><br><span class="line">        <span class="keyword">return</span> words[key];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> key;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>if(words[key]) 的寫法我們從if(wordd[key] !&#x3D; null) 簡化而來，因為null是falsy物件，所以當沒有值時結果會與判斷式寫法相等。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> res = <span class="title function_">checkDictionary</span>(<span class="string">&quot;apple&quot;</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;We don\&#x27;t know this world: &quot;</span> + e);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//蘋果</span></span><br></pre></td></tr></table></figure>
+
+<p>用try去執行一個function並在裡面加入流程控制，除了正常的功能外，如有錯誤也用throw指令，直接跳往catch進行進一步的處理，傳遞參數可以是任何型態 ，由catch去接收。而當在try中直接發生錯誤或我們沒有使用throw時，發生錯誤<em>不會執行catch裡的功能</em>，所以我們可能無法掌握錯誤的中斷之處。</p>
+<blockquote>
+<p><strong>所以有try catch的語句一定記得要有throw</strong></p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">checkDictionary</span>(<span class="params">key</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> words = &#123;</span><br><span class="line">        <span class="string">&#x27;apple&#x27;</span>: <span class="string">&quot;蘋果&quot;</span>,</span><br><span class="line">        <span class="string">&#x27;banana&#x27;</span>: <span class="string">&quot;香蕉&quot;</span>,</span><br><span class="line">        <span class="string">&#x27;peach&#x27;</span>: <span class="string">&quot;桃子&quot;</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">if</span> (words[key]) &#123;</span><br><span class="line">        <span class="keyword">return</span> words[key];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> key; <span class="comment">//有try catch 一定要有 不然會undefie</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> res = <span class="title function_">checkDictionary</span>(<span class="string">&quot;mongo&quot;</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;We don\&#x27;t know this world: &quot;</span> + e);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h3 id="day19-chrome-工具"><a href="#day19-chrome-工具" class="headerlink" title="day19 chrome 工具"></a>day19 chrome 工具</h3><p>在chrome在按下<code>F12</code>按下時，會出現debug的工具，有可以設定的選項。</p>
+<p>在Performance的部分可以記錄效能，可以勾選記憶體使用以燭幕擷取的選項，它提供數字，畫面甚至圖表資料，讓我們進一步分析程式效能</p>
+<h3 id="day20-時間的精度"><a href="#day20-時間的精度" class="headerlink" title="day20 時間的精度"></a>day20 時間的精度</h3><p>一直以來都以為要用 setTimeout 或 setInterval 來製作動畫，但 setTimeout 最快也只能到 10 毫秒，可能造成畫面遺失的問題，而我們就可以用 requestAnimationFrame 這個方法。 一起來看一下 MicroSoft Developer Network 提供的這個例子，在裡面學到不少東西。</p>
+<p>說明：<br>window.performance.now 高精準的時間戳，可以取到一毫秒的千分之一<br>elm.style.left &#x3D; ((lpos +&#x3D; 3) % 600) + “px”; 利用累加方式調整矩形位置，並用餘數值來限定範圍<br>requestId &#x3D; window.requestAFrame(render) 計算 requestAFrame 執行的次數， requestAFrame 的回傳值會從 1 開始持續往上累加</p>
+<p><a href="https://stackblitz.com/edit/js-p6cism?file=index.html">stackblitz</a></p>
+<p>在<code>index.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;animated&quot;</span>&gt;</span>Hello there.<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;btnstart&quot;</span> &gt;</span>Start<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&quot;bnstop&quot;</span> &gt;</span>Stop<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>index.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Import stylesheets</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./style.css&#x27;</span>;</span><br><span class="line"><span class="comment">//多瀏覽器的支援</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="property">cancelAFrame</span> = (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">window</span>.<span class="property">cancelAnimationFrame</span> ||</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">webkitCancelAnimationFrame</span> ||</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">mozCancelAnimationFrame</span> ||</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">oCancelAnimationFrame</span> ||</span><br><span class="line">    <span class="keyword">function</span> (<span class="params">id</span>) &#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="built_in">clearTimeout</span>(id);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> requestId = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> startime = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> lpos = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> elm;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;init&quot;</span>);</span><br><span class="line">  elm = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;animated&quot;</span>);</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">  elm.<span class="property">style</span>.<span class="property">left</span> = ((lpos += <span class="number">3</span>) % <span class="number">600</span>) + <span class="string">&quot;px&quot;</span>;</span><br><span class="line">  requestId = <span class="variable language_">window</span>.<span class="title function_">requestAFrame</span>(render);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">start</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;start&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">performance</span>.<span class="property">now</span>) &#123;</span><br><span class="line">    startime = <span class="variable language_">window</span>.<span class="property">performance</span>.<span class="title function_">now</span>();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    startime = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  requestId = <span class="variable language_">window</span>.<span class="title function_">requestAFrame</span>(render);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">stop</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;stop&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (requestId)</span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">cancelAFrame</span>(requestId);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// handle multiple browsers for requestAnimationFrame()</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="property">requestAFrame</span> = (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">window</span>.<span class="property">requestAnimationFrame</span> ||</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">webkitRequestAnimationFrame</span> ||</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">mozRequestAnimationFrame</span> ||</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">oRequestAnimationFrame</span> ||</span><br><span class="line">    <span class="comment">// if all else fails, use setTimeout</span></span><br><span class="line">    <span class="keyword">function</span> (<span class="params">callback</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">window</span>.<span class="built_in">setTimeout</span>(callback, <span class="number">1000</span> / <span class="number">60</span>); <span class="comment">// shoot for 60 fps</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;load&quot;</span>, <span class="title function_">init</span>(), <span class="literal">false</span>);</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;btnstart&quot;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, start);</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;bnstop&quot;</span>).<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, stop);</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<h3 id="day21-DOM"><a href="#day21-DOM" class="headerlink" title="day21 DOM"></a>day21 DOM</h3><p>W3School介紹HTMLDOM時，有一個觀念會被一直強調</p>
+<blockquote>
+<p>DOM是一個樹狀模型中，所有東西都是結點(node)。所有結點分為ACDET</p>
+<ol>
+<li>docment根(document)</li>
+<li>HTML元素(element)</li>
+<li>屬性(attribute)</li>
+<li>文字(text)</li>
+<li>註解(comment)</li>
+</ol>
+</blockquote>
+<p>當HTML文件被載入瀏覽器的時候，就會產生一個document物件做為根節點。而document物件是所有節點的擁有者，並提供屬性跟方法去操控其它結點。</p>
+<p>Elemnt object<br>NodeList object(集合，有序)<br>Att object<br>NamedNodeMap objcet(集合，沒有順序)<br>Style object</p>
+<p>思考：<br>Attr Object 和 Style Object 在哪？結果發現自己總是把CSS 調整的 style 跟 HTML 本身的 attribute 搞混。Attribute 是跟 HTML 標籤一起出現的，例如我們使用 placeholder 去提示要輸入的訊息。而屬性分為兩種，content（HTML）跟 IDL (JavaScript)，也可以自定屬性。<a href="https://pjchender.blogspot.tw/2017/01/html-5-data-attribute.html">補充資料。內容為更多屬性介紹，作者：PJ</a></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes">完整的 attribute 列表</a></p>
+<p>說明：<br>當我們開始操控 JS ，我們會使用 document 的方法，去抓取節點。然後用串接（chain）的方式，進行之後動作。下面的例子，我們選取到的不是單一元素，因為有多個 P tag，行程所謂的 Node list ，再藉由 item 去選取到要針對的元素。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.getElementsByTagName(&quot;P&quot;).item(0).innerHTML;</span><br></pre></td></tr></table></figure>
+
+<p>所以排下來的順序大概是這樣的：<br>Document &gt; Element + NodeList &gt; Attr + NamedNodeMap + style + DOM Events &gt; style</p>
+<h3 id="day22程式邏輯"><a href="#day22程式邏輯" class="headerlink" title="day22程式邏輯"></a>day22程式邏輯</h3><p>上LeetCode去練習程式邏輯，人家所謂的bug就是思考上的缺陷，有時候𤆧法能解，但是思考角度不對，其實就會在測試中出現問題。</p>
+<p>下面的例子是給定一個陣列，真一個目標，找尋是否陣列裡有一對元素，相加等於目標數字。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Given nums = [2,7,11,15] ,target =9,</span><br><span class="line">Because nums[0] + num[1] = 2+7 =9</span><br><span class="line">return [0,1]</span><br></pre></td></tr></table></figure>
+
+<p>在這個例子中，當如果輸入兩個不同數字，結果正確。但如果兩個數字相同，就會出現錯誤。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nums = [<span class="number">3</span>,<span class="number">3</span>]</span><br><span class="line"><span class="keyword">var</span> target = <span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> twoSum = <span class="keyword">function</span>(<span class="params">nums, target</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; target ; i++)</span><br><span class="line">    <span class="keyword">if</span> (nums.<span class="title function_">indexOf</span>(i) + <span class="number">1</span> &amp;&amp; nums.<span class="title function_">indexOf</span>(target - i) + <span class="number">1</span>) &#123;</span><br><span class="line">       <span class="keyword">return</span> [nums.<span class="title function_">indexOf</span>(i), nums.<span class="title function_">indexOf</span>(target - i)]</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">if</span>( i == target - <span class="number">1</span>) &#123;</span><br><span class="line">		  <span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Sorry&quot;</span>)</span><br><span class="line">        &#125;       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>而正確的作法應該要用兩個迴圈。以下為pseudocode</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">int</span>[] <span class="title">twoSum</span>(<span class="params"><span class="built_in">int</span>[] nums, <span class="built_in">int</span> target</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> j = i + <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[j] == target - nums[i]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">int</span>[] &#123; i, j &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;No two sum solution&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="day23-Html的ID"><a href="#day23-Html的ID" class="headerlink" title="day23 Html的ID"></a>day23 Html的ID</h3><p>當你在HTML標籤裡宣告ID的時候，其實就同時在JS裡宣告一僤全域變數。</p>
+<p>說明：</p>
+<p>用不同抓取element的方式(除ID之外)去更改tag裡面的內容，最後用createElement製造一個按鈕，然後用addEventListener去監聽按下的事件來執行。</p>
+<p><a href="https://js-uycrnh.stackblitz.io/">stackblitz</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>My Friend<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">&quot;lion&quot;</span> &gt;</span>My Class<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h4</span> <span class="attr">id</span>=<span class="string">&quot;king&quot;</span> &gt;</span>My ID<span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Import stylesheets</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./style.css&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> btn =<span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;button&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> example = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&quot;h1&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> example2 = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&quot;h2&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> example3 = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;lion&quot;</span>);</span><br><span class="line"></span><br><span class="line">btn.<span class="property">innerHTML</span>=<span class="string">&quot;按鈕比大顆&quot;</span>;</span><br><span class="line">btn.<span class="property">style</span>.<span class="property">width</span>=<span class="string">&quot;100px&quot;</span>;</span><br><span class="line">btn.<span class="property">style</span>.<span class="property">height</span>=<span class="string">&quot;100px&quot;</span>;</span><br><span class="line">btn.<span class="property">style</span>.<span class="property">background</span>=<span class="string">&quot;yellow&quot;</span>;</span><br><span class="line">btn.<span class="property">style</span>.<span class="property">fontSize</span>=<span class="string">&quot;25px&quot;</span>;</span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(btn);</span><br><span class="line"></span><br><span class="line">btn.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params">e</span>)&#123;</span><br><span class="line">  example[<span class="number">0</span>].<span class="property">innerHTML</span>=<span class="string">&quot;Ha Ha&quot;</span>;</span><br><span class="line">  example2[<span class="number">0</span>].<span class="property">innerHTML</span>=<span class="string">&quot;My My&quot;</span>;</span><br><span class="line">  example3[<span class="number">0</span>].<span class="property">innerHTML</span>=<span class="string">&quot;Hi Hi&quot;</span>;</span><br><span class="line">  <span class="comment">//殺出一個程咬金</span></span><br><span class="line">  king.<span class="property">innerHTML</span> =<span class="string">&quot;Bye Bye&quot;</span>;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到最後一行，其實是直接用&#x3D;&#x3D;ID名稱&#x3D;&#x3D;，沒有getElementById,去串接innerHTML屬性來指派值，卻成功了</p>
+<h3 id="day24-html屬性"><a href="#day24-html屬性" class="headerlink" title="day24 html屬性"></a>day24 html屬性</h3><p>釐清一下HTML屬性與JS的關系，如何去叫用HTML裡面的屬性。我們可以把每個HTML tag 想成是一個物件，擁有自已的屬性，並且以element.propertyName的方式叫用。</p>
+<p><a href="https://stackblitz.com/edit/js-fz2pzb?file=index.js">stackblitz</a><br>以下例子，去判斷屬性名稱為特定姓名的話，將placeholder裡面的值修改<code>html</code>檔</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">&quot;json&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Jason&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;一&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">&quot;json&quot;</span> <span class="attr">name</span>=<span class="string">&quot;John&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;二&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">&quot;json&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Peter&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;三&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">&quot;json&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Jim&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;四&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">&quot;json&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Amy&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;五&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;changePlaceholder&quot;</span>&gt;</span>Action<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>js</code>的cdoe</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;changePlaceholder&quot;</span>)[<span class="number">0</span>].<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&quot;INPUT&quot;</span>).<span class="title function_">forEach</span>(<span class="keyword">function</span> (<span class="params">node</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (node.<span class="property">name</span> == <span class="string">&#x27;Jim&#x27;</span>) &#123;</span><br><span class="line">      node.<span class="property">placehlder</span> = <span class="string">&#x27;Jim&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>但是在HTML裡面他不是一個真實的物件，不是你自已加上名稱就會擁有，所以當我們要自訂屬緎的時候，必須符合它的規則。把資料屬緎在HTML tag裡寫成data-protertyName,並在JS中用element.dataset.propertyName取值</p>
+<p>說明：</p>
+<p>自訂一個屬性，當按下按金，秀出屬性內容</p>
+<p>在<code>html</code>的cdoe</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">data-hint</span>=<span class="string">&quot;insert Data&quot;</span> <span class="attr">name</span>=<span class="string">&quot;Json&quot;</span>&gt;</span>My data<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;showData&quot;</span>&gt;</span>Action<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在jscode</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;showData&quot;</span>)[<span class="number">0</span>].<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> myData = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&quot;H1&quot;</span>)[<span class="number">0</span>].<span class="property">dataset</span>;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(myData);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="day25-抓取輸入"><a href="#day25-抓取輸入" class="headerlink" title="day25 抓取輸入"></a>day25 抓取輸入</h3><p>當熟悉抓element裡面的值之後，就可以把輸入振解成“監聽事件”觸發加上“抓取值”。input就是一個盒子，當事事件觸發的時候，動手去拿裡面的東西。然後清空裡 的東西，才不會盒子看起來髒髒的。</p>
+<p><a href="https://stackblitz.com/edit/js-s7frt5?file=index.js">stackblitz</a></p>
+<p>說明：<br>最簡易的用兩個HTML tag，包括input與button(甚至只用一個input, 按enter觸發，但記得考慮手機可能會不方便觸發輸入)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>有沒有頻果的產品<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">&quot;insert&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;現在搜尋&quot;</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;showData&quot;</span>&gt;</span>Action<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>說明:<br>input的初始設定placeholder是靠左，且字是與邊框貼齊的，所以我們會使用text-align與padding去調整文字位置與空出邊空的距離。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">insert&#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">padding-right</span>: <span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">15px</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>說明:</p>
+<p>這裡用一個array來暫時記錄apple產品包含的資料，實際資料也可以是接api的資料庫、瀏覽器的localstrage或cookie。於是當我們輸入的時候，用includes去搜尋陣列，回傳true or false，來判斷是否有這個值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> apples = [<span class="string">&#x27;手機&#x27;</span>, <span class="string">&#x27;電腦&#x27;</span>, <span class="string">&#x27;滑鼠&#x27;</span>, <span class="string">&#x27;支付&#x27;</span>, <span class="string">&#x27;電視&#x27;</span>, <span class="string">&#x27;音響&#x27;</span>];</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;showData&quot;</span>)[<span class="number">0</span>].<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> insert = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;insert&quot;</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">var</span> result = apples.<span class="title function_">includes</span>(insert.<span class="property">value</span>);</span><br><span class="line">  <span class="keyword">if</span> (result) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;有喔有喔&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;等你發明&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  insert.<span class="property">value</span>=<span class="string">&quot;&quot;</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="day26置換class網頁效能的方法一"><a href="#day26置換class網頁效能的方法一" class="headerlink" title="day26置換class網頁效能的方法一"></a>day26置換class網頁效能的方法一</h3><p>提高網頁效能的方法一用JS置換class。<br>我們做一個checkbox，可以使用加上class的方式，來呈現checked效果。</p>
+<p><a href="https://js-rzamqo.stackblitz.io/">stackblitz</a></p>
+<p>說明：<br>我們用sprite的方式，來切換”部分”背景圖片，製造圖片切換的效果。而不需要重新載入一個圖片進行切換。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>戳我戳我<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;sampleClass&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.sampleClass</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>:<span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">height</span>:<span class="number">330px</span>;</span><br><span class="line">  <span class="attribute">background</span>:<span class="built_in">url</span>(<span class="string">&#x27;https://image.freepik.com/free-vector/check-and-cross-signs-paint-design_1102-228.jpg&#x27;</span>) no-repeat;</span><br><span class="line">  <span class="attribute">background-position</span>: <span class="number">100%</span> <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">background-size</span>:cover;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.active</span>&#123;</span><br><span class="line">   <span class="attribute">background-position</span>: <span class="number">0%</span> <span class="number">50%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>說明：<br>使用className這個屬性，抓出元素的class名稱字串，再去針對字串處理加減class來達到效果。而下面的程式碼用includes去判斷是否是checked的狀態，也就是有加上active的class，如果有就切換回原本的名稱，如果沒有就加上active。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> checkBar = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&quot;div&quot;</span>)[<span class="number">0</span>];</span><br><span class="line">checkBar.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">//console.log(&quot;checkBar.className=&quot;+checkBar.className);</span></span><br><span class="line">  <span class="keyword">if</span> (checkBar.<span class="property">className</span>.<span class="title function_">includes</span>(<span class="string">&quot;active&quot;</span>)) &#123;</span><br><span class="line">    checkBar.<span class="property">className</span> = <span class="string">&quot;sampleClass&quot;</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    checkBar.<span class="property">className</span> += <span class="string">&quot; active&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="day27置換css屬性網頁效能的方法二"><a href="#day27置換css屬性網頁效能的方法二" class="headerlink" title="day27置換css屬性網頁效能的方法二"></a>day27置換css屬性網頁效能的方法二</h3><p>用cssText來置換屬性。每當點擊橘色盒子的時候，盒子就會向左偏移。並做一個按鈕可以讓盒子回到原來位置。</p>
+<p><a href="https://js-qsgwpj.stackblitz.io/">stackblitz</a></p>
+<p>說明：<br>我們把原本的<code>rectangle.style.left = left + &#39;px&#39;;</code><br>置換成<code>rectangle.style.sytle.cssText+=left: $&#123;left&#125;px;</code>來避免reflow</p>
+<p>小提醒：<br>因為cssText是直接複寫css內容，所以我們用+&#x3D;累加的方式，將要修改的樣式字串加到後面。</p>
+<p>HTML code:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;move where&quot;</span>&gt;</span>點我向右走<span class="tag">&lt;/<span class="name">dvi</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;reset&quot;</span>&gt;</span>reset<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>CSS code:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.move</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">background</span>:orange;</span><br><span class="line">    <span class="attribute">position</span>:absolute;</span><br><span class="line">    <span class="attribute">top</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">50%</span>);</span><br><span class="line">    <span class="attribute">cursor</span>:pointer;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="selector-class">.where</span>&#123;</span><br><span class="line">    <span class="attribute">left</span>:<span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.reset</span>&#123;</span><br><span class="line">    <span class="attribute">border-radius</span>:<span class="number">50px</span>; </span><br><span class="line">    <span class="attribute">font-weight</span>:bold;</span><br><span class="line">    <span class="attribute">background</span>:black;</span><br><span class="line">    <span class="attribute">color</span>:white;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JS code:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Import stylesheets</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./style.css&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> left = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> top = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> rectangle = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;where&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">var</span> reset = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;reset&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">rectangle.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  left += <span class="number">10</span>;</span><br><span class="line">  rectangle.<span class="property">style</span>.<span class="property">cssText</span> = <span class="string">`left:<span class="subst">$&#123;left&#125;</span>px`</span>;</span><br><span class="line">  <span class="comment">//rectangle.style.left= left+&#x27;px&#x27;;</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">reset.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  rectangle.<span class="property">style</span>.<span class="property">cssText</span> = <span class="string">&quot;left:10px&quot;</span>;</span><br><span class="line">  left = <span class="number">10</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="day28處理時間"><a href="#day28處理時間" class="headerlink" title="day28處理時間"></a>day28處理時間</h3><p>javascript如何處理時間</p>
+<p><a href="https://js-twvnya.stackblitz.io/">stackblitz</a></p>
+<p>在<code>html</code>中</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">&quot;time&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;transTime&quot;</span>&gt;</span>現在是幾年<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>javascript</code>中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ele = <span class="variable language_">document</span>.<span class="title function_">getelementsByClassName</span>(<span class="string">&quot;time&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">var</span> trans = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;transTime&quot;</span>)[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">var</span> now = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getFullYear</span>()</span><br><span class="line">ele.<span class="property">innerHTML</span>= now;</span><br><span class="line">trans.<span class="title function_">addEventListener</span>(<span class="string">&quot;click&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    now = now - <span class="number">1911</span>;</span><br><span class="line">    ele.<span class="property">innerHTML</span> = <span class="string">&#x27;民 &#x27;</span>+now;</span><br><span class="line">    trans.<span class="property">disabled</span> = <span class="string">&#x27;disabled&#x27;</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="day29-一些小技巧"><a href="#day29-一些小技巧" class="headerlink" title="day29 一些小技巧"></a>day29 一些小技巧</h3><blockquote>
+<p> 總要進步，總能更好，保持學習。</p>
+</blockquote>
+<p>以下一個清除陣列的小技巧</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line">list.<span class="property">length</span> = <span class="number">0</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(list);</span><br><span class="line"><span class="comment">//[]</span></span><br></pre></td></tr></table></figure>
+
+<p>下一步，JS框架。<br>思考：為什麼要用框架?<br>如果只是寫JS的一些小東西，可能不需要用到框架。但當專案的規模越來越大，更需要有效的管理程式碼，考慮擴展與降低重複問題。很多東西是一體的兩面，框架用得好可以幫助我們產生更好的成果與增加可維謢性，用得不好可能綁手綁腳，本末導致。除了規模上的總則，選擇框架也會考慮技術的成熟度，社群的支援度，甚至是學習曲線。而下面是始一個Vue.js的例子。</p>
+<p>說明：</p>
+<p>兩個大括號中間是渲染的文字，然後把資料分離到JS裡面。data的部分就是儲存文字資料的地方。所以當我們之後要改變資料內容。就不需要直接改html畫面的檔案，而是去調整JS裡的資料內容，</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">    &#123;&#123; text &#125;&#125; Nice to meet Vue.</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line"> <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span><br><span class="line"> <span class="attr">data</span>: &#123;</span><br><span class="line">   <span class="attr">text</span>: <span class="string">&#x27;Hello World!&#x27;</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><p><a href="https://ithelp.ithome.com.tw/users/20107703/ironman/1489">一個 JS 學習者的日常 共 30 篇</a></p>
+<p><a href="https://rxjs-dev.firebaseapp.com/api">https://rxjs-dev.firebaseapp.com/api</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E5%AD%B8%E7%BF%92Flask-SocketIO%E7%9A%84%E5%8B%95%E6%85%8Bnamespace%E7%9A%84%E6%B8%AC%E8%A9%A6/%E5%AD%B8%E7%BF%92Flask-SocketIO%E7%9A%84%E5%8B%95%E6%85%8Bnamespace%E7%9A%84%E6%B8%AC%E8%A9%A6/" rel="prev" title="學習Flask-SocketIO的動態namespace的測試">
+                  <i class="fa fa-angle-left"></i> 學習Flask-SocketIO的動態namespace的測試
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E5%AD%B8%E7%BF%92RxJS%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/%E5%AD%B8%E7%BF%92RxJS%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/" rel="next" title="學習Rxjs的相關使用">
+                  學習Rxjs的相關使用 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '60px',
+  right: 'unset',
+  left: '60px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

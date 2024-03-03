@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ttom921.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言  因為目前有使用到aws的服務，所以將相關的問題和資訊留下來，以免忘記。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="記錄AWS相關資訊">
+<meta property="og:url" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="前言  因為目前有使用到aws的服務，所以將相關的問題和資訊留下來，以免忘記。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84Docker%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/docker-container-log-rotation-02.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-05-04_12-03-54.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-03-05_10-27-27.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-03-05_11-49-18.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-03-05_11-49-40.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-08-13_11_06_34_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-08-13_11_09_34_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-08-13_11_15_29_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-08-13_11_20_16_Image.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-08-13_11_39_23_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/aAhZr06cTX6JJBjusquT_8.%20Key%20Pair.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-08-13_11_45_26_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-08-13_12_19_29_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-08-13_12_14_40_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-10-07_10_00_41_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-10-07_10_07_13_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-10-07_11_45_01_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-10-07_11_51_25_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-10-07_11_53_51_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/2020-10-07_11_57_54_Image.jpg">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-04-29_17-22-08.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-04-29_17-28-00.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-04-29_17-31-59.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-05-07_10-40-15.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-05_13-58-58.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-05_14-17-06.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-05_14-20-00.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-05_14-02-18.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-05_14-08-20.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-05_13-52-21.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-05_14-25-25.png">
+<meta property="og:image" content="https://ttom921.github.io/Snipaste_2021-07-05_14-28-43.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-05_14-30-54.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-05_14-39-52.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-12_16-14-26.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-12_16-22-00.png">
+<meta property="og:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/Snipaste_2021-07-12_16-24-37.png">
+<meta property="article:published_time" content="2020-08-13T10:49:58.000Z">
+<meta property="article:modified_time" content="2024-03-03T14:22:03.725Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="aws">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84Docker%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/docker-container-log-rotation-02.jpg">
+
+
+<link rel="canonical" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/","path":"記錄AWS相關資訊/","title":"記錄AWS相關資訊"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>記錄AWS相關資訊 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">被施工的Tom的記錄</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9Aubuntu%E7%9B%B8%E9%97%9C"><span class="nav-number">2.</span> <span class="nav-text">設定ubuntu相關</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9Avim"><span class="nav-number">2.1.</span> <span class="nav-text">設定vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0openfiles"><span class="nav-number">2.2.</span> <span class="nav-text">增加openfiles</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5swap"><span class="nav-number">2.3.</span> <span class="nav-text">加入swap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E7%90%86-systemd-%E7%9A%84-journal-%E6%AA%94%E6%A1%88"><span class="nav-number">2.4.</span> <span class="nav-text">清理 systemd 的 journal 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logrotate-%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.5.</span> <span class="nav-text">logrotate 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%A9%9F%E5%90%8D%E7%A8%B1"><span class="nav-number">2.6.</span> <span class="nav-text">修改主機名稱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E5%AE%B9%E5%99%A8%E8%A8%AD%E7%BD%AE%E6%97%A5%E8%AA%8C%E8%BC%AA%E6%9B%BF"><span class="nav-number">2.7.</span> <span class="nav-text">Docker 容器設置日誌輪替</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AA%8D%E7%9A%84%E6%97%A5%E8%AA%8C%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F"><span class="nav-number">2.7.1.</span> <span class="nav-text">默認的日誌驅動程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8B%95%E6%B8%85%E9%99%A4%E6%97%A5%E8%AA%8C"><span class="nav-number">2.7.2.</span> <span class="nav-text">手動清除日誌</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%BB%98%E8%AA%8D%E7%9A%84%E6%97%A5%E8%AA%8C%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F"><span class="nav-number">2.7.3.</span> <span class="nav-text">配置默認的日誌驅動程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E5%80%8B%E5%88%A5%E5%AE%B9%E5%99%A8%E9%85%8D%E7%BD%AE%E6%97%A5%E8%AA%8C%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F"><span class="nav-number">2.7.4.</span> <span class="nav-text">為個別容器配置日誌驅動程式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%A9%BA%E7%9A%84%E6%AA%94%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">建立空的檔案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A9%BA%E9%96%93%E4%B8%8D%E8%B6%B3"><span class="nav-number">4.</span> <span class="nav-text">空間不足</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E5%AE%9A%E7%BE%A9private-IP"><span class="nav-number">5.</span> <span class="nav-text">設定定義private IP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AWS%E7%9A%84Instance%E4%B8%8D%E5%8F%AF%E7%B5%82%E6%AD%A2%E7%9A%84%E8%A8%AD%E5%AE%9A"><span class="nav-number">6.</span> <span class="nav-text">AWS的Instance不可終止的設定</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A8%BB%E5%86%8A"><span class="nav-number">7.</span> <span class="nav-text">註冊</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%8F%B0%E6%9C%8D%E5%8B%99%E5%99%A8"><span class="nav-number">8.</span> <span class="nav-text">建立一台服務器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Key-Pair-%E9%80%A3%E7%B7%9A%E5%AF%86%E9%91%B0"><span class="nav-number">8.1.</span> <span class="nav-text">Key Pair 連線密鑰</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Launching-%E6%AD%A3%E5%BC%8F%E5%95%9F%E5%8B%95"><span class="nav-number">8.2.</span> <span class="nav-text">Launching 正式啟動</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%99%BB%E5%85%A5%E5%BB%BA%E7%AB%8B%E5%A5%BD%E7%9A%84%E6%9C%8D%E5%8B%99%E5%99%A8"><span class="nav-number">8.3.</span> <span class="nav-text">登入建立好的服務器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">8.4.</span> <span class="nav-text">參考資料</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IAM"><span class="nav-number">9.</span> <span class="nav-text">IAM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%90%8C%E4%B8%80%E5%80%8Bimage"><span class="nav-number">10.</span> <span class="nav-text">使用同一個image</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0EBS"><span class="nav-number">11.</span> <span class="nav-text">增加EBS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%9B%E8%BC%89S3"><span class="nav-number">12.</span> <span class="nav-text">掛載S3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E8%A8%AD%E5%AE%9AAWS%E7%9A%84S3"><span class="nav-number">12.1.</span> <span class="nav-text">先設定AWS的S3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8IAM%E6%93%8D%E4%BD%9C%E5%A6%82%E4%B8%8B%E5%9C%96%E6%89%80%E7%A4%BA"><span class="nav-number">12.2.</span> <span class="nav-text">在IAM操作如下圖所示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ec2%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">12.3.</span> <span class="nav-text">ec2的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99-1"><span class="nav-number">12.3.1.</span> <span class="nav-text">參考資料</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Router-53"><span class="nav-number">13.</span> <span class="nav-text">Router 53</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84AWS%E7%9B%B8%E9%97%9C%E8%B3%87%E8%A8%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="記錄AWS相關資訊 | 被施工的Tom的記錄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          記錄AWS相關資訊
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2020-08-13 10:49:58" itemprop="dateCreated datePublished" datetime="2020-08-13T10:49:58+00:00">2020-08-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-03-03 14:22:03" itemprop="dateModified" datetime="2024-03-03T14:22:03+00:00">2024-03-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%A8%98%E9%8C%84/" itemprop="url" rel="index"><span itemprop="name">記錄</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%A8%98%E9%8C%84/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>  因為目前有使用到aws的服務，所以將相關的問題和資訊留下來，以免忘記。</p>
+<span id="more"></span>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@ip-172-30-20-5:~$ <span class="built_in">df</span> -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            476M     0  476M   0% /dev</span><br><span class="line">tmpfs            98M  764K   98M   1% /run</span><br><span class="line">/dev/xvda1      7.7G  1.2G  6.6G  15% /</span><br><span class="line">tmpfs           490M     0  490M   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           490M     0  490M   0% /sys/fs/cgroup</span><br><span class="line">/dev/loop0       33M   33M     0 100% /snap/snapd/11588</span><br><span class="line">/dev/loop1       56M   56M     0 100% /snap/core18/1997</span><br><span class="line">/dev/loop2       34M   34M     0 100% /snap/amazon-ssm-agent/3552</span><br><span class="line">tmpfs            98M     0   98M   0% /run/user/1000ba</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="設定ubuntu相關"><a href="#設定ubuntu相關" class="headerlink" title="設定ubuntu相關"></a>設定ubuntu相關</h1><p>以下是有關設定ubuntu的相關資訊</p>
+<h2 id="設定vim"><a href="#設定vim" class="headerlink" title="設定vim"></a>設定vim</h2><p>建立 vim 設定檔 .vimrc</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~</span><br><span class="line">$ vim .vimrc # 建立新的vim設定檔</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">set cursorline</span><br><span class="line">set tabstop=4</span><br><span class="line">set shiftwidth=4</span><br></pre></td></tr></table></figure>
+
+<h2 id="增加openfiles"><a href="#增加openfiles" class="headerlink" title="增加openfiles"></a>增加openfiles</h2><p>查看當前打開檔案數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof | wc -l</span><br></pre></td></tr></table></figure>
+
+<p>Modify &#x2F;etc&#x2F;systemd&#x2F;user.conf and &#x2F;etc&#x2F;systemd&#x2F;system.conf with the following line (this takes care of graphical login):</p>
+<p>兩個都要修改</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DefaultLimitNOFILE=65535</span><br></pre></td></tr></table></figure>
+
+<p>Modify &#x2F;etc&#x2F;security&#x2F;limits.conf with the following lines (this takes care of non-GUI login):</p>
+<p>加入兩行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* hard nofile 65535</span><br><span class="line">* soft nofile 65535</span><br></pre></td></tr></table></figure>
+
+<p>查看命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -a</span><br></pre></td></tr></table></figure>
+
+<p>重新開機</p>
+<h2 id="加入swap"><a href="#加入swap" class="headerlink" title="加入swap"></a>加入swap</h2><p>因為連入一個vscode，會造成CPU100%，所以來加大一下swap</p>
+<p><a href="https://www.team-bob.org/linux-%E5%A6%82%E4%BD%95%E6%9B%B4%E6%94%B9-swapfile-%E5%A4%A7%E5%B0%8F/">參考資料</a></p>
+<p>在開始之前，先下個 <code>free</code> 指定，檢查一下現在的 記憶體 和 SWAP 大小（使用 <code>-h</code> 自動轉換成容易閱讀的單位）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ free -h</span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           978M        136M        511M        760K        330M        704M</span><br><span class="line">Swap:            0B          0B          0B</span><br></pre></td></tr></table></figure>
+
+<p>接下來，先把 <code>swapfile</code> 關掉</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo swapoff /swap.img</span></span><br></pre></td></tr></table></figure>
+
+<p>然後建立新的 <code>swapfile</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">rm</span> /swap.img                    <span class="comment"># 刪掉舊的</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo fallocate -l 2G /swap.img  <span class="comment"># 建立新的</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">ls</span> -lh /swap.img                <span class="comment"># 顯示資訊</span></span></span><br><span class="line">-rw-r--r-- 1 root root 1.0G Jun  9 16:06 /swap.img</span><br></pre></td></tr></table></figure>
+
+<p>改權限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">chmod</span> 600 /swap.img        <span class="comment"># 更改權限</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">ls</span> -lh /swap.img                <span class="comment"># 顯示資訊</span></span></span><br><span class="line">-rw------- 1 root root 1.0G Jun  9 16:06 /swap.img</span><br></pre></td></tr></table></figure>
+
+<p>格式化</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkswap /swap.img</span><br></pre></td></tr></table></figure>
+
+<p>啟用 <code>swap.img</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo swapon /swap.img</span><br></pre></td></tr></table></figure>
+
+<p>檢查一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cat /proc/swaps</span><br><span class="line">Filename        Type    Size    Used    Priority</span><br><span class="line">/swap.img       file    1048572 0       -2</span><br></pre></td></tr></table></figure>
+
+<p>設定 <code>/etc/fstab</code>（如果本來沒有的話），請新增下面那一行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/swap.img none swap sw 0 0</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@ip-172-30-20-5:~$ <span class="built_in">df</span> -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            476M     0  476M   0% /dev</span><br><span class="line">tmpfs            98M  764K   98M   1% /run</span><br><span class="line">/dev/xvda1      7.7G  3.2G  4.6G  42% /</span><br><span class="line">tmpfs           490M     0  490M   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           490M     0  490M   0% /sys/fs/cgroup</span><br><span class="line">/dev/loop0       56M   56M     0 100% /snap/core18/1997</span><br><span class="line">/dev/loop1       34M   34M     0 100% /snap/amazon-ssm-agent/3552</span><br><span class="line">/dev/loop2       33M   33M     0 100% /snap/snapd/11588</span><br><span class="line">tmpfs            98M     0   98M   0% /run/user/1000</span><br></pre></td></tr></table></figure>
+
+<p>有安裝docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@nvt-temp-ec2:~$ sudo <span class="built_in">df</span> -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">udev            476M     0  476M   0% /dev</span><br><span class="line">tmpfs            98M  780K   98M   1% /run</span><br><span class="line">/dev/xvda1      7.7G  4.1G  3.7G  53% /</span><br><span class="line">tmpfs           490M     0  490M   0% /dev/shm</span><br><span class="line">tmpfs           5.0M     0  5.0M   0% /run/lock</span><br><span class="line">tmpfs           490M     0  490M   0% /sys/fs/cgroup</span><br><span class="line">/dev/loop1       56M   56M     0 100% /snap/core18/1997</span><br><span class="line">/dev/loop0       34M   34M     0 100% /snap/amazon-ssm-agent/3552</span><br><span class="line">/dev/loop2       33M   33M     0 100% /snap/snapd/11588</span><br><span class="line">tmpfs            98M     0   98M   0% /run/user/1000</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="清理-systemd-的-journal-檔案"><a href="#清理-systemd-的-journal-檔案" class="headerlink" title="清理 systemd 的 journal 檔案"></a>清理 systemd 的 journal 檔案</h2><p>指令看目前使用的空間</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -d 0 -h /var/log/journal/</span><br></pre></td></tr></table></figure>
+
+<p>固定節省一些磁碟空間，可以在<code>/etc/systemd/journald.conf</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/systemd/journald.conf</span><br><span class="line"></span><br><span class="line">SystemMaxUse=100M</span><br><span class="line">SystemMaxFiles=21</span><br></pre></td></tr></table></figure>
+
+<p>記得重啟 systemd-journald 服務</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart systemd-journald.service</span><br></pre></td></tr></table></figure>
+
+<h2 id="logrotate-設定"><a href="#logrotate-設定" class="headerlink" title="logrotate 設定"></a>logrotate 設定</h2><p>Log rotate 設定檔在  <code>/etc/logrotate.d/</code></p>
+<p>分割設定： 在&#x2F;etc&#x2F;logrotate.d&#x2F;目錄下生成該tool檔案<code>hslogrotate</code></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo</span> vim /etc/logrotate.d/hslogrotate</span><br><span class="line"></span><br><span class="line">/tmp/<span class="regexp">*.log</span> &#123;     </span><br><span class="line">    <span class="attribute">daily</span>                   </span><br><span class="line">    dateext                 </span><br><span class="line">    dateformat -%Y-%m-%d    </span><br><span class="line">    missingok               </span><br><span class="line">    rotate <span class="number">15</span>              </span><br><span class="line">    compress               </span><br><span class="line">    notifempty              </span><br><span class="line">    copytruncate            </span><br><span class="line">    delaycompress          </span><br><span class="line">    su root root</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>logrotate命令格式</p>
+<p>logrotate [OPTION…] <configfile></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-d , --debug:debug模式，測試配置文件是否有錯誤</span><br><span class="line">-f , --force:強制轉儲文件</span><br><span class="line">-m , --mail=command：壓縮的日志後，發w奠日志到指定郵箱。</span><br><span class="line">-s , --state=statefile：使用指定的狀態文件。</span><br><span class="line">-v , --verbose：顯示轉儲過程</span><br></pre></td></tr></table></figure>
+
+<p>要測試寫好的設定檔可以用以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/sbin/logrotate -d /etc/logrotate.d/hslogrotate</span><br></pre></td></tr></table></figure>
+
+<p>要執行寫好的設定檔</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/sbin/logrotate -vf /etc/logrotate.d/hslogrotate</span><br></pre></td></tr></table></figure>
+
+<p> log的寫法有兩種一種是清除檔案重新一個新檔</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root python3.6 /usr/share/nginx/0_0/schedule/event_gop_to_mp4.py &gt;&gt; /tmp/cron_event_gop_to_mp4.<span class="built_in">log</span> 2&gt; /tmp/cron_event_gop_to_mp4.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<p> log的寫法有兩種一種是append檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root python3.6 /usr/share/nginx/0_0/schedule/event_gop_to_mp4.py &gt;&gt; /tmp/cron_event_gop_to_mp4.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改主機名稱"><a href="#修改主機名稱" class="headerlink" title="修改主機名稱"></a>修改主機名稱</h2><p>例如，把主機名稱修改成 ubuntu-bionic-x64：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hostnamectl set-hostname nvt-temp-ec2</span><br></pre></td></tr></table></figure>
+
+<p>時候終端機還看不出變化，我們可以用 <code>hostnamectl status</code> 檢查有沒有修改成功</p>
+<p>修改完後沒有作用需要修改下面的檔案的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># sudo vim /etc/cloud/cloud.cfg</span><br></pre></td></tr></table></figure>
+
+<p>在裏面修改<code>preserve_hostname: true</code></p>
+<h2 id="Docker-容器設置日誌輪替"><a href="#Docker-容器設置日誌輪替" class="headerlink" title="Docker 容器設置日誌輪替"></a>Docker 容器設置日誌輪替</h2><h3 id="默認的日誌驅動程式"><a href="#默認的日誌驅動程式" class="headerlink" title="默認的日誌驅動程式"></a>默認的日誌驅動程式</h3><p>我們可以為容器配置不同的日誌記錄驅動程式，默認情況下容器的 <strong>stdout</strong> 和 <strong>stderr</strong> 會被寫入到 <em>&#x2F;var&#x2F;lib&#x2F;docker&#x2F;containers&#x2F;[container-id]&#x2F;[container-id]-json.log</em> 的 json 文件。如果一直無人理會，這個文件最終會佔用大量的磁盤空間，如下圖所示：</p>
+<p><img src="https://ttom921.github.io/%E8%A8%98%E9%8C%84Docker%E7%9A%84%E7%9B%B8%E9%97%9C%E4%BD%BF%E7%94%A8/docker-container-log-rotation-02.jpg" alt="img"></p>
+<h3 id="手動清除日誌"><a href="#手動清除日誌" class="headerlink" title="手動清除日誌"></a>手動清除日誌</h3><p>若果這個 json 日誌文件佔用了大量的磁盤空間，我們可以使用下面的命令清除它。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truncate -s 0 &lt;logfile&gt;</span><br></pre></td></tr></table></figure>
+
+<p>或者我們可以考慮設置一個 cronjob 來定期清除這些 json 日誌文件，但從長遠來看，最好還是設置日誌輪替。</p>
+<h3 id="配置默認的日誌驅動程式"><a href="#配置默認的日誌驅動程式" class="headerlink" title="配置默認的日誌驅動程式"></a>配置默認的日誌驅動程式</h3><p>默認的日誌驅動程式可以通過在 <em>&#x2F;etc&#x2F;docker&#x2F;daemon.json</em> 中定義。如果該文件不存在，可以建立該文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;log-driver&quot;: &quot;json-file&quot;,</span><br><span class="line">  &quot;log-opts&quot;: &#123;</span><br><span class="line">    &quot;max-size&quot;: &quot;10m&quot;,</span><br><span class="line">    &quot;max-file&quot;: &quot;10&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以 <em>json-file</em> 作日誌記錄驅動程式還有幾個其它選項，我們甚至可以更改為其他日誌記錄驅動程式，如 <em>syslog</em> 。有關更多信息，請參閱 <a href="https://docs.docker.com/config/containers/logging/configure/">Docker Docs - Configure logging drivers</a>。</p>
+<p>執行以下命令來重新加載更新後的 <em>daemon.js</em> 。新的配置將在重新啟動後適用於所有新建立的容器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="為個別容器配置日誌驅動程式"><a href="#為個別容器配置日誌驅動程式" class="headerlink" title="為個別容器配置日誌驅動程式"></a>為個別容器配置日誌驅動程式</h3><p>如果您不想作全局配置，也可以在個別容器級作日誌驅動程式改動。</p>
+<h1 id="建立空的檔案"><a href="#建立空的檔案" class="headerlink" title="建立空的檔案"></a>建立空的檔案</h1><p>這是為了有時空間不足時，可以先來佔一塊檔案到時可以來刪除救系統</p>
+<p><a href="https://www.peterdavehello.org/2016/01/create-empty-or-large-file-on-linux/">參考資料</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=/dev/zero of=./dd_100M bs=1M count=100</span><br></pre></td></tr></table></figure>
+
+<h1 id="空間不足"><a href="#空間不足" class="headerlink" title="空間不足"></a>空間不足</h1><p><a href="https://www.concerto.one/posts/2021-01-07-Autoremove-Disk-Space-Usage.html#%E6%AA%A2%E6%9F%A5%E4%BD%94%E8%B5%B0%E7%A3%81%E5%8D%80%E7%A9%BA%E9%96%93%E7%9A%84%E6%AA%94%E6%A1%88">參考資料</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 一般來說，使用 apt 內建的清理功能即可。autoclean 是清除快取。</span><br><span class="line">sudo apt autoclean</span><br><span class="line"></span><br><span class="line"># autoremove 則會連不需要的套件也自動移除掉。</span><br><span class="line">sudo apt autoremove</span><br><span class="line"></span><br><span class="line"># 如果還有一些檔案存於其中，像是 linux-aws-headers-x.xx.x-xxxx 這一類的，可以透過 purge 參數來手動刪除。</span><br><span class="line">sudo apt purge linux-aws-headers-4.15.0-1051</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="設定定義private-IP"><a href="#設定定義private-IP" class="headerlink" title="設定定義private IP"></a>設定定義private IP</h1><p>因為自已有規劃好的pirvate IP，自已的subnet要先切好，就可以指定自已的private IP如下圖所示在Step3</p>
+<img src="Snipaste_2021-05-04_12-03-54.png" style="zoom:80%;" />
+
+
+
+<h1 id="AWS的Instance不可終止的設定"><a href="#AWS的Instance不可終止的設定" class="headerlink" title="AWS的Instance不可終止的設定"></a>AWS的Instance不可終止的設定</h1><p>可以看到下圖的圖片在aws的停止instance(個體)有下面的選項，不要選<code>終止執行個體</code>，那會將你的服務器刪除並且不能還原你的服務器的資料也消失</p>
+<img src="Snipaste_2021-03-05_10-27-27.png" style="zoom:50%;" />
+
+<p>所以為了防止不小心來執行這個指令，所以需要設定來防止發生，如下圖所示先選擇要改的服務器，在選擇<code>動作</code> –<code>執行個體設定</code> – <code>變更終止保護</code></p>
+<img src="Snipaste_2021-03-05_11-49-18.png" style="zoom:50%;" />
+
+<p>接下來如下圖來處理</p>
+<img src="Snipaste_2021-03-05_11-49-40.png" style="zoom:67%;" />
+
+
+
+<h1 id="註冊"><a href="#註冊" class="headerlink" title="註冊"></a>註冊</h1><p>  在aws上的註冊，他是綁定信用卡的，所以要小心以免被扣錢。有一點要小心，就是在註冊時的電記，如果你是幫客戶註冊時，先留自已的手機，在驗證碼時，也是一樣的手機，不然會收不到簡訊驗證碼或是一些問題，此時只能使用aws的人工驗證，時效性會慢很多。在完成驗證碼和建立完服務後，可將電話修改回客戶的。</p>
+<h1 id="建立一台服務器"><a href="#建立一台服務器" class="headerlink" title="建立一台服務器"></a>建立一台服務器</h1><p>在服務中，選擇EC2建立一台EC2如下圖所示</p>
+<img src="2020-08-13_11_06_34_Image.png" style="zoom:80%;" />
+
+<p>選完後，接下來選擇<code>啟動執行個體</code>來啟動一個服務器如下圖所示</p>
+<img src="2020-08-13_11_09_34_Image.png" style="zoom:67%;" />
+
+<p>接下來選擇os的映像檔，如下圖所示</p>
+<img src="2020-08-13_11_15_29_Image.png" style="zoom:67%;" />
+
+<p>只能選擇免費</p>
+<img src="2020-08-13_11_20_16_Image.png" style="zoom:67%;" />
+
+<p>接來是很重要的一步，因為它關係著EC2啟動後，你能不能連進去的問題；這一頁的設定是屬於防火牆之類的設定，它可以控制那些IP、Port可以進出，所以我們先在這邊設定My IP（參考上圖紅框）可以連入，這樣我們才能在EC2啟動後連入進行操控。</p>
+<p>在 EC2 中對於不同的實例可以搭配不同的安全設定<br>在這邊預設有用來連線到主機的 SSH 22 Port<br>如果要架設網站則會需要用到 HTTP 80 Port</p>
+<img src="2020-08-13_11_39_23_Image.jpg" style="zoom:80%;" />
+
+<p>在新增實例的步驟中，可以選擇「Create a <strong>new</strong> security group」<br>由「Add Rule」來新增所需要用到的 Port<br>或是也可以在完成新增實例後，到管理控制台編輯 Security Group<br>例如事後發現需要使用 Gmail 寄信的功能<br>就必須再新增一個 SMTPS 465 Port，Source 選 Anywhere</p>
+<h2 id="Key-Pair-連線密鑰"><a href="#Key-Pair-連線密鑰" class="headerlink" title="Key Pair 連線密鑰"></a>Key Pair 連線密鑰</h2><p>Amazon EC2 主機必須要用特製的 Key Pair 來登入<br>上個步驟按下「Launch」後，如果是第一次新增實例<br>則會跳出 Create a new key pair 的視窗<br>此時為 key pair 取一個簡單的名字<br>按下「Download Key Pair」後則會自動下載一個 <code>.pem</code> 檔</p>
+<img src="aAhZr06cTX6JJBjusquT_8. Key Pair.png" style="zoom:80%;" />
+
+<h2 id="Launching-正式啟動"><a href="#Launching-正式啟動" class="headerlink" title="Launching 正式啟動"></a>Launching 正式啟動</h2><p>到這邊就完成新增實例的設定精靈<br>不過還必須替虛擬機器指定一個位址</p>
+<img src="2020-08-13_11_45_26_Image.jpg" style="zoom:80%;" />
+
+<h2 id="登入建立好的服務器"><a href="#登入建立好的服務器" class="headerlink" title="登入建立好的服務器"></a>登入建立好的服務器</h2><p>查看服務器的列表從<code>服務-&gt;EC2</code>來找到需要的服務器，他會顯示IP和DNS，如下圖所示</p>
+<img src="2020-08-13_12_19_29_Image.jpg" style="zoom:80%;" />
+
+<p>在登入我是使用<code>MobaXterm_Personal</code>來登入，只要將pem檔加入就可以登入，帳號是<code>ubuntu</code>，如下圖所示</p>
+<img src="2020-08-13_12_14_40_Image.jpg" style="zoom:80%;" />
+
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a href="https://akuma1.pixnet.net/blog/post/291725322-%EF%BC%88%E4%BA%8C%EF%BC%89ec2%EF%BC%88elastic-compute-cloud%EF%BC%89%EF%BC%8D%EF%BC%8Daws%E7%B6%93%E9%A9%97%E6%95%99%E5%AD%B8">https://akuma1.pixnet.net/blog/post/291725322-%ef%bc%88%e4%ba%8c%ef%bc%89ec2%ef%bc%88elastic-compute-cloud%ef%bc%89%ef%bc%8d%ef%bc%8daws%e7%b6%93%e9%a9%97%e6%95%99%e5%ad%b8</a></p>
+<p><a href="https://diary.taskinghouse.com/posts/310691-ssh-connection-amazon-ec2/">https://diary.taskinghouse.com/posts/310691-ssh-connection-amazon-ec2/</a></p>
+<h1 id="IAM"><a href="#IAM" class="headerlink" title="IAM"></a>IAM</h1><p>因為本來是使用root的權限來登入，一直到有一台客戶修改了密碼，所以登不進去以為被駭客入侵，所以決定來研究一下AWS的I AM的權限控制。先來選擇功能</p>
+<img src="2020-10-07_10_00_41_Image.jpg" style="zoom: 67%;" />
+
+<p>會進入IAM的頁面，可以來編輯之登入的網址，不然預設是一串數字按下”編輯“，可以設定別名</p>
+<img src="2020-10-07_10_07_13_Image.jpg" style="zoom:67%;" />
+
+<p>先來建立群組</p>
+<img src="2020-10-07_11_45_01_Image.jpg" style="zoom:80%;" />
+
+<p>建立管理者</p>
+<p>選擇建立管理者</p>
+<img src="2020-10-07_11_51_25_Image.jpg" style="zoom:80%;" />
+
+<p>輸入相關資訊</p>
+<img src="2020-10-07_11_53_51_Image.jpg" style="zoom:80%;" />
+
+<p>加入上面建立的群組,之後檢視</p>
+<img src="2020-10-07_11_57_54_Image.jpg" style="zoom: 67%;" />
+
+<h1 id="使用同一個image"><a href="#使用同一個image" class="headerlink" title="使用同一個image"></a>使用同一個image</h1><p>因為服務器在建一是差不的，加上有一些已建立好的設定檔，所以需要在原來建立好的image檔上來安裝，所以來記錄一下不用每次都重新來安裝元件</p>
+<p>前提是有一個已經安裝好的的服務器</p>
+<p>先來建立image檔如下圖</p>
+<img src="Snipaste_2021-04-29_17-22-08.png" style="zoom:50%;" />
+
+<p>輸入image的記錄如下圖</p>
+<img src="Snipaste_2021-04-29_17-28-00.png" style="zoom:67%;" />
+
+<p>接下來建立新的EC2如下圖</p>
+<img src="Snipaste_2021-04-29_17-31-59.png" style="zoom:67%;" />
+
+<h1 id="增加EBS"><a href="#增加EBS" class="headerlink" title="增加EBS"></a>增加EBS</h1><p>在aws可以追加容量</p>
+<p><a href="https://docs.aws.amazon.com/zh_tw/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html">https://docs.aws.amazon.com/zh_tw/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html</a></p>
+<img src="Snipaste_2021-05-07_10-40-15.png" style="zoom:67%;" />
+
+<p>在連線到機器上<br>若要驗證每個磁碟區的檔案系統，請使用 df -hT 命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -hT</span><br></pre></td></tr></table></figure>
+
+<p>檢查磁碟區是否有必須擴展的分割區<br>請使用 lsblk 命令來顯示連接到執行個體區塊型儲存設備的相關資訊。</p>
+<p>若要擴展根磁碟區上的分割區，請使用下列 growpart 命令。請注意，裝置名稱與分割區號碼之間有一個空格</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo growpart /dev/xvda 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>因為是ext4 檔案系統</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo resize2fs /dev/xvda1</span><br></pre></td></tr></table></figure>
+
+<h1 id="掛載S3"><a href="#掛載S3" class="headerlink" title="掛載S3"></a>掛載S3</h1><p>如何掛載AWS S3 到AWS EC2 </p>
+<ul>
+<li>在IAM操作</li>
+<li>建立一個使用者如nvts3</li>
+<li>建立一個使用者群組s3group可以AmazonS3FullAccess</li>
+<li>在S3操作</li>
+<li>建立一個nvts3儲存貯體</li>
+<li>建立policy</li>
+<li>到ec2操作</li>
+</ul>
+<h2 id="先設定AWS的S3"><a href="#先設定AWS的S3" class="headerlink" title="先設定AWS的S3"></a>先設定AWS的S3</h2><h2 id="在IAM操作如下圖所示"><a href="#在IAM操作如下圖所示" class="headerlink" title="在IAM操作如下圖所示"></a>在IAM操作如下圖所示</h2><img src="Snipaste_2021-07-05_13-58-58.png" style="zoom:50%;" />
+
+<p>建立一個group</p>
+<img src="Snipaste_2021-07-05_14-17-06.png" style="zoom:50%;" />
+
+<p>如下的設定加入一個群組名和可以儲取s3</p>
+<img src="Snipaste_2021-07-05_14-20-00.png" style="zoom:80%;" />
+
+
+
+<p>建立一個使用者和加上面設定的群組</p>
+<img src="Snipaste_2021-07-05_14-02-18.png" style="zoom:50%;" />
+
+<p>如下的步驟</p>
+<img src="Snipaste_2021-07-05_14-08-20.png" style="zoom:80%;" />
+
+
+
+
+
+
+
+
+
+<p>在S3上來操作如下圖所示</p>
+<img src="Snipaste_2021-07-05_13-52-21.png" style="zoom:50%;" />
+
+<p>建立一個bucket</p>
+<img src="Snipaste_2021-07-05_14-25-25.png" style="zoom:50%;" />
+
+<p>如下</p>
+<p><img src="/Snipaste_2021-07-05_14-28-43.png"></p>
+<p>編輯policy來儲取設定的s3</p>
+<img src="Snipaste_2021-07-05_14-30-54.png" style="zoom:80%;" />
+
+<p>policy如下可以產生</p>
+<img src="Snipaste_2021-07-05_14-39-52.png" style="zoom:80%;" />
+
+<p>修改一下json的Principal</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;Version&quot;: &quot;2012-10-17&quot;,</span><br><span class="line">    &quot;Id&quot;: &quot;Policy1625467201758&quot;,</span><br><span class="line">    &quot;Statement&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;Sid&quot;: &quot;Stmt1625467197511&quot;,</span><br><span class="line">            &quot;Effect&quot;: &quot;Allow&quot;,</span><br><span class="line">            &quot;Principal&quot;: &#123;</span><br><span class="line">                &quot;AWS&quot;: &quot;arn:aws:iam::1111999999:user/userer&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;Action&quot;: &quot;s3:*&quot;,</span><br><span class="line">            &quot;Resource&quot;: &quot;arn:aws:s3:::nvts3temp&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ec2的操作"><a href="#ec2的操作" class="headerlink" title="ec2的操作"></a>ec2的操作</h2><p>在需要連接的ec2需要作此套件</p>
+<p>先安裝需要用到的組件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install automake autotools-dev g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config</span><br></pre></td></tr></table></figure>
+
+<p>正式安裝 s3fs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/s3fs-fuse/s3fs-fuse.git</span><br><span class="line">cd s3fs-fuse</span><br><span class="line">./autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>必須修改 &#x2F;etc&#x2F;fuse.conf，<strong>移除 user_allow_other 前面的 # 註解</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo AK----------Z:6/E30ph324j19jvuB-------cEIla8cMeqt &gt; ~/.passwd-s3fs</span><br><span class="line">chmod 600 ~/.passwd-s3fs</span><br><span class="line">chown -R ubuntu:root ~/.passwd-s3fs</span><br></pre></td></tr></table></figure>
+
+<p>掛載</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir s3mnt</span><br><span class="line">#將 bucket 掛載到指定的資料夾</span><br><span class="line">s3fs nvts3temp /home/ubuntu/s3mnt/ -o allow_other -o passwd_file=~/.passwd-s3fs</span><br></pre></td></tr></table></figure>
+
+<p>缷載</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">umount -l /home/ubuntu/s3mnt</span><br></pre></td></tr></table></figure>
+
+<p>自動掛載</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br><span class="line">nvts3temp /home/ubuntu/s3mnt fuse.s3fs _netdev,passwd_file=/home/ubuntu/.passwd-s3fs,allow_other 0 0</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="參考資料-1"><a href="#參考資料-1" class="headerlink" title="參考資料"></a>參考資料</h3><p><a href="https://coderwall.com/p/c8ssvg/aws-s3-aws-ec2-instance">如何掛載 AWS S3 到 AWS EC2 Instance - 掛載及卸載部份</a></p>
+<p><a href="https://aws.amazon.com/cn/blogs/china/s3fs-amazon-ec2-linux/">利用S3fs在Amazon EC2 Linux实例上挂载S3存储桶</a></p>
+<p><a href="https://ciao-chung.com/page-article/s3fs">透過s3fs將s3 bucket掛載到linux系統</a></p>
+<h1 id="Router-53"><a href="#Router-53" class="headerlink" title="Router 53"></a>Router 53</h1><p>在註冊完網域後，可以來註冊一下來連接網域和IP</p>
+<p>如下來選擇</p>
+<img src="Snipaste_2021-07-12_16-14-26.png" style="zoom:80%;" />
+
+<p>選擇要處理的Domain name，進入</p>
+<img src="Snipaste_2021-07-12_16-22-00.png" style="zoom:67%;" />
+
+<p>會顯示下面的畫面</p>
+<img src="Snipaste_2021-07-12_16-24-37.png" style="zoom:80%;" />
+
+<p>可以選擇<code>Create record</code>來加入A和IP</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/aws/" rel="tag"># aws</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E5%AD%B8%E7%BF%92RxJS%E7%9A%84%E6%87%89%E7%94%A8/%E5%AD%B8%E7%BF%92RxJS%E7%9A%84%E6%87%89%E7%94%A8/" rel="prev" title="學習RxJS的應用">
+                  <i class="fa fa-angle-left"></i> 學習RxJS的應用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E4%BF%AE%E7%90%86%E7%9B%B8%E9%97%9C/" rel="next" title="修理相關">
+                  修理相關 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '60px',
+  right: 'unset',
+  left: '60px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

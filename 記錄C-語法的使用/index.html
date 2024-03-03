@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ttom921.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="記錄一下C#的用法C# 6 的三個新的表示式介紹 C# 6 的三個新語法：nameof 表示式、字串插值、和 null 條件運算子。  nameof 表示式  C# 6 新增的 nameof 關鍵字可用來取得某變數的名稱。請看底下這個簡單範例，便能了解其作用：    12string firstName &#x3D; &quot;Joey&quot;;string varName &#x3D; nameof(firs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="記錄C#語法的使用">
+<meta property="og:url" content="https://ttom921.github.io/%E8%A8%98%E9%8C%84C-%E8%AA%9E%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="被施工的Tom的記錄">
+<meta property="og:description" content="記錄一下C#的用法C# 6 的三個新的表示式介紹 C# 6 的三個新語法：nameof 表示式、字串插值、和 null 條件運算子。  nameof 表示式  C# 6 新增的 nameof 關鍵字可用來取得某變數的名稱。請看底下這個簡單範例，便能了解其作用：    12string firstName &#x3D; &quot;Joey&quot;;string varName &#x3D; nameof(firs">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-04-13T09:55:01.000Z">
+<meta property="article:modified_time" content="2024-03-03T14:22:03.745Z">
+<meta property="article:author" content="Tom Tang">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84C-%E8%AA%9E%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://ttom921.github.io/%E8%A8%98%E9%8C%84C-%E8%AA%9E%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/","path":"記錄C-語法的使用/","title":"記錄C#語法的使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>記錄C#語法的使用 | 被施工的Tom的記錄</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">被施工的Tom的記錄</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">異想世界</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A8%98%E9%8C%84%E4%B8%80%E4%B8%8BC-%E7%9A%84%E7%94%A8%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">記錄一下C#的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-6-%E7%9A%84%E4%B8%89%E5%80%8B%E6%96%B0%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">C# 6 的三個新的表示式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E9%97%9Cjson%E7%9A%84%E7%94%A8%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">有關json的用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E7%B5%84%E7%9A%84%E7%94%A8%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">分組的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%83%E8%80%83"><span class="nav-number">1.3.0.0.1.</span> <span class="nav-text">參考</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Tom Tang</p>
+  <div class="site-description" itemprop="description">記錄有的沒有的</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://ttom921.github.io/%E8%A8%98%E9%8C%84C-%E8%AA%9E%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Tom Tang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="被施工的Tom的記錄">
+      <meta itemprop="description" content="記錄有的沒有的">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="記錄C#語法的使用 | 被施工的Tom的記錄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          記錄C#語法的使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2018-04-13 09:55:01" itemprop="dateCreated datePublished" datetime="2018-04-13T09:55:01+00:00">2018-04-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-03-03 14:22:03" itemprop="dateModified" datetime="2024-03-03T14:22:03+00:00">2024-03-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%A8%8B%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">程式</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%A8%8B%E5%BC%8F/C/" itemprop="url" rel="index"><span itemprop="name">C#</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="記錄一下C-的用法"><a href="#記錄一下C-的用法" class="headerlink" title="記錄一下C#的用法"></a>記錄一下C#的用法</h1><h2 id="C-6-的三個新的表示式"><a href="#C-6-的三個新的表示式" class="headerlink" title="C# 6 的三個新的表示式"></a>C# 6 的三個新的表示式</h2><p>介紹 C# 6 的三個新語法：nameof 表示式、字串插值、和 null 條件運算子。</p>
+<ol>
+<li>nameof 表示式<br>  C# 6 新增的 nameof 關鍵字可用來取得某變數的名稱。請看底下這個簡單範例，便能了解其作用：</li>
+</ol>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">string firstName = &quot;Joey&quot;;</span><br><span class="line">string varName = nameof(firstName);  // 編譯結果：varName = &quot;firstName&quot;</span><br></pre></td></tr></table></figure>
+<p>  比如說，為了防錯，我們經常在函式中預先檢查參數值是否合法，並將不合法的參數透過拋異常（exception）的方式通知呼叫端（或者寫入 log 檔案以供將來診斷問題）。像這樣：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void LoadProduct(string productId)</span><br><span class="line">  &#123;</span><br><span class="line">      if (productId == null)</span><br><span class="line">      &#123;</span><br><span class="line">          throw new ArgumentNullException(nameof(productId));</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>字串插值<br>  NET Framework 提供的字串格式化方法 String.Format(…) 是一種對號入座的寫法，相當好用。<br>  現在，C# 6 提供了另一種格式化字串的寫法，名曰「字串插值」（string interpolation）。<br>  $”{變數名稱:格式規範}”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">string firstName = &quot;Michael&quot;;</span><br><span class="line">string lastName = &quot;Tsai&quot;;</span><br><span class="line">int salary = 22000;</span><br><span class="line"></span><br><span class="line">string msg1 = String.Format(&quot;&#123;0&#125; &#123;1&#125; 的月薪是 &#123;2:C0&#125;&quot;, firstName, lastName, salary);</span><br><span class="line">string msg2 = $&quot;&#123;firstName&#125; &#123;lastName&#125; 的月薪是 &#123;salary :C0&#125;&quot;;</span><br><span class="line">Console.WriteLine(msg1);</span><br><span class="line">Console.WriteLine(msg2);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Null 條件運算子<br>  保險起見，在需要存取某物件的屬性之前，我們通常會先檢查該物件是否為 null</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">static void NullPropagationDemo(string s)</span><br><span class="line">&#123;</span><br><span class="line">  if (s?.Length == 4) // 只有當 s 不為空時才存取它的 Length 屬性。</span><br><span class="line">  &#123;</span><br><span class="line">      // Do something.</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int? length = productList?.Length; // 若 productList 是 null，則 length 也是 null。 </span><br><span class="line">Customer obj = productList?[0];    // 若 productList 是 null，則 obj 也是 null。</span><br><span class="line">int length = productList?.Length ?? 0;  // 若 productList 是 null，則 length 是 0。</span><br><span class="line">string name = productList?[0].FullName; // 若 productList 是 null，則 name 是 null。</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="有關json的用法"><a href="#有關json的用法" class="headerlink" title="有關json的用法"></a>有關json的用法</h2><p>字串轉json物件，json物件轉字串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">public static void strJson()</span><br><span class="line">&#123;</span><br><span class="line">	string jsonText = &quot;&#123;\&quot;shenzheng\&quot;:\&quot;深圳\&quot;,\&quot;beijing\&quot;:\&quot;北京\&quot;,\&quot;shanghai\&quot;:[&#123;\&quot;zj1\&quot;:\&quot;zj11\&quot;,\&quot;zj2\&quot;:\&quot;zj22\&quot;&#125;,\&quot;zjs\&quot;]&#125;&quot;;</span><br><span class="line">	//转为json对象</span><br><span class="line">	JObject jo = (JObject)JsonConvert.DeserializeObject(jsonText);</span><br><span class="line">	string zone = jo[&quot;shenzheng&quot;].ToString();//输出 深圳</span><br><span class="line">	string zone_en = jo[&quot;shanghai&quot;].ToString();//&quot;[\r\n  &#123;\r\n    \&quot;zj1\&quot;: \&quot;zj11\&quot;,\r\n    \&quot;zj2\&quot;: \&quot;zj22\&quot;\r\n  &#125;,\r\n  \&quot;zjs\&quot;\r\n]&quot;</span><br><span class="line">	string zj1 = jo[&quot;shanghai&quot;][1].ToString();//&quot;zjs&quot;</span><br><span class="line">	Console.WriteLine(jo);</span><br><span class="line">&#125;</span><br><span class="line">//对象与数组转JSON</span><br><span class="line">public static void GetJsonString()</span><br><span class="line">&#123;</span><br><span class="line">    //初始化对象</span><br><span class="line">    Obj product = new Obj() &#123; Name = &quot;苹果&quot;, Price = 5.5 &#125;;</span><br><span class="line">    //序列化</span><br><span class="line">    string o = new JavaScriptSerializer().Serialize(product);//值：&quot;&#123;\&quot;Name\&quot;:\&quot;苹果\&quot;,\&quot;Price\&quot;:5.5&#125;&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //数组转json</span><br><span class="line">    List&lt;Obj&gt; products = new List&lt;Obj&gt;()&#123;</span><br><span class="line">    new Obj()&#123;Name=&quot;苹果&quot;,Price=5.5&#125;,</span><br><span class="line">    new Obj()&#123;Name=&quot;橘子&quot;,Price=2.5&#125;,</span><br><span class="line">    new Obj()&#123;Name=&quot;干柿子&quot;,Price=16.00&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    ProductList productlist = new ProductList();</span><br><span class="line">    productlist.GetProducts = products;</span><br><span class="line">    //序列化</span><br><span class="line">    string os = new JavaScriptSerializer().Serialize(productlist);</span><br><span class="line">    //输出 &quot;&#123;\&quot;GetProducts\&quot;:[&#123;\&quot;Name\&quot;:\&quot;苹果\&quot;,\&quot;Price\&quot;:5.5&#125;,&#123;\&quot;Name\&quot;:\&quot;橘子\&quot;,\&quot;Price\&quot;:2.5&#125;,&#123;\&quot;Name\&quot;:\&quot;干柿子\&quot;,\&quot;Price\&quot;:16&#125;]&#125;&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//json转对象、数组, 反序列化</span><br><span class="line">public static void JSONStringToList()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    //json格式字符串</span><br><span class="line">    string JsonStr = &quot;&#123;Name:&#x27;苹果&#x27;,Price:5.5&#125;&quot;;</span><br><span class="line">    JavaScriptSerializer Serializer = new JavaScriptSerializer();</span><br><span class="line"></span><br><span class="line">    //json字符串转为对象, 反序列化</span><br><span class="line">    Obj obj = Serializer.Deserialize&lt;Obj&gt;(JsonStr);</span><br><span class="line">        Console.Write(obj.Name + &quot;:&quot; + obj.Price + &quot;\r\n&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //json格式字符串</span><br><span class="line">    string JsonStrs = &quot;[&#123;Name:&#x27;苹果&#x27;,Price:5.5&#125;,&#123;Name:&#x27;橘子&#x27;,Price:2.5&#125;,&#123;Name:&#x27;柿子&#x27;,Price:16&#125;]&quot;;</span><br><span class="line"></span><br><span class="line">    JavaScriptSerializer Serializers = new JavaScriptSerializer();</span><br><span class="line"></span><br><span class="line">    //json字符串转为数组对象, 反序列化</span><br><span class="line">    List&lt;Obj&gt; objs = Serializers.Deserialize&lt;List&lt;Obj&gt;&gt;(JsonStrs);</span><br><span class="line"></span><br><span class="line">    foreach (var item in objs)</span><br><span class="line">    &#123;</span><br><span class="line">       Console.Write(item.Name + &quot;:&quot; + item.Price + &quot;\r\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<h2 id="分組的用法"><a href="#分組的用法" class="headerlink" title="分組的用法"></a>分組的用法</h2><p>過去面對這種問題，我慣用的做法先定義一個Dictionary&lt;string, List<T>&gt;，使用 foreach 逐筆抓取來源資料<br>foreach + Dictionary寫法用了好幾年，前幾天才忽然想到，這不就是SQL語法中的GROUP BY嗎？加上LINQ有ToDictionary， GroupBy(o &#x3D;&gt; o.客戶編號).ToDictionary(o &#x3D;&gt; o.Key, o &#x3D;&gt; o.ToList()) 一行就搞定了呀！阿呆。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"> </span><br><span class="line">namespace LinqTip</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        public enum Teams</span><br><span class="line">        &#123;</span><br><span class="line">            Valor, Mystic, Instinct, Dark</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        public class Trainer</span><br><span class="line">        &#123;</span><br><span class="line">            public Teams Team;</span><br><span class="line">            public string Name;</span><br><span class="line">            public Trainer(Teams team, string name)</span><br><span class="line">            &#123;</span><br><span class="line">                Team = team; Name = name;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            //來源資料如下</span><br><span class="line">            List&lt;Trainer&gt; trainers = new List&lt;Trainer&gt;()</span><br><span class="line">            &#123;</span><br><span class="line">                new Trainer(Teams.Valor, &quot;Candela&quot;),</span><br><span class="line">                new Trainer(Teams.Valor, &quot;Bob&quot;),</span><br><span class="line">                new Trainer(Teams.Mystic, &quot;Blanche&quot;),</span><br><span class="line">                new Trainer(Teams.Valor, &quot;Alice&quot;),</span><br><span class="line">                new Trainer(Teams.Instinct, &quot;Spark&quot;),</span><br><span class="line">                new Trainer(Teams.Mystic, &quot;Tom&quot;),</span><br><span class="line">                new Trainer(Teams.Dark, &quot;Jeffrey&quot;)</span><br><span class="line">            &#125;;</span><br><span class="line">            //目標：以Team分類，將同隊的訓練師集合成List&lt;Trainer&gt;，</span><br><span class="line">            //最終產出Dictionary&lt;Teams, List&lt;Trainer&gt;&gt;</span><br><span class="line"> </span><br><span class="line">            //以前的寫法，跑迴圈加邏輯比對</span><br><span class="line">            var res1 = new Dictionary&lt;Teams, List&lt;Trainer&gt;&gt;();</span><br><span class="line">            foreach (var t in trainers)</span><br><span class="line">            &#123;</span><br><span class="line">                if (!res1.ContainsKey(t.Team))</span><br><span class="line">                    res1.Add(t.Team, new List&lt;Trainer&gt;());</span><br><span class="line">                res1[t.Team].Add(t);</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">            //新寫法，使用LINQ GroupBy</span><br><span class="line">            var res2 =</span><br><span class="line">                trainers.GroupBy(o =&gt; o.Team)</span><br><span class="line">                .ToDictionary(o =&gt; o.Key, o =&gt; o.ToList());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h5><ul>
+<li><a href="https://www.huanlintalk.com/2015/01/csharp6-enhanced-expressions.html">C# 6 的三個新的表示式</a></li>
+<li><a href="https://blog.csdn.net/yh12346789/article/details/78768334">c#中字符串转为json对象与json转对象</a></li>
+<li><a href="https://blog.darkthread.net/blog/linq-groupby-todictionary-grouping/">利用LINQ GroupBy快速分組歸類</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E8%A8%98%E9%8C%84CentOS%E7%9A%84%E5%AE%89%E8%A3%9D/%E8%A8%98%E9%8C%84CentOS%E7%9A%84%E5%AE%89%E8%A3%9D/" rel="prev" title="記錄CentOS的安裝">
+                  <i class="fa fa-angle-left"></i> 記錄CentOS的安裝
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E8%A8%98%E9%8C%84vim%E5%92%8Cvi%E7%9B%B8%E9%97%9C/" rel="next" title="記錄vim和vi相關">
+                  記錄vim和vi相關 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2018 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Tom Tang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '60px',
+  right: 'unset',
+  left: '60px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>
